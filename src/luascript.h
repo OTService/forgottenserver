@@ -398,6 +398,7 @@ protected:
 	void registerFunctions();
 	void registerEnums();
 	void registerGameFunctions();
+	void registerPositionFunctions();
 	void registerPlayerFunctions();
 
 	lua_State* luaState = nullptr;
@@ -505,18 +506,6 @@ private:
 	static int luaVariantGetNumber(lua_State* L);
 	static int luaVariantGetString(lua_State* L);
 	static int luaVariantGetPosition(lua_State* L);
-
-	// Position
-	static int luaPositionCreate(lua_State* L);
-	static int luaPositionAdd(lua_State* L);
-	static int luaPositionSub(lua_State* L);
-	static int luaPositionCompare(lua_State* L);
-
-	static int luaPositionGetDistance(lua_State* L);
-	static int luaPositionIsSightClear(lua_State* L);
-
-	static int luaPositionSendMagicEffect(lua_State* L);
-	static int luaPositionSendDistanceEffect(lua_State* L);
 
 	// Tile
 	static int luaTileCreate(lua_State* L);

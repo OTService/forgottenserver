@@ -193,7 +193,9 @@
     <ClCompile Include="..\src\item.cpp" />
     <ClCompile Include="..\src\items.cpp" />
     <ClCompile Include="..\src\luaenums.cpp" />
+    <ClCompile Include="..\src\luagame.cpp" />
     <ClCompile Include="..\src\luaplayer.cpp" />
+    <ClCompile Include="..\src\luaposition.cpp" />
     <ClCompile Include="..\src\luascript.cpp" />
     <ClCompile Include="..\src\mailbox.cpp" />
     <ClCompile Include="..\src\map.cpp" />
@@ -286,7 +288,9 @@
     <ClInclude Include="..\src\items.h" />
     <ClInclude Include="..\src\lockfree.h" />
     <ClInclude Include="..\src\luaenums.h" />
+    <ClInclude Include="..\src\luagame.h" />
     <ClInclude Include="..\src\luaplayer.h" />
+    <ClInclude Include="..\src\luaposition.h" />
     <ClInclude Include="..\src\luascript.h" />
     <ClInclude Include="..\src\mailbox.h" />
     <ClInclude Include="..\src\map.h" />
