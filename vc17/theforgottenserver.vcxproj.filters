@@ -83,6 +83,9 @@
     <ClCompile Include="..\src\luaplayer.cpp">
       <Filter>luaFunctions</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\luaenums.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\account.h" />
@@ -174,6 +177,9 @@
       <Filter>luaFunctions</Filter>
     </ClInclude>
     <ClInclude Include="..\src\luaplayer.h">
+      <Filter>luaFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\luaenums.h">
       <Filter>luaFunctions</Filter>
     </ClInclude>
   </ItemGroup>

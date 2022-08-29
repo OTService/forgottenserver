@@ -1,3 +1,6 @@
+// Copyright 2022 The Forgotten Server Authors. All rights reserved.
+// Use of this source code is governed by the GPL-2.0 License that can be found in the LICENSE file.
+
 #include "otpch.h"
 #include "luaplayer.h"
 #include "luascript.h"
@@ -21,7 +24,6 @@ extern Spells* g_spells;
 
 void LuaScriptInterface::registerPlayerFunctions()
 {
-	// Player
 	registerClass("Player", "Creature", LuaPlayer::luaPlayerCreate);
 	registerMetaMethod("Player", "__eq", luaUserdataCompare);
 

@@ -396,6 +396,7 @@ protected:
 	virtual bool closeState();
 
 	void registerFunctions();
+	void registerEnums();
 	void registerPlayerFunctions();
 
 	lua_State* luaState = nullptr;
