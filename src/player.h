@@ -1343,6 +1343,7 @@ private:
 	friend class Game;
 	friend class Npc;
 	friend class LuaScriptInterface;
+	friend class LuaPlayer;
 	friend class Map;
 	friend class Actions;
 	friend class IOLoginData;
