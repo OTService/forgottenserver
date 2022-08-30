@@ -92,6 +92,10 @@
     <ClCompile Include="..\src\luaposition.cpp">
       <Filter>luaFunctions</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\luatile.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luanetworkmessage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\account.h" />
@@ -194,6 +198,10 @@
     <ClInclude Include="..\src\luaposition.h">
       <Filter>luaFunctions</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\luatile.h">
+      <Filter>luaFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\luanetworkmessage.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="theforgottenserver.rc" />
