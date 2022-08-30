@@ -319,15 +319,15 @@ public:
 		return lua_toboolean(L, arg) != 0;
 	}
 
-		static std::string getString(lua_State* L, int32_t arg);
-		static Position getPosition(lua_State* L, int32_t arg, int32_t& stackpos);
-		static Position getPosition(lua_State* L, int32_t arg);
-		static Outfit_t getOutfit(lua_State* L, int32_t arg);
-		static Outfit getOutfitClass(lua_State* L, int32_t arg);
-		static LuaVariant getVariant(lua_State* L, int32_t arg);
-		static InstantSpell* getInstantSpell(lua_State* L, int32_t arg);
-		static Reflect getReflect(lua_State* L, int32_t arg);
-		static void getFieldBlock(lua_State* L, int32_t arg, FieldBlock& fieldBlock);
+	static std::string getString(lua_State* L, int32_t arg);
+	static Position getPosition(lua_State* L, int32_t arg, int32_t& stackpos);
+	static Position getPosition(lua_State* L, int32_t arg);
+	static Outfit_t getOutfit(lua_State* L, int32_t arg);
+	static Outfit getOutfitClass(lua_State* L, int32_t arg);
+	static LuaVariant getVariant(lua_State* L, int32_t arg);
+	static InstantSpell* getInstantSpell(lua_State* L, int32_t arg);
+	static Reflect getReflect(lua_State* L, int32_t arg);
+	static void getFieldBlock(lua_State* L, int32_t arg, FieldBlock& fieldBlock);
 
 	static Thing* getThing(lua_State* L, int32_t arg);
 	static Creature* getCreature(lua_State* L, int32_t arg);
