@@ -10,7 +10,6 @@
 #include "map.h"
 #include "position.h"
 #include "tile.h"
-#include "luacreature.h"
 
 class Condition;
 class Container;

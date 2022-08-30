@@ -110,6 +110,9 @@
     <ClCompile Include="..\src\luacreature.cpp">
       <Filter>luaFunctions</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\luamonster.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\account.h" />
@@ -228,6 +231,9 @@
       <Filter>luaFunctions</Filter>
     </ClInclude>
     <ClInclude Include="..\src\luacreature.h">
+      <Filter>luaFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\luamonster.h">
       <Filter>luaFunctions</Filter>
     </ClInclude>
   </ItemGroup>

@@ -213,6 +213,7 @@ private:
 	bool useCacheMap() const override { return !randomStepping; }
 
 	friend class LuaScriptInterface;
+	friend class LuaMonster;
 };
 
 #endif // FS_MONSTER_H
