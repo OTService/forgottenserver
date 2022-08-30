@@ -538,13 +538,13 @@ private:
 	static int luaGameGetItemAttributeByName(lua_State* L);
 	static int luaGameGetReturnMessage(lua_State* L);
 
-		static int luaGameCreateItem(lua_State* L);
-		static int luaGameCreateContainer(lua_State* L);
-		static int luaGameCreateMonster(lua_State* L);
-		static int luaGameCreateNpc(lua_State* L);
-		static int luaGameCreateTile(lua_State* L);
-		static int luaGameCreateMonsterType(lua_State* L);
-		static int luaGameCreateItemType(lua_State* L);
+	static int luaGameCreateItem(lua_State* L);
+	static int luaGameCreateContainer(lua_State* L);
+	static int luaGameCreateMonster(lua_State* L);
+	static int luaGameCreateNpc(lua_State* L);
+	static int luaGameCreateTile(lua_State* L);
+	static int luaGameCreateMonsterType(lua_State* L);
+	static int luaGameCreateItemType(lua_State* L);
 
 	static int luaGameStartRaid(lua_State* L);
 
