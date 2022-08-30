@@ -192,8 +192,12 @@
     <ClCompile Include="..\src\iomarket.cpp" />
     <ClCompile Include="..\src\item.cpp" />
     <ClCompile Include="..\src\items.cpp" />
+    <ClCompile Include="..\src\luacontainer.cpp" />
+    <ClCompile Include="..\src\luacreature.cpp" />
     <ClCompile Include="..\src\luaenums.cpp" />
     <ClCompile Include="..\src\luagame.cpp" />
+    <ClCompile Include="..\src\luaitem.cpp" />
+    <ClCompile Include="..\src\luamodalwindow.cpp" />
     <ClCompile Include="..\src\luanetworkmessage.cpp" />
     <ClCompile Include="..\src\luaplayer.cpp" />
     <ClCompile Include="..\src\luaposition.cpp" />
@@ -289,8 +293,12 @@
     <ClInclude Include="..\src\itemloader.h" />
     <ClInclude Include="..\src\items.h" />
     <ClInclude Include="..\src\lockfree.h" />
+    <ClInclude Include="..\src\luacontainer.h" />
+    <ClInclude Include="..\src\luacreature.h" />
     <ClInclude Include="..\src\luaenums.h" />
     <ClInclude Include="..\src\luagame.h" />
+    <ClInclude Include="..\src\luaitem.h" />
+    <ClInclude Include="..\src\luamodalwindow.h" />
     <ClInclude Include="..\src\luanetworkmessage.h" />
     <ClInclude Include="..\src\luaplayer.h" />
     <ClInclude Include="..\src\luaposition.h" />

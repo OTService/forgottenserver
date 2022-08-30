@@ -98,6 +98,18 @@
     <ClCompile Include="..\src\luanetworkmessage.cpp">
       <Filter>luaFunctions</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\luamodalwindow.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luaitem.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luacontainer.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luacreature.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\account.h" />
@@ -204,6 +216,18 @@
       <Filter>luaFunctions</Filter>
     </ClInclude>
     <ClInclude Include="..\src\luanetworkmessage.h">
+      <Filter>luaFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\luamodalwindow.h">
+      <Filter>luaFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\luaitem.h">
+      <Filter>luaFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\luacontainer.h">
+      <Filter>luaFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\luacreature.h">
       <Filter>luaFunctions</Filter>
     </ClInclude>
   </ItemGroup>
