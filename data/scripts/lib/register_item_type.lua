@@ -320,6 +320,24 @@ registerItemType.attack = function(itype, attack)
 	end
 end
 
+registerItemType.attackSpeed = function(itype, speed)
+	if speed then
+		itype:attackSpeed(speed)
+	end
+end
+
+registerItemType.worth = function(itype, worth)
+	if worth then
+		itype:worth(worth)
+	end
+end
+
+registerItemType.classification = function(itype, classification)
+	if classification then
+		itype:classification(classification)
+	end
+end
+
 registerItemType.defense = function(itype, defense)
 	if defense then
 		itype:defense(defense)

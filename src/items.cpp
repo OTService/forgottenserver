@@ -1920,6 +1920,9 @@ void Items::parseItemLua(ItemType* itemType)
 	it.combatType = itemType->combatType;
 	it.abilities = std::move(itemType->abilities);
 	it.conditionDamage = std::move(itemType->conditionDamage);
+	it.attackSpeed = itemType->attackSpeed;
+	it.worth = itemType->worth;
+	it.classification = itemType->classification;
 
 	//check bed items
 	if ((it.transformToFree != 0 || it.transformToOnUse[PLAYERSEX_FEMALE] != 0 || it.transformToOnUse[PLAYERSEX_MALE] != 0) && it.type != ITEM_TYPE_BED) {
