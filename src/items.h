@@ -328,13 +328,13 @@ public:
 		return str;
 	}
 
-		itemgroup_t group = ITEM_GROUP_NONE;
-		ItemTypes_t type = ITEM_TYPE_NONE;
-		uint16_t id = 0;
-		uint16_t toId = 0;
-		uint16_t clientId = 0;
-		bool stackable = false;
-		bool isAnimation = false;
+	itemgroup_t group = ITEM_GROUP_NONE;
+	ItemTypes_t type = ITEM_TYPE_NONE;
+	uint16_t id = 0;
+	uint16_t toId = 0;
+	uint16_t clientId = 0;
+	bool stackable = false;
+	bool isAnimation = false;
 
 	std::string name;
 	std::string article;
