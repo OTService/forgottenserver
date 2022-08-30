@@ -3064,6 +3064,7 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("ItemType", "maxTextLen", LuaScriptInterface::luaItemTypeMaxTextLen);
 	registerMethod("ItemType", "writeOnceItemId", LuaScriptInterface::luaItemTypeWriteOnceItemId);
 	registerMethod("ItemType", "runeSpellName", LuaScriptInterface::luaItemTypeRuneSpellName);
+	registerMethod("ItemType", "worth", LuaScriptInterface::luaItemTypeWorth);
 	registerMethod("ItemType", "walkStack", LuaScriptInterface::luaItemTypeWalkStack);
 	registerMethod("ItemType", "field", LuaScriptInterface::luaItemTypeField);
 	registerMethod("ItemType", "blocking", LuaScriptInterface::luaItemTypeBlocking);
@@ -13260,7 +13261,7 @@ int LuaScriptInterface::luaItemTypeRuneSpellName(lua_State* L)
 {
 	// get: itemType:runeSpellName() set: itemType:runeSpellName(name)
 	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (itemType) {
+	if (itemType && itemType->isRune()) {
 		if (lua_gettop(L) == 1) {
 			pushString(L, itemType->runeSpellName);
 		}
@@ -13270,6 +13271,23 @@ int LuaScriptInterface::luaItemTypeRuneSpellName(lua_State* L)
 		}
 	}
 	else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaItemTypeWorth(lua_State* L)
+{
+	// get: itemType:worth() set: itemType:worth(ammount)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			lua_pushnumber(L, itemType->worth);
+		} else {
+			itemType->worth = getNumber<uint64_t>(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14513,7 +14531,7 @@ int LuaScriptInterface::luaItemTypeAbilities(lua_State* L)
 			} else if (abilitieName == "absorbpercentall") {
 				int16_t value = getNumber<int16_t>(L, 3);
 				for (uint8_t i = COMBAT_NONE; i <= COMBAT_COUNT; i++) {
-					abilities.absorbPercent[i] += value;
+					abilities.absorbPercent[indexToCombatType(i)] += value;
 				}
 				pushBoolean(L, true);
 				return 1;
@@ -14528,7 +14546,7 @@ int LuaScriptInterface::luaItemTypeAbilities(lua_State* L)
 			} else if (abilitieName == "fieldabsorbpercentall") {
 				int16_t value = getNumber<int16_t>(L, 3);
 				for (uint8_t i = COMBAT_NONE; i <= COMBAT_COUNT; i++) {
-					abilities.fieldAbsorbPercent[i] += value;
+					abilities.fieldAbsorbPercent[indexToCombatType(i)] += value;
 				}
 				pushBoolean(L, true);
 				return 1;

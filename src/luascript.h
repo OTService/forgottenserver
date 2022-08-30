@@ -1199,6 +1199,7 @@ private:
 		static int luaItemTypeMaxTextLen(lua_State* L);
 		static int luaItemTypeWriteOnceItemId(lua_State* L);
 		static int luaItemTypeRuneSpellName(lua_State* L);
+	    static int luaItemTypeWorth(lua_State* L);
 		static int luaItemTypeWalkStack(lua_State* L);
 		static int luaItemTypeField(lua_State* L);
 		static int luaItemTypeBlocking(lua_State* L);
