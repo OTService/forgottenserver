@@ -3093,6 +3093,7 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("ItemType", "shootType", LuaScriptInterface::luaItemTypeShootType);
 
 	registerMethod("ItemType", "attack", LuaScriptInterface::luaItemTypeAttack);
+	registerMethod("ItemType", "attackSpeed", LuaScriptInterface::luaItemTypeAttackSpeed);
 	registerMethod("ItemType", "defense", LuaScriptInterface::luaItemTypeDefense);
 	registerMethod("ItemType", "extraDefense", LuaScriptInterface::luaItemTypeExtraDefense);
 	registerMethod("ItemType", "armor", LuaScriptInterface::luaItemTypeArmor);
@@ -3108,6 +3109,7 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("ItemType", "requiredLevel", LuaScriptInterface::luaItemTypeRequiredLevel);
 	registerMethod("ItemType", "ammoType", LuaScriptInterface::luaItemTypeAmmoType);
 	registerMethod("ItemType", "corpseType", LuaScriptInterface::luaItemTypeCorpseType);
+	registerMethod("ItemType", "classification", LuaScriptInterface::luaItemTypeClassification);
 
 	registerMethod("ItemType", "abilities", LuaScriptInterface::luaItemTypeAbilities);
 
@@ -3125,6 +3127,8 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("ItemType", "vocationString", LuaScriptInterface::luaItemTypeVocationString);
 	registerMethod("ItemType", "minReqLevel", LuaScriptInterface::luaItemTypeMinReqLevel);
 	registerMethod("ItemType", "minReqMagicLevel", LuaScriptInterface::luaItemTypeMinReqMagicLevel);
+	registerMethod("ItemType", "getMarketBuyStatistics", LuaScriptInterface::luaItemTypeGetMarketBuyStatistics);
+	registerMethod("ItemType", "getMarketSellStatistics", LuaScriptInterface::luaItemTypeGetMarketSellStatistics);
 
 	registerMethod("ItemType", "subType", LuaScriptInterface::luaItemTypeSubType);
 
@@ -13031,6 +13035,48 @@ int LuaScriptInterface::luaItemTypeMinReqMagicLevel(lua_State* L)
 	return 1;
 }
 
+int LuaScriptInterface::luaItemTypeGetMarketBuyStatistics(lua_State* L)
+{
+	// itemType:getMarketBuyStatistics()
+	const ItemType* itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType) {
+		MarketStatistics* statistics = IOMarket::getInstance().getPurchaseStatistics(itemType->id);
+		if (statistics) {
+			lua_createtable(L, 4, 0);
+			setField(L, "numTransactions", statistics->numTransactions);
+			setField(L, "totalPrice", statistics->totalPrice);
+			setField(L, "highestPrice", statistics->highestPrice);
+			setField(L, "lowestPrice", statistics->lowestPrice);
+		} else {
+			lua_pushnil(L);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaItemTypeGetMarketSellStatistics(lua_State* L)
+{
+	// itemType:getMarketSellStatistics()
+	const ItemType* itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType) {
+		MarketStatistics* statistics = IOMarket::getInstance().getSaleStatistics(itemType->id);
+		if (statistics) {
+			lua_createtable(L, 4, 0);
+			setField(L, "numTransactions", statistics->numTransactions);
+			setField(L, "totalPrice", statistics->totalPrice);
+			setField(L, "highestPrice", statistics->highestPrice);
+			setField(L, "lowestPrice", statistics->lowestPrice);
+		} else {
+			lua_pushnil(L);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
 int LuaScriptInterface::luaItemTypeEffect(lua_State* L)
 {
 	// get: itemType:effect() set: itemType:effect(magicEffect)
@@ -13944,6 +13990,23 @@ int LuaScriptInterface::luaItemTypeAttack(lua_State* L)
 	return 1;
 }
 
+int LuaScriptInterface::luaItemTypeAttackSpeed(lua_State* L)
+{
+	// get: itemType:attackSpeed() set: itemType:attackSpeed(speed)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			lua_pushnumber(L, itemType->attackSpeed);
+		} else {
+			itemType->attackSpeed = getNumber<uint32_t>(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
 int LuaScriptInterface::luaItemTypeDefense(lua_State* L)
 {
 	// get: itemType:defense() set: itemType:defense(def)
@@ -14071,6 +14134,23 @@ int LuaScriptInterface::luaItemTypeCorpseType(lua_State* L)
 		}
 	}
 	else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaItemTypeClassification(lua_State* L)
+{
+	// get: itemType:classification() set: itemType:classification(int)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			lua_pushnumber(L, itemType->classification);
+		} else {
+			itemType->classification = getNumber<uint8_t>(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14246,7 +14326,7 @@ int LuaScriptInterface::luaItemTypeAbilities(lua_State* L)
 	if (itemType) {
 		Abilities& abilities = itemType->getAbilities();
 		if (lua_gettop(L) == 1) {
-			lua_createtable(L, 6, 12);
+			lua_createtable(L, 10, 12);
 			setField(L, "healthGain", abilities.healthGain);
 			setField(L, "healthTicks", abilities.healthTicks);
 			setField(L, "manaGain", abilities.manaGain);
@@ -14311,6 +14391,39 @@ int LuaScriptInterface::luaItemTypeAbilities(lua_State* L)
 				lua_rawseti(L, -2, i + 1);
 			}
 			lua_setfield(L, -2, "absorbPercent");
+
+			// special magic level
+			lua_createtable(L, 0, COMBAT_COUNT);
+			for (int32_t i = 0; i < COMBAT_COUNT; i++) {
+				lua_pushnumber(L, abilities.specialMagicLevelSkill[i]);
+				lua_rawseti(L, -2, i + 1);
+			}
+			lua_setfield(L, -2, "specialMagicLevel");
+
+			// Damage boost percent
+			lua_createtable(L, 0, COMBAT_COUNT);
+			for (int32_t i = 0; i < COMBAT_COUNT; i++) {
+				lua_pushnumber(L, abilities.boostPercent[i]);
+				lua_rawseti(L, -2, i + 1);
+			}
+			lua_setfield(L, -2, "boostPercent");
+
+			// Reflect chance
+			lua_createtable(L, 0, COMBAT_COUNT);
+			for (int32_t i = 0; i < COMBAT_COUNT; i++) {
+				lua_pushnumber(L, abilities.reflect[i].chance);
+				lua_rawseti(L, -2, i + 1);
+			}
+			lua_setfield(L, -2, "reflectChance");
+
+			// Reflect percent
+			lua_createtable(L, 0, COMBAT_COUNT);
+			for (int32_t i = 0; i < COMBAT_COUNT; i++) {
+				lua_pushnumber(L, abilities.reflect[i].percent);
+				lua_rawseti(L, -2, i + 1);
+			}
+			lua_setfield(L, -2, "reflectPercent");
+			return 1;
 		}
 		else {
 			const std::string& abilitieName = boost::algorithm::to_lower_copy(getString(L, 2));

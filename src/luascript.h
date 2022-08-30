@@ -1230,6 +1230,7 @@ private:
 		static int luaItemTypeShootRange(lua_State* L);
 		static int luaItemTypeShootType(lua_State* L);
 		static int luaItemTypeAttack(lua_State* L);
+	    static int luaItemTypeAttackSpeed(lua_State* L);
 		static int luaItemTypeDefense(lua_State* L);
 		static int luaItemTypeExtraDefense(lua_State* L);
 		static int luaItemTypeArmor(lua_State* L);
@@ -1245,6 +1246,7 @@ private:
 		static int luaItemTypeRequiredLevel(lua_State* L);
 		static int luaItemTypeAmmoType(lua_State* L);
 		static int luaItemTypeCorpseType(lua_State* L);
+	    static int luaItemTypeClassification(lua_State* L);
 		static int luaItemTypeShowCount(lua_State* L);
 		static int luaItemTypeAbilities(lua_State* L);
 		static int luaItemTypeShowAttributes(lua_State* L);
@@ -1260,6 +1262,8 @@ private:
 		static int luaItemTypeVocationString(lua_State* L);
 		static int luaItemTypeMinReqLevel(lua_State* L);
 		static int luaItemTypeMinReqMagicLevel(lua_State* L);
+	    static int luaItemTypeGetMarketBuyStatistics(lua_State* L);
+	    static int luaItemTypeGetMarketSellStatistics(lua_State* L);
 
 		static int luaItemTypeSubType(lua_State* L);
 

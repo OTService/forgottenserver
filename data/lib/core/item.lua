@@ -100,7 +100,7 @@ do
 		local name = obj:getName()
 		if name ~= "" then
 			if it:isStackable() and subType > 1 then
-				if it:hasShowCount() then
+				if it:showCount() then
 					ss:append("%d ", subType)
 				end
 				ss:append("%s", obj:getPluralName())
@@ -309,7 +309,7 @@ do
 		end
 
 		-- abilities (will be reused)
-		local abilities = itemType:getAbilities()
+		local abilities = itemType:abilities()
 
 		-- stats: hp/mp/soul/magic level
 		do
@@ -518,13 +518,13 @@ do
 			local expireInfo = {}
 
 			-- charges
-			if itemType:hasShowCharges() then
+			if itemType:showCharges() then
 				local charges = item:getCharges()
 				expireInfo[#expireInfo + 1] = string.format("has %d charge%s left", charges, (charges ~= 1 and "s" or ""))
 			end
 
 			-- duration
-			if itemType:hasShowDuration() then
+			if itemType:showDuration() then
 				local currentDuration = item:getDuration()
 				if isVirtual then
 					currentDuration = currentDuration * 1000
@@ -711,7 +711,7 @@ do
 		end
 
 		-- item text
-		if not isVirtual and itemType:hasAllowDistRead() then
+		if not isVirtual and itemType:allowDistRead() then
 			local text = item:getText()
 			if text and text:len() > 0 then
 				if lookDistance <= 4 then
