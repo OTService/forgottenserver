@@ -458,9 +458,11 @@ public:
 	uint32_t minorVersion = 0;
 	uint32_t buildNumber = 0;
 
-		bool loadFromXml();
-		void parseItemNode(const pugi::xml_node& itemNode, uint16_t id);
-		void parseItemLua(ItemType* itemType);
+	bool loadFromXml();
+	void parseItemNode(const pugi::xml_node& itemNode, uint16_t id);
+	void parseItemLua(ItemType* itemType);
+
+	void buildInventoryList();
 
 	size_t size() const { return items.size(); }
 

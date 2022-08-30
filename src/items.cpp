@@ -570,6 +570,21 @@ bool Items::loadFromXml()
 	return true;
 }
 
+void Items::buildInventoryList()
+{
+	inventory.reserve(items.size());
+	for (const auto& type : items) {
+		if (type.weaponType != WEAPON_NONE || type.ammoType != AMMO_NONE || type.attack != 0 || type.defense != 0 ||
+		    type.extraDefense != 0 || type.armor != 0 || type.slotPosition & SLOTP_NECKLACE ||
+		    type.slotPosition & SLOTP_RING || type.slotPosition & SLOTP_AMMO || type.slotPosition & SLOTP_FEET ||
+		    type.slotPosition & SLOTP_HEAD || type.slotPosition & SLOTP_ARMOR || type.slotPosition & SLOTP_LEGS) {
+			inventory.push_back(type.clientId);
+		}
+	}
+	inventory.shrink_to_fit();
+	std::sort(inventory.begin(), inventory.end());
+}
+
 void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 {
 	if (id > 0 && id < 100) {
@@ -1843,7 +1858,7 @@ void Items::parseItemLua(ItemType* itemType)
 		return;
 	}
 
-	nameToItems.insert({ asLowerCaseString(itemType->name), itemType->id });
+	nameToItems.insert({boost::algorithm::to_lower_copy(itemType->name), itemType->id});
 	it.name = itemType->name;
 	it.article = itemType->article;
 	it.pluralName = itemType->pluralName;

@@ -5140,7 +5140,7 @@ int LuaScriptInterface::luaGameCreateItemType(lua_State* L)
 {
 	// Game.createItemType(id, toId)
 	if (getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
-		reportErrorFunc("ItemTypes can only be registered in the Scripts interface.");
+		reportErrorFunc(L, "ItemTypes can only be registered in the Scripts interface.");
 		lua_pushnil(L);
 		return 1;
 	}
@@ -12603,7 +12603,7 @@ int LuaScriptInterface::luaItemTypeCorpse(lua_State* L)
 			pushBoolean(L, itemType->corpseType != RACE_NONE);
 		}
 		else {
-			const std::string& tmpStrValue = asLowerCaseString(getString(L, 2));
+			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			auto it2 = RaceTypesMap.find(tmpStrValue);
 			if (it2 != RaceTypesMap.end()) {
 				itemType->corpseType = it2->second;
@@ -12938,7 +12938,7 @@ int LuaScriptInterface::luaItemTypeFloorChange(lua_State* L)
 			lua_pushnumber(L, itemType->floorChange);
 		}
 		else {
-			const std::string& tmpStrValue = asLowerCaseString(getString(L, 2));
+			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			auto it2 = TileStatesMap.find(tmpStrValue);
 			if (it2 != TileStatesMap.end()) {
 				itemType->floorChange |= it2->second;
@@ -13041,7 +13041,7 @@ int LuaScriptInterface::luaItemTypeEffect(lua_State* L)
 		}
 		else {
 			const std::string& effectName = getString(L, 2);
-			MagicEffectClasses effect = getMagicEffect(asLowerCaseString(effectName));
+			MagicEffectClasses effect = getMagicEffect(boost::algorithm::to_lower_copy(effectName));
 			if (effect != CONST_ME_NONE) {
 				itemType->magicEffect = effect;
 			}
@@ -13274,7 +13274,7 @@ int LuaScriptInterface::luaItemTypeField(lua_State* L)
 			CombatType_t combatType = COMBAT_NONE;
 			ConditionDamage* conditionDamage = nullptr;
 
-			const std::string& tmpStrValue = asLowerCaseString(fieldBlock.name);
+			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(fieldBlock.name);
 			if (tmpStrValue == "fire") {
 				conditionDamage = new ConditionDamage(CONDITIONID_COMBAT, CONDITION_FIRE);
 				combatType = COMBAT_FIREDAMAGE;
@@ -13551,7 +13551,7 @@ int LuaScriptInterface::luaItemTypeType(lua_State* L)
 			lua_pushnumber(L, itemType->type);
 		}
 		else {
-			const std::string& tmpStrValue = asLowerCaseString(getString(L, 2));
+			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			auto it2 = ItemTypesMap.find(tmpStrValue);
 			if (it2 != ItemTypesMap.end()) {
 				itemType->type = it2->second;
@@ -13706,7 +13706,7 @@ int LuaScriptInterface::luaItemTypeSlotPosition(lua_State* L)
 			lua_pushnumber(L, itemType->slotPosition);
 		}
 		else {
-			const std::string& tmpStrValue = asLowerCaseString(getString(L, 2));
+			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			if (tmpStrValue == "head") {
 				itemType->slotPosition |= SLOTP_HEAD;
 			}
@@ -13785,7 +13785,7 @@ int LuaScriptInterface::luaItemTypeFluidSource(lua_State* L)
 			lua_pushnumber(L, itemType->fluidSource);
 		}
 		else {
-			const std::string& tmpStrValue = asLowerCaseString(getString(L, 2));
+			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			auto it2 = FluidTypesMap.find(tmpStrValue);
 			if (it2 != FluidTypesMap.end()) {
 				itemType->fluidSource = it2->second;
@@ -13909,7 +13909,7 @@ int LuaScriptInterface::luaItemTypeShootType(lua_State* L)
 		}
 		else {
 			const std::string& shootName = getString(L, 2);
-			ShootType_t shoot = getShootType(asLowerCaseString(shootName));
+			ShootType_t shoot = getShootType(boost::algorithm::to_lower_copy(shootName));
 			if (shoot != CONST_ANI_NONE) {
 				itemType->shootType = shoot;
 			}
@@ -14010,7 +14010,7 @@ int LuaScriptInterface::luaItemTypeWeaponType(lua_State* L)
 			lua_pushnumber(L, itemType->weaponType);
 		}
 		else {
-			const std::string& tmpStrValue = asLowerCaseString(getString(L, 2));
+			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			auto it2 = WeaponTypesMap.find(tmpStrValue);
 			if (it2 != WeaponTypesMap.end()) {
 				itemType->weaponType = it2->second;
@@ -14037,7 +14037,7 @@ int LuaScriptInterface::luaItemTypeAmmoType(lua_State* L)
 		}
 		else {
 			const std::string& ammoName = getString(L, 2);
-			itemType->ammoType = getAmmoType(asLowerCaseString(ammoName));
+			itemType->ammoType = getAmmoType(boost::algorithm::to_lower_copy(ammoName));
 			if (itemType->ammoType == AMMO_NONE) {
 				std::cout << "[Warning - Items::parseItemLua] Unknown ammoType: " << ammoName << std::endl;
 			}
@@ -14059,7 +14059,7 @@ int LuaScriptInterface::luaItemTypeCorpseType(lua_State* L)
 			lua_pushnumber(L, itemType->corpseType);
 		}
 		else {
-			const std::string& tmpStrValue = asLowerCaseString(getString(L, 2));
+			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			auto it2 = RaceTypesMap.find(tmpStrValue);
 			if (it2 != RaceTypesMap.end()) {
 				itemType->corpseType = it2->second;
@@ -14313,7 +14313,7 @@ int LuaScriptInterface::luaItemTypeAbilities(lua_State* L)
 			lua_setfield(L, -2, "absorbPercent");
 		}
 		else {
-			const std::string& abilitieName = asLowerCaseString(getString(L, 2));
+			const std::string& abilitieName = boost::algorithm::to_lower_copy(getString(L, 2));
 			bool foundAbilitie = true;
 			if (abilitieName == "healthgain") {
 				abilities.regeneration = true;
