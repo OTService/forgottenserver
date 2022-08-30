@@ -346,8 +346,6 @@ public:
 	std::unique_ptr<Abilities> abilities;
 	std::unique_ptr<ConditionDamage> conditionDamage;
 
-	std::map<std::string, bool> hasEdited;
-
 	uint32_t attackSpeed = 0;
 	uint32_t weight = 0;
 	uint32_t levelDoor = 0;
@@ -460,7 +458,7 @@ public:
 
 	bool loadFromXml();
 	void parseItemNode(const pugi::xml_node& itemNode, uint16_t id);
-	void parseItemLua(ItemType* itemType);
+	ItemType& Items::parseItemLua(uint16_t id);
 
 	void buildInventoryList();
 

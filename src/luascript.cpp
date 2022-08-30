@@ -5143,23 +5143,28 @@ int LuaScriptInterface::luaGameCreateMonsterType(lua_State* L)
 
 int LuaScriptInterface::luaGameCreateItemType(lua_State* L)
 {
-	// Game.createItemType(id, toId)
+	// Game.createItemType(id)
 	if (getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
 		reportErrorFunc(L, "ItemTypes can only be registered in the Scripts interface.");
 		lua_pushnil(L);
 		return 1;
 	}
 
-	ItemType* itemType = new ItemType();
-	if (itemType) {
-		itemType->id = getNumber<uint16_t>(L, 1);
-		itemType->toId = getNumber<uint16_t>(L, 2, itemType->id);
-		pushUserdata<ItemType>(L, itemType);
-		setMetatable(L, -1, "ItemType");
+	uint32_t id = getNumber<uint32_t>(L, 1);
+	ItemType& itemType = Item::items.parseItemLua(id);
+	if (itemType.id == 0) {
+		pushBoolean(L, false);
+		return 1;
 	}
-	else {
-		lua_pushnil(L);
+
+	if (!itemType.name.empty()) {
+		std::cout << "[Warning - Items::parseItemNode] Duplicate item with id: " << id << std::endl;
+		pushBoolean(L, false);
+		return 1;
 	}
+
+	pushUserdata<ItemType>(L, &itemType);
+	setMetatable(L, -1, "ItemType");
 	return 1;
 }
 
@@ -12730,7 +12735,6 @@ int LuaScriptInterface::luaItemTypeStackable(lua_State* L)
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->stackable);
 		} else {
-			itemType->hasEdited["stackable"] = true;
 			itemType->stackable = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
@@ -12748,7 +12752,6 @@ int LuaScriptInterface::luaItemTypeReadable(lua_State* L)
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->canReadText);
 		} else {
-			itemType->hasEdited["canReadText"] = true;
 			itemType->canReadText = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
@@ -13334,7 +13337,6 @@ int LuaScriptInterface::luaItemTypeBlocking(lua_State* L)
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->blockProjectile || itemType->blockSolid);
 		} else {
-			itemType->hasEdited["blockSolid"] = true;
 			itemType->blockSolid = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
@@ -13352,7 +13354,6 @@ int LuaScriptInterface::luaItemTypeAllowDistRead(lua_State* L)
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->allowDistRead);
 		} else {
-			itemType->hasEdited["allowDistRead"] = true;
 			itemType->allowDistRead = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
@@ -13382,7 +13383,6 @@ int LuaScriptInterface::luaItemTypeRotatable(lua_State* L)
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->rotatable);
 		} else {
-			itemType->hasEdited["rotatable"] = true;
 			itemType->rotatable = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
@@ -13400,7 +13400,6 @@ int LuaScriptInterface::luaItemTypeBlockProjectile(lua_State* L)
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->blockProjectile);
 		} else {
-			itemType->hasEdited["blockProjectile"] = true;
 			itemType->blockProjectile = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
@@ -13460,7 +13459,6 @@ int LuaScriptInterface::luaItemTypeUseable(lua_State* L)
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->isUseable());
 		} else {
-			itemType->hasEdited["useable"] = true;
 			itemType->useable = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
@@ -13478,7 +13476,6 @@ int LuaScriptInterface::luaItemTypePickupable(lua_State* L)
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->isPickupable());
 		} else {
-			itemType->hasEdited["pickupable"] = true;
 			itemType->pickupable = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
@@ -14428,7 +14425,7 @@ int LuaScriptInterface::luaItemTypeRegister(lua_State* L)
 			}
 			for (uint16_t i = id; i <= itemType->toId; i++) {
 				itemType->id = i;
-				Item::items.parseItemLua(itemType);
+				Item::items.parseItemLua(itemType->id);
 			}
 			pushBoolean(L, true);
 		} else {

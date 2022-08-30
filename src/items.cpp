@@ -1841,93 +1841,15 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 	}
 }
 
-void Items::parseItemLua(ItemType* itemType)
+ItemType& Items::parseItemLua(uint16_t id)
 {
-	if (itemType->id > 0 && itemType->id < 100) {
-		ItemType& iType = items[itemType->id];
-		iType.id = itemType->id;
+	if (id > 0 && id < 100) {
+		ItemType& iType = items[id];
+		iType.id = id;
 	}
 
-	ItemType& it = getItemType(itemType->id);
-	if (it.id == 0) {
-		return;
-	}
-
-	if (!it.name.empty()) {
-		std::cout << "[Warning - Items::parseItemLua] Duplicate item with id: " << itemType->id << std::endl;
-		return;
-	}
-
-	nameToItems.insert({boost::algorithm::to_lower_copy(itemType->name), itemType->id});
-	it.name = itemType->name;
-	it.article = itemType->article;
-	it.pluralName = itemType->pluralName;
-	it.type = itemType->type;
-	it.description = itemType->description;
-	it.runeSpellName = itemType->runeSpellName;
-	it.weight = itemType->weight;
-	it.showCount = itemType->showCount;
-	it.armor = itemType->armor;
-	it.defense = itemType->defense;
-	it.extraDefense = itemType->extraDefense;
-	it.attack = itemType->attack;
-	it.rotatable = itemType->hasEdited["rotatable"] ? itemType->rotatable : it.rotatable;
-	it.useable = itemType->hasEdited["useable"] ? itemType->useable : it.useable;
-	it.moveable = itemType->hasEdited["moveable"] ? itemType->moveable : it.moveable;
-	it.stackable = itemType->hasEdited["stackable"] ? itemType->stackable : it.stackable;
-	it.blockProjectile = itemType->hasEdited["blockProjectile"] ? itemType->blockProjectile : it.blockProjectile;
-	it.allowPickupable = itemType->allowPickupable;
-	it.pickupable = itemType->hasEdited["pickupable"] ? itemType->pickupable : it.pickupable;
-	it.floorChange = itemType->floorChange;
-	it.corpseType = itemType->corpseType;
-	it.maxItems = itemType->maxItems;
-	it.fluidSource = itemType->fluidSource;
-	it.canReadText = itemType->hasEdited["canReadText"] ? itemType->canReadText : it.canReadText;
-	it.canWriteText = itemType->canWriteText;
-	it.maxTextLen = itemType->maxTextLen;
-	it.writeOnceItemId = itemType->writeOnceItemId;
-	it.weaponType = itemType->weaponType;
-	it.slotPosition = itemType->slotPosition;
-	it.ammoType = itemType->ammoType;
-	it.shootType = itemType->shootType;
-	it.magicEffect = itemType->magicEffect;
-	it.shootRange = itemType->shootRange;
-	it.stopTime = itemType->stopTime;
-	it.decayTo = itemType->decayTo;
-	it.transformEquipTo = itemType->transformEquipTo;
-	it.transformDeEquipTo = itemType->transformDeEquipTo;
-	it.decayTime = itemType->decayTime;
-	it.showDuration = itemType->showDuration;
-	it.charges = itemType->charges;
-	it.showCharges = itemType->showCharges;
-	it.showAttributes = itemType->showAttributes;
-	it.hitChance = itemType->hitChance;
-	it.maxHitChance = itemType->maxHitChance;
-	it.replaceable = itemType->replaceable;
-	it.bedPartnerDir = itemType->bedPartnerDir;
-	it.levelDoor = itemType->levelDoor;
-	it.vocationString = itemType->vocationString;
-	it.minReqLevel = itemType->minReqLevel;
-	it.minReqMagicLevel = itemType->minReqMagicLevel;
-	it.transformToOnUse[PLAYERSEX_FEMALE] = itemType->transformToOnUse[PLAYERSEX_FEMALE];
-	it.transformToOnUse[PLAYERSEX_MALE] = itemType->transformToOnUse[PLAYERSEX_MALE];
-	it.transformToFree = itemType->transformToFree;
-	it.destroyTo = itemType->destroyTo;
-	it.walkStack = itemType->walkStack;
-	it.blockSolid = itemType->hasEdited["blockSolid"] ? itemType->blockSolid : it.blockSolid;
-	it.allowDistRead = itemType->hasEdited["allowDistRead"] ? itemType->allowDistRead : it.allowDistRead;
-	it.storeItem = itemType->storeItem;
-	it.combatType = itemType->combatType;
-	it.abilities = std::move(itemType->abilities);
-	it.conditionDamage = std::move(itemType->conditionDamage);
-	it.attackSpeed = itemType->attackSpeed;
-	it.worth = itemType->worth;
-	it.classification = itemType->classification;
-
-	//check bed items
-	if ((it.transformToFree != 0 || it.transformToOnUse[PLAYERSEX_FEMALE] != 0 || it.transformToOnUse[PLAYERSEX_MALE] != 0) && it.type != ITEM_TYPE_BED) {
-		std::cout << "[Warning - Items::parseItemLua] Item " << it.id << " is not set as a bed-type" << std::endl;
-	}
+	return getItemType(id);
+	;
 }
 
 ItemType& Items::getItemType(size_t id)

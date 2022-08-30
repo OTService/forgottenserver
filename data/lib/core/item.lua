@@ -256,7 +256,7 @@ do
 			elseif table.contains(showAtkWeaponTypes, weaponType) then
 				local atkString = string.format("Atk:%d", attack)
 				local elementDmg = itemType:getElementDamage()
-				if elementDmg ~= 0 then
+				if elementDmg and elementDmg ~= 0 then
 					atkString = string.format("%s physical %+d %s", atkString, elementDmg, getCombatName(itemType:getElementType()))
 				end
 

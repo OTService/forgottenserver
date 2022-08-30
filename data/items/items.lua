@@ -23,9 +23,3 @@ Game.createItemType(26378):register({
    }
 })]]
 
--- Example for multiIds
---[[Game.createItemType(20005, 20080):register({
-   name = "sign",
-   article = "a",
-   allowDistRead = "true"
-})]]
