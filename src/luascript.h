@@ -401,6 +401,7 @@ protected:
 	void registerPositionFunctions();
 	void registerTileFunctions();
 	void registerNetworkMessageFunctions();
+	void registerModalWindowFunctions();
 	void registerPlayerFunctions();
 
 	lua_State* luaState = nullptr;
@@ -508,34 +509,6 @@ private:
 	static int luaVariantGetNumber(lua_State* L);
 	static int luaVariantGetString(lua_State* L);
 	static int luaVariantGetPosition(lua_State* L);
-
-	// ModalWindow
-	static int luaModalWindowCreate(lua_State* L);
-	static int luaModalWindowDelete(lua_State* L);
-
-	static int luaModalWindowGetId(lua_State* L);
-	static int luaModalWindowGetTitle(lua_State* L);
-	static int luaModalWindowGetMessage(lua_State* L);
-
-	static int luaModalWindowSetTitle(lua_State* L);
-	static int luaModalWindowSetMessage(lua_State* L);
-
-	static int luaModalWindowGetButtonCount(lua_State* L);
-	static int luaModalWindowGetChoiceCount(lua_State* L);
-
-	static int luaModalWindowAddButton(lua_State* L);
-	static int luaModalWindowAddChoice(lua_State* L);
-
-	static int luaModalWindowGetDefaultEnterButton(lua_State* L);
-	static int luaModalWindowSetDefaultEnterButton(lua_State* L);
-
-	static int luaModalWindowGetDefaultEscapeButton(lua_State* L);
-	static int luaModalWindowSetDefaultEscapeButton(lua_State* L);
-
-	static int luaModalWindowHasPriority(lua_State* L);
-	static int luaModalWindowSetPriority(lua_State* L);
-
-	static int luaModalWindowSendToPlayer(lua_State* L);
 
 	// Item
 	static int luaItemCreate(lua_State* L);
