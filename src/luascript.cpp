@@ -12584,11 +12584,9 @@ int LuaScriptInterface::luaItemTypeCreate(lua_State* L)
 	uint32_t id;
 	if (isNumber(L, 2)) {
 		id = getNumber<uint32_t>(L, 2);
-	}
-	else if (isString(L, 2)) {
+	} else if (isString(L, 2)) {
 		id = Item::items.getItemIdByName(getString(L, 2));
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 		return 1;
 	}
@@ -12606,21 +12604,18 @@ int LuaScriptInterface::luaItemTypeCorpse(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->corpseType != RACE_NONE);
-		}
-		else {
+		} else {
 			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			auto it2 = RaceTypesMap.find(tmpStrValue);
 			if (it2 != RaceTypesMap.end()) {
 				itemType->corpseType = it2->second;
 				pushBoolean(L, true);
-			}
-			else {
+			} else {
 				std::cout << "[Warning - Items::parseItemLua] Unknown corpseType: " << tmpStrValue << std::endl;
 				pushBoolean(L, false);
 			}
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12633,18 +12628,15 @@ int LuaScriptInterface::luaItemTypeDoor(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->isDoor());
-		}
-		else {
+		} else {
 			if (getBoolean(L, 2)) {
 				itemType->type = ITEM_TYPE_DOOR;
-			}
-			else {
+			} else {
 				itemType->type = ITEM_TYPE_NONE;
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12657,18 +12649,15 @@ int LuaScriptInterface::luaItemTypeContainer(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->isContainer());
-		}
-		else {
+		} else {
 			if (getBoolean(L, 2)) {
 				itemType->group = ITEM_GROUP_CONTAINER;
-			}
-			else {
+			} else {
 				itemType->group = ITEM_GROUP_NONE;
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12681,18 +12670,15 @@ int LuaScriptInterface::luaItemTypeFluidContainer(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->isFluidContainer());
-		}
-		else {
+		} else {
 			if (getBoolean(L, 2)) {
 				itemType->group = ITEM_GROUP_FLUID;
-			}
-			else {
+			} else {
 				itemType->group = ITEM_GROUP_NONE;
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12705,13 +12691,11 @@ int LuaScriptInterface::luaItemTypeMovable(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->moveable);
-		}
-		else {
+		} else {
 			itemType->moveable = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12724,18 +12708,15 @@ int LuaScriptInterface::luaItemTypeRune(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->isRune());
-		}
-		else {
+		} else {
 			if (getBoolean(L, 2)) {
 				itemType->type = ITEM_TYPE_RUNE;
-			}
-			else {
+			} else {
 				itemType->type = ITEM_TYPE_NONE;
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12748,14 +12729,12 @@ int LuaScriptInterface::luaItemTypeStackable(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->stackable);
-		}
-		else {
+		} else {
 			itemType->hasEdited["stackable"] = true;
 			itemType->stackable = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12768,14 +12747,12 @@ int LuaScriptInterface::luaItemTypeReadable(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->canReadText);
-		}
-		else {
+		} else {
 			itemType->hasEdited["canReadText"] = true;
 			itemType->canReadText = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12788,14 +12765,12 @@ int LuaScriptInterface::luaItemTypeWritable(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->canWriteText);
-		}
-		else {
+		} else {
 			itemType->canWriteText = getBoolean(L, 2);
 			itemType->canReadText = itemType->canWriteText;
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12808,13 +12783,11 @@ int LuaScriptInterface::luaItemTypeStopDuration(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->stopTime);
-		}
-		else {
+		} else {
 			itemType->stopTime = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12827,13 +12800,11 @@ int LuaScriptInterface::luaItemTypeShowDuration(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->showDuration);
-		}
-		else {
+		} else {
 			itemType->showDuration = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12846,13 +12817,11 @@ int LuaScriptInterface::luaItemTypeShowAttributes(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->showAttributes);
-		}
-		else {
+		} else {
 			itemType->showAttributes = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12865,13 +12834,11 @@ int LuaScriptInterface::luaItemTypeShowCharges(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->showCharges);
-		}
-		else {
+		} else {
 			itemType->showCharges = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12884,13 +12851,11 @@ int LuaScriptInterface::luaItemTypeShowCount(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->showCount);
-		}
-		else {
+		} else {
 			itemType->showCount = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12903,13 +12868,11 @@ int LuaScriptInterface::luaItemTypeReplaceable(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->replaceable);
-		}
-		else {
+		} else {
 			itemType->replaceable = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12922,13 +12885,11 @@ int LuaScriptInterface::luaItemTypeDuration(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->decayTime);
-		}
-		else {
+		} else {
 			itemType->decayTime = getNumber<uint32_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12941,20 +12902,17 @@ int LuaScriptInterface::luaItemTypeFloorChange(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->floorChange);
-		}
-		else {
+		} else {
 			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			auto it2 = TileStatesMap.find(tmpStrValue);
 			if (it2 != TileStatesMap.end()) {
 				itemType->floorChange |= it2->second;
-			}
-			else {
+			} else {
 				std::cout << "[Warning - Items::parseItemLua] Unknown floorChange: " << tmpStrValue << std::endl;
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12967,13 +12925,11 @@ int LuaScriptInterface::luaItemTypeLevelDoor(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->levelDoor);
-		}
-		else {
+		} else {
 			itemType->levelDoor = getNumber<uint32_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -12986,13 +12942,11 @@ int LuaScriptInterface::luaItemTypeVocationString(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushString(L, itemType->vocationString);
-		}
-		else {
+		} else {
 			itemType->vocationString = getString(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13005,13 +12959,11 @@ int LuaScriptInterface::luaItemTypeMinReqLevel(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushinteger(L, itemType->minReqLevel);
-		}
-		else {
+		} else {
 			itemType->minReqLevel = getNumber<uint32_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13024,13 +12976,11 @@ int LuaScriptInterface::luaItemTypeMinReqMagicLevel(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushinteger(L, itemType->minReqMagicLevel);
-		}
-		else {
+		} else {
 			itemType->minReqMagicLevel = getNumber<uint32_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13085,20 +13035,17 @@ int LuaScriptInterface::luaItemTypeEffect(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->magicEffect);
-		}
-		else {
+		} else {
 			const std::string& effectName = getString(L, 2);
 			MagicEffectClasses effect = getMagicEffect(boost::algorithm::to_lower_copy(effectName));
 			if (effect != CONST_ME_NONE) {
 				itemType->magicEffect = effect;
-			}
-			else {
+			} else {
 				std::cout << "[Warning - Items::parseItemLua] Unknown effect: " << effectName << std::endl;
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13111,13 +13058,11 @@ int LuaScriptInterface::luaItemTypeContainerSize(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->maxItems);
-		}
-		else {
+		} else {
 			itemType->maxItems = getNumber<uint16_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13130,13 +13075,11 @@ int LuaScriptInterface::luaItemTypeRotateTo(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->rotateTo);
-		}
-		else {
+		} else {
 			itemType->rotateTo = getNumber<int32_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13149,13 +13092,11 @@ int LuaScriptInterface::luaItemTypePartnerDirection(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->bedPartnerDir);
-		}
-		else {
+		} else {
 			itemType->bedPartnerDir = getDirection(getString(L, 2));
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13168,8 +13109,7 @@ int LuaScriptInterface::luaItemTypeFemaleSleeper(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->transformToOnUse[PLAYERSEX_FEMALE]);
-		}
-		else {
+		} else {
 			uint16_t value = getNumber<uint16_t>(L, 2);
 			itemType->transformToOnUse[PLAYERSEX_FEMALE] = value;
 
@@ -13183,8 +13123,7 @@ int LuaScriptInterface::luaItemTypeFemaleSleeper(lua_State* L)
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13197,8 +13136,7 @@ int LuaScriptInterface::luaItemTypeMaleSleeper(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->transformToOnUse[PLAYERSEX_FEMALE]);
-		}
-		else {
+		} else {
 			uint16_t value = getNumber<uint16_t>(L, 2);
 			itemType->transformToOnUse[PLAYERSEX_MALE] = value;
 
@@ -13212,8 +13150,7 @@ int LuaScriptInterface::luaItemTypeMaleSleeper(lua_State* L)
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13226,13 +13163,11 @@ int LuaScriptInterface::luaItemTypeMaxTextLen(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->maxTextLen);
-		}
-		else {
+		} else {
 			itemType->maxTextLen = getNumber<uint16_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13245,13 +13180,11 @@ int LuaScriptInterface::luaItemTypeWriteOnceItemId(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->writeOnceItemId);
-		}
-		else {
+		} else {
 			itemType->writeOnceItemId = getNumber<uint16_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13264,13 +13197,11 @@ int LuaScriptInterface::luaItemTypeRuneSpellName(lua_State* L)
 	if (itemType && itemType->isRune()) {
 		if (lua_gettop(L) == 1) {
 			pushString(L, itemType->runeSpellName);
-		}
-		else {
+		} else {
 			itemType->runeSpellName = getString(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13300,13 +13231,11 @@ int LuaScriptInterface::luaItemTypeWalkStack(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->walkStack);
-		}
-		else {
+		} else {
 			itemType->walkStack = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13320,15 +13249,13 @@ int LuaScriptInterface::luaItemTypeField(lua_State* L)
 		if (lua_gettop(L) == 1) {
 			FieldBlock fieldBlock;
 			pushFieldBlock(L, fieldBlock);
-		}
-		else {
+		} else {
 			FieldBlock fieldBlock;
 			bool onlyName = false;
 			if (isString(L, 2)) {
 				fieldBlock.name = getString(L, 2);
 				onlyName = true;
-			}
-			else {
+			} else {
 				getFieldBlock(L, 2, fieldBlock);
 			}
 
@@ -13342,25 +13269,21 @@ int LuaScriptInterface::luaItemTypeField(lua_State* L)
 			if (tmpStrValue == "fire") {
 				conditionDamage = new ConditionDamage(CONDITIONID_COMBAT, CONDITION_FIRE);
 				combatType = COMBAT_FIREDAMAGE;
-			}
-			else if (tmpStrValue == "energy") {
+			} else if (tmpStrValue == "energy") {
 				conditionDamage = new ConditionDamage(CONDITIONID_COMBAT, CONDITION_ENERGY);
 				combatType = COMBAT_ENERGYDAMAGE;
-			}
-			else if (tmpStrValue == "poison") {
+			} else if (tmpStrValue == "poison") {
 				conditionDamage = new ConditionDamage(CONDITIONID_COMBAT, CONDITION_POISON);
 				combatType = COMBAT_EARTHDAMAGE;
-			}
-			else if (tmpStrValue == "drown") {
+			} else if (tmpStrValue == "drown") {
 				conditionDamage = new ConditionDamage(CONDITIONID_COMBAT, CONDITION_DROWN);
 				combatType = COMBAT_DROWNDAMAGE;
-			}
-			else if (tmpStrValue == "physical") {
+			} else if (tmpStrValue == "physical") {
 				conditionDamage = new ConditionDamage(CONDITIONID_COMBAT, CONDITION_BLEEDING);
 				combatType = COMBAT_PHYSICALDAMAGE;
-			}
-			else {
-				std::cout << "[Warning - Items::parseItemLua] Unknown field value: " << tmpStrValue << " itemId: " << itemType->id << std::endl;
+			} else {
+				std::cout << "[Warning - Items::parseItemLua] Unknown field value: " << tmpStrValue
+				          << " itemId: " << itemType->id << std::endl;
 			}
 
 			if (combatType != COMBAT_NONE) {
@@ -13375,8 +13298,7 @@ int LuaScriptInterface::luaItemTypeField(lua_State* L)
 							conditionDamage->addDamage(1, fieldBlock.ticks, -damageValue);
 						}
 						fieldBlock.start = 0;
-					}
-					else {
+					} else {
 						conditionDamage->addDamage(fieldBlock.count, fieldBlock.ticks, fieldBlock.damage);
 					}
 				}
@@ -13386,8 +13308,7 @@ int LuaScriptInterface::luaItemTypeField(lua_State* L)
 				// initDamage = -1 (undefined, override initDamage with damage)
 				if (fieldBlock.initDamage > 0 || fieldBlock.initDamage < -1) {
 					conditionDamage->setInitDamage(-fieldBlock.initDamage);
-				}
-				else if (fieldBlock.initDamage == -1 && fieldBlock.damage != 0) {
+				} else if (fieldBlock.initDamage == -1 && fieldBlock.damage != 0) {
 					conditionDamage->setInitDamage(fieldBlock.damage);
 				}
 
@@ -13399,8 +13320,7 @@ int LuaScriptInterface::luaItemTypeField(lua_State* L)
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13413,14 +13333,12 @@ int LuaScriptInterface::luaItemTypeBlocking(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->blockProjectile || itemType->blockSolid);
-		}
-		else {
+		} else {
 			itemType->hasEdited["blockSolid"] = true;
 			itemType->blockSolid = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13433,14 +13351,12 @@ int LuaScriptInterface::luaItemTypeAllowDistRead(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->allowDistRead);
-		}
-		else {
+		} else {
 			itemType->hasEdited["allowDistRead"] = true;
 			itemType->allowDistRead = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13452,8 +13368,7 @@ int LuaScriptInterface::luaItemTypeWieldInfo(lua_State* L)
 	const ItemType* itemType = getUserdata<const ItemType>(L, 1);
 	if (itemType) {
 		lua_pushinteger(L, itemType->wieldInfo);
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13466,14 +13381,12 @@ int LuaScriptInterface::luaItemTypeRotatable(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->rotatable);
-		}
-		else {
+		} else {
 			itemType->hasEdited["rotatable"] = true;
 			itemType->rotatable = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13486,14 +13399,12 @@ int LuaScriptInterface::luaItemTypeBlockProjectile(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->blockProjectile);
-		}
-		else {
+		} else {
 			itemType->hasEdited["blockProjectile"] = true;
 			itemType->blockProjectile = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13506,18 +13417,15 @@ int LuaScriptInterface::luaItemTypeGroundTile(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->isGroundTile());
-		}
-		else {
+		} else {
 			if (getBoolean(L, 2)) {
 				itemType->group = ITEM_GROUP_GROUND;
-			}
-			else {
+			} else {
 				itemType->group = ITEM_GROUP_NONE;
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13530,18 +13438,15 @@ int LuaScriptInterface::luaItemTypeMagicField(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->isMagicField());
-		}
-		else {
+		} else {
 			if (getBoolean(L, 2)) {
 				itemType->type = ITEM_TYPE_MAGICFIELD;
-			}
-			else {
+			} else {
 				itemType->type = ITEM_TYPE_NONE;
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13554,14 +13459,12 @@ int LuaScriptInterface::luaItemTypeUseable(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->isUseable());
-		}
-		else {
+		} else {
 			itemType->hasEdited["useable"] = true;
 			itemType->useable = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13574,14 +13477,12 @@ int LuaScriptInterface::luaItemTypePickupable(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->isPickupable());
-		}
-		else {
+		} else {
 			itemType->hasEdited["pickupable"] = true;
 			itemType->pickupable = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13594,13 +13495,11 @@ int LuaScriptInterface::luaItemTypeAllowPickupable(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->allowPickupable);
-		}
-		else {
+		} else {
 			itemType->allowPickupable = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13613,8 +13512,7 @@ int LuaScriptInterface::luaItemTypeType(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->type);
-		}
-		else {
+		} else {
 			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			auto it2 = ItemTypesMap.find(tmpStrValue);
 			if (it2 != ItemTypesMap.end()) {
@@ -13622,13 +13520,11 @@ int LuaScriptInterface::luaItemTypeType(lua_State* L)
 				if (itemType->type == ITEM_TYPE_CONTAINER) {
 					itemType->group = ITEM_GROUP_CONTAINER;
 				}
-			}
-			else {
+			} else {
 				std::cout << "[Warning - Items::parseItemLua] Unknown type: " << tmpStrValue << std::endl;
 			}
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13640,8 +13536,7 @@ int LuaScriptInterface::luaItemTypeGroup(lua_State* L)
 	const ItemType* itemType = getUserdata<const ItemType>(L, 1);
 	if (itemType) {
 		lua_pushnumber(L, itemType->group);
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13654,13 +13549,11 @@ int LuaScriptInterface::luaItemTypeId(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->id);
-		}
-		else {
+		} else {
 			itemType->id = getNumber<uint16_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13673,13 +13566,11 @@ int LuaScriptInterface::luaItemTypeClientId(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->clientId);
-		}
-		else {
+		} else {
 			itemType->clientId = getNumber<uint16_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13692,13 +13583,11 @@ int LuaScriptInterface::luaItemTypeName(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushString(L, itemType->name);
-		}
-		else {
+		} else {
 			itemType->name = getString(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13711,13 +13600,11 @@ int LuaScriptInterface::luaItemTypePluralName(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushString(L, itemType->getPluralName());
-		}
-		else {
+		} else {
 			itemType->pluralName = getString(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13730,13 +13617,11 @@ int LuaScriptInterface::luaItemTypeArticle(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushString(L, itemType->article);
-		}
-		else {
+		} else {
 			itemType->article = getString(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13749,13 +13634,11 @@ int LuaScriptInterface::luaItemTypeDescription(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushString(L, itemType->description);
-		}
-		else {
+		} else {
 			itemType->description = getString(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13768,58 +13651,42 @@ int LuaScriptInterface::luaItemTypeSlotPosition(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->slotPosition);
-		}
-		else {
+		} else {
 			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			if (tmpStrValue == "head") {
 				itemType->slotPosition |= SLOTP_HEAD;
-			}
-			else if (tmpStrValue == "body") {
+			} else if (tmpStrValue == "body") {
 				itemType->slotPosition |= SLOTP_ARMOR;
-			}
-			else if (tmpStrValue == "legs") {
+			} else if (tmpStrValue == "legs") {
 				itemType->slotPosition |= SLOTP_LEGS;
-			}
-			else if (tmpStrValue == "feet") {
+			} else if (tmpStrValue == "feet") {
 				itemType->slotPosition |= SLOTP_FEET;
-			}
-			else if (tmpStrValue == "backpack") {
+			} else if (tmpStrValue == "backpack") {
 				itemType->slotPosition |= SLOTP_BACKPACK;
-			}
-			else if (tmpStrValue == "two-handed") {
+			} else if (tmpStrValue == "two-handed") {
 				itemType->slotPosition |= SLOTP_TWO_HAND;
-			}
-			else if (tmpStrValue == "right-hand") {
+			} else if (tmpStrValue == "right-hand") {
 				itemType->slotPosition &= ~SLOTP_LEFT;
-			}
-			else if (tmpStrValue == "left-hand") {
+			} else if (tmpStrValue == "left-hand") {
 				itemType->slotPosition &= ~SLOTP_RIGHT;
-			}
-			else if (tmpStrValue == "necklace") {
+			} else if (tmpStrValue == "necklace") {
 				itemType->slotPosition |= SLOTP_NECKLACE;
-			}
-			else if (tmpStrValue == "ring") {
+			} else if (tmpStrValue == "ring") {
 				itemType->slotPosition |= SLOTP_RING;
-			}
-			else if (tmpStrValue == "ammo") {
+			} else if (tmpStrValue == "ammo") {
 				itemType->slotPosition |= SLOTP_AMMO;
-			}
-			else if (tmpStrValue == "hand") {
+			} else if (tmpStrValue == "hand") {
 				itemType->slotPosition |= SLOTP_HAND;
-			}
-			else {
+			} else {
 				std::cout << "[Warning - Items::parseItemLua] Unknown slotType: " << tmpStrValue << std::endl;
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
 }
-
-
 
 int LuaScriptInterface::luaItemTypeCharges(lua_State* L)
 {
@@ -13828,13 +13695,11 @@ int LuaScriptInterface::luaItemTypeCharges(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->charges);
-		}
-		else {
+		} else {
 			itemType->charges = getNumber<uint32_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13847,20 +13712,17 @@ int LuaScriptInterface::luaItemTypeFluidSource(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->fluidSource);
-		}
-		else {
+		} else {
 			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			auto it2 = FluidTypesMap.find(tmpStrValue);
 			if (it2 != FluidTypesMap.end()) {
 				itemType->fluidSource = it2->second;
-			}
-			else {
+			} else {
 				std::cout << "[Warning - Items::parseItemLua] Unknown fluidSource: " << tmpStrValue << std::endl;
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13873,13 +13735,11 @@ int LuaScriptInterface::luaItemTypeCapacity(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->maxItems);
-		}
-		else {
+		} else {
 			itemType->maxItems = getNumber<uint16_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13897,8 +13757,7 @@ int LuaScriptInterface::luaItemTypeWeight(lua_State* L)
 	if (lua_gettop(L) <= 2) {
 		uint64_t weight = static_cast<uint64_t>(itemType->weight) * std::max<int32_t>(1, getNumber<uint16_t>(L, 2, 1));
 		lua_pushnumber(L, weight);
-	}
-	else {
+	} else {
 		itemType->weight = getNumber<uint32_t>(L, 2);
 		pushBoolean(L, true);
 	}
@@ -13913,13 +13772,11 @@ int LuaScriptInterface::luaItemTypeHitChance(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->hitChance);
-		}
-		else {
+		} else {
 			itemType->hitChance = std::min<int8_t>(100, std::max<int8_t>(-100, getNumber<uint32_t>(L, 2)));
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13932,13 +13789,11 @@ int LuaScriptInterface::luaItemTypeMaxHitChance(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->maxHitChance);
-		}
-		else {
+		} else {
 			itemType->maxHitChance = std::min<uint32_t>(100, getNumber<uint32_t>(L, 2));
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13951,13 +13806,11 @@ int LuaScriptInterface::luaItemTypeShootRange(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->shootRange);
-		}
-		else {
+		} else {
 			itemType->shootRange = getNumber<uint16_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13970,20 +13823,17 @@ int LuaScriptInterface::luaItemTypeShootType(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->shootType);
-		}
-		else {
+		} else {
 			const std::string& shootName = getString(L, 2);
 			ShootType_t shoot = getShootType(boost::algorithm::to_lower_copy(shootName));
 			if (shoot != CONST_ANI_NONE) {
 				itemType->shootType = shoot;
-			}
-			else {
+			} else {
 				std::cout << "[Warning - Items::parseItemLua] Unknown shootType: " << shootName << std::endl;
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -13996,13 +13846,11 @@ int LuaScriptInterface::luaItemTypeAttack(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->attack);
-		}
-		else {
+		} else {
 			itemType->attack = getNumber<int32_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14032,13 +13880,11 @@ int LuaScriptInterface::luaItemTypeDefense(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->defense);
-		}
-		else {
+		} else {
 			itemType->defense = getNumber<int32_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14051,13 +13897,11 @@ int LuaScriptInterface::luaItemTypeExtraDefense(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->extraDefense);
-		}
-		else {
+		} else {
 			itemType->extraDefense = getNumber<int32_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14070,13 +13914,11 @@ int LuaScriptInterface::luaItemTypeArmor(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->armor);
-		}
-		else {
+		} else {
 			itemType->armor = getNumber<int32_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14089,20 +13931,17 @@ int LuaScriptInterface::luaItemTypeWeaponType(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->weaponType);
-		}
-		else {
+		} else {
 			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			auto it2 = WeaponTypesMap.find(tmpStrValue);
 			if (it2 != WeaponTypesMap.end()) {
 				itemType->weaponType = it2->second;
-			}
-			else {
+			} else {
 				std::cout << "[Warning - Items::parseItemLua] Unknown weaponType: " << tmpStrValue << std::endl;
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14115,8 +13954,7 @@ int LuaScriptInterface::luaItemTypeAmmoType(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->ammoType);
-		}
-		else {
+		} else {
 			const std::string& ammoName = getString(L, 2);
 			itemType->ammoType = getAmmoType(boost::algorithm::to_lower_copy(ammoName));
 			if (itemType->ammoType == AMMO_NONE) {
@@ -14124,8 +13962,7 @@ int LuaScriptInterface::luaItemTypeAmmoType(lua_State* L)
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14138,20 +13975,17 @@ int LuaScriptInterface::luaItemTypeCorpseType(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->corpseType);
-		}
-		else {
+		} else {
 			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			auto it2 = RaceTypesMap.find(tmpStrValue);
 			if (it2 != RaceTypesMap.end()) {
 				itemType->corpseType = it2->second;
-			}
-			else {
+			} else {
 				std::cout << "[Warning - Items::parseItemLua] Unknown corpseType: " << tmpStrValue << std::endl;
 			}
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14187,12 +14021,10 @@ int LuaScriptInterface::luaItemTypeElementType(lua_State* L)
 		auto& abilities = itemType->abilities;
 		if (abilities) {
 			lua_pushnumber(L, abilities->elementType);
-		}
-		else {
+		} else {
 			lua_pushnil(L);
 		}
-	}
-	else {
+	} else {
 		Abilities& abilities = itemType->getAbilities();
 		abilities.elementDamage = getNumber<uint16_t>(L, 2);
 		abilities.elementType = getNumber<CombatType_t>(L, 3, COMBAT_NONE);
@@ -14215,12 +14047,10 @@ int LuaScriptInterface::luaItemTypeElementDamage(lua_State* L)
 		auto& abilities = itemType->abilities;
 		if (abilities) {
 			lua_pushnumber(L, abilities->elementDamage);
-		}
-		else {
+		} else {
 			lua_pushnil(L);
 		}
-	}
-	else {
+	} else {
 		Abilities& abilities = itemType->getAbilities();
 		abilities.elementDamage = getNumber<uint16_t>(L, 2);
 		pushBoolean(L, true);
@@ -14236,13 +14066,11 @@ int LuaScriptInterface::luaItemTypeTransformEquipId(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->transformEquipTo);
-		}
-		else {
+		} else {
 			itemType->transformEquipTo = getNumber<uint16_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14255,13 +14083,11 @@ int LuaScriptInterface::luaItemTypeTransformDeEquipId(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->transformDeEquipTo);
-		}
-		else {
+		} else {
 			itemType->transformDeEquipTo = getNumber<uint16_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14274,13 +14100,11 @@ int LuaScriptInterface::luaItemTypeDestroyId(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->destroyTo);
-		}
-		else {
+		} else {
 			itemType->destroyTo = getNumber<uint16_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14293,13 +14117,11 @@ int LuaScriptInterface::luaItemTypeDecayId(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->decayTo);
-		}
-		else {
+		} else {
 			itemType->decayTo = getNumber<int32_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14312,13 +14134,11 @@ int LuaScriptInterface::luaItemTypeRequiredLevel(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->minReqLevel);
-		}
-		else {
+		} else {
 			itemType->minReqLevel = getNumber<uint32_t>(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14330,8 +14150,7 @@ int LuaScriptInterface::luaItemTypeSubType(lua_State* L)
 	const ItemType* itemType = getUserdata<const ItemType>(L, 1);
 	if (itemType) {
 		pushBoolean(L, itemType->hasSubType());
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14442,8 +14261,7 @@ int LuaScriptInterface::luaItemTypeAbilities(lua_State* L)
 			}
 			lua_setfield(L, -2, "reflectPercent");
 			return 1;
-		}
-		else {
+		} else {
 			const std::string& abilitieName = boost::algorithm::to_lower_copy(getString(L, 2));
 			bool foundAbilitie = true;
 			if (abilitieName == "healthgain") {
@@ -14540,7 +14358,8 @@ int LuaScriptInterface::luaItemTypeAbilities(lua_State* L)
 			// FieldAbsorbPercents
 			auto fieldAbsorbPercentVal = AbilitieFieldAbsorbPercentMap.find(abilitieName);
 			if (fieldAbsorbPercentVal != AbilitieFieldAbsorbPercentMap.end()) {
-				abilities.fieldAbsorbPercent[combatTypeToIndex(fieldAbsorbPercentVal->second)] += getNumber<int16_t>(L, 3);
+				abilities.fieldAbsorbPercent[combatTypeToIndex(fieldAbsorbPercentVal->second)] +=
+				    getNumber<int16_t>(L, 3);
 				pushBoolean(L, true);
 				return 1;
 			} else if (abilitieName == "fieldabsorbpercentall") {
@@ -14587,13 +14406,11 @@ int LuaScriptInterface::luaItemTypeStoreItem(lua_State* L)
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, itemType->storeItem);
-		}
-		else {
+		} else {
 			itemType->storeItem = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
@@ -14614,12 +14431,10 @@ int LuaScriptInterface::luaItemTypeRegister(lua_State* L)
 				Item::items.parseItemLua(itemType);
 			}
 			pushBoolean(L, true);
-		}
-		else {
+		} else {
 			pushBoolean(L, false);
 		}
-	}
-	else {
+	} else {
 		lua_pushnil(L);
 	}
 	return 1;
