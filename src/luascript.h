@@ -75,6 +75,8 @@ struct LootBlock;
 struct FieldBlock;
 
 namespace Lua {
+#define reportErrorFunc(L, a) LuaScriptInterface::reportError(__FUNCTION__, a, L, true)
+
 static bool isNumber(lua_State* L, int32_t arg) { return lua_type(L, arg) == LUA_TNUMBER; };
 static bool isString(lua_State* L, int32_t arg) { return lua_isstring(L, arg) != 0; };
 static bool isBoolean(lua_State* L, int32_t arg) { return lua_isboolean(L, arg); };
@@ -228,8 +230,6 @@ static void pushSharedPtr(lua_State* L, T value)
 {
 	new (lua_newuserdata(L, sizeof(T))) T(std::move(value));
 }
-
-void reportErrorFunc(lua_State* L, std::string a);
 
 }; // namespace Lua
 
