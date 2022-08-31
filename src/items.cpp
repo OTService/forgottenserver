@@ -8,9 +8,11 @@
 #include "movement.h"
 #include "pugicast.h"
 #include "weapons.h"
+#include "script.h"
 
 extern MoveEvents* g_moveEvents;
 extern Weapons* g_weapons;
+extern Scripts* g_scripts;
 
 const std::unordered_map<std::string, ItemParseAttributes_t> ItemParseAttributesMap = {
     {"type", ITEM_PARSE_TYPE},
@@ -274,6 +276,8 @@ bool Items::reload()
 		return false;
 	}
 
+	g_scripts->loadScripts("items", false, true);
+	buildInventoryList();
 	g_moveEvents->reload();
 	g_weapons->reload();
 	g_weapons->loadDefaults();
@@ -564,6 +568,21 @@ bool Items::loadFromXml()
 	}
 
 	return true;
+}
+
+void Items::buildInventoryList()
+{
+	inventory.reserve(items.size());
+	for (const auto& type : items) {
+		if (type.weaponType != WEAPON_NONE || type.ammoType != AMMO_NONE || type.attack != 0 || type.defense != 0 ||
+		    type.extraDefense != 0 || type.armor != 0 || type.slotPosition & SLOTP_NECKLACE ||
+		    type.slotPosition & SLOTP_RING || type.slotPosition & SLOTP_AMMO || type.slotPosition & SLOTP_FEET ||
+		    type.slotPosition & SLOTP_HEAD || type.slotPosition & SLOTP_ARMOR || type.slotPosition & SLOTP_LEGS) {
+			inventory.push_back(type.clientId);
+		}
+	}
+	inventory.shrink_to_fit();
+	std::sort(inventory.begin(), inventory.end());
 }
 
 void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
@@ -1820,6 +1839,17 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 	    it.type != ITEM_TYPE_BED) {
 		std::cout << "[Warning - Items::parseItemNode] Item " << it.id << " is not set as a bed-type" << std::endl;
 	}
+}
+
+ItemType& Items::parseItemLua(uint16_t id)
+{
+	if (id > 0 && id < 100) {
+		ItemType& iType = items[id];
+		iType.id = id;
+	}
+
+	return getItemType(id);
+	;
 }
 
 ItemType& Items::getItemType(size_t id)
