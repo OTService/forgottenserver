@@ -3,8 +3,6 @@
 
 #include "otpch.h"
 
-#include "luatile.h"
-
 #include "combat.h"
 #include "game.h"
 #include "housetile.h"
@@ -707,7 +705,8 @@ static int luaTileGetHouse(lua_State* L)
 	return 1;
 }
 
-void LuaTile::registerFunctions(LuaScriptInterface* interface)
+namespace LuaTile {
+static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("Tile", "", luaTileCreate);
 	interface->registerMetaMethod("Tile", "__eq", interface->luaUserdataCompare);
@@ -753,3 +752,4 @@ void LuaTile::registerFunctions(LuaScriptInterface* interface)
 
 	interface->registerMethod("Tile", "getHouse", luaTileGetHouse);
 }
+} // namespace LuaTile

@@ -3,8 +3,6 @@
 
 #include "otpch.h"
 
-#include "luaitem.h"
-
 #include "game.h"
 #include "item.h"
 #include "luascript.h"
@@ -799,7 +797,8 @@ static int luaItemGetBoostPercent(lua_State* L)
 	return 1;
 }
 
-void LuaItem::registerFunctions(LuaScriptInterface* interface)
+namespace LuaItem {
+static void registerFunctions(LuaScriptInterface* interface)
 {
 	// Item
 	interface->registerClass("Item", "", luaItemCreate);
@@ -861,3 +860,4 @@ void LuaItem::registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("Item", "setBoostPercent", luaItemSetBoostPercent);
 	interface->registerMethod("Item", "getBoostPercent", luaItemGetBoostPercent);
 }
+} // namespace LuaItem

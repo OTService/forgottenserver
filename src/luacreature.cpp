@@ -3,8 +3,6 @@
 
 #include "otpch.h"
 
-#include "luacreature.h"
-
 #include "condition.h"
 #include "creature.h"
 #include "creatureevent.h"
@@ -1015,7 +1013,8 @@ static int luaCreatureGetZone(lua_State* L)
 	return 1;
 }
 
-void LuaCreature::registerFunctions(LuaScriptInterface* interface)
+namespace LuaCreature {
+static void registerFunctions(LuaScriptInterface* interface)
 {
 	// Creature
 	interface->registerClass("Creature", "", luaCreatureCreate);
@@ -1100,3 +1099,4 @@ void LuaCreature::registerFunctions(LuaScriptInterface* interface)
 
 	interface->registerMethod("Creature", "getZone", luaCreatureGetZone);
 }
+} // namespace LuaCreature

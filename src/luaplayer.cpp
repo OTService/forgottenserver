@@ -3,8 +3,6 @@
 
 #include "otpch.h"
 
-#include "luaplayer.h"
-
 #include "chat.h"
 #include "creature.h"
 #include "depotchest.h"
@@ -2234,7 +2232,8 @@ static int luaPlayerGetIdleTime(lua_State* L)
 	return 1;
 }
 
-void LuaPlayer::registerFunctions(LuaScriptInterface* interface)
+namespace LuaPlayer {
+static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("Player", "Creature", luaPlayerCreate);
 	interface->registerMetaMethod("Player", "__eq", interface->luaUserdataCompare);
@@ -2415,3 +2414,4 @@ void LuaPlayer::registerFunctions(LuaScriptInterface* interface)
 
 	interface->registerMethod("Player", "getIdleTime", luaPlayerGetIdleTime);
 }
+} // namespace LuaPlayer

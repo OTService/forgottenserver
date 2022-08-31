@@ -3,8 +3,6 @@
 
 #include "otpch.h"
 
-#include "luamodalwindow.h"
-
 #include "luascript.h"
 #include "player.h"
 
@@ -246,7 +244,8 @@ static int luaModalWindowSendToPlayer(lua_State* L)
 	return 1;
 }
 
-void LuaModalWindow::registerFunctions(LuaScriptInterface* interface)
+namespace LuaModalWindow {
+static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("ModalWindow", "", luaModalWindowCreate);
 	interface->registerMetaMethod("ModalWindow", "__eq", interface->luaUserdataCompare);
@@ -277,3 +276,4 @@ void LuaModalWindow::registerFunctions(LuaScriptInterface* interface)
 
 	interface->registerMethod("ModalWindow", "sendToPlayer", luaModalWindowSendToPlayer);
 }
+} // namespace LuaModalWindow

@@ -3,8 +3,6 @@
 
 #include "otpch.h"
 
-#include "luamonster.h"
-
 #include "game.h"
 #include "luascript.h"
 #include "monster.h"
@@ -388,7 +386,8 @@ static int luaMonsterWalkToSpawn(lua_State* L)
 	return 1;
 }
 
-void LuaMonster::registerFunctions(LuaScriptInterface* interface)
+namespace LuaMonster {
+static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("Monster", "Creature", luaMonsterCreate);
 	interface->registerMetaMethod("Monster", "__eq", interface->luaUserdataCompare);
@@ -425,3 +424,4 @@ void LuaMonster::registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("Monster", "isWalkingToSpawn", luaMonsterIsWalkingToSpawn);
 	interface->registerMethod("Monster", "walkToSpawn", luaMonsterWalkToSpawn);
 }
+} // namespace LuaMonster

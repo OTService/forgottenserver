@@ -1,6 +1,7 @@
-#include "otpch.h"
+// Copyright 2022 The Forgotten Server Authors. All rights reserved.
+// Use of this source code is governed by the GPL-2.0 License that can be found in the LICENSE file.
 
-#include "luagame.h"
+#include "otpch.h"
 
 #include "configmanager.h"
 #include "creature.h"
@@ -638,7 +639,8 @@ static int luaGameSaveAccountStorageValues(lua_State* L)
 	return 1;
 }
 
-void LuaGame::registerFunctions(LuaScriptInterface* interface)
+namespace LuaGame {
+static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerTable("Game");
 
@@ -690,3 +692,4 @@ void LuaGame::registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("Game", "setAccountStorageValue", luaGameSetAccountStorageValue);
 	interface->registerMethod("Game", "saveAccountStorageValues", luaGameSaveAccountStorageValues);
 }
+} // namespace LuaGame

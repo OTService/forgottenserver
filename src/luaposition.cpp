@@ -3,8 +3,6 @@
 
 #include "otpch.h"
 
-#include "luaposition.h"
-
 #include "game.h"
 #include "luascript.h"
 #include "spectators.h"
@@ -154,7 +152,8 @@ static int luaPositionSendDistanceEffect(lua_State* L)
 	return 1;
 }
 
-void LuaPosition::registerFunctions(LuaScriptInterface* interface)
+namespace LuaPosition {
+static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("Position", "", luaPositionCreate);
 	interface->registerMetaMethod("Position", "__add", luaPositionAdd);
@@ -167,3 +166,4 @@ void LuaPosition::registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("Position", "sendMagicEffect", luaPositionSendMagicEffect);
 	interface->registerMethod("Position", "sendDistanceEffect", luaPositionSendDistanceEffect);
 }
+} // namespace LuaPosition

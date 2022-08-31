@@ -3,8 +3,6 @@
 
 #include "otpch.h"
 
-#include "luanetworkmessage.h"
-
 #include "item.h"
 #include "luascript.h"
 #include "networkmessage.h"
@@ -329,7 +327,8 @@ static int luaNetworkMessageSendToPlayer(lua_State* L)
 	return 1;
 }
 
-void LuaNetworkMessage::registerFunctions(LuaScriptInterface* interface)
+namespace LuaNetworkMessage {
+static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("NetworkMessage", "", luaNetworkMessageCreate);
 	interface->registerMetaMethod("NetworkMessage", "__eq", interface->luaUserdataCompare);
@@ -360,3 +359,4 @@ void LuaNetworkMessage::registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("NetworkMessage", "skipBytes", luaNetworkMessageSkipBytes);
 	interface->registerMethod("NetworkMessage", "sendToPlayer", luaNetworkMessageSendToPlayer);
 }
+} // namespace LuaNetworkMessage

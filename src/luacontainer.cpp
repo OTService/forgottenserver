@@ -3,8 +3,6 @@
 
 #include "otpch.h"
 
-#include "luacontainer.h"
-
 #include "container.h"
 #include "game.h"
 #include "luascript.h"
@@ -257,7 +255,8 @@ static int luaContainerGetItems(lua_State* L)
 	return 1;
 }
 
-void LuaContainer::registerFunctions(LuaScriptInterface* interface)
+namespace LuaContainer {
+static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("Container", "Item", luaContainerCreate);
 	interface->registerMetaMethod("Container", "__eq", interface->luaUserdataCompare);
@@ -275,3 +274,4 @@ void LuaContainer::registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("Container", "addItemEx", luaContainerAddItemEx);
 	interface->registerMethod("Container", "getCorpseOwner", luaContainerGetCorpseOwner);
 }
+} // namespace LuaContainer
