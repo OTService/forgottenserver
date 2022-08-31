@@ -3,11 +3,14 @@
 
 #include "otpch.h"
 
+#include "luacontainer.h"
+
 #include "container.h"
 #include "game.h"
 #include "luascript.h"
 
 extern Game g_game;
+extern LuaScriptInterface* g_interface;
 
 using namespace Lua;
 
@@ -255,21 +258,21 @@ static int luaContainerGetItems(lua_State* L)
 	return 1;
 }
 
-void LuaScriptInterface::registerContainerFunctions()
+void LuaContainer::registerFunctions(LuaScriptInterface* interface)
 {
-	registerClass("Container", "Item", luaContainerCreate);
-	registerMetaMethod("Container", "__eq", luaUserdataCompare);
+	interface->registerClass("Container", "Item", luaContainerCreate);
+	interface->registerMetaMethod("Container", "__eq", interface->luaUserdataCompare);
 
-	registerMethod("Container", "getSize", luaContainerGetSize);
-	registerMethod("Container", "getCapacity", luaContainerGetCapacity);
-	registerMethod("Container", "getEmptySlots", luaContainerGetEmptySlots);
-	registerMethod("Container", "getItems", luaContainerGetItems);
-	registerMethod("Container", "getItemHoldingCount", luaContainerGetItemHoldingCount);
-	registerMethod("Container", "getItemCountById", luaContainerGetItemCountById);
+	interface->registerMethod("Container", "getSize", luaContainerGetSize);
+	interface->registerMethod("Container", "getCapacity", luaContainerGetCapacity);
+	interface->registerMethod("Container", "getEmptySlots", luaContainerGetEmptySlots);
+	interface->registerMethod("Container", "getItems", luaContainerGetItems);
+	interface->registerMethod("Container", "getItemHoldingCount", luaContainerGetItemHoldingCount);
+	interface->registerMethod("Container", "getItemCountById", luaContainerGetItemCountById);
 
-	registerMethod("Container", "getItem", luaContainerGetItem);
-	registerMethod("Container", "hasItem", luaContainerHasItem);
-	registerMethod("Container", "addItem", luaContainerAddItem);
-	registerMethod("Container", "addItemEx", luaContainerAddItemEx);
-	registerMethod("Container", "getCorpseOwner", luaContainerGetCorpseOwner);
+	interface->registerMethod("Container", "getItem", luaContainerGetItem);
+	interface->registerMethod("Container", "hasItem", luaContainerHasItem);
+	interface->registerMethod("Container", "addItem", luaContainerAddItem);
+	interface->registerMethod("Container", "addItemEx", luaContainerAddItemEx);
+	interface->registerMethod("Container", "getCorpseOwner", luaContainerGetCorpseOwner);
 }

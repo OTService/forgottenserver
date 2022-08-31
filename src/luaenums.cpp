@@ -3,6 +3,8 @@
 
 #include "otpch.h"
 
+#include "luaenums.h"
+
 #include "configmanager.h"
 #include "const.h"
 #include "creature.h"
@@ -25,7 +27,7 @@
 		registerVariable(tableName, enumName.substr(enumName.find_last_of(':') + 1), value); \
 	}
 
-void LuaScriptInterface::registerEnums()
+void LuaEnums::registerEnums()
 {
 	registerEnum(ACCOUNT_TYPE_NORMAL);
 	registerEnum(ACCOUNT_TYPE_TUTOR);

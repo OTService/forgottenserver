@@ -255,7 +255,6 @@ protected:
 	void registerNetworkMessageFunctions();
 	void registerModalWindowFunctions();
 	void registerItemFunctions();
-	void registerContainerFunctions();
 	void registerCreatureFunctions();
 	void registerPlayerFunctions();
 	void registerMonsterFunctions();

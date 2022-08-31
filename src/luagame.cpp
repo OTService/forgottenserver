@@ -1,5 +1,7 @@
 #include "otpch.h"
 
+#include "luagame.h"
+
 #include "configmanager.h"
 #include "creature.h"
 #include "events.h"
@@ -636,55 +638,55 @@ static int luaGameSaveAccountStorageValues(lua_State* L)
 	return 1;
 }
 
-void LuaScriptInterface::registerGameFunctions()
+void LuaGame::registerFunctions(LuaScriptInterface* interface)
 {
-	registerTable("Game");
+	interface->registerTable("Game");
 
-	registerMethod("Game", "getSpectators", luaGameGetSpectators);
-	registerMethod("Game", "getPlayers", luaGameGetPlayers);
-	registerMethod("Game", "getNpcs", luaGameGetNpcs);
-	registerMethod("Game", "getMonsters", luaGameGetMonsters);
-	registerMethod("Game", "loadMap", luaGameLoadMap);
+	interface->registerMethod("Game", "getSpectators", luaGameGetSpectators);
+	interface->registerMethod("Game", "getPlayers", luaGameGetPlayers);
+	interface->registerMethod("Game", "getNpcs", luaGameGetNpcs);
+	interface->registerMethod("Game", "getMonsters", luaGameGetMonsters);
+	interface->registerMethod("Game", "loadMap", luaGameLoadMap);
 
-	registerMethod("Game", "getExperienceStage", luaGameGetExperienceStage);
-	registerMethod("Game", "getExperienceForLevel", luaGameGetExperienceForLevel);
-	registerMethod("Game", "getMonsterCount", luaGameGetMonsterCount);
-	registerMethod("Game", "getPlayerCount", luaGameGetPlayerCount);
-	registerMethod("Game", "getNpcCount", luaGameGetNpcCount);
-	registerMethod("Game", "getMonsterTypes", luaGameGetMonsterTypes);
-	registerMethod("Game", "getCurrencyItems", luaGameGetCurrencyItems);
-	registerMethod("Game", "getItemTypeByClientId", luaGameGetItemTypeByClientId);
-	registerMethod("Game", "getMountIdByLookType", luaGameGetMountIdByLookType);
+	interface->registerMethod("Game", "getExperienceStage", luaGameGetExperienceStage);
+	interface->registerMethod("Game", "getExperienceForLevel", luaGameGetExperienceForLevel);
+	interface->registerMethod("Game", "getMonsterCount", luaGameGetMonsterCount);
+	interface->registerMethod("Game", "getPlayerCount", luaGameGetPlayerCount);
+	interface->registerMethod("Game", "getNpcCount", luaGameGetNpcCount);
+	interface->registerMethod("Game", "getMonsterTypes", luaGameGetMonsterTypes);
+	interface->registerMethod("Game", "getCurrencyItems", luaGameGetCurrencyItems);
+	interface->registerMethod("Game", "getItemTypeByClientId", luaGameGetItemTypeByClientId);
+	interface->registerMethod("Game", "getMountIdByLookType", luaGameGetMountIdByLookType);
 
-	registerMethod("Game", "getTowns", luaGameGetTowns);
-	registerMethod("Game", "getHouses", luaGameGetHouses);
-	registerMethod("Game", "getOutfits", luaGameGetOutfits);
-	registerMethod("Game", "getMounts", luaGameGetMounts);
+	interface->registerMethod("Game", "getTowns", luaGameGetTowns);
+	interface->registerMethod("Game", "getHouses", luaGameGetHouses);
+	interface->registerMethod("Game", "getOutfits", luaGameGetOutfits);
+	interface->registerMethod("Game", "getMounts", luaGameGetMounts);
 
-	registerMethod("Game", "getGameState", luaGameGetGameState);
-	registerMethod("Game", "setGameState", luaGameSetGameState);
+	interface->registerMethod("Game", "getGameState", luaGameGetGameState);
+	interface->registerMethod("Game", "setGameState", luaGameSetGameState);
 
-	registerMethod("Game", "getWorldType", luaGameGetWorldType);
-	registerMethod("Game", "setWorldType", luaGameSetWorldType);
+	interface->registerMethod("Game", "getWorldType", luaGameGetWorldType);
+	interface->registerMethod("Game", "setWorldType", luaGameSetWorldType);
 
-	registerMethod("Game", "getItemAttributeByName", luaGameGetItemAttributeByName);
-	registerMethod("Game", "getReturnMessage", luaGameGetReturnMessage);
+	interface->registerMethod("Game", "getItemAttributeByName", luaGameGetItemAttributeByName);
+	interface->registerMethod("Game", "getReturnMessage", luaGameGetReturnMessage);
 
-	registerMethod("Game", "createItem", luaGameCreateItem);
-	registerMethod("Game", "createContainer", luaGameCreateContainer);
-	registerMethod("Game", "createMonster", luaGameCreateMonster);
-	registerMethod("Game", "createNpc", luaGameCreateNpc);
-	registerMethod("Game", "createTile", luaGameCreateTile);
-	registerMethod("Game", "createMonsterType", luaGameCreateMonsterType);
-	registerMethod("Game", "createItemType", luaGameCreateItemType);
+	interface->registerMethod("Game", "createItem", luaGameCreateItem);
+	interface->registerMethod("Game", "createContainer", luaGameCreateContainer);
+	interface->registerMethod("Game", "createMonster", luaGameCreateMonster);
+	interface->registerMethod("Game", "createNpc", luaGameCreateNpc);
+	interface->registerMethod("Game", "createTile", luaGameCreateTile);
+	interface->registerMethod("Game", "createMonsterType", luaGameCreateMonsterType);
+	interface->registerMethod("Game", "createItemType", luaGameCreateItemType);
 
-	registerMethod("Game", "startRaid", luaGameStartRaid);
+	interface->registerMethod("Game", "startRaid", luaGameStartRaid);
 
-	registerMethod("Game", "getClientVersion", luaGameGetClientVersion);
+	interface->registerMethod("Game", "getClientVersion", luaGameGetClientVersion);
 
-	registerMethod("Game", "reload", luaGameReload);
+	interface->registerMethod("Game", "reload", luaGameReload);
 
-	registerMethod("Game", "getAccountStorageValue", luaGameGetAccountStorageValue);
-	registerMethod("Game", "setAccountStorageValue", luaGameSetAccountStorageValue);
-	registerMethod("Game", "saveAccountStorageValues", luaGameSaveAccountStorageValues);
+	interface->registerMethod("Game", "getAccountStorageValue", luaGameGetAccountStorageValue);
+	interface->registerMethod("Game", "setAccountStorageValue", luaGameSetAccountStorageValue);
+	interface->registerMethod("Game", "saveAccountStorageValues", luaGameSaveAccountStorageValues);
 }

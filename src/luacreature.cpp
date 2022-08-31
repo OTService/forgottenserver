@@ -3,6 +3,8 @@
 
 #include "otpch.h"
 
+#include "luacreature.h"
+
 #include "condition.h"
 #include "creature.h"
 #include "creatureevent.h"
@@ -1013,88 +1015,88 @@ static int luaCreatureGetZone(lua_State* L)
 	return 1;
 }
 
-void LuaScriptInterface::registerCreatureFunctions()
+void LuaCreature::registerFunctions(LuaScriptInterface* interface)
 {
 	// Creature
-	registerClass("Creature", "", luaCreatureCreate);
-	registerMetaMethod("Creature", "__eq", luaUserdataCompare);
+	interface->registerClass("Creature", "", luaCreatureCreate);
+	interface->registerMetaMethod("Creature", "__eq", interface->luaUserdataCompare);
 
-	registerMethod("Creature", "getEvents", luaCreatureGetEvents);
-	registerMethod("Creature", "registerEvent", luaCreatureRegisterEvent);
-	registerMethod("Creature", "unregisterEvent", luaCreatureUnregisterEvent);
+	interface->registerMethod("Creature", "getEvents", luaCreatureGetEvents);
+	interface->registerMethod("Creature", "registerEvent", luaCreatureRegisterEvent);
+	interface->registerMethod("Creature", "unregisterEvent", luaCreatureUnregisterEvent);
 
-	registerMethod("Creature", "isRemoved", luaCreatureIsRemoved);
-	registerMethod("Creature", "isCreature", luaCreatureIsCreature);
-	registerMethod("Creature", "isInGhostMode", luaCreatureIsInGhostMode);
-	registerMethod("Creature", "isHealthHidden", luaCreatureIsHealthHidden);
-	registerMethod("Creature", "isMovementBlocked", luaCreatureIsMovementBlocked);
-	registerMethod("Creature", "isImmune", luaCreatureIsImmune);
+	interface->registerMethod("Creature", "isRemoved", luaCreatureIsRemoved);
+	interface->registerMethod("Creature", "isCreature", luaCreatureIsCreature);
+	interface->registerMethod("Creature", "isInGhostMode", luaCreatureIsInGhostMode);
+	interface->registerMethod("Creature", "isHealthHidden", luaCreatureIsHealthHidden);
+	interface->registerMethod("Creature", "isMovementBlocked", luaCreatureIsMovementBlocked);
+	interface->registerMethod("Creature", "isImmune", luaCreatureIsImmune);
 
-	registerMethod("Creature", "canSee", luaCreatureCanSee);
-	registerMethod("Creature", "canSeeCreature", luaCreatureCanSeeCreature);
-	registerMethod("Creature", "canSeeGhostMode", luaCreatureCanSeeGhostMode);
-	registerMethod("Creature", "canSeeInvisibility", luaCreatureCanSeeInvisibility);
+	interface->registerMethod("Creature", "canSee", luaCreatureCanSee);
+	interface->registerMethod("Creature", "canSeeCreature", luaCreatureCanSeeCreature);
+	interface->registerMethod("Creature", "canSeeGhostMode", luaCreatureCanSeeGhostMode);
+	interface->registerMethod("Creature", "canSeeInvisibility", luaCreatureCanSeeInvisibility);
 
-	registerMethod("Creature", "getParent", luaCreatureGetParent);
+	interface->registerMethod("Creature", "getParent", luaCreatureGetParent);
 
-	registerMethod("Creature", "getId", luaCreatureGetId);
-	registerMethod("Creature", "getName", luaCreatureGetName);
+	interface->registerMethod("Creature", "getId", luaCreatureGetId);
+	interface->registerMethod("Creature", "getName", luaCreatureGetName);
 
-	registerMethod("Creature", "getTarget", luaCreatureGetTarget);
-	registerMethod("Creature", "setTarget", luaCreatureSetTarget);
+	interface->registerMethod("Creature", "getTarget", luaCreatureGetTarget);
+	interface->registerMethod("Creature", "setTarget", luaCreatureSetTarget);
 
-	registerMethod("Creature", "getFollowCreature", luaCreatureGetFollowCreature);
-	registerMethod("Creature", "setFollowCreature", luaCreatureSetFollowCreature);
+	interface->registerMethod("Creature", "getFollowCreature", luaCreatureGetFollowCreature);
+	interface->registerMethod("Creature", "setFollowCreature", luaCreatureSetFollowCreature);
 
-	registerMethod("Creature", "getMaster", luaCreatureGetMaster);
-	registerMethod("Creature", "setMaster", luaCreatureSetMaster);
+	interface->registerMethod("Creature", "getMaster", luaCreatureGetMaster);
+	interface->registerMethod("Creature", "setMaster", luaCreatureSetMaster);
 
-	registerMethod("Creature", "getLight", luaCreatureGetLight);
-	registerMethod("Creature", "setLight", luaCreatureSetLight);
+	interface->registerMethod("Creature", "getLight", luaCreatureGetLight);
+	interface->registerMethod("Creature", "setLight", luaCreatureSetLight);
 
-	registerMethod("Creature", "getSpeed", luaCreatureGetSpeed);
-	registerMethod("Creature", "getBaseSpeed", luaCreatureGetBaseSpeed);
-	registerMethod("Creature", "changeSpeed", luaCreatureChangeSpeed);
+	interface->registerMethod("Creature", "getSpeed", luaCreatureGetSpeed);
+	interface->registerMethod("Creature", "getBaseSpeed", luaCreatureGetBaseSpeed);
+	interface->registerMethod("Creature", "changeSpeed", luaCreatureChangeSpeed);
 
-	registerMethod("Creature", "setDropLoot", luaCreatureSetDropLoot);
-	registerMethod("Creature", "setSkillLoss", luaCreatureSetSkillLoss);
+	interface->registerMethod("Creature", "setDropLoot", luaCreatureSetDropLoot);
+	interface->registerMethod("Creature", "setSkillLoss", luaCreatureSetSkillLoss);
 
-	registerMethod("Creature", "getPosition", luaCreatureGetPosition);
-	registerMethod("Creature", "getTile", luaCreatureGetTile);
-	registerMethod("Creature", "getDirection", luaCreatureGetDirection);
-	registerMethod("Creature", "setDirection", luaCreatureSetDirection);
+	interface->registerMethod("Creature", "getPosition", luaCreatureGetPosition);
+	interface->registerMethod("Creature", "getTile", luaCreatureGetTile);
+	interface->registerMethod("Creature", "getDirection", luaCreatureGetDirection);
+	interface->registerMethod("Creature", "setDirection", luaCreatureSetDirection);
 
-	registerMethod("Creature", "getHealth", luaCreatureGetHealth);
-	registerMethod("Creature", "setHealth", luaCreatureSetHealth);
-	registerMethod("Creature", "addHealth", luaCreatureAddHealth);
-	registerMethod("Creature", "getMaxHealth", luaCreatureGetMaxHealth);
-	registerMethod("Creature", "setMaxHealth", luaCreatureSetMaxHealth);
-	registerMethod("Creature", "setHiddenHealth", luaCreatureSetHiddenHealth);
-	registerMethod("Creature", "setMovementBlocked", luaCreatureSetMovementBlocked);
+	interface->registerMethod("Creature", "getHealth", luaCreatureGetHealth);
+	interface->registerMethod("Creature", "setHealth", luaCreatureSetHealth);
+	interface->registerMethod("Creature", "addHealth", luaCreatureAddHealth);
+	interface->registerMethod("Creature", "getMaxHealth", luaCreatureGetMaxHealth);
+	interface->registerMethod("Creature", "setMaxHealth", luaCreatureSetMaxHealth);
+	interface->registerMethod("Creature", "setHiddenHealth", luaCreatureSetHiddenHealth);
+	interface->registerMethod("Creature", "setMovementBlocked", luaCreatureSetMovementBlocked);
 
-	registerMethod("Creature", "getSkull", luaCreatureGetSkull);
-	registerMethod("Creature", "setSkull", luaCreatureSetSkull);
+	interface->registerMethod("Creature", "getSkull", luaCreatureGetSkull);
+	interface->registerMethod("Creature", "setSkull", luaCreatureSetSkull);
 
-	registerMethod("Creature", "getOutfit", luaCreatureGetOutfit);
-	registerMethod("Creature", "setOutfit", luaCreatureSetOutfit);
+	interface->registerMethod("Creature", "getOutfit", luaCreatureGetOutfit);
+	interface->registerMethod("Creature", "setOutfit", luaCreatureSetOutfit);
 
-	registerMethod("Creature", "getCondition", luaCreatureGetCondition);
-	registerMethod("Creature", "addCondition", luaCreatureAddCondition);
-	registerMethod("Creature", "removeCondition", luaCreatureRemoveCondition);
-	registerMethod("Creature", "hasCondition", luaCreatureHasCondition);
+	interface->registerMethod("Creature", "getCondition", luaCreatureGetCondition);
+	interface->registerMethod("Creature", "addCondition", luaCreatureAddCondition);
+	interface->registerMethod("Creature", "removeCondition", luaCreatureRemoveCondition);
+	interface->registerMethod("Creature", "hasCondition", luaCreatureHasCondition);
 
-	registerMethod("Creature", "remove", luaCreatureRemove);
-	registerMethod("Creature", "teleportTo", luaCreatureTeleportTo);
-	registerMethod("Creature", "say", luaCreatureSay);
+	interface->registerMethod("Creature", "remove", luaCreatureRemove);
+	interface->registerMethod("Creature", "teleportTo", luaCreatureTeleportTo);
+	interface->registerMethod("Creature", "say", luaCreatureSay);
 
-	registerMethod("Creature", "getDamageMap", luaCreatureGetDamageMap);
+	interface->registerMethod("Creature", "getDamageMap", luaCreatureGetDamageMap);
 
-	registerMethod("Creature", "getSummons", luaCreatureGetSummons);
+	interface->registerMethod("Creature", "getSummons", luaCreatureGetSummons);
 
-	registerMethod("Creature", "getDescription", luaCreatureGetDescription);
+	interface->registerMethod("Creature", "getDescription", luaCreatureGetDescription);
 
-	registerMethod("Creature", "getPathTo", luaCreatureGetPathTo);
-	registerMethod("Creature", "move", luaCreatureMove);
+	interface->registerMethod("Creature", "getPathTo", luaCreatureGetPathTo);
+	interface->registerMethod("Creature", "move", luaCreatureMove);
 
-	registerMethod("Creature", "getZone", luaCreatureGetZone);
+	interface->registerMethod("Creature", "getZone", luaCreatureGetZone);
 }

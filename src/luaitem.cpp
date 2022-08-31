@@ -3,6 +3,8 @@
 
 #include "otpch.h"
 
+#include "luaitem.h"
+
 #include "game.h"
 #include "item.h"
 #include "luascript.h"
@@ -797,65 +799,65 @@ static int luaItemGetBoostPercent(lua_State* L)
 	return 1;
 }
 
-void LuaScriptInterface::registerItemFunctions()
+void LuaItem::registerFunctions(LuaScriptInterface* interface)
 {
 	// Item
-	registerClass("Item", "", luaItemCreate);
-	registerMetaMethod("Item", "__eq", luaUserdataCompare);
+	interface->registerClass("Item", "", luaItemCreate);
+	interface->registerMetaMethod("Item", "__eq", interface->luaUserdataCompare);
 
-	registerMethod("Item", "isItem", luaItemIsItem);
+	interface->registerMethod("Item", "isItem", luaItemIsItem);
 
-	registerMethod("Item", "getParent", luaItemGetParent);
-	registerMethod("Item", "getTopParent", luaItemGetTopParent);
+	interface->registerMethod("Item", "getParent", luaItemGetParent);
+	interface->registerMethod("Item", "getTopParent", luaItemGetTopParent);
 
-	registerMethod("Item", "getId", luaItemGetId);
+	interface->registerMethod("Item", "getId", luaItemGetId);
 
-	registerMethod("Item", "clone", luaItemClone);
-	registerMethod("Item", "split", luaItemSplit);
-	registerMethod("Item", "remove", luaItemRemove);
+	interface->registerMethod("Item", "clone", luaItemClone);
+	interface->registerMethod("Item", "split", luaItemSplit);
+	interface->registerMethod("Item", "remove", luaItemRemove);
 
-	registerMethod("Item", "getUniqueId", luaItemGetUniqueId);
-	registerMethod("Item", "getActionId", luaItemGetActionId);
-	registerMethod("Item", "setActionId", luaItemSetActionId);
+	interface->registerMethod("Item", "getUniqueId", luaItemGetUniqueId);
+	interface->registerMethod("Item", "getActionId", luaItemGetActionId);
+	interface->registerMethod("Item", "setActionId", luaItemSetActionId);
 
-	registerMethod("Item", "getCount", luaItemGetCount);
-	registerMethod("Item", "getCharges", luaItemGetCharges);
-	registerMethod("Item", "getFluidType", luaItemGetFluidType);
-	registerMethod("Item", "getWeight", luaItemGetWeight);
-	registerMethod("Item", "getWorth", luaItemGetWorth);
+	interface->registerMethod("Item", "getCount", luaItemGetCount);
+	interface->registerMethod("Item", "getCharges", luaItemGetCharges);
+	interface->registerMethod("Item", "getFluidType", luaItemGetFluidType);
+	interface->registerMethod("Item", "getWeight", luaItemGetWeight);
+	interface->registerMethod("Item", "getWorth", luaItemGetWorth);
 
-	registerMethod("Item", "getSubType", luaItemGetSubType);
+	interface->registerMethod("Item", "getSubType", luaItemGetSubType);
 
-	registerMethod("Item", "getName", luaItemGetName);
-	registerMethod("Item", "getPluralName", luaItemGetPluralName);
-	registerMethod("Item", "getArticle", luaItemGetArticle);
+	interface->registerMethod("Item", "getName", luaItemGetName);
+	interface->registerMethod("Item", "getPluralName", luaItemGetPluralName);
+	interface->registerMethod("Item", "getArticle", luaItemGetArticle);
 
-	registerMethod("Item", "getPosition", luaItemGetPosition);
-	registerMethod("Item", "getTile", luaItemGetTile);
+	interface->registerMethod("Item", "getPosition", luaItemGetPosition);
+	interface->registerMethod("Item", "getTile", luaItemGetTile);
 
-	registerMethod("Item", "hasAttribute", luaItemHasAttribute);
-	registerMethod("Item", "getAttribute", luaItemGetAttribute);
-	registerMethod("Item", "setAttribute", luaItemSetAttribute);
-	registerMethod("Item", "removeAttribute", luaItemRemoveAttribute);
-	registerMethod("Item", "getCustomAttribute", luaItemGetCustomAttribute);
-	registerMethod("Item", "setCustomAttribute", luaItemSetCustomAttribute);
-	registerMethod("Item", "removeCustomAttribute", luaItemRemoveCustomAttribute);
+	interface->registerMethod("Item", "hasAttribute", luaItemHasAttribute);
+	interface->registerMethod("Item", "getAttribute", luaItemGetAttribute);
+	interface->registerMethod("Item", "setAttribute", luaItemSetAttribute);
+	interface->registerMethod("Item", "removeAttribute", luaItemRemoveAttribute);
+	interface->registerMethod("Item", "getCustomAttribute", luaItemGetCustomAttribute);
+	interface->registerMethod("Item", "setCustomAttribute", luaItemSetCustomAttribute);
+	interface->registerMethod("Item", "removeCustomAttribute", luaItemRemoveCustomAttribute);
 
-	registerMethod("Item", "moveTo", luaItemMoveTo);
-	registerMethod("Item", "transform", luaItemTransform);
-	registerMethod("Item", "decay", luaItemDecay);
+	interface->registerMethod("Item", "moveTo", luaItemMoveTo);
+	interface->registerMethod("Item", "transform", luaItemTransform);
+	interface->registerMethod("Item", "decay", luaItemDecay);
 
-	registerMethod("Item", "getSpecialDescription", luaItemGetSpecialDescription);
+	interface->registerMethod("Item", "getSpecialDescription", luaItemGetSpecialDescription);
 
-	registerMethod("Item", "hasProperty", luaItemHasProperty);
-	registerMethod("Item", "isLoadedFromMap", luaItemIsLoadedFromMap);
+	interface->registerMethod("Item", "hasProperty", luaItemHasProperty);
+	interface->registerMethod("Item", "isLoadedFromMap", luaItemIsLoadedFromMap);
 
-	registerMethod("Item", "setStoreItem", luaItemSetStoreItem);
-	registerMethod("Item", "isStoreItem", luaItemIsStoreItem);
+	interface->registerMethod("Item", "setStoreItem", luaItemSetStoreItem);
+	interface->registerMethod("Item", "isStoreItem", luaItemIsStoreItem);
 
-	registerMethod("Item", "setReflect", luaItemSetReflect);
-	registerMethod("Item", "getReflect", luaItemGetReflect);
+	interface->registerMethod("Item", "setReflect", luaItemSetReflect);
+	interface->registerMethod("Item", "getReflect", luaItemGetReflect);
 
-	registerMethod("Item", "setBoostPercent", luaItemSetBoostPercent);
-	registerMethod("Item", "getBoostPercent", luaItemGetBoostPercent);
+	interface->registerMethod("Item", "setBoostPercent", luaItemSetBoostPercent);
+	interface->registerMethod("Item", "getBoostPercent", luaItemGetBoostPercent);
 }

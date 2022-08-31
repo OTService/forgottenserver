@@ -31,6 +31,10 @@
 #include "spells.h"
 #include "teleport.h"
 #include "weapons.h"
+#include "luacontainer.h"
+#include "luacreature.h"
+#include "luaenums.h"
+#include "luaitem.h"
 
 #include <boost/range/adaptor/reversed.hpp>
 
@@ -1261,7 +1265,7 @@ void LuaScriptInterface::registerFunctions()
 	// registerEnum(value)
 	// registerEnumIn(tableName, value)
 
-	registerEnums();
+	LuaEnums::registerEnums(this);
 
 	// _G
 	registerGlobalVariable("INDEX_WHEREEVER", INDEX_WHEREEVER);
@@ -1294,9 +1298,9 @@ void LuaScriptInterface::registerFunctions()
 
 	registerModalWindowFunctions();
 
-	registerItemFunctions();
+	LuaItem::registerFunctions();
 
-	registerContainerFunctions();
+	LuaContainer::registerFunctions(this);
 
 	// Teleport
 	registerClass("Teleport", "Item", LuaScriptInterface::luaTeleportCreate);
@@ -1316,7 +1320,7 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Podium", "getDirection", LuaScriptInterface::luaPodiumGetDirection);
 	registerMethod("Podium", "setDirection", LuaScriptInterface::luaPodiumSetDirection);
 
-	registerCreatureFunctions();
+	LuaCreature::registerFunctions(this);
 
 	registerPlayerFunctions();
 
