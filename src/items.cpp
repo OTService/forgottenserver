@@ -7,8 +7,8 @@
 
 #include "movement.h"
 #include "pugicast.h"
-#include "weapons.h"
 #include "script.h"
+#include "weapons.h"
 
 extern MoveEvents* g_moveEvents;
 extern Weapons* g_weapons;
@@ -1849,7 +1849,6 @@ ItemType& Items::parseItemLua(uint16_t id)
 	}
 
 	return getItemType(id);
-	;
 }
 
 ItemType& Items::getItemType(size_t id)

@@ -163,7 +163,8 @@ public:
 
 		template <typename T>
 		explicit CustomAttribute(const T& v) : value(v)
-		{}
+		{
+		}
 
 		template <typename T>
 		void set(const T& v)
@@ -199,7 +200,8 @@ public:
 
 			explicit SerializeVisitor(PropWriteStream& propWriteStream) :
 			    boost::static_visitor<>(), propWriteStream(propWriteStream)
-			{}
+			{
+			}
 
 			void operator()(const boost::blank&) const {}
 
