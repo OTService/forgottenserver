@@ -1030,6 +1030,11 @@ static T getNumber(lua_State* L, int32_t arg, T defaultValue)
 	return getNumber<T>(L, arg);
 }
 template <class T>
+static T** getRawUserdata(lua_State* L, int32_t arg)
+{
+	return static_cast<T**>(lua_touserdata(L, arg));
+}
+template <class T>
 static T* getUserdata(lua_State* L, int32_t arg)
 {
 	T** userdata = getRawUserdata<T>(L, arg);
@@ -1037,11 +1042,6 @@ static T* getUserdata(lua_State* L, int32_t arg)
 		return nullptr;
 	}
 	return *userdata;
-}
-template <class T>
-static T** getRawUserdata(lua_State* L, int32_t arg)
-{
-	return static_cast<T**>(lua_touserdata(L, arg));
 }
 template <class T>
 static std::shared_ptr<T>& getSharedPtr(lua_State* L, int32_t arg)
