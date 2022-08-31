@@ -203,39 +203,6 @@
     <ClInclude Include="..\src\luascript.h">
       <Filter>luaFunctions</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\luacontainer.h">
-      <Filter>luaFunctions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\luacreature.h">
-      <Filter>luaFunctions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\luaenums.h">
-      <Filter>luaFunctions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\luagame.h">
-      <Filter>luaFunctions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\luaitem.h">
-      <Filter>luaFunctions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\luamodalwindow.h">
-      <Filter>luaFunctions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\luamonster.h">
-      <Filter>luaFunctions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\luanetworkmessage.h">
-      <Filter>luaFunctions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\luaplayer.h">
-      <Filter>luaFunctions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\luaposition.h">
-      <Filter>luaFunctions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\luatile.h">
-      <Filter>luaFunctions</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="theforgottenserver.rc" />
