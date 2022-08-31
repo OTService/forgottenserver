@@ -49,6 +49,8 @@ extern GlobalEvents* g_globalEvents;
 extern Scripts* g_scripts;
 extern Weapons* g_weapons;
 
+using namespace Lua;
+
 const std::unordered_map<std::string, ItemTypes_t> ItemTypesMap = {
     {"key", ITEM_TYPE_KEY},
     {"magicfield", ITEM_TYPE_MAGICFIELD},
@@ -547,10 +549,10 @@ const std::string& LuaScriptInterface::getFileById(int32_t scriptId)
 	return it->second;
 }
 
-std::string LuaScriptInterface::getStackTrace(lua_State* L, const std::string& error_desc)
+std::string Lua::getStackTrace(lua_State* L, const std::string& error_desc)
 {
 	luaL_traceback(L, L, error_desc.c_str(), 1);
-	return popString(L);
+	return LuaScriptInterface::popString(L);
 }
 
 void LuaScriptInterface::reportError(const char* function, const std::string& error_desc, lua_State* L /*= nullptr*/,
@@ -633,7 +635,7 @@ bool LuaScriptInterface::closeState()
 int LuaScriptInterface::luaErrorHandler(lua_State* L)
 {
 	const std::string& errorMessage = popString(L);
-	pushString(L, LuaScriptInterface::getStackTrace(L, errorMessage));
+	pushString(L, Lua::getStackTrace(L, errorMessage));
 	return 1;
 }
 
@@ -642,9 +644,9 @@ bool LuaScriptInterface::callFunction(int params)
 	bool result = false;
 	int size = lua_gettop(luaState);
 	if (protectedCall(luaState, params, 1) != 0) {
-		LuaScriptInterface::reportError(nullptr, LuaScriptInterface::getString(luaState, -1));
+		LuaScriptInterface::reportError(nullptr, getString(luaState, -1));
 	} else {
-		result = LuaScriptInterface::getBoolean(luaState, -1);
+		result = getBoolean(luaState, -1);
 	}
 
 	lua_pop(luaState, 1);
@@ -736,7 +738,7 @@ void LuaScriptInterface::pushCylinder(lua_State* L, Cylinder* cylinder)
 	}
 }
 
-void LuaScriptInterface::pushString(lua_State* L, const std::string& value)
+void Lua::pushString(lua_State* L, const std::string& value)
 {
 	lua_pushlstring(L, value.c_str(), value.length());
 }
@@ -757,13 +759,13 @@ std::string LuaScriptInterface::popString(lua_State* L)
 int32_t LuaScriptInterface::popCallback(lua_State* L) { return luaL_ref(L, LUA_REGISTRYINDEX); }
 
 // Metatables
-void LuaScriptInterface::setMetatable(lua_State* L, int32_t index, const std::string& name)
+void Lua::setMetatable(lua_State* L, int32_t index, const std::string& name)
 {
 	luaL_getmetatable(L, name.c_str());
 	lua_setmetatable(L, index - 1);
 }
 
-void LuaScriptInterface::setWeakMetatable(lua_State* L, int32_t index, const std::string& name)
+void Lua::setWeakMetatable(lua_State* L, int32_t index, const std::string& name)
 {
 	static std::set<std::string> weakObjectTypes;
 	const std::string& weakName = name + "_weak";
@@ -798,7 +800,7 @@ void LuaScriptInterface::setWeakMetatable(lua_State* L, int32_t index, const std
 	lua_setmetatable(L, index - 1);
 }
 
-void LuaScriptInterface::setItemMetatable(lua_State* L, int32_t index, const Item* item)
+void Lua::setItemMetatable(lua_State* L, int32_t index, const Item* item)
 {
 	if (item->getContainer()) {
 		luaL_getmetatable(L, "Container");
@@ -812,7 +814,7 @@ void LuaScriptInterface::setItemMetatable(lua_State* L, int32_t index, const Ite
 	lua_setmetatable(L, index - 1);
 }
 
-void LuaScriptInterface::setCreatureMetatable(lua_State* L, int32_t index, const Creature* creature)
+void Lua::setCreatureMetatable(lua_State* L, int32_t index, const Creature* creature)
 {
 	if (creature->getPlayer()) {
 		luaL_getmetatable(L, "Player");
@@ -825,7 +827,7 @@ void LuaScriptInterface::setCreatureMetatable(lua_State* L, int32_t index, const
 }
 
 // Get
-std::string LuaScriptInterface::getString(lua_State* L, int32_t arg)
+std::string Lua::getString(lua_State* L, int32_t arg)
 {
 	size_t len;
 	const char* c_str = lua_tolstring(L, arg, &len);
@@ -835,7 +837,7 @@ std::string LuaScriptInterface::getString(lua_State* L, int32_t arg)
 	return std::string(c_str, len);
 }
 
-Position LuaScriptInterface::getPosition(lua_State* L, int32_t arg, int32_t& stackpos)
+Position Lua::getPosition(lua_State* L, int32_t arg, int32_t& stackpos)
 {
 	Position position;
 	position.x = getField<uint16_t>(L, arg, "x");
@@ -853,7 +855,7 @@ Position LuaScriptInterface::getPosition(lua_State* L, int32_t arg, int32_t& sta
 	return position;
 }
 
-Position LuaScriptInterface::getPosition(lua_State* L, int32_t arg)
+Position Lua::getPosition(lua_State* L, int32_t arg)
 {
 	Position position;
 	position.x = getField<uint16_t>(L, arg, "x");
@@ -864,7 +866,7 @@ Position LuaScriptInterface::getPosition(lua_State* L, int32_t arg)
 	return position;
 }
 
-Outfit_t LuaScriptInterface::getOutfit(lua_State* L, int32_t arg)
+Outfit_t Lua::getOutfit(lua_State* L, int32_t arg)
 {
 	Outfit_t outfit;
 
@@ -887,7 +889,7 @@ Outfit_t LuaScriptInterface::getOutfit(lua_State* L, int32_t arg)
 	return outfit;
 }
 
-Outfit LuaScriptInterface::getOutfitClass(lua_State* L, int32_t arg)
+Outfit Lua::getOutfitClass(lua_State* L, int32_t arg)
 {
 	uint16_t lookType = getField<uint16_t>(L, arg, "lookType");
 	const std::string& name = getFieldString(L, arg, "name");
@@ -897,7 +899,7 @@ Outfit LuaScriptInterface::getOutfitClass(lua_State* L, int32_t arg)
 	return Outfit(name, lookType, premium, unlocked);
 }
 
-void LuaScriptInterface::getFieldBlock(lua_State* L, int32_t arg, FieldBlock& fieldBlock)
+void Lua::getFieldBlock(lua_State* L, int32_t arg, FieldBlock& fieldBlock)
 {
 	fieldBlock.name = getFieldString(L, arg, "name");
 	fieldBlock.ticks = getField<uint32_t>(L, arg, "ticks");
@@ -908,31 +910,31 @@ void LuaScriptInterface::getFieldBlock(lua_State* L, int32_t arg, FieldBlock& fi
 	lua_pop(L, 6);
 }
 
-LuaVariant LuaScriptInterface::getVariant(lua_State* L, int32_t arg)
+LuaVariant Lua::getVariant(lua_State* L, int32_t arg)
 {
 	LuaVariant var;
-	switch (LuaScriptInterface::getField<LuaVariantType_t>(L, arg, "type")) {
+	switch (getField<LuaVariantType_t>(L, arg, "type")) {
 		case VARIANT_NUMBER: {
-			var.setNumber(LuaScriptInterface::getField<uint32_t>(L, arg, "number"));
+			var.setNumber(getField<uint32_t>(L, arg, "number"));
 			lua_pop(L, 2);
 			break;
 		}
 
 		case VARIANT_STRING: {
-			var.setString(LuaScriptInterface::getFieldString(L, arg, "string"));
+			var.setString(getFieldString(L, arg, "string"));
 			lua_pop(L, 2);
 			break;
 		}
 
 		case VARIANT_POSITION:
 			lua_getfield(L, arg, "pos");
-			var.setPosition(LuaScriptInterface::getPosition(L, lua_gettop(L)));
+			var.setPosition(getPosition(L, lua_gettop(L)));
 			lua_pop(L, 2);
 			break;
 
 		case VARIANT_TARGETPOSITION: {
 			lua_getfield(L, arg, "pos");
-			var.setTargetPosition(LuaScriptInterface::getPosition(L, lua_gettop(L)));
+			var.setTargetPosition(getPosition(L, lua_gettop(L)));
 			lua_pop(L, 2);
 			break;
 		}
@@ -946,14 +948,14 @@ LuaVariant LuaScriptInterface::getVariant(lua_State* L, int32_t arg)
 	return var;
 }
 
-InstantSpell* LuaScriptInterface::getInstantSpell(lua_State* L, int32_t arg)
+InstantSpell* Lua::getInstantSpell(lua_State* L, int32_t arg)
 {
 	InstantSpell* spell = g_spells->getInstantSpellByName(getFieldString(L, arg, "name"));
 	lua_pop(L, 1);
 	return spell;
 }
 
-Reflect LuaScriptInterface::getReflect(lua_State* L, int32_t arg)
+Reflect Lua::getReflect(lua_State* L, int32_t arg)
 {
 	uint16_t percent = getField<uint16_t>(L, arg, "percent");
 	uint16_t chance = getField<uint16_t>(L, arg, "chance");
@@ -961,7 +963,7 @@ Reflect LuaScriptInterface::getReflect(lua_State* L, int32_t arg)
 	return Reflect(percent, chance);
 }
 
-Thing* LuaScriptInterface::getThing(lua_State* L, int32_t arg)
+Thing* Lua::getThing(lua_State* L, int32_t arg)
 {
 	Thing* thing;
 	if (lua_getmetatable(L, arg) != 0) {
@@ -994,12 +996,12 @@ Thing* LuaScriptInterface::getThing(lua_State* L, int32_t arg)
 		}
 		lua_pop(L, 2);
 	} else {
-		thing = getScriptEnv()->getThingByUID(getNumber<uint32_t>(L, arg));
+		thing = LuaScriptInterface::getScriptEnv()->getThingByUID(getNumber<uint32_t>(L, arg));
 	}
 	return thing;
 }
 
-Creature* LuaScriptInterface::getCreature(lua_State* L, int32_t arg)
+Creature* Lua::getCreature(lua_State* L, int32_t arg)
 {
 	if (isUserdata(L, arg)) {
 		return getUserdata<Creature>(L, arg);
@@ -1007,7 +1009,7 @@ Creature* LuaScriptInterface::getCreature(lua_State* L, int32_t arg)
 	return g_game.getCreatureByID(getNumber<uint32_t>(L, arg));
 }
 
-Player* LuaScriptInterface::getPlayer(lua_State* L, int32_t arg)
+Player* Lua::getPlayer(lua_State* L, int32_t arg)
 {
 	if (isUserdata(L, arg)) {
 		return getUserdata<Player>(L, arg);
@@ -1015,13 +1017,13 @@ Player* LuaScriptInterface::getPlayer(lua_State* L, int32_t arg)
 	return g_game.getPlayerByID(getNumber<uint32_t>(L, arg));
 }
 
-std::string LuaScriptInterface::getFieldString(lua_State* L, int32_t arg, const std::string& key)
+std::string Lua::getFieldString(lua_State* L, int32_t arg, const std::string& key)
 {
 	lua_getfield(L, arg, key.c_str());
 	return getString(L, -1);
 }
 
-LuaDataType LuaScriptInterface::getUserdataType(lua_State* L, int32_t arg)
+LuaDataType Lua::getUserdataType(lua_State* L, int32_t arg)
 {
 	if (lua_getmetatable(L, arg) == 0) {
 		return LuaData_Unknown;
@@ -1035,9 +1037,9 @@ LuaDataType LuaScriptInterface::getUserdataType(lua_State* L, int32_t arg)
 }
 
 // Push
-void LuaScriptInterface::pushBoolean(lua_State* L, bool value) { lua_pushboolean(L, value ? 1 : 0); }
+void Lua::pushBoolean(lua_State* L, bool value) { lua_pushboolean(L, value ? 1 : 0); }
 
-void LuaScriptInterface::pushCombatDamage(lua_State* L, const CombatDamage& damage)
+void Lua::pushCombatDamage(lua_State* L, const CombatDamage& damage)
 {
 	lua_pushnumber(L, damage.primary.value);
 	lua_pushnumber(L, damage.primary.type);
@@ -1046,7 +1048,7 @@ void LuaScriptInterface::pushCombatDamage(lua_State* L, const CombatDamage& dama
 	lua_pushnumber(L, damage.origin);
 }
 
-void LuaScriptInterface::pushInstantSpell(lua_State* L, const InstantSpell& spell)
+void Lua::pushInstantSpell(lua_State* L, const InstantSpell& spell)
 {
 	lua_createtable(L, 0, 7);
 
@@ -1061,7 +1063,7 @@ void LuaScriptInterface::pushInstantSpell(lua_State* L, const InstantSpell& spel
 	setMetatable(L, -1, "Spell");
 }
 
-void LuaScriptInterface::pushPosition(lua_State* L, const Position& position, int32_t stackpos /* = 0*/)
+void Lua::pushPosition(lua_State* L, const Position& position, int32_t stackpos /* = 0*/)
 {
 	lua_createtable(L, 0, 4);
 
@@ -1073,7 +1075,7 @@ void LuaScriptInterface::pushPosition(lua_State* L, const Position& position, in
 	setMetatable(L, -1, "Position");
 }
 
-void LuaScriptInterface::pushOutfit(lua_State* L, const Outfit_t& outfit)
+void Lua::pushOutfit(lua_State* L, const Outfit_t& outfit)
 {
 	lua_createtable(L, 0, 12);
 	setField(L, "lookType", outfit.lookType);
@@ -1090,7 +1092,7 @@ void LuaScriptInterface::pushOutfit(lua_State* L, const Outfit_t& outfit)
 	setField(L, "lookMountFeet", outfit.lookMountFeet);
 }
 
-void LuaScriptInterface::pushOutfit(lua_State* L, const Outfit* outfit)
+void Lua::pushOutfit(lua_State* L, const Outfit* outfit)
 {
 	lua_createtable(L, 0, 4);
 	setField(L, "lookType", outfit->lookType);
@@ -1100,7 +1102,7 @@ void LuaScriptInterface::pushOutfit(lua_State* L, const Outfit* outfit)
 	setMetatable(L, -1, "Outfit");
 }
 
-void LuaScriptInterface::pushMount(lua_State* L, const Mount* mount)
+void Lua::pushMount(lua_State* L, const Mount* mount)
 {
 	lua_createtable(L, 0, 5);
 	setField(L, "name", mount->name);
@@ -1110,7 +1112,7 @@ void LuaScriptInterface::pushMount(lua_State* L, const Mount* mount)
 	setField(L, "premium", mount->premium);
 }
 
-void LuaScriptInterface::pushLoot(lua_State* L, const std::vector<LootBlock>& lootList)
+void Lua::pushLoot(lua_State* L, const std::vector<LootBlock>& lootList)
 {
 	lua_createtable(L, lootList.size(), 0);
 
@@ -1132,7 +1134,7 @@ void LuaScriptInterface::pushLoot(lua_State* L, const std::vector<LootBlock>& lo
 	}
 }
 
-void LuaScriptInterface::pushFieldBlock(lua_State* L, const FieldBlock& fieldBlock)
+void Lua::pushFieldBlock(lua_State* L, const FieldBlock& fieldBlock)
 {
 	lua_createtable(L, 6, 0);
 
@@ -1144,7 +1146,7 @@ void LuaScriptInterface::pushFieldBlock(lua_State* L, const FieldBlock& fieldBlo
 	setField(L, "damage", fieldBlock.damage);
 }
 
-void LuaScriptInterface::pushReflect(lua_State* L, const Reflect& reflect)
+void Lua::pushReflect(lua_State* L, const Reflect& reflect)
 {
 	lua_createtable(L, 0, 2);
 	setField(L, "percent", reflect.percent);

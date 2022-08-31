@@ -3,8 +3,6 @@
 
 #include "otpch.h"
 
-#include "luacreature.h"
-
 #include "condition.h"
 #include "creature.h"
 #include "creatureevent.h"
@@ -16,94 +14,10 @@
 extern Game g_game;
 extern Events* g_events;
 
-void LuaScriptInterface::registerCreatureFunctions()
-{
-	// Creature
-	registerClass("Creature", "", LuaCreature::luaCreatureCreate);
-	registerMetaMethod("Creature", "__eq", LuaCreature::luaUserdataCompare);
-
-	registerMethod("Creature", "getEvents", LuaCreature::luaCreatureGetEvents);
-	registerMethod("Creature", "registerEvent", LuaCreature::luaCreatureRegisterEvent);
-	registerMethod("Creature", "unregisterEvent", LuaCreature::luaCreatureUnregisterEvent);
-
-	registerMethod("Creature", "isRemoved", LuaCreature::luaCreatureIsRemoved);
-	registerMethod("Creature", "isCreature", LuaCreature::luaCreatureIsCreature);
-	registerMethod("Creature", "isInGhostMode", LuaCreature::luaCreatureIsInGhostMode);
-	registerMethod("Creature", "isHealthHidden", LuaCreature::luaCreatureIsHealthHidden);
-	registerMethod("Creature", "isMovementBlocked", LuaCreature::luaCreatureIsMovementBlocked);
-	registerMethod("Creature", "isImmune", LuaCreature::luaCreatureIsImmune);
-
-	registerMethod("Creature", "canSee", LuaCreature::luaCreatureCanSee);
-	registerMethod("Creature", "canSeeCreature", LuaCreature::luaCreatureCanSeeCreature);
-	registerMethod("Creature", "canSeeGhostMode", LuaCreature::luaCreatureCanSeeGhostMode);
-	registerMethod("Creature", "canSeeInvisibility", LuaCreature::luaCreatureCanSeeInvisibility);
-
-	registerMethod("Creature", "getParent", LuaCreature::luaCreatureGetParent);
-
-	registerMethod("Creature", "getId", LuaCreature::luaCreatureGetId);
-	registerMethod("Creature", "getName", LuaCreature::luaCreatureGetName);
-
-	registerMethod("Creature", "getTarget", LuaCreature::luaCreatureGetTarget);
-	registerMethod("Creature", "setTarget", LuaCreature::luaCreatureSetTarget);
-
-	registerMethod("Creature", "getFollowCreature", LuaCreature::luaCreatureGetFollowCreature);
-	registerMethod("Creature", "setFollowCreature", LuaCreature::luaCreatureSetFollowCreature);
-
-	registerMethod("Creature", "getMaster", LuaCreature::luaCreatureGetMaster);
-	registerMethod("Creature", "setMaster", LuaCreature::luaCreatureSetMaster);
-
-	registerMethod("Creature", "getLight", LuaCreature::luaCreatureGetLight);
-	registerMethod("Creature", "setLight", LuaCreature::luaCreatureSetLight);
-
-	registerMethod("Creature", "getSpeed", LuaCreature::luaCreatureGetSpeed);
-	registerMethod("Creature", "getBaseSpeed", LuaCreature::luaCreatureGetBaseSpeed);
-	registerMethod("Creature", "changeSpeed", LuaCreature::luaCreatureChangeSpeed);
-
-	registerMethod("Creature", "setDropLoot", LuaCreature::luaCreatureSetDropLoot);
-	registerMethod("Creature", "setSkillLoss", LuaCreature::luaCreatureSetSkillLoss);
-
-	registerMethod("Creature", "getPosition", LuaCreature::luaCreatureGetPosition);
-	registerMethod("Creature", "getTile", LuaCreature::luaCreatureGetTile);
-	registerMethod("Creature", "getDirection", LuaCreature::luaCreatureGetDirection);
-	registerMethod("Creature", "setDirection", LuaCreature::luaCreatureSetDirection);
-
-	registerMethod("Creature", "getHealth", LuaCreature::luaCreatureGetHealth);
-	registerMethod("Creature", "setHealth", LuaCreature::luaCreatureSetHealth);
-	registerMethod("Creature", "addHealth", LuaCreature::luaCreatureAddHealth);
-	registerMethod("Creature", "getMaxHealth", LuaCreature::luaCreatureGetMaxHealth);
-	registerMethod("Creature", "setMaxHealth", LuaCreature::luaCreatureSetMaxHealth);
-	registerMethod("Creature", "setHiddenHealth", LuaCreature::luaCreatureSetHiddenHealth);
-	registerMethod("Creature", "setMovementBlocked", LuaCreature::luaCreatureSetMovementBlocked);
-
-	registerMethod("Creature", "getSkull", LuaCreature::luaCreatureGetSkull);
-	registerMethod("Creature", "setSkull", LuaCreature::luaCreatureSetSkull);
-
-	registerMethod("Creature", "getOutfit", LuaCreature::luaCreatureGetOutfit);
-	registerMethod("Creature", "setOutfit", LuaCreature::luaCreatureSetOutfit);
-
-	registerMethod("Creature", "getCondition", LuaCreature::luaCreatureGetCondition);
-	registerMethod("Creature", "addCondition", LuaCreature::luaCreatureAddCondition);
-	registerMethod("Creature", "removeCondition", LuaCreature::luaCreatureRemoveCondition);
-	registerMethod("Creature", "hasCondition", LuaCreature::luaCreatureHasCondition);
-
-	registerMethod("Creature", "remove", LuaCreature::luaCreatureRemove);
-	registerMethod("Creature", "teleportTo", LuaCreature::luaCreatureTeleportTo);
-	registerMethod("Creature", "say", LuaCreature::luaCreatureSay);
-
-	registerMethod("Creature", "getDamageMap", LuaCreature::luaCreatureGetDamageMap);
-
-	registerMethod("Creature", "getSummons", LuaCreature::luaCreatureGetSummons);
-
-	registerMethod("Creature", "getDescription", LuaCreature::luaCreatureGetDescription);
-
-	registerMethod("Creature", "getPathTo", LuaCreature::luaCreatureGetPathTo);
-	registerMethod("Creature", "move", LuaCreature::luaCreatureMove);
-
-	registerMethod("Creature", "getZone", LuaCreature::luaCreatureGetZone);
-}
+using namespace Lua;
 
 // Creature
-int LuaCreature::luaCreatureCreate(lua_State* L)
+static int luaCreatureCreate(lua_State* L)
 {
 	// Creature(id or name or userdata)
 	Creature* creature;
@@ -131,7 +45,7 @@ int LuaCreature::luaCreatureCreate(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetEvents(lua_State* L)
+static int luaCreatureGetEvents(lua_State* L)
 {
 	// creature:getEvents(type)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -152,7 +66,7 @@ int LuaCreature::luaCreatureGetEvents(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureRegisterEvent(lua_State* L)
+static int luaCreatureRegisterEvent(lua_State* L)
 {
 	// creature:registerEvent(name)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -165,7 +79,7 @@ int LuaCreature::luaCreatureRegisterEvent(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureUnregisterEvent(lua_State* L)
+static int luaCreatureUnregisterEvent(lua_State* L)
 {
 	// creature:unregisterEvent(name)
 	const std::string& name = getString(L, 2);
@@ -178,7 +92,7 @@ int LuaCreature::luaCreatureUnregisterEvent(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureIsRemoved(lua_State* L)
+static int luaCreatureIsRemoved(lua_State* L)
 {
 	// creature:isRemoved()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -190,14 +104,14 @@ int LuaCreature::luaCreatureIsRemoved(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureIsCreature(lua_State* L)
+static int luaCreatureIsCreature(lua_State* L)
 {
 	// creature:isCreature()
 	pushBoolean(L, getUserdata<const Creature>(L, 1) != nullptr);
 	return 1;
 }
 
-int LuaCreature::luaCreatureIsInGhostMode(lua_State* L)
+static int luaCreatureIsInGhostMode(lua_State* L)
 {
 	// creature:isInGhostMode()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -209,7 +123,7 @@ int LuaCreature::luaCreatureIsInGhostMode(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureIsHealthHidden(lua_State* L)
+static int luaCreatureIsHealthHidden(lua_State* L)
 {
 	// creature:isHealthHidden()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -221,7 +135,7 @@ int LuaCreature::luaCreatureIsHealthHidden(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureIsMovementBlocked(lua_State* L)
+static int luaCreatureIsMovementBlocked(lua_State* L)
 {
 	// creature:isMovementBlocked()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -233,7 +147,7 @@ int LuaCreature::luaCreatureIsMovementBlocked(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureCanSee(lua_State* L)
+static int luaCreatureCanSee(lua_State* L)
 {
 	// creature:canSee(position)
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -246,14 +160,14 @@ int LuaCreature::luaCreatureCanSee(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureCanSeeCreature(lua_State* L)
+static int luaCreatureCanSeeCreature(lua_State* L)
 {
 	// creature:canSeeCreature(creature)
 	const Creature* creature = getUserdata<const Creature>(L, 1);
 	if (creature) {
 		const Creature* otherCreature = getCreature(L, 2);
 		if (!otherCreature) {
-			reportErrorFunc(L, getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
+			reportErrorFunc(L, LuaScriptInterface::getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -265,14 +179,14 @@ int LuaCreature::luaCreatureCanSeeCreature(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureCanSeeGhostMode(lua_State* L)
+static int luaCreatureCanSeeGhostMode(lua_State* L)
 {
 	// creature:canSeeGhostMode(creature)
 	const Creature* creature = getUserdata<const Creature>(L, 1);
 	if (creature) {
 		const Creature* otherCreature = getCreature(L, 2);
 		if (!otherCreature) {
-			reportErrorFunc(L, getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
+			reportErrorFunc(L, LuaScriptInterface::getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -284,7 +198,7 @@ int LuaCreature::luaCreatureCanSeeGhostMode(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureCanSeeInvisibility(lua_State* L)
+static int luaCreatureCanSeeInvisibility(lua_State* L)
 {
 	// creature:canSeeInvisibility()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -296,7 +210,7 @@ int LuaCreature::luaCreatureCanSeeInvisibility(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetParent(lua_State* L)
+static int luaCreatureGetParent(lua_State* L)
 {
 	// creature:getParent()
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -311,11 +225,11 @@ int LuaCreature::luaCreatureGetParent(lua_State* L)
 		return 1;
 	}
 
-	pushCylinder(L, parent);
+	LuaScriptInterface::pushCylinder(L, parent);
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetId(lua_State* L)
+static int luaCreatureGetId(lua_State* L)
 {
 	// creature:getId()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -327,7 +241,7 @@ int LuaCreature::luaCreatureGetId(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetName(lua_State* L)
+static int luaCreatureGetName(lua_State* L)
 {
 	// creature:getName()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -339,7 +253,7 @@ int LuaCreature::luaCreatureGetName(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetTarget(lua_State* L)
+static int luaCreatureGetTarget(lua_State* L)
 {
 	// creature:getTarget()
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -358,7 +272,7 @@ int LuaCreature::luaCreatureGetTarget(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureSetTarget(lua_State* L)
+static int luaCreatureSetTarget(lua_State* L)
 {
 	// creature:setTarget(target)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -370,7 +284,7 @@ int LuaCreature::luaCreatureSetTarget(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetFollowCreature(lua_State* L)
+static int luaCreatureGetFollowCreature(lua_State* L)
 {
 	// creature:getFollowCreature()
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -389,7 +303,7 @@ int LuaCreature::luaCreatureGetFollowCreature(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureSetFollowCreature(lua_State* L)
+static int luaCreatureSetFollowCreature(lua_State* L)
 {
 	// creature:setFollowCreature(followedCreature)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -401,7 +315,7 @@ int LuaCreature::luaCreatureSetFollowCreature(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetMaster(lua_State* L)
+static int luaCreatureGetMaster(lua_State* L)
 {
 	// creature:getMaster()
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -421,7 +335,7 @@ int LuaCreature::luaCreatureGetMaster(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureSetMaster(lua_State* L)
+static int luaCreatureSetMaster(lua_State* L)
 {
 	// creature:setMaster(master)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -442,7 +356,7 @@ int LuaCreature::luaCreatureSetMaster(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetLight(lua_State* L)
+static int luaCreatureGetLight(lua_State* L)
 {
 	// creature:getLight()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -457,7 +371,7 @@ int LuaCreature::luaCreatureGetLight(lua_State* L)
 	return 2;
 }
 
-int LuaCreature::luaCreatureSetLight(lua_State* L)
+static int luaCreatureSetLight(lua_State* L)
 {
 	// creature:setLight(color, level)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -475,7 +389,7 @@ int LuaCreature::luaCreatureSetLight(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetSpeed(lua_State* L)
+static int luaCreatureGetSpeed(lua_State* L)
 {
 	// creature:getSpeed()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -487,7 +401,7 @@ int LuaCreature::luaCreatureGetSpeed(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetBaseSpeed(lua_State* L)
+static int luaCreatureGetBaseSpeed(lua_State* L)
 {
 	// creature:getBaseSpeed()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -499,12 +413,12 @@ int LuaCreature::luaCreatureGetBaseSpeed(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureChangeSpeed(lua_State* L)
+static int luaCreatureChangeSpeed(lua_State* L)
 {
 	// creature:changeSpeed(delta)
 	Creature* creature = getCreature(L, 1);
 	if (!creature) {
-		reportErrorFunc(L, getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
+		reportErrorFunc(L, LuaScriptInterface::getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
 		pushBoolean(L, false);
 		return 1;
 	}
@@ -515,7 +429,7 @@ int LuaCreature::luaCreatureChangeSpeed(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureSetDropLoot(lua_State* L)
+static int luaCreatureSetDropLoot(lua_State* L)
 {
 	// creature:setDropLoot(doDrop)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -528,7 +442,7 @@ int LuaCreature::luaCreatureSetDropLoot(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureSetSkillLoss(lua_State* L)
+static int luaCreatureSetSkillLoss(lua_State* L)
 {
 	// creature:setSkillLoss(skillLoss)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -541,7 +455,7 @@ int LuaCreature::luaCreatureSetSkillLoss(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetPosition(lua_State* L)
+static int luaCreatureGetPosition(lua_State* L)
 {
 	// creature:getPosition()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -553,7 +467,7 @@ int LuaCreature::luaCreatureGetPosition(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetTile(lua_State* L)
+static int luaCreatureGetTile(lua_State* L)
 {
 	// creature:getTile()
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -572,7 +486,7 @@ int LuaCreature::luaCreatureGetTile(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetDirection(lua_State* L)
+static int luaCreatureGetDirection(lua_State* L)
 {
 	// creature:getDirection()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -584,7 +498,7 @@ int LuaCreature::luaCreatureGetDirection(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureSetDirection(lua_State* L)
+static int luaCreatureSetDirection(lua_State* L)
 {
 	// creature:setDirection(direction)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -596,7 +510,7 @@ int LuaCreature::luaCreatureSetDirection(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetHealth(lua_State* L)
+static int luaCreatureGetHealth(lua_State* L)
 {
 	// creature:getHealth()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -608,7 +522,7 @@ int LuaCreature::luaCreatureGetHealth(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureSetHealth(lua_State* L)
+static int luaCreatureSetHealth(lua_State* L)
 {
 	// creature:setHealth(health)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -628,7 +542,7 @@ int LuaCreature::luaCreatureSetHealth(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureAddHealth(lua_State* L)
+static int luaCreatureAddHealth(lua_State* L)
 {
 	// creature:addHealth(healthChange)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -648,7 +562,7 @@ int LuaCreature::luaCreatureAddHealth(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetMaxHealth(lua_State* L)
+static int luaCreatureGetMaxHealth(lua_State* L)
 {
 	// creature:getMaxHealth()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -660,7 +574,7 @@ int LuaCreature::luaCreatureGetMaxHealth(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureSetMaxHealth(lua_State* L)
+static int luaCreatureSetMaxHealth(lua_State* L)
 {
 	// creature:setMaxHealth(maxHealth)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -681,7 +595,7 @@ int LuaCreature::luaCreatureSetMaxHealth(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureSetHiddenHealth(lua_State* L)
+static int luaCreatureSetHiddenHealth(lua_State* L)
 {
 	// creature:setHiddenHealth(hide)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -695,7 +609,7 @@ int LuaCreature::luaCreatureSetHiddenHealth(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureSetMovementBlocked(lua_State* L)
+static int luaCreatureSetMovementBlocked(lua_State* L)
 {
 	// creature:setMovementBlocked(state)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -708,7 +622,7 @@ int LuaCreature::luaCreatureSetMovementBlocked(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetSkull(lua_State* L)
+static int luaCreatureGetSkull(lua_State* L)
 {
 	// creature:getSkull()
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -720,7 +634,7 @@ int LuaCreature::luaCreatureGetSkull(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureSetSkull(lua_State* L)
+static int luaCreatureSetSkull(lua_State* L)
 {
 	// creature:setSkull(skull)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -733,7 +647,7 @@ int LuaCreature::luaCreatureSetSkull(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetOutfit(lua_State* L)
+static int luaCreatureGetOutfit(lua_State* L)
 {
 	// creature:getOutfit()
 	const Creature* creature = getUserdata<const Creature>(L, 1);
@@ -745,7 +659,7 @@ int LuaCreature::luaCreatureGetOutfit(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureSetOutfit(lua_State* L)
+static int luaCreatureSetOutfit(lua_State* L)
 {
 	// creature:setOutfit(outfit)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -759,7 +673,7 @@ int LuaCreature::luaCreatureSetOutfit(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetCondition(lua_State* L)
+static int luaCreatureGetCondition(lua_State* L)
 {
 	// creature:getCondition(conditionType[, conditionId = CONDITIONID_COMBAT[, subId = 0]])
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -782,7 +696,7 @@ int LuaCreature::luaCreatureGetCondition(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureAddCondition(lua_State* L)
+static int luaCreatureAddCondition(lua_State* L)
 {
 	// creature:addCondition(condition[, force = false])
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -796,7 +710,7 @@ int LuaCreature::luaCreatureAddCondition(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureRemoveCondition(lua_State* L)
+static int luaCreatureRemoveCondition(lua_State* L)
 {
 	// creature:removeCondition(conditionType[, conditionId = CONDITIONID_COMBAT[, subId = 0[, force = false]]])
 	// creature:removeCondition(condition[, force = false])
@@ -830,7 +744,7 @@ int LuaCreature::luaCreatureRemoveCondition(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureHasCondition(lua_State* L)
+static int luaCreatureHasCondition(lua_State* L)
 {
 	// creature:hasCondition(conditionType[, subId = 0])
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -845,7 +759,7 @@ int LuaCreature::luaCreatureHasCondition(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureIsImmune(lua_State* L)
+static int luaCreatureIsImmune(lua_State* L)
 {
 	// creature:isImmune(condition or conditionType)
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -864,7 +778,7 @@ int LuaCreature::luaCreatureIsImmune(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureRemove(lua_State* L)
+static int luaCreatureRemove(lua_State* L)
 {
 	// creature:remove()
 	Creature** creaturePtr = getRawUserdata<Creature>(L, 1);
@@ -891,7 +805,7 @@ int LuaCreature::luaCreatureRemove(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureTeleportTo(lua_State* L)
+static int luaCreatureTeleportTo(lua_State* L)
 {
 	// creature:teleportTo(position[, pushMovement = false])
 	bool pushMovement = getBoolean(L, 3, false);
@@ -926,7 +840,7 @@ int LuaCreature::luaCreatureTeleportTo(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureSay(lua_State* L)
+static int luaCreatureSay(lua_State* L)
 {
 	// creature:say(text[, type = TALKTYPE_MONSTER_SAY[, ghost = false[, target = nullptr[, position]]]])
 	int parameters = lua_gettop(L);
@@ -962,7 +876,8 @@ int LuaCreature::luaCreatureSay(lua_State* L)
 	}
 
 	// Prevent infinity echo on event onHear
-	bool echo = getScriptEnv()->getScriptId() == g_events->getScriptId(EventInfoId::CREATURE_ONHEAR);
+	bool echo =
+	    LuaScriptInterface::getScriptEnv()->getScriptId() == g_events->getScriptId(EventInfoId::CREATURE_ONHEAR);
 
 	if (position.x != 0) {
 		pushBoolean(L, g_game.internalCreatureSay(creature, type, text, ghost, &spectators, &position, echo));
@@ -972,7 +887,7 @@ int LuaCreature::luaCreatureSay(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetDamageMap(lua_State* L)
+static int luaCreatureGetDamageMap(lua_State* L)
 {
 	// creature:getDamageMap()
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -991,7 +906,7 @@ int LuaCreature::luaCreatureGetDamageMap(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetSummons(lua_State* L)
+static int luaCreatureGetSummons(lua_State* L)
 {
 	// creature:getSummons()
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -1011,7 +926,7 @@ int LuaCreature::luaCreatureGetSummons(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetDescription(lua_State* L)
+static int luaCreatureGetDescription(lua_State* L)
 {
 	// creature:getDescription(distance)
 	int32_t distance = getNumber<int32_t>(L, 2);
@@ -1024,7 +939,7 @@ int LuaCreature::luaCreatureGetDescription(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetPathTo(lua_State* L)
+static int luaCreatureGetPathTo(lua_State* L)
 {
 	// creature:getPathTo(pos[, minTargetDist = 0[, maxTargetDist = 1[, fullPathSearch = true[, clearSight = true[,
 	// maxSearchDist = 0]]]]])
@@ -1058,7 +973,7 @@ int LuaCreature::luaCreatureGetPathTo(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureMove(lua_State* L)
+static int luaCreatureMove(lua_State* L)
 {
 	// creature:move(direction)
 	// creature:move(tile[, flags = 0])
@@ -1086,7 +1001,7 @@ int LuaCreature::luaCreatureMove(lua_State* L)
 	return 1;
 }
 
-int LuaCreature::luaCreatureGetZone(lua_State* L)
+static int luaCreatureGetZone(lua_State* L)
 {
 	// creature:getZone()
 	Creature* creature = getUserdata<Creature>(L, 1);
@@ -1096,4 +1011,90 @@ int LuaCreature::luaCreatureGetZone(lua_State* L)
 		lua_pushnil(L);
 	}
 	return 1;
+}
+
+void LuaScriptInterface::registerCreatureFunctions()
+{
+	// Creature
+	registerClass("Creature", "", luaCreatureCreate);
+	registerMetaMethod("Creature", "__eq", luaUserdataCompare);
+
+	registerMethod("Creature", "getEvents", luaCreatureGetEvents);
+	registerMethod("Creature", "registerEvent", luaCreatureRegisterEvent);
+	registerMethod("Creature", "unregisterEvent", luaCreatureUnregisterEvent);
+
+	registerMethod("Creature", "isRemoved", luaCreatureIsRemoved);
+	registerMethod("Creature", "isCreature", luaCreatureIsCreature);
+	registerMethod("Creature", "isInGhostMode", luaCreatureIsInGhostMode);
+	registerMethod("Creature", "isHealthHidden", luaCreatureIsHealthHidden);
+	registerMethod("Creature", "isMovementBlocked", luaCreatureIsMovementBlocked);
+	registerMethod("Creature", "isImmune", luaCreatureIsImmune);
+
+	registerMethod("Creature", "canSee", luaCreatureCanSee);
+	registerMethod("Creature", "canSeeCreature", luaCreatureCanSeeCreature);
+	registerMethod("Creature", "canSeeGhostMode", luaCreatureCanSeeGhostMode);
+	registerMethod("Creature", "canSeeInvisibility", luaCreatureCanSeeInvisibility);
+
+	registerMethod("Creature", "getParent", luaCreatureGetParent);
+
+	registerMethod("Creature", "getId", luaCreatureGetId);
+	registerMethod("Creature", "getName", luaCreatureGetName);
+
+	registerMethod("Creature", "getTarget", luaCreatureGetTarget);
+	registerMethod("Creature", "setTarget", luaCreatureSetTarget);
+
+	registerMethod("Creature", "getFollowCreature", luaCreatureGetFollowCreature);
+	registerMethod("Creature", "setFollowCreature", luaCreatureSetFollowCreature);
+
+	registerMethod("Creature", "getMaster", luaCreatureGetMaster);
+	registerMethod("Creature", "setMaster", luaCreatureSetMaster);
+
+	registerMethod("Creature", "getLight", luaCreatureGetLight);
+	registerMethod("Creature", "setLight", luaCreatureSetLight);
+
+	registerMethod("Creature", "getSpeed", luaCreatureGetSpeed);
+	registerMethod("Creature", "getBaseSpeed", luaCreatureGetBaseSpeed);
+	registerMethod("Creature", "changeSpeed", luaCreatureChangeSpeed);
+
+	registerMethod("Creature", "setDropLoot", luaCreatureSetDropLoot);
+	registerMethod("Creature", "setSkillLoss", luaCreatureSetSkillLoss);
+
+	registerMethod("Creature", "getPosition", luaCreatureGetPosition);
+	registerMethod("Creature", "getTile", luaCreatureGetTile);
+	registerMethod("Creature", "getDirection", luaCreatureGetDirection);
+	registerMethod("Creature", "setDirection", luaCreatureSetDirection);
+
+	registerMethod("Creature", "getHealth", luaCreatureGetHealth);
+	registerMethod("Creature", "setHealth", luaCreatureSetHealth);
+	registerMethod("Creature", "addHealth", luaCreatureAddHealth);
+	registerMethod("Creature", "getMaxHealth", luaCreatureGetMaxHealth);
+	registerMethod("Creature", "setMaxHealth", luaCreatureSetMaxHealth);
+	registerMethod("Creature", "setHiddenHealth", luaCreatureSetHiddenHealth);
+	registerMethod("Creature", "setMovementBlocked", luaCreatureSetMovementBlocked);
+
+	registerMethod("Creature", "getSkull", luaCreatureGetSkull);
+	registerMethod("Creature", "setSkull", luaCreatureSetSkull);
+
+	registerMethod("Creature", "getOutfit", luaCreatureGetOutfit);
+	registerMethod("Creature", "setOutfit", luaCreatureSetOutfit);
+
+	registerMethod("Creature", "getCondition", luaCreatureGetCondition);
+	registerMethod("Creature", "addCondition", luaCreatureAddCondition);
+	registerMethod("Creature", "removeCondition", luaCreatureRemoveCondition);
+	registerMethod("Creature", "hasCondition", luaCreatureHasCondition);
+
+	registerMethod("Creature", "remove", luaCreatureRemove);
+	registerMethod("Creature", "teleportTo", luaCreatureTeleportTo);
+	registerMethod("Creature", "say", luaCreatureSay);
+
+	registerMethod("Creature", "getDamageMap", luaCreatureGetDamageMap);
+
+	registerMethod("Creature", "getSummons", luaCreatureGetSummons);
+
+	registerMethod("Creature", "getDescription", luaCreatureGetDescription);
+
+	registerMethod("Creature", "getPathTo", luaCreatureGetPathTo);
+	registerMethod("Creature", "move", luaCreatureMove);
+
+	registerMethod("Creature", "getZone", luaCreatureGetZone);
 }

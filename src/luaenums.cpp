@@ -3,8 +3,6 @@
 
 #include "otpch.h"
 
-#include "luaenums.h"
-
 #include "configmanager.h"
 #include "const.h"
 #include "creature.h"

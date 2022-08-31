@@ -3,53 +3,15 @@
 
 #include "otpch.h"
 
-#include "luamonster.h"
-
 #include "game.h"
 #include "luascript.h"
 #include "monster.h"
 
 extern Game g_game;
 
-void LuaScriptInterface::registerMonsterFunctions()
-{
-	registerClass("Monster", "Creature", LuaMonster::luaMonsterCreate);
-	registerMetaMethod("Monster", "__eq", LuaMonster::luaUserdataCompare);
+using namespace Lua;
 
-	registerMethod("Monster", "isMonster", LuaMonster::luaMonsterIsMonster);
-
-	registerMethod("Monster", "getType", LuaMonster::luaMonsterGetType);
-
-	registerMethod("Monster", "rename", LuaMonster::luaMonsterRename);
-
-	registerMethod("Monster", "getSpawnPosition", LuaMonster::luaMonsterGetSpawnPosition);
-	registerMethod("Monster", "isInSpawnRange", LuaMonster::luaMonsterIsInSpawnRange);
-
-	registerMethod("Monster", "isIdle", LuaMonster::luaMonsterIsIdle);
-	registerMethod("Monster", "setIdle", LuaMonster::luaMonsterSetIdle);
-
-	registerMethod("Monster", "isTarget", LuaMonster::luaMonsterIsTarget);
-	registerMethod("Monster", "isOpponent", LuaMonster::luaMonsterIsOpponent);
-	registerMethod("Monster", "isFriend", LuaMonster::luaMonsterIsFriend);
-
-	registerMethod("Monster", "addFriend", LuaMonster::luaMonsterAddFriend);
-	registerMethod("Monster", "removeFriend", LuaMonster::luaMonsterRemoveFriend);
-	registerMethod("Monster", "getFriendList", LuaMonster::luaMonsterGetFriendList);
-	registerMethod("Monster", "getFriendCount", LuaMonster::luaMonsterGetFriendCount);
-
-	registerMethod("Monster", "addTarget", LuaMonster::luaMonsterAddTarget);
-	registerMethod("Monster", "removeTarget", LuaMonster::luaMonsterRemoveTarget);
-	registerMethod("Monster", "getTargetList", LuaMonster::luaMonsterGetTargetList);
-	registerMethod("Monster", "getTargetCount", LuaMonster::luaMonsterGetTargetCount);
-
-	registerMethod("Monster", "selectTarget", LuaMonster::luaMonsterSelectTarget);
-	registerMethod("Monster", "searchTarget", LuaMonster::luaMonsterSearchTarget);
-
-	registerMethod("Monster", "isWalkingToSpawn", LuaMonster::luaMonsterIsWalkingToSpawn);
-	registerMethod("Monster", "walkToSpawn", LuaMonster::luaMonsterWalkToSpawn);
-}
-
-int LuaMonster::luaMonsterCreate(lua_State* L)
+static int luaMonsterCreate(lua_State* L)
 {
 	// Monster(id or userdata)
 	Monster* monster;
@@ -74,14 +36,14 @@ int LuaMonster::luaMonsterCreate(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterIsMonster(lua_State* L)
+static int luaMonsterIsMonster(lua_State* L)
 {
 	// monster:isMonster()
 	pushBoolean(L, getUserdata<const Monster>(L, 1) != nullptr);
 	return 1;
 }
 
-int LuaMonster::luaMonsterGetType(lua_State* L)
+static int luaMonsterGetType(lua_State* L)
 {
 	// monster:getType()
 	const Monster* monster = getUserdata<const Monster>(L, 1);
@@ -94,7 +56,7 @@ int LuaMonster::luaMonsterGetType(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterRename(lua_State* L)
+static int luaMonsterRename(lua_State* L)
 {
 	// monster:rename(name[, nameDescription])
 	Monster* monster = getUserdata<Monster>(L, 1);
@@ -112,7 +74,7 @@ int LuaMonster::luaMonsterRename(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterGetSpawnPosition(lua_State* L)
+static int luaMonsterGetSpawnPosition(lua_State* L)
 {
 	// monster:getSpawnPosition()
 	const Monster* monster = getUserdata<const Monster>(L, 1);
@@ -124,7 +86,7 @@ int LuaMonster::luaMonsterGetSpawnPosition(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterIsInSpawnRange(lua_State* L)
+static int luaMonsterIsInSpawnRange(lua_State* L)
 {
 	// monster:isInSpawnRange([position])
 	Monster* monster = getUserdata<Monster>(L, 1);
@@ -136,7 +98,7 @@ int LuaMonster::luaMonsterIsInSpawnRange(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterIsIdle(lua_State* L)
+static int luaMonsterIsIdle(lua_State* L)
 {
 	// monster:isIdle()
 	Monster* monster = getUserdata<Monster>(L, 1);
@@ -148,7 +110,7 @@ int LuaMonster::luaMonsterIsIdle(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterSetIdle(lua_State* L)
+static int luaMonsterSetIdle(lua_State* L)
 {
 	// monster:setIdle(idle)
 	Monster* monster = getUserdata<Monster>(L, 1);
@@ -162,14 +124,14 @@ int LuaMonster::luaMonsterSetIdle(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterIsTarget(lua_State* L)
+static int luaMonsterIsTarget(lua_State* L)
 {
 	// monster:isTarget(creature)
 	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
 		const Creature* creature = getCreature(L, 2);
 		if (!creature) {
-			reportErrorFunc(L, getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
+			reportErrorFunc(L, LuaScriptInterface::getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -181,14 +143,14 @@ int LuaMonster::luaMonsterIsTarget(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterIsOpponent(lua_State* L)
+static int luaMonsterIsOpponent(lua_State* L)
 {
 	// monster:isOpponent(creature)
 	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
 		const Creature* creature = getCreature(L, 2);
 		if (!creature) {
-			reportErrorFunc(L, getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
+			reportErrorFunc(L, LuaScriptInterface::getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -200,14 +162,14 @@ int LuaMonster::luaMonsterIsOpponent(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterIsFriend(lua_State* L)
+static int luaMonsterIsFriend(lua_State* L)
 {
 	// monster:isFriend(creature)
 	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
 		const Creature* creature = getCreature(L, 2);
 		if (!creature) {
-			reportErrorFunc(L, getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
+			reportErrorFunc(L, LuaScriptInterface::getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -219,14 +181,14 @@ int LuaMonster::luaMonsterIsFriend(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterAddFriend(lua_State* L)
+static int luaMonsterAddFriend(lua_State* L)
 {
 	// monster:addFriend(creature)
 	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
 		Creature* creature = getCreature(L, 2);
 		if (!creature) {
-			reportErrorFunc(L, getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
+			reportErrorFunc(L, LuaScriptInterface::getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -239,14 +201,14 @@ int LuaMonster::luaMonsterAddFriend(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterRemoveFriend(lua_State* L)
+static int luaMonsterRemoveFriend(lua_State* L)
 {
 	// monster:removeFriend(creature)
 	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
 		Creature* creature = getCreature(L, 2);
 		if (!creature) {
-			reportErrorFunc(L, getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
+			reportErrorFunc(L, LuaScriptInterface::getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -259,7 +221,7 @@ int LuaMonster::luaMonsterRemoveFriend(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterGetFriendList(lua_State* L)
+static int luaMonsterGetFriendList(lua_State* L)
 {
 	// monster:getFriendList()
 	Monster* monster = getUserdata<Monster>(L, 1);
@@ -280,7 +242,7 @@ int LuaMonster::luaMonsterGetFriendList(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterGetFriendCount(lua_State* L)
+static int luaMonsterGetFriendCount(lua_State* L)
 {
 	// monster:getFriendCount()
 	Monster* monster = getUserdata<Monster>(L, 1);
@@ -292,7 +254,7 @@ int LuaMonster::luaMonsterGetFriendCount(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterAddTarget(lua_State* L)
+static int luaMonsterAddTarget(lua_State* L)
 {
 	// monster:addTarget(creature[, pushFront = false])
 	Monster* monster = getUserdata<Monster>(L, 1);
@@ -303,7 +265,7 @@ int LuaMonster::luaMonsterAddTarget(lua_State* L)
 
 	Creature* creature = getCreature(L, 2);
 	if (!creature) {
-		reportErrorFunc(L, getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
+		reportErrorFunc(L, LuaScriptInterface::getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
 		pushBoolean(L, false);
 		return 1;
 	}
@@ -314,7 +276,7 @@ int LuaMonster::luaMonsterAddTarget(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterRemoveTarget(lua_State* L)
+static int luaMonsterRemoveTarget(lua_State* L)
 {
 	// monster:removeTarget(creature)
 	Monster* monster = getUserdata<Monster>(L, 1);
@@ -325,7 +287,7 @@ int LuaMonster::luaMonsterRemoveTarget(lua_State* L)
 
 	Creature* creature = getCreature(L, 2);
 	if (!creature) {
-		reportErrorFunc(L, getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
+		reportErrorFunc(L, LuaScriptInterface::getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
 		pushBoolean(L, false);
 		return 1;
 	}
@@ -335,7 +297,7 @@ int LuaMonster::luaMonsterRemoveTarget(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterGetTargetList(lua_State* L)
+static int luaMonsterGetTargetList(lua_State* L)
 {
 	// monster:getTargetList()
 	Monster* monster = getUserdata<Monster>(L, 1);
@@ -356,7 +318,7 @@ int LuaMonster::luaMonsterGetTargetList(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterGetTargetCount(lua_State* L)
+static int luaMonsterGetTargetCount(lua_State* L)
 {
 	// monster:getTargetCount()
 	Monster* monster = getUserdata<Monster>(L, 1);
@@ -368,14 +330,14 @@ int LuaMonster::luaMonsterGetTargetCount(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterSelectTarget(lua_State* L)
+static int luaMonsterSelectTarget(lua_State* L)
 {
 	// monster:selectTarget(creature)
 	Monster* monster = getUserdata<Monster>(L, 1);
 	if (monster) {
 		Creature* creature = getCreature(L, 2);
 		if (!creature) {
-			reportErrorFunc(L, getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
+			reportErrorFunc(L, LuaScriptInterface::getErrorDesc(LUA_ERROR_CREATURE_NOT_FOUND));
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -387,7 +349,7 @@ int LuaMonster::luaMonsterSelectTarget(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterSearchTarget(lua_State* L)
+static int luaMonsterSearchTarget(lua_State* L)
 {
 	// monster:searchTarget([searchType = TARGETSEARCH_DEFAULT])
 	Monster* monster = getUserdata<Monster>(L, 1);
@@ -400,7 +362,7 @@ int LuaMonster::luaMonsterSearchTarget(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterIsWalkingToSpawn(lua_State* L)
+static int luaMonsterIsWalkingToSpawn(lua_State* L)
 {
 	// monster:isWalkingToSpawn()
 	Monster* monster = getUserdata<Monster>(L, 1);
@@ -412,7 +374,7 @@ int LuaMonster::luaMonsterIsWalkingToSpawn(lua_State* L)
 	return 1;
 }
 
-int LuaMonster::luaMonsterWalkToSpawn(lua_State* L)
+static int luaMonsterWalkToSpawn(lua_State* L)
 {
 	// monster:walkToSpawn()
 	Monster* monster = getUserdata<Monster>(L, 1);
@@ -422,4 +384,42 @@ int LuaMonster::luaMonsterWalkToSpawn(lua_State* L)
 		lua_pushnil(L);
 	}
 	return 1;
+}
+
+void LuaScriptInterface::registerMonsterFunctions()
+{
+	registerClass("Monster", "Creature", luaMonsterCreate);
+	registerMetaMethod("Monster", "__eq", luaUserdataCompare);
+
+	registerMethod("Monster", "isMonster", luaMonsterIsMonster);
+
+	registerMethod("Monster", "getType", luaMonsterGetType);
+
+	registerMethod("Monster", "rename", luaMonsterRename);
+
+	registerMethod("Monster", "getSpawnPosition", luaMonsterGetSpawnPosition);
+	registerMethod("Monster", "isInSpawnRange", luaMonsterIsInSpawnRange);
+
+	registerMethod("Monster", "isIdle", luaMonsterIsIdle);
+	registerMethod("Monster", "setIdle", luaMonsterSetIdle);
+
+	registerMethod("Monster", "isTarget", luaMonsterIsTarget);
+	registerMethod("Monster", "isOpponent", luaMonsterIsOpponent);
+	registerMethod("Monster", "isFriend", luaMonsterIsFriend);
+
+	registerMethod("Monster", "addFriend", luaMonsterAddFriend);
+	registerMethod("Monster", "removeFriend", luaMonsterRemoveFriend);
+	registerMethod("Monster", "getFriendList", luaMonsterGetFriendList);
+	registerMethod("Monster", "getFriendCount", luaMonsterGetFriendCount);
+
+	registerMethod("Monster", "addTarget", luaMonsterAddTarget);
+	registerMethod("Monster", "removeTarget", luaMonsterRemoveTarget);
+	registerMethod("Monster", "getTargetList", luaMonsterGetTargetList);
+	registerMethod("Monster", "getTargetCount", luaMonsterGetTargetCount);
+
+	registerMethod("Monster", "selectTarget", luaMonsterSelectTarget);
+	registerMethod("Monster", "searchTarget", luaMonsterSearchTarget);
+
+	registerMethod("Monster", "isWalkingToSpawn", luaMonsterIsWalkingToSpawn);
+	registerMethod("Monster", "walkToSpawn", luaMonsterWalkToSpawn);
 }

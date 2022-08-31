@@ -90,9 +90,9 @@ ExperienceStages loadLuaStages(lua_State* L)
 	lua_pushnil(L);
 	while (lua_next(L, -2) != 0) {
 		const auto tableIndex = lua_gettop(L);
-		auto minLevel = LuaScriptInterface::getField<uint32_t>(L, tableIndex, "minlevel");
-		auto maxLevel = LuaScriptInterface::getField<uint32_t>(L, tableIndex, "maxlevel");
-		auto multiplier = LuaScriptInterface::getField<float>(L, tableIndex, "multiplier");
+		auto minLevel = Lua::getField<uint32_t>(L, tableIndex, "minlevel");
+		auto maxLevel = Lua::getField<uint32_t>(L, tableIndex, "maxlevel");
+		auto multiplier = Lua::getField<float>(L, tableIndex, "multiplier");
 		stages.emplace_back(minLevel, maxLevel, multiplier);
 		lua_pop(L, 4);
 	}

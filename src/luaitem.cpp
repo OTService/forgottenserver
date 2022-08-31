@@ -3,83 +3,20 @@
 
 #include "otpch.h"
 
-#include "luaitem.h"
-
 #include "game.h"
 #include "item.h"
 #include "luascript.h"
 
 extern Game g_game;
 
-void LuaScriptInterface::registerItemFunctions()
-{
-	// Item
-	registerClass("Item", "", LuaItem::luaItemCreate);
-	registerMetaMethod("Item", "__eq", LuaItem::luaUserdataCompare);
+using namespace Lua;
 
-	registerMethod("Item", "isItem", LuaItem::luaItemIsItem);
-
-	registerMethod("Item", "getParent", LuaItem::luaItemGetParent);
-	registerMethod("Item", "getTopParent", LuaItem::luaItemGetTopParent);
-
-	registerMethod("Item", "getId", LuaItem::luaItemGetId);
-
-	registerMethod("Item", "clone", LuaItem::luaItemClone);
-	registerMethod("Item", "split", LuaItem::luaItemSplit);
-	registerMethod("Item", "remove", LuaItem::luaItemRemove);
-
-	registerMethod("Item", "getUniqueId", LuaItem::luaItemGetUniqueId);
-	registerMethod("Item", "getActionId", LuaItem::luaItemGetActionId);
-	registerMethod("Item", "setActionId", LuaItem::luaItemSetActionId);
-
-	registerMethod("Item", "getCount", LuaItem::luaItemGetCount);
-	registerMethod("Item", "getCharges", LuaItem::luaItemGetCharges);
-	registerMethod("Item", "getFluidType", LuaItem::luaItemGetFluidType);
-	registerMethod("Item", "getWeight", LuaItem::luaItemGetWeight);
-	registerMethod("Item", "getWorth", LuaItem::luaItemGetWorth);
-
-	registerMethod("Item", "getSubType", LuaItem::luaItemGetSubType);
-
-	registerMethod("Item", "getName", LuaItem::luaItemGetName);
-	registerMethod("Item", "getPluralName", LuaItem::luaItemGetPluralName);
-	registerMethod("Item", "getArticle", LuaItem::luaItemGetArticle);
-
-	registerMethod("Item", "getPosition", LuaItem::luaItemGetPosition);
-	registerMethod("Item", "getTile", LuaItem::luaItemGetTile);
-
-	registerMethod("Item", "hasAttribute", LuaItem::luaItemHasAttribute);
-	registerMethod("Item", "getAttribute", LuaItem::luaItemGetAttribute);
-	registerMethod("Item", "setAttribute", LuaItem::luaItemSetAttribute);
-	registerMethod("Item", "removeAttribute", LuaItem::luaItemRemoveAttribute);
-	registerMethod("Item", "getCustomAttribute", LuaItem::luaItemGetCustomAttribute);
-	registerMethod("Item", "setCustomAttribute", LuaItem::luaItemSetCustomAttribute);
-	registerMethod("Item", "removeCustomAttribute", LuaItem::luaItemRemoveCustomAttribute);
-
-	registerMethod("Item", "moveTo", LuaItem::luaItemMoveTo);
-	registerMethod("Item", "transform", LuaItem::luaItemTransform);
-	registerMethod("Item", "decay", LuaItem::luaItemDecay);
-
-	registerMethod("Item", "getSpecialDescription", LuaItem::luaItemGetSpecialDescription);
-
-	registerMethod("Item", "hasProperty", LuaItem::luaItemHasProperty);
-	registerMethod("Item", "isLoadedFromMap", LuaItem::luaItemIsLoadedFromMap);
-
-	registerMethod("Item", "setStoreItem", LuaItem::luaItemSetStoreItem);
-	registerMethod("Item", "isStoreItem", LuaItem::luaItemIsStoreItem);
-
-	registerMethod("Item", "setReflect", LuaItem::luaItemSetReflect);
-	registerMethod("Item", "getReflect", LuaItem::luaItemGetReflect);
-
-	registerMethod("Item", "setBoostPercent", LuaItem::luaItemSetBoostPercent);
-	registerMethod("Item", "getBoostPercent", LuaItem::luaItemGetBoostPercent);
-}
-
-int LuaItem::luaItemCreate(lua_State* L)
+static int luaItemCreate(lua_State* L)
 {
 	// Item(uid)
 	uint32_t id = getNumber<uint32_t>(L, 2);
 
-	Item* item = getScriptEnv()->getItemByUID(id);
+	Item* item = LuaScriptInterface::getScriptEnv()->getItemByUID(id);
 	if (item) {
 		pushUserdata<Item>(L, item);
 		setItemMetatable(L, -1, item);
@@ -89,14 +26,14 @@ int LuaItem::luaItemCreate(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemIsItem(lua_State* L)
+static int luaItemIsItem(lua_State* L)
 {
 	// item:isItem()
 	pushBoolean(L, getUserdata<const Item>(L, 1) != nullptr);
 	return 1;
 }
 
-int LuaItem::luaItemGetParent(lua_State* L)
+static int luaItemGetParent(lua_State* L)
 {
 	// item:getParent()
 	Item* item = getUserdata<Item>(L, 1);
@@ -111,11 +48,11 @@ int LuaItem::luaItemGetParent(lua_State* L)
 		return 1;
 	}
 
-	pushCylinder(L, parent);
+	LuaScriptInterface::pushCylinder(L, parent);
 	return 1;
 }
 
-int LuaItem::luaItemGetTopParent(lua_State* L)
+static int luaItemGetTopParent(lua_State* L)
 {
 	// item:getTopParent()
 	Item* item = getUserdata<Item>(L, 1);
@@ -130,11 +67,11 @@ int LuaItem::luaItemGetTopParent(lua_State* L)
 		return 1;
 	}
 
-	pushCylinder(L, topParent);
+	LuaScriptInterface::pushCylinder(L, topParent);
 	return 1;
 }
 
-int LuaItem::luaItemGetId(lua_State* L)
+static int luaItemGetId(lua_State* L)
 {
 	// item:getId()
 	Item* item = getUserdata<Item>(L, 1);
@@ -146,7 +83,7 @@ int LuaItem::luaItemGetId(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemClone(lua_State* L)
+static int luaItemClone(lua_State* L)
 {
 	// item:clone()
 	Item* item = getUserdata<Item>(L, 1);
@@ -161,7 +98,7 @@ int LuaItem::luaItemClone(lua_State* L)
 		return 1;
 	}
 
-	getScriptEnv()->addTempItem(clone);
+	LuaScriptInterface::getScriptEnv()->addTempItem(clone);
 	clone->setParent(VirtualCylinder::virtualCylinder);
 
 	pushUserdata<Item>(L, clone);
@@ -169,7 +106,7 @@ int LuaItem::luaItemClone(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemSplit(lua_State* L)
+static int luaItemSplit(lua_State* L)
 {
 	// item:split([count = 1])
 	Item** itemPtr = getRawUserdata<Item>(L, 1);
@@ -195,7 +132,7 @@ int LuaItem::luaItemSplit(lua_State* L)
 
 	splitItem->setItemCount(count);
 
-	ScriptEnvironment* env = getScriptEnv();
+	ScriptEnvironment* env = LuaScriptInterface::getScriptEnv();
 	uint32_t uid = env->addThing(item);
 
 	Item* newItem = g_game.transformItem(item, item->getID(), diff);
@@ -217,7 +154,7 @@ int LuaItem::luaItemSplit(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemRemove(lua_State* L)
+static int luaItemRemove(lua_State* L)
 {
 	// item:remove([count = -1])
 	Item* item = getUserdata<Item>(L, 1);
@@ -230,14 +167,14 @@ int LuaItem::luaItemRemove(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetUniqueId(lua_State* L)
+static int luaItemGetUniqueId(lua_State* L)
 {
 	// item:getUniqueId()
 	Item* item = getUserdata<Item>(L, 1);
 	if (item) {
 		uint32_t uniqueId = item->getUniqueId();
 		if (uniqueId == 0) {
-			uniqueId = getScriptEnv()->addThing(item);
+			uniqueId = LuaScriptInterface::getScriptEnv()->addThing(item);
 		}
 		lua_pushnumber(L, uniqueId);
 	} else {
@@ -246,7 +183,7 @@ int LuaItem::luaItemGetUniqueId(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetActionId(lua_State* L)
+static int luaItemGetActionId(lua_State* L)
 {
 	// item:getActionId()
 	Item* item = getUserdata<Item>(L, 1);
@@ -258,7 +195,7 @@ int LuaItem::luaItemGetActionId(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemSetActionId(lua_State* L)
+static int luaItemSetActionId(lua_State* L)
 {
 	// item:setActionId(actionId)
 	uint16_t actionId = getNumber<uint16_t>(L, 2);
@@ -272,7 +209,7 @@ int LuaItem::luaItemSetActionId(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetCount(lua_State* L)
+static int luaItemGetCount(lua_State* L)
 {
 	// item:getCount()
 	Item* item = getUserdata<Item>(L, 1);
@@ -284,7 +221,7 @@ int LuaItem::luaItemGetCount(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetCharges(lua_State* L)
+static int luaItemGetCharges(lua_State* L)
 {
 	// item:getCharges()
 	Item* item = getUserdata<Item>(L, 1);
@@ -296,7 +233,7 @@ int LuaItem::luaItemGetCharges(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetFluidType(lua_State* L)
+static int luaItemGetFluidType(lua_State* L)
 {
 	// item:getFluidType()
 	Item* item = getUserdata<Item>(L, 1);
@@ -308,7 +245,7 @@ int LuaItem::luaItemGetFluidType(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetWeight(lua_State* L)
+static int luaItemGetWeight(lua_State* L)
 {
 	// item:getWeight()
 	Item* item = getUserdata<Item>(L, 1);
@@ -320,7 +257,7 @@ int LuaItem::luaItemGetWeight(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetWorth(lua_State* L)
+static int luaItemGetWorth(lua_State* L)
 {
 	// item:getWorth()
 	Item* item = getUserdata<Item>(L, 1);
@@ -332,7 +269,7 @@ int LuaItem::luaItemGetWorth(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetSubType(lua_State* L)
+static int luaItemGetSubType(lua_State* L)
 {
 	// item:getSubType()
 	Item* item = getUserdata<Item>(L, 1);
@@ -344,7 +281,7 @@ int LuaItem::luaItemGetSubType(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetName(lua_State* L)
+static int luaItemGetName(lua_State* L)
 {
 	// item:getName()
 	Item* item = getUserdata<Item>(L, 1);
@@ -356,7 +293,7 @@ int LuaItem::luaItemGetName(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetPluralName(lua_State* L)
+static int luaItemGetPluralName(lua_State* L)
 {
 	// item:getPluralName()
 	Item* item = getUserdata<Item>(L, 1);
@@ -368,7 +305,7 @@ int LuaItem::luaItemGetPluralName(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetArticle(lua_State* L)
+static int luaItemGetArticle(lua_State* L)
 {
 	// item:getArticle()
 	Item* item = getUserdata<Item>(L, 1);
@@ -380,7 +317,7 @@ int LuaItem::luaItemGetArticle(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetPosition(lua_State* L)
+static int luaItemGetPosition(lua_State* L)
 {
 	// item:getPosition()
 	Item* item = getUserdata<Item>(L, 1);
@@ -392,7 +329,7 @@ int LuaItem::luaItemGetPosition(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetTile(lua_State* L)
+static int luaItemGetTile(lua_State* L)
 {
 	// item:getTile()
 	Item* item = getUserdata<Item>(L, 1);
@@ -411,7 +348,7 @@ int LuaItem::luaItemGetTile(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemHasAttribute(lua_State* L)
+static int luaItemHasAttribute(lua_State* L)
 {
 	// item:hasAttribute(key)
 	Item* item = getUserdata<Item>(L, 1);
@@ -433,7 +370,7 @@ int LuaItem::luaItemHasAttribute(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetAttribute(lua_State* L)
+static int luaItemGetAttribute(lua_State* L)
 {
 	// item:getAttribute(key)
 	Item* item = getUserdata<Item>(L, 1);
@@ -461,7 +398,7 @@ int LuaItem::luaItemGetAttribute(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemSetAttribute(lua_State* L)
+static int luaItemSetAttribute(lua_State* L)
 {
 	// item:setAttribute(key, value)
 	Item* item = getUserdata<Item>(L, 1);
@@ -497,7 +434,7 @@ int LuaItem::luaItemSetAttribute(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemRemoveAttribute(lua_State* L)
+static int luaItemRemoveAttribute(lua_State* L)
 {
 	// item:removeAttribute(key)
 	Item* item = getUserdata<Item>(L, 1);
@@ -525,7 +462,7 @@ int LuaItem::luaItemRemoveAttribute(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetCustomAttribute(lua_State* L)
+static int luaItemGetCustomAttribute(lua_State* L)
 {
 	// item:getCustomAttribute(key)
 	Item* item = getUserdata<Item>(L, 1);
@@ -552,7 +489,7 @@ int LuaItem::luaItemGetCustomAttribute(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemSetCustomAttribute(lua_State* L)
+static int luaItemSetCustomAttribute(lua_State* L)
 {
 	// item:setCustomAttribute(key, value)
 	Item* item = getUserdata<Item>(L, 1);
@@ -593,7 +530,7 @@ int LuaItem::luaItemSetCustomAttribute(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemRemoveCustomAttribute(lua_State* L)
+static int luaItemRemoveCustomAttribute(lua_State* L)
 {
 	// item:removeCustomAttribute(key)
 	Item* item = getUserdata<Item>(L, 1);
@@ -612,7 +549,7 @@ int LuaItem::luaItemRemoveCustomAttribute(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemMoveTo(lua_State* L)
+static int luaItemMoveTo(lua_State* L)
 {
 	// item:moveTo(position or cylinder[, flags])
 	Item** itemPtr = getRawUserdata<Item>(L, 1);
@@ -675,7 +612,7 @@ int LuaItem::luaItemMoveTo(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemTransform(lua_State* L)
+static int luaItemTransform(lua_State* L)
 {
 	// item:transform(itemId[, count/subType = -1])
 	Item** itemPtr = getRawUserdata<Item>(L, 1);
@@ -712,7 +649,7 @@ int LuaItem::luaItemTransform(lua_State* L)
 		subType = std::min<int32_t>(subType, 100);
 	}
 
-	ScriptEnvironment* env = getScriptEnv();
+	ScriptEnvironment* env = LuaScriptInterface::getScriptEnv();
 	uint32_t uid = env->addThing(item);
 
 	Item* newItem = g_game.transformItem(item, itemId, subType);
@@ -729,7 +666,7 @@ int LuaItem::luaItemTransform(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemDecay(lua_State* L)
+static int luaItemDecay(lua_State* L)
 {
 	// item:decay(decayId)
 	Item* item = getUserdata<Item>(L, 1);
@@ -746,7 +683,7 @@ int LuaItem::luaItemDecay(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetSpecialDescription(lua_State* L)
+static int luaItemGetSpecialDescription(lua_State* L)
 {
 	// item:getSpecialDescription()
 	Item* item = getUserdata<Item>(L, 1);
@@ -758,7 +695,7 @@ int LuaItem::luaItemGetSpecialDescription(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemHasProperty(lua_State* L)
+static int luaItemHasProperty(lua_State* L)
 {
 	// item:hasProperty(property)
 	Item* item = getUserdata<Item>(L, 1);
@@ -771,7 +708,7 @@ int LuaItem::luaItemHasProperty(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemIsLoadedFromMap(lua_State* L)
+static int luaItemIsLoadedFromMap(lua_State* L)
 {
 	// item:isLoadedFromMap()
 	Item* item = getUserdata<Item>(L, 1);
@@ -783,7 +720,7 @@ int LuaItem::luaItemIsLoadedFromMap(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemSetStoreItem(lua_State* L)
+static int luaItemSetStoreItem(lua_State* L)
 {
 	// item:setStoreItem(storeItem)
 	Item* item = getUserdata<Item>(L, 1);
@@ -796,7 +733,7 @@ int LuaItem::luaItemSetStoreItem(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemIsStoreItem(lua_State* L)
+static int luaItemIsStoreItem(lua_State* L)
 {
 	// item:isStoreItem()
 	Item* item = getUserdata<Item>(L, 1);
@@ -808,7 +745,7 @@ int LuaItem::luaItemIsStoreItem(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemSetReflect(lua_State* L)
+static int luaItemSetReflect(lua_State* L)
 {
 	// item:setReflect(combatType, reflect)
 	Item* item = getUserdata<Item>(L, 1);
@@ -822,7 +759,7 @@ int LuaItem::luaItemSetReflect(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetReflect(lua_State* L)
+static int luaItemGetReflect(lua_State* L)
 {
 	// item:getReflect(combatType[, total = true])
 	Item* item = getUserdata<Item>(L, 1);
@@ -834,7 +771,7 @@ int LuaItem::luaItemGetReflect(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemSetBoostPercent(lua_State* L)
+static int luaItemSetBoostPercent(lua_State* L)
 {
 	// item:setBoostPercent(combatType, percent)
 	Item* item = getUserdata<Item>(L, 1);
@@ -848,7 +785,7 @@ int LuaItem::luaItemSetBoostPercent(lua_State* L)
 	return 1;
 }
 
-int LuaItem::luaItemGetBoostPercent(lua_State* L)
+static int luaItemGetBoostPercent(lua_State* L)
 {
 	// item:getBoostPercent(combatType[, total = true])
 	Item* item = getUserdata<Item>(L, 1);
@@ -858,4 +795,67 @@ int LuaItem::luaItemGetBoostPercent(lua_State* L)
 		lua_pushnil(L);
 	}
 	return 1;
+}
+
+void LuaScriptInterface::registerItemFunctions()
+{
+	// Item
+	registerClass("Item", "", luaItemCreate);
+	registerMetaMethod("Item", "__eq", luaUserdataCompare);
+
+	registerMethod("Item", "isItem", luaItemIsItem);
+
+	registerMethod("Item", "getParent", luaItemGetParent);
+	registerMethod("Item", "getTopParent", luaItemGetTopParent);
+
+	registerMethod("Item", "getId", luaItemGetId);
+
+	registerMethod("Item", "clone", luaItemClone);
+	registerMethod("Item", "split", luaItemSplit);
+	registerMethod("Item", "remove", luaItemRemove);
+
+	registerMethod("Item", "getUniqueId", luaItemGetUniqueId);
+	registerMethod("Item", "getActionId", luaItemGetActionId);
+	registerMethod("Item", "setActionId", luaItemSetActionId);
+
+	registerMethod("Item", "getCount", luaItemGetCount);
+	registerMethod("Item", "getCharges", luaItemGetCharges);
+	registerMethod("Item", "getFluidType", luaItemGetFluidType);
+	registerMethod("Item", "getWeight", luaItemGetWeight);
+	registerMethod("Item", "getWorth", luaItemGetWorth);
+
+	registerMethod("Item", "getSubType", luaItemGetSubType);
+
+	registerMethod("Item", "getName", luaItemGetName);
+	registerMethod("Item", "getPluralName", luaItemGetPluralName);
+	registerMethod("Item", "getArticle", luaItemGetArticle);
+
+	registerMethod("Item", "getPosition", luaItemGetPosition);
+	registerMethod("Item", "getTile", luaItemGetTile);
+
+	registerMethod("Item", "hasAttribute", luaItemHasAttribute);
+	registerMethod("Item", "getAttribute", luaItemGetAttribute);
+	registerMethod("Item", "setAttribute", luaItemSetAttribute);
+	registerMethod("Item", "removeAttribute", luaItemRemoveAttribute);
+	registerMethod("Item", "getCustomAttribute", luaItemGetCustomAttribute);
+	registerMethod("Item", "setCustomAttribute", luaItemSetCustomAttribute);
+	registerMethod("Item", "removeCustomAttribute", luaItemRemoveCustomAttribute);
+
+	registerMethod("Item", "moveTo", luaItemMoveTo);
+	registerMethod("Item", "transform", luaItemTransform);
+	registerMethod("Item", "decay", luaItemDecay);
+
+	registerMethod("Item", "getSpecialDescription", luaItemGetSpecialDescription);
+
+	registerMethod("Item", "hasProperty", luaItemHasProperty);
+	registerMethod("Item", "isLoadedFromMap", luaItemIsLoadedFromMap);
+
+	registerMethod("Item", "setStoreItem", luaItemSetStoreItem);
+	registerMethod("Item", "isStoreItem", luaItemIsStoreItem);
+
+	registerMethod("Item", "setReflect", luaItemSetReflect);
+	registerMethod("Item", "getReflect", luaItemGetReflect);
+
+	registerMethod("Item", "setBoostPercent", luaItemSetBoostPercent);
+	registerMethod("Item", "getBoostPercent", luaItemGetBoostPercent);
 }

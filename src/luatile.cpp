@@ -3,8 +3,6 @@
 
 #include "otpch.h"
 
-#include "luatile.h"
-
 #include "combat.h"
 #include "game.h"
 #include "housetile.h"
@@ -13,54 +11,9 @@
 
 extern Game g_game;
 
-void LuaScriptInterface::registerTileFunctions()
-{
-	registerClass("Tile", "", LuaTile::luaTileCreate);
-	registerMetaMethod("Tile", "__eq", LuaTile::luaUserdataCompare);
+using namespace Lua;
 
-	registerMethod("Tile", "remove", LuaTile::luaTileRemove);
-
-	registerMethod("Tile", "getPosition", LuaTile::luaTileGetPosition);
-	registerMethod("Tile", "getGround", LuaTile::luaTileGetGround);
-	registerMethod("Tile", "getThing", LuaTile::luaTileGetThing);
-	registerMethod("Tile", "getThingCount", LuaTile::luaTileGetThingCount);
-	registerMethod("Tile", "getTopVisibleThing", LuaTile::luaTileGetTopVisibleThing);
-
-	registerMethod("Tile", "getTopTopItem", LuaTile::luaTileGetTopTopItem);
-	registerMethod("Tile", "getTopDownItem", LuaTile::luaTileGetTopDownItem);
-	registerMethod("Tile", "getFieldItem", LuaTile::luaTileGetFieldItem);
-
-	registerMethod("Tile", "getItemById", LuaTile::luaTileGetItemById);
-	registerMethod("Tile", "getItemByType", LuaTile::luaTileGetItemByType);
-	registerMethod("Tile", "getItemByTopOrder", LuaTile::luaTileGetItemByTopOrder);
-	registerMethod("Tile", "getItemCountById", LuaTile::luaTileGetItemCountById);
-
-	registerMethod("Tile", "getBottomCreature", LuaTile::luaTileGetBottomCreature);
-	registerMethod("Tile", "getTopCreature", LuaTile::luaTileGetTopCreature);
-	registerMethod("Tile", "getBottomVisibleCreature", LuaTile::luaTileGetBottomVisibleCreature);
-	registerMethod("Tile", "getTopVisibleCreature", LuaTile::luaTileGetTopVisibleCreature);
-
-	registerMethod("Tile", "getItems", LuaTile::luaTileGetItems);
-	registerMethod("Tile", "getItemCount", LuaTile::luaTileGetItemCount);
-	registerMethod("Tile", "getDownItemCount", LuaTile::luaTileGetDownItemCount);
-	registerMethod("Tile", "getTopItemCount", LuaTile::luaTileGetTopItemCount);
-
-	registerMethod("Tile", "getCreatures", LuaTile::luaTileGetCreatures);
-	registerMethod("Tile", "getCreatureCount", LuaTile::luaTileGetCreatureCount);
-
-	registerMethod("Tile", "getThingIndex", LuaTile::luaTileGetThingIndex);
-
-	registerMethod("Tile", "hasProperty", LuaTile::luaTileHasProperty);
-	registerMethod("Tile", "hasFlag", LuaTile::luaTileHasFlag);
-
-	registerMethod("Tile", "queryAdd", LuaTile::luaTileQueryAdd);
-	registerMethod("Tile", "addItem", LuaTile::luaTileAddItem);
-	registerMethod("Tile", "addItemEx", LuaTile::luaTileAddItemEx);
-
-	registerMethod("Tile", "getHouse", LuaTile::luaTileGetHouse);
-}
-
-int LuaTile::luaTileCreate(lua_State* L)
+static int luaTileCreate(lua_State* L)
 {
 	// Tile(x, y, z)
 	// Tile(position)
@@ -83,7 +36,7 @@ int LuaTile::luaTileCreate(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileRemove(lua_State* L)
+static int luaTileRemove(lua_State* L)
 {
 	// tile:remove()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -101,7 +54,7 @@ int LuaTile::luaTileRemove(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetPosition(lua_State* L)
+static int luaTileGetPosition(lua_State* L)
 {
 	// tile:getPosition()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -113,7 +66,7 @@ int LuaTile::luaTileGetPosition(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetGround(lua_State* L)
+static int luaTileGetGround(lua_State* L)
 {
 	// tile:getGround()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -126,7 +79,7 @@ int LuaTile::luaTileGetGround(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetThing(lua_State* L)
+static int luaTileGetThing(lua_State* L)
 {
 	// tile:getThing(index)
 	int32_t index = getNumber<int32_t>(L, 2);
@@ -154,7 +107,7 @@ int LuaTile::luaTileGetThing(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetThingCount(lua_State* L)
+static int luaTileGetThingCount(lua_State* L)
 {
 	// tile:getThingCount()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -166,7 +119,7 @@ int LuaTile::luaTileGetThingCount(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetTopVisibleThing(lua_State* L)
+static int luaTileGetTopVisibleThing(lua_State* L)
 {
 	// tile:getTopVisibleThing(creature)
 	Creature* creature = getCreature(L, 2);
@@ -194,7 +147,7 @@ int LuaTile::luaTileGetTopVisibleThing(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetTopTopItem(lua_State* L)
+static int luaTileGetTopTopItem(lua_State* L)
 {
 	// tile:getTopTopItem()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -213,7 +166,7 @@ int LuaTile::luaTileGetTopTopItem(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetTopDownItem(lua_State* L)
+static int luaTileGetTopDownItem(lua_State* L)
 {
 	// tile:getTopDownItem()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -232,7 +185,7 @@ int LuaTile::luaTileGetTopDownItem(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetFieldItem(lua_State* L)
+static int luaTileGetFieldItem(lua_State* L)
 {
 	// tile:getFieldItem()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -251,7 +204,7 @@ int LuaTile::luaTileGetFieldItem(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetItemById(lua_State* L)
+static int luaTileGetItemById(lua_State* L)
 {
 	// tile:getItemById(itemId[, subType = -1])
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -282,7 +235,7 @@ int LuaTile::luaTileGetItemById(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetItemByType(lua_State* L)
+static int luaTileGetItemByType(lua_State* L)
 {
 	// tile:getItemByType(itemType)
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -347,7 +300,7 @@ int LuaTile::luaTileGetItemByType(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetItemByTopOrder(lua_State* L)
+static int luaTileGetItemByTopOrder(lua_State* L)
 {
 	// tile:getItemByTopOrder(topOrder)
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -369,7 +322,7 @@ int LuaTile::luaTileGetItemByTopOrder(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetItemCountById(lua_State* L)
+static int luaTileGetItemCountById(lua_State* L)
 {
 	// tile:getItemCountById(itemId[, subType = -1])
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -395,7 +348,7 @@ int LuaTile::luaTileGetItemCountById(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetBottomCreature(lua_State* L)
+static int luaTileGetBottomCreature(lua_State* L)
 {
 	// tile:getBottomCreature()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -415,7 +368,7 @@ int LuaTile::luaTileGetBottomCreature(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetTopCreature(lua_State* L)
+static int luaTileGetTopCreature(lua_State* L)
 {
 	// tile:getTopCreature()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -435,7 +388,7 @@ int LuaTile::luaTileGetTopCreature(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetBottomVisibleCreature(lua_State* L)
+static int luaTileGetBottomVisibleCreature(lua_State* L)
 {
 	// tile:getBottomVisibleCreature(creature)
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -460,7 +413,7 @@ int LuaTile::luaTileGetBottomVisibleCreature(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetTopVisibleCreature(lua_State* L)
+static int luaTileGetTopVisibleCreature(lua_State* L)
 {
 	// tile:getTopVisibleCreature(creature)
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -485,7 +438,7 @@ int LuaTile::luaTileGetTopVisibleCreature(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetItems(lua_State* L)
+static int luaTileGetItems(lua_State* L)
 {
 	// tile:getItems()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -511,7 +464,7 @@ int LuaTile::luaTileGetItems(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetItemCount(lua_State* L)
+static int luaTileGetItemCount(lua_State* L)
 {
 	// tile:getItemCount()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -524,7 +477,7 @@ int LuaTile::luaTileGetItemCount(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetDownItemCount(lua_State* L)
+static int luaTileGetDownItemCount(lua_State* L)
 {
 	// tile:getDownItemCount()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -536,7 +489,7 @@ int LuaTile::luaTileGetDownItemCount(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetTopItemCount(lua_State* L)
+static int luaTileGetTopItemCount(lua_State* L)
 {
 	// tile:getTopItemCount()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -549,7 +502,7 @@ int LuaTile::luaTileGetTopItemCount(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetCreatures(lua_State* L)
+static int luaTileGetCreatures(lua_State* L)
 {
 	// tile:getCreatures()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -575,7 +528,7 @@ int LuaTile::luaTileGetCreatures(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetCreatureCount(lua_State* L)
+static int luaTileGetCreatureCount(lua_State* L)
 {
 	// tile:getCreatureCount()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -588,7 +541,7 @@ int LuaTile::luaTileGetCreatureCount(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileHasProperty(lua_State* L)
+static int luaTileHasProperty(lua_State* L)
 {
 	// tile:hasProperty(property[, item])
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -613,7 +566,7 @@ int LuaTile::luaTileHasProperty(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetThingIndex(lua_State* L)
+static int luaTileGetThingIndex(lua_State* L)
 {
 	// tile:getThingIndex(thing)
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -631,7 +584,7 @@ int LuaTile::luaTileGetThingIndex(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileHasFlag(lua_State* L)
+static int luaTileHasFlag(lua_State* L)
 {
 	// tile:hasFlag(flag)
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -644,7 +597,7 @@ int LuaTile::luaTileHasFlag(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileQueryAdd(lua_State* L)
+static int luaTileQueryAdd(lua_State* L)
 {
 	// tile:queryAdd(thing[, flags])
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -663,7 +616,7 @@ int LuaTile::luaTileQueryAdd(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileAddItem(lua_State* L)
+static int luaTileAddItem(lua_State* L)
 {
 	// tile:addItem(itemId[, count/subType = 1[, flags = 0]])
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -704,7 +657,7 @@ int LuaTile::luaTileAddItem(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileAddItemEx(lua_State* L)
+static int luaTileAddItemEx(lua_State* L)
 {
 	// tile:addItemEx(item[, flags = 0])
 	Item* item = getUserdata<Item>(L, 2);
@@ -734,7 +687,7 @@ int LuaTile::luaTileAddItemEx(lua_State* L)
 	return 1;
 }
 
-int LuaTile::luaTileGetHouse(lua_State* L)
+static int luaTileGetHouse(lua_State* L)
 {
 	// tile:getHouse()
 	Tile* tile = getUserdata<Tile>(L, 1);
@@ -750,4 +703,51 @@ int LuaTile::luaTileGetHouse(lua_State* L)
 		lua_pushnil(L);
 	}
 	return 1;
+}
+
+void LuaScriptInterface::registerTileFunctions()
+{
+	registerClass("Tile", "", luaTileCreate);
+	registerMetaMethod("Tile", "__eq", luaUserdataCompare);
+
+	registerMethod("Tile", "remove", luaTileRemove);
+
+	registerMethod("Tile", "getPosition", luaTileGetPosition);
+	registerMethod("Tile", "getGround", luaTileGetGround);
+	registerMethod("Tile", "getThing", luaTileGetThing);
+	registerMethod("Tile", "getThingCount", luaTileGetThingCount);
+	registerMethod("Tile", "getTopVisibleThing", luaTileGetTopVisibleThing);
+
+	registerMethod("Tile", "getTopTopItem", luaTileGetTopTopItem);
+	registerMethod("Tile", "getTopDownItem", luaTileGetTopDownItem);
+	registerMethod("Tile", "getFieldItem", luaTileGetFieldItem);
+
+	registerMethod("Tile", "getItemById", luaTileGetItemById);
+	registerMethod("Tile", "getItemByType", luaTileGetItemByType);
+	registerMethod("Tile", "getItemByTopOrder", luaTileGetItemByTopOrder);
+	registerMethod("Tile", "getItemCountById", luaTileGetItemCountById);
+
+	registerMethod("Tile", "getBottomCreature", luaTileGetBottomCreature);
+	registerMethod("Tile", "getTopCreature", luaTileGetTopCreature);
+	registerMethod("Tile", "getBottomVisibleCreature", luaTileGetBottomVisibleCreature);
+	registerMethod("Tile", "getTopVisibleCreature", luaTileGetTopVisibleCreature);
+
+	registerMethod("Tile", "getItems", luaTileGetItems);
+	registerMethod("Tile", "getItemCount", luaTileGetItemCount);
+	registerMethod("Tile", "getDownItemCount", luaTileGetDownItemCount);
+	registerMethod("Tile", "getTopItemCount", luaTileGetTopItemCount);
+
+	registerMethod("Tile", "getCreatures", luaTileGetCreatures);
+	registerMethod("Tile", "getCreatureCount", luaTileGetCreatureCount);
+
+	registerMethod("Tile", "getThingIndex", luaTileGetThingIndex);
+
+	registerMethod("Tile", "hasProperty", luaTileHasProperty);
+	registerMethod("Tile", "hasFlag", luaTileHasFlag);
+
+	registerMethod("Tile", "queryAdd", luaTileQueryAdd);
+	registerMethod("Tile", "addItem", luaTileAddItem);
+	registerMethod("Tile", "addItemEx", luaTileAddItemEx);
+
+	registerMethod("Tile", "getHouse", luaTileGetHouse);
 }

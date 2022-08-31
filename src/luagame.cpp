@@ -1,7 +1,5 @@
 #include "otpch.h"
 
-#include "luagame.h"
-
 #include "configmanager.h"
 #include "creature.h"
 #include "events.h"
@@ -20,61 +18,10 @@ extern Events* g_events;
 extern Scripts* g_scripts;
 extern LuaEnvironment g_luaEnvironment;
 
-void LuaScriptInterface::registerGameFunctions()
-{
-	registerTable("Game");
-
-	registerMethod("Game", "getSpectators", LuaGame::luaGameGetSpectators);
-	registerMethod("Game", "getPlayers", LuaGame::luaGameGetPlayers);
-	registerMethod("Game", "getNpcs", LuaGame::luaGameGetNpcs);
-	registerMethod("Game", "getMonsters", LuaGame::luaGameGetMonsters);
-	registerMethod("Game", "loadMap", LuaGame::luaGameLoadMap);
-
-	registerMethod("Game", "getExperienceStage", LuaGame::luaGameGetExperienceStage);
-	registerMethod("Game", "getExperienceForLevel", LuaGame::luaGameGetExperienceForLevel);
-	registerMethod("Game", "getMonsterCount", LuaGame::luaGameGetMonsterCount);
-	registerMethod("Game", "getPlayerCount", LuaGame::luaGameGetPlayerCount);
-	registerMethod("Game", "getNpcCount", LuaGame::luaGameGetNpcCount);
-	registerMethod("Game", "getMonsterTypes", LuaGame::luaGameGetMonsterTypes);
-	registerMethod("Game", "getCurrencyItems", LuaGame::luaGameGetCurrencyItems);
-	registerMethod("Game", "getItemTypeByClientId", LuaGame::luaGameGetItemTypeByClientId);
-	registerMethod("Game", "getMountIdByLookType", LuaGame::luaGameGetMountIdByLookType);
-
-	registerMethod("Game", "getTowns", LuaGame::luaGameGetTowns);
-	registerMethod("Game", "getHouses", LuaGame::luaGameGetHouses);
-	registerMethod("Game", "getOutfits", LuaGame::luaGameGetOutfits);
-	registerMethod("Game", "getMounts", LuaGame::luaGameGetMounts);
-
-	registerMethod("Game", "getGameState", LuaGame::luaGameGetGameState);
-	registerMethod("Game", "setGameState", LuaGame::luaGameSetGameState);
-
-	registerMethod("Game", "getWorldType", LuaGame::luaGameGetWorldType);
-	registerMethod("Game", "setWorldType", LuaGame::luaGameSetWorldType);
-
-	registerMethod("Game", "getItemAttributeByName", LuaGame::luaGameGetItemAttributeByName);
-	registerMethod("Game", "getReturnMessage", LuaGame::luaGameGetReturnMessage);
-
-	registerMethod("Game", "createItem", LuaGame::luaGameCreateItem);
-	registerMethod("Game", "createContainer", LuaGame::luaGameCreateContainer);
-	registerMethod("Game", "createMonster", LuaGame::luaGameCreateMonster);
-	registerMethod("Game", "createNpc", LuaGame::luaGameCreateNpc);
-	registerMethod("Game", "createTile", LuaGame::luaGameCreateTile);
-	registerMethod("Game", "createMonsterType", LuaGame::luaGameCreateMonsterType);
-	registerMethod("Game", "createItemType", LuaGame::luaGameCreateItemType);
-
-	registerMethod("Game", "startRaid", LuaGame::luaGameStartRaid);
-
-	registerMethod("Game", "getClientVersion", LuaGame::luaGameGetClientVersion);
-
-	registerMethod("Game", "reload", LuaGame::luaGameReload);
-
-	registerMethod("Game", "getAccountStorageValue", LuaGame::luaGameGetAccountStorageValue);
-	registerMethod("Game", "setAccountStorageValue", LuaGame::luaGameSetAccountStorageValue);
-	registerMethod("Game", "saveAccountStorageValues", LuaGame::luaGameSaveAccountStorageValues);
-}
+using namespace Lua;
 
 // Game
-int LuaGame::luaGameGetSpectators(lua_State* L)
+static int luaGameGetSpectators(lua_State* L)
 {
 	// Game.getSpectators(position[, multifloor = false[, onlyPlayer = false[, minRangeX = 0[, maxRangeX = 0[, minRangeY
 	// = 0[, maxRangeY = 0]]]]]])
@@ -100,7 +47,7 @@ int LuaGame::luaGameGetSpectators(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetPlayers(lua_State* L)
+static int luaGameGetPlayers(lua_State* L)
 {
 	// Game.getPlayers()
 	lua_createtable(L, g_game.getPlayersOnline(), 0);
@@ -114,7 +61,7 @@ int LuaGame::luaGameGetPlayers(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetNpcs(lua_State* L)
+static int luaGameGetNpcs(lua_State* L)
 {
 	// Game.getNpcs()
 	lua_createtable(L, g_game.getNpcsOnline(), 0);
@@ -128,7 +75,7 @@ int LuaGame::luaGameGetNpcs(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetMonsters(lua_State* L)
+static int luaGameGetMonsters(lua_State* L)
 {
 	// Game.getMonsters()
 	lua_createtable(L, g_game.getMonstersOnline(), 0);
@@ -142,7 +89,7 @@ int LuaGame::luaGameGetMonsters(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameLoadMap(lua_State* L)
+static int luaGameLoadMap(lua_State* L)
 {
 	// Game.loadMap(path)
 	const std::string& path = getString(L, 1);
@@ -151,13 +98,13 @@ int LuaGame::luaGameLoadMap(lua_State* L)
 			g_game.loadMap(path);
 		} catch (const std::exception& e) {
 			// FIXME: Should only catch some exceptions
-			std::cout << "[Error - LuaGame::luaGameLoadMap] Failed to load map: " << e.what() << std::endl;
+			std::cout << "[Error - luaGameLoadMap] Failed to load map: " << e.what() << std::endl;
 		}
 	}));
 	return 0;
 }
 
-int LuaGame::luaGameGetExperienceStage(lua_State* L)
+static int luaGameGetExperienceStage(lua_State* L)
 {
 	// Game.getExperienceStage(level)
 	uint32_t level = getNumber<uint32_t>(L, 1);
@@ -165,7 +112,7 @@ int LuaGame::luaGameGetExperienceStage(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetExperienceForLevel(lua_State* L)
+static int luaGameGetExperienceForLevel(lua_State* L)
 {
 	// Game.getExperienceForLevel(level)
 	const uint32_t level = getNumber<uint32_t>(L, 1);
@@ -177,28 +124,28 @@ int LuaGame::luaGameGetExperienceForLevel(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetMonsterCount(lua_State* L)
+static int luaGameGetMonsterCount(lua_State* L)
 {
 	// Game.getMonsterCount()
 	lua_pushnumber(L, g_game.getMonstersOnline());
 	return 1;
 }
 
-int LuaGame::luaGameGetPlayerCount(lua_State* L)
+static int luaGameGetPlayerCount(lua_State* L)
 {
 	// Game.getPlayerCount()
 	lua_pushnumber(L, g_game.getPlayersOnline());
 	return 1;
 }
 
-int LuaGame::luaGameGetNpcCount(lua_State* L)
+static int luaGameGetNpcCount(lua_State* L)
 {
 	// Game.getNpcCount()
 	lua_pushnumber(L, g_game.getNpcsOnline());
 	return 1;
 }
 
-int LuaGame::luaGameGetMonsterTypes(lua_State* L)
+static int luaGameGetMonsterTypes(lua_State* L)
 {
 	// Game.getMonsterTypes()
 	auto& type = g_monsters.monsters;
@@ -212,7 +159,7 @@ int LuaGame::luaGameGetMonsterTypes(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetCurrencyItems(lua_State* L)
+static int luaGameGetCurrencyItems(lua_State* L)
 {
 	// Game.getCurrencyItems()
 	const auto& currencyItems = Item::items.currencyItems;
@@ -228,7 +175,7 @@ int LuaGame::luaGameGetCurrencyItems(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetItemTypeByClientId(lua_State* L)
+static int luaGameGetItemTypeByClientId(lua_State* L)
 {
 	// Game.getItemTypeByClientId(clientId)
 	uint16_t spriteId = getNumber<uint16_t>(L, 1);
@@ -243,7 +190,7 @@ int LuaGame::luaGameGetItemTypeByClientId(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetMountIdByLookType(lua_State* L)
+static int luaGameGetMountIdByLookType(lua_State* L)
 {
 	// Game.getMountIdByLookType(lookType)
 	Mount* mount = nullptr;
@@ -259,7 +206,7 @@ int LuaGame::luaGameGetMountIdByLookType(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetTowns(lua_State* L)
+static int luaGameGetTowns(lua_State* L)
 {
 	// Game.getTowns()
 	const auto& towns = g_game.map.towns.getTowns();
@@ -274,7 +221,7 @@ int LuaGame::luaGameGetTowns(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetHouses(lua_State* L)
+static int luaGameGetHouses(lua_State* L)
 {
 	// Game.getHouses()
 	const auto& houses = g_game.map.houses.getHouses();
@@ -289,7 +236,7 @@ int LuaGame::luaGameGetHouses(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetOutfits(lua_State* L)
+static int luaGameGetOutfits(lua_State* L)
 {
 	// Game.getOutfits(playerSex)
 	if (!isNumber(L, 1)) {
@@ -315,7 +262,7 @@ int LuaGame::luaGameGetOutfits(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetMounts(lua_State* L)
+static int luaGameGetMounts(lua_State* L)
 {
 	// Game.getMounts()
 	const auto& mounts = g_game.mounts.getMounts();
@@ -330,14 +277,14 @@ int LuaGame::luaGameGetMounts(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetGameState(lua_State* L)
+static int luaGameGetGameState(lua_State* L)
 {
 	// Game.getGameState()
 	lua_pushnumber(L, g_game.getGameState());
 	return 1;
 }
 
-int LuaGame::luaGameSetGameState(lua_State* L)
+static int luaGameSetGameState(lua_State* L)
 {
 	// Game.setGameState(state)
 	GameState_t state = getNumber<GameState_t>(L, 1);
@@ -346,14 +293,14 @@ int LuaGame::luaGameSetGameState(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetWorldType(lua_State* L)
+static int luaGameGetWorldType(lua_State* L)
 {
 	// Game.getWorldType()
 	lua_pushnumber(L, g_game.getWorldType());
 	return 1;
 }
 
-int LuaGame::luaGameSetWorldType(lua_State* L)
+static int luaGameSetWorldType(lua_State* L)
 {
 	// Game.setWorldType(type)
 	WorldType_t type = getNumber<WorldType_t>(L, 1);
@@ -362,7 +309,7 @@ int LuaGame::luaGameSetWorldType(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetReturnMessage(lua_State* L)
+static int luaGameGetReturnMessage(lua_State* L)
 {
 	// Game.getReturnMessage(value)
 	ReturnValue value = getNumber<ReturnValue>(L, 1);
@@ -370,14 +317,14 @@ int LuaGame::luaGameGetReturnMessage(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetItemAttributeByName(lua_State* L)
+static int luaGameGetItemAttributeByName(lua_State* L)
 {
 	// Game.getItemAttributeByName(name)
 	lua_pushnumber(L, stringToItemAttribute(getString(L, 1)));
 	return 1;
 }
 
-int LuaGame::luaGameCreateItem(lua_State* L)
+static int luaGameCreateItem(lua_State* L)
 {
 	// Game.createItem(itemId[, count[, position]])
 	uint16_t count = getNumber<uint16_t>(L, 2, 1);
@@ -414,7 +361,7 @@ int LuaGame::luaGameCreateItem(lua_State* L)
 
 		g_game.internalAddItem(tile, item, INDEX_WHEREEVER, FLAG_NOLIMIT);
 	} else {
-		getScriptEnv()->addTempItem(item);
+		LuaScriptInterface::getScriptEnv()->addTempItem(item);
 		item->setParent(VirtualCylinder::virtualCylinder);
 	}
 
@@ -423,7 +370,7 @@ int LuaGame::luaGameCreateItem(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameCreateContainer(lua_State* L)
+static int luaGameCreateContainer(lua_State* L)
 {
 	// Game.createContainer(itemId, size[, position])
 	uint16_t size = getNumber<uint16_t>(L, 2);
@@ -455,7 +402,7 @@ int LuaGame::luaGameCreateContainer(lua_State* L)
 
 		g_game.internalAddItem(tile, container, INDEX_WHEREEVER, FLAG_NOLIMIT);
 	} else {
-		getScriptEnv()->addTempItem(container);
+		LuaScriptInterface::getScriptEnv()->addTempItem(container);
 		container->setParent(VirtualCylinder::virtualCylinder);
 	}
 
@@ -464,7 +411,7 @@ int LuaGame::luaGameCreateContainer(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameCreateMonster(lua_State* L)
+static int luaGameCreateMonster(lua_State* L)
 {
 	// Game.createMonster(monsterName, position[, extended = false[, force = false[, magicEffect = CONST_ME_TELEPORT]]])
 	Monster* monster = Monster::createMonster(getString(L, 1));
@@ -492,7 +439,7 @@ int LuaGame::luaGameCreateMonster(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameCreateNpc(lua_State* L)
+static int luaGameCreateNpc(lua_State* L)
 {
 	// Game.createNpc(npcName, position[, extended = false[, force = false[, magicEffect = CONST_ME_TELEPORT]]])
 	Npc* npc = Npc::createNpc(getString(L, 1));
@@ -515,7 +462,7 @@ int LuaGame::luaGameCreateNpc(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameCreateTile(lua_State* L)
+static int luaGameCreateTile(lua_State* L)
 {
 	// Game.createTile(x, y, z[, isDynamic = false])
 	// Game.createTile(position[, isDynamic = false])
@@ -547,10 +494,10 @@ int LuaGame::luaGameCreateTile(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameCreateMonsterType(lua_State* L)
+static int luaGameCreateMonsterType(lua_State* L)
 {
 	// Game.createMonsterType(name)
-	if (getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
+	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
 		reportErrorFunc(L, "MonsterTypes can only be registered in the Scripts interface.");
 		lua_pushnil(L);
 		return 1;
@@ -584,10 +531,10 @@ int LuaGame::luaGameCreateMonsterType(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameCreateItemType(lua_State* L)
+static int luaGameCreateItemType(lua_State* L)
 {
 	// Game.createItemType(id)
-	if (getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
+	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
 		reportErrorFunc(L, "ItemTypes can only be registered in the Scripts interface.");
 		lua_pushnil(L);
 		return 1;
@@ -611,7 +558,7 @@ int LuaGame::luaGameCreateItemType(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameStartRaid(lua_State* L)
+static int luaGameStartRaid(lua_State* L)
 {
 	// Game.startRaid(raidName)
 	const std::string& raidName = getString(L, 1);
@@ -633,7 +580,7 @@ int LuaGame::luaGameStartRaid(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetClientVersion(lua_State* L)
+static int luaGameGetClientVersion(lua_State* L)
 {
 	// Game.getClientVersion()
 	lua_createtable(L, 0, 3);
@@ -643,7 +590,7 @@ int LuaGame::luaGameGetClientVersion(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameReload(lua_State* L)
+static int luaGameReload(lua_State* L)
 {
 	// Game.reload(reloadType)
 	ReloadTypes_t reloadType = getNumber<ReloadTypes_t>(L, 1);
@@ -657,7 +604,7 @@ int LuaGame::luaGameReload(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameGetAccountStorageValue(lua_State* L)
+static int luaGameGetAccountStorageValue(lua_State* L)
 {
 	// Game.getAccountStorageValue(accountId, key)
 	uint32_t accountId = getNumber<uint32_t>(L, 1);
@@ -668,7 +615,7 @@ int LuaGame::luaGameGetAccountStorageValue(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameSetAccountStorageValue(lua_State* L)
+static int luaGameSetAccountStorageValue(lua_State* L)
 {
 	// Game.setAccountStorageValue(accountId, key, value)
 	uint32_t accountId = getNumber<uint32_t>(L, 1);
@@ -681,10 +628,63 @@ int LuaGame::luaGameSetAccountStorageValue(lua_State* L)
 	return 1;
 }
 
-int LuaGame::luaGameSaveAccountStorageValues(lua_State* L)
+static int luaGameSaveAccountStorageValues(lua_State* L)
 {
 	// Game.saveAccountStorageValues()
 	lua_pushboolean(L, g_game.saveAccountStorageValues());
 
 	return 1;
+}
+
+void LuaScriptInterface::registerGameFunctions()
+{
+	registerTable("Game");
+
+	registerMethod("Game", "getSpectators", luaGameGetSpectators);
+	registerMethod("Game", "getPlayers", luaGameGetPlayers);
+	registerMethod("Game", "getNpcs", luaGameGetNpcs);
+	registerMethod("Game", "getMonsters", luaGameGetMonsters);
+	registerMethod("Game", "loadMap", luaGameLoadMap);
+
+	registerMethod("Game", "getExperienceStage", luaGameGetExperienceStage);
+	registerMethod("Game", "getExperienceForLevel", luaGameGetExperienceForLevel);
+	registerMethod("Game", "getMonsterCount", luaGameGetMonsterCount);
+	registerMethod("Game", "getPlayerCount", luaGameGetPlayerCount);
+	registerMethod("Game", "getNpcCount", luaGameGetNpcCount);
+	registerMethod("Game", "getMonsterTypes", luaGameGetMonsterTypes);
+	registerMethod("Game", "getCurrencyItems", luaGameGetCurrencyItems);
+	registerMethod("Game", "getItemTypeByClientId", luaGameGetItemTypeByClientId);
+	registerMethod("Game", "getMountIdByLookType", luaGameGetMountIdByLookType);
+
+	registerMethod("Game", "getTowns", luaGameGetTowns);
+	registerMethod("Game", "getHouses", luaGameGetHouses);
+	registerMethod("Game", "getOutfits", luaGameGetOutfits);
+	registerMethod("Game", "getMounts", luaGameGetMounts);
+
+	registerMethod("Game", "getGameState", luaGameGetGameState);
+	registerMethod("Game", "setGameState", luaGameSetGameState);
+
+	registerMethod("Game", "getWorldType", luaGameGetWorldType);
+	registerMethod("Game", "setWorldType", luaGameSetWorldType);
+
+	registerMethod("Game", "getItemAttributeByName", luaGameGetItemAttributeByName);
+	registerMethod("Game", "getReturnMessage", luaGameGetReturnMessage);
+
+	registerMethod("Game", "createItem", luaGameCreateItem);
+	registerMethod("Game", "createContainer", luaGameCreateContainer);
+	registerMethod("Game", "createMonster", luaGameCreateMonster);
+	registerMethod("Game", "createNpc", luaGameCreateNpc);
+	registerMethod("Game", "createTile", luaGameCreateTile);
+	registerMethod("Game", "createMonsterType", luaGameCreateMonsterType);
+	registerMethod("Game", "createItemType", luaGameCreateItemType);
+
+	registerMethod("Game", "startRaid", luaGameStartRaid);
+
+	registerMethod("Game", "getClientVersion", luaGameGetClientVersion);
+
+	registerMethod("Game", "reload", luaGameReload);
+
+	registerMethod("Game", "getAccountStorageValue", luaGameGetAccountStorageValue);
+	registerMethod("Game", "setAccountStorageValue", luaGameSetAccountStorageValue);
+	registerMethod("Game", "saveAccountStorageValues", luaGameSaveAccountStorageValues);
 }

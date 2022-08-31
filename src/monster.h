@@ -127,7 +127,6 @@ public:
 
 	static uint32_t monsterAutoID;
 
-private:
 	CreatureHashSet friendList;
 	CreatureList targetList;
 

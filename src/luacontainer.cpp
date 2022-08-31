@@ -3,40 +3,21 @@
 
 #include "otpch.h"
 
-#include "luacontainer.h"
-
 #include "container.h"
 #include "game.h"
 #include "luascript.h"
 
 extern Game g_game;
 
-void LuaScriptInterface::registerContainerFunctions()
-{
-	registerClass("Container", "Item", LuaContainer::luaContainerCreate);
-	registerMetaMethod("Container", "__eq", LuaContainer::luaUserdataCompare);
-
-	registerMethod("Container", "getSize", LuaContainer::luaContainerGetSize);
-	registerMethod("Container", "getCapacity", LuaContainer::luaContainerGetCapacity);
-	registerMethod("Container", "getEmptySlots", LuaContainer::luaContainerGetEmptySlots);
-	registerMethod("Container", "getItems", LuaContainer::luaContainerGetItems);
-	registerMethod("Container", "getItemHoldingCount", LuaContainer::luaContainerGetItemHoldingCount);
-	registerMethod("Container", "getItemCountById", LuaContainer::luaContainerGetItemCountById);
-
-	registerMethod("Container", "getItem", LuaContainer::luaContainerGetItem);
-	registerMethod("Container", "hasItem", LuaContainer::luaContainerHasItem);
-	registerMethod("Container", "addItem", LuaContainer::luaContainerAddItem);
-	registerMethod("Container", "addItemEx", LuaContainer::luaContainerAddItemEx);
-	registerMethod("Container", "getCorpseOwner", LuaContainer::luaContainerGetCorpseOwner);
-}
+using namespace Lua;
 
 // Container
-int LuaContainer::luaContainerCreate(lua_State* L)
+static int luaContainerCreate(lua_State* L)
 {
 	// Container(uid)
 	uint32_t id = getNumber<uint32_t>(L, 2);
 
-	Container* container = getScriptEnv()->getContainerByUID(id);
+	Container* container = LuaScriptInterface::getScriptEnv()->getContainerByUID(id);
 	if (container) {
 		pushUserdata(L, container);
 		setMetatable(L, -1, "Container");
@@ -46,7 +27,7 @@ int LuaContainer::luaContainerCreate(lua_State* L)
 	return 1;
 }
 
-int LuaContainer::luaContainerGetSize(lua_State* L)
+static int luaContainerGetSize(lua_State* L)
 {
 	// container:getSize()
 	Container* container = getUserdata<Container>(L, 1);
@@ -58,7 +39,7 @@ int LuaContainer::luaContainerGetSize(lua_State* L)
 	return 1;
 }
 
-int LuaContainer::luaContainerGetCapacity(lua_State* L)
+static int luaContainerGetCapacity(lua_State* L)
 {
 	// container:getCapacity()
 	Container* container = getUserdata<Container>(L, 1);
@@ -70,7 +51,7 @@ int LuaContainer::luaContainerGetCapacity(lua_State* L)
 	return 1;
 }
 
-int LuaContainer::luaContainerGetEmptySlots(lua_State* L)
+static int luaContainerGetEmptySlots(lua_State* L)
 {
 	// container:getEmptySlots([recursive = false])
 	Container* container = getUserdata<Container>(L, 1);
@@ -92,7 +73,7 @@ int LuaContainer::luaContainerGetEmptySlots(lua_State* L)
 	return 1;
 }
 
-int LuaContainer::luaContainerGetItemHoldingCount(lua_State* L)
+static int luaContainerGetItemHoldingCount(lua_State* L)
 {
 	// container:getItemHoldingCount()
 	Container* container = getUserdata<Container>(L, 1);
@@ -104,7 +85,7 @@ int LuaContainer::luaContainerGetItemHoldingCount(lua_State* L)
 	return 1;
 }
 
-int LuaContainer::luaContainerGetItem(lua_State* L)
+static int luaContainerGetItem(lua_State* L)
 {
 	// container:getItem(index)
 	Container* container = getUserdata<Container>(L, 1);
@@ -124,7 +105,7 @@ int LuaContainer::luaContainerGetItem(lua_State* L)
 	return 1;
 }
 
-int LuaContainer::luaContainerHasItem(lua_State* L)
+static int luaContainerHasItem(lua_State* L)
 {
 	// container:hasItem(item)
 	Item* item = getUserdata<Item>(L, 2);
@@ -137,7 +118,7 @@ int LuaContainer::luaContainerHasItem(lua_State* L)
 	return 1;
 }
 
-int LuaContainer::luaContainerAddItem(lua_State* L)
+static int luaContainerAddItem(lua_State* L)
 {
 	// container:addItem(itemId[, count/subType = 1[, index = INDEX_WHEREEVER[, flags = 0]]])
 	Container* container = getUserdata<Container>(L, 1);
@@ -183,7 +164,7 @@ int LuaContainer::luaContainerAddItem(lua_State* L)
 	return 1;
 }
 
-int LuaContainer::luaContainerAddItemEx(lua_State* L)
+static int luaContainerAddItemEx(lua_State* L)
 {
 	// container:addItemEx(item[, index = INDEX_WHEREEVER[, flags = 0]])
 	Item* item = getUserdata<Item>(L, 2);
@@ -214,7 +195,7 @@ int LuaContainer::luaContainerAddItemEx(lua_State* L)
 	return 1;
 }
 
-int LuaContainer::luaContainerGetCorpseOwner(lua_State* L)
+static int luaContainerGetCorpseOwner(lua_State* L)
 {
 	// container:getCorpseOwner()
 	Container* container = getUserdata<Container>(L, 1);
@@ -226,7 +207,7 @@ int LuaContainer::luaContainerGetCorpseOwner(lua_State* L)
 	return 1;
 }
 
-int LuaContainer::luaContainerGetItemCountById(lua_State* L)
+static int luaContainerGetItemCountById(lua_State* L)
 {
 	// container:getItemCountById(itemId[, subType = -1])
 	Container* container = getUserdata<Container>(L, 1);
@@ -251,7 +232,7 @@ int LuaContainer::luaContainerGetItemCountById(lua_State* L)
 	return 1;
 }
 
-int LuaContainer::luaContainerGetItems(lua_State* L)
+static int luaContainerGetItems(lua_State* L)
 {
 	// container:getItems([recursive = false])
 	Container* container = getUserdata<Container>(L, 1);
@@ -272,4 +253,23 @@ int LuaContainer::luaContainerGetItems(lua_State* L)
 		lua_rawseti(L, -2, ++index);
 	}
 	return 1;
+}
+
+void LuaScriptInterface::registerContainerFunctions()
+{
+	registerClass("Container", "Item", luaContainerCreate);
+	registerMetaMethod("Container", "__eq", luaUserdataCompare);
+
+	registerMethod("Container", "getSize", luaContainerGetSize);
+	registerMethod("Container", "getCapacity", luaContainerGetCapacity);
+	registerMethod("Container", "getEmptySlots", luaContainerGetEmptySlots);
+	registerMethod("Container", "getItems", luaContainerGetItems);
+	registerMethod("Container", "getItemHoldingCount", luaContainerGetItemHoldingCount);
+	registerMethod("Container", "getItemCountById", luaContainerGetItemCountById);
+
+	registerMethod("Container", "getItem", luaContainerGetItem);
+	registerMethod("Container", "hasItem", luaContainerHasItem);
+	registerMethod("Container", "addItem", luaContainerAddItem);
+	registerMethod("Container", "addItemEx", luaContainerAddItemEx);
+	registerMethod("Container", "getCorpseOwner", luaContainerGetCorpseOwner);
 }

@@ -3,30 +3,16 @@
 
 #include "otpch.h"
 
-#include "luaposition.h"
-
 #include "game.h"
 #include "luascript.h"
 #include "spectators.h"
 
 extern Game g_game;
 
-void LuaScriptInterface::registerPositionFunctions()
-{
-	registerClass("Position", "", LuaPosition::luaPositionCreate);
-	registerMetaMethod("Position", "__add", LuaPosition::luaPositionAdd);
-	registerMetaMethod("Position", "__sub", LuaPosition::luaPositionSub);
-	registerMetaMethod("Position", "__eq", LuaPosition::luaPositionCompare);
-
-	registerMethod("Position", "getDistance", LuaPosition::luaPositionGetDistance);
-	registerMethod("Position", "isSightClear", LuaPosition::luaPositionIsSightClear);
-
-	registerMethod("Position", "sendMagicEffect", LuaPosition::luaPositionSendMagicEffect);
-	registerMethod("Position", "sendDistanceEffect", LuaPosition::luaPositionSendDistanceEffect);
-}
+using namespace Lua;
 
 // Position
-int LuaPosition::luaPositionCreate(lua_State* L)
+static int luaPositionCreate(lua_State* L)
 {
 	// Position([x = 0[, y = 0[, z = 0[, stackpos = 0]]]])
 	// Position([position])
@@ -50,7 +36,7 @@ int LuaPosition::luaPositionCreate(lua_State* L)
 	return 1;
 }
 
-int LuaPosition::luaPositionAdd(lua_State* L)
+static int luaPositionAdd(lua_State* L)
 {
 	// positionValue = position + positionEx
 	int32_t stackpos;
@@ -67,7 +53,7 @@ int LuaPosition::luaPositionAdd(lua_State* L)
 	return 1;
 }
 
-int LuaPosition::luaPositionSub(lua_State* L)
+static int luaPositionSub(lua_State* L)
 {
 	// positionValue = position - positionEx
 	int32_t stackpos;
@@ -84,7 +70,7 @@ int LuaPosition::luaPositionSub(lua_State* L)
 	return 1;
 }
 
-int LuaPosition::luaPositionCompare(lua_State* L)
+static int luaPositionCompare(lua_State* L)
 {
 	// position == positionEx
 	const Position& positionEx = getPosition(L, 2);
@@ -93,7 +79,7 @@ int LuaPosition::luaPositionCompare(lua_State* L)
 	return 1;
 }
 
-int LuaPosition::luaPositionGetDistance(lua_State* L)
+static int luaPositionGetDistance(lua_State* L)
 {
 	// position:getDistance(positionEx)
 	const Position& positionEx = getPosition(L, 2);
@@ -104,7 +90,7 @@ int LuaPosition::luaPositionGetDistance(lua_State* L)
 	return 1;
 }
 
-int LuaPosition::luaPositionIsSightClear(lua_State* L)
+static int luaPositionIsSightClear(lua_State* L)
 {
 	// position:isSightClear(positionEx[, sameFloor = true])
 	bool sameFloor = getBoolean(L, 3, true);
@@ -114,7 +100,7 @@ int LuaPosition::luaPositionIsSightClear(lua_State* L)
 	return 1;
 }
 
-int LuaPosition::luaPositionSendMagicEffect(lua_State* L)
+static int luaPositionSendMagicEffect(lua_State* L)
 {
 	// position:sendMagicEffect(magicEffect[, player = nullptr])
 	SpectatorVec spectators;
@@ -142,7 +128,7 @@ int LuaPosition::luaPositionSendMagicEffect(lua_State* L)
 	return 1;
 }
 
-int LuaPosition::luaPositionSendDistanceEffect(lua_State* L)
+static int luaPositionSendDistanceEffect(lua_State* L)
 {
 	// position:sendDistanceEffect(positionEx, distanceEffect[, player = nullptr])
 	SpectatorVec spectators;
@@ -164,4 +150,18 @@ int LuaPosition::luaPositionSendDistanceEffect(lua_State* L)
 
 	pushBoolean(L, true);
 	return 1;
+}
+
+void LuaScriptInterface::registerPositionFunctions()
+{
+	registerClass("Position", "", luaPositionCreate);
+	registerMetaMethod("Position", "__add", luaPositionAdd);
+	registerMetaMethod("Position", "__sub", luaPositionSub);
+	registerMetaMethod("Position", "__eq", luaPositionCompare);
+
+	registerMethod("Position", "getDistance", luaPositionGetDistance);
+	registerMethod("Position", "isSightClear", luaPositionIsSightClear);
+
+	registerMethod("Position", "sendMagicEffect", luaPositionSendMagicEffect);
+	registerMethod("Position", "sendDistanceEffect", luaPositionSendDistanceEffect);
 }
