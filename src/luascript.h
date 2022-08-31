@@ -302,8 +302,11 @@ private:
 	static DBResultMap tempResults;
 };
 
-template<typename T1, typename T2>
-constexpr auto reportErrorFunc(T1 L, T2  a) { return LuaScriptInterface::reportError(__FUNCTION__, a, L, true); }
+template <typename T1, typename T2>
+constexpr auto reportErrorFunc(T1 L, T2 a)
+{
+	return LuaScriptInterface::reportError(__FUNCTION__, a, L, true);
+}
 
 enum ErrorCode_t
 {
@@ -429,8 +432,6 @@ protected:
 	std::map<int32_t, std::string> cacheFiles;
 
 private:
-	//static std::string getStackTrace(lua_State* L, const std::string& error_desc);
-
 	static bool getArea(lua_State* L, std::vector<uint32_t>& vec, uint32_t& rows);
 
 	// lua functions

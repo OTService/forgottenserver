@@ -6,9 +6,9 @@
 #include "npc.h"
 
 #include "game.h"
+#include "luascript.h"
 #include "pugicast.h"
 #include "spectators.h"
-#include "luascript.h"
 
 extern Game g_game;
 extern LuaEnvironment g_luaEnvironment;
