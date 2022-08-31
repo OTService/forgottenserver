@@ -256,7 +256,8 @@ struct Abilities
 	bool regeneration = false;
 };
 
-struct FieldBlock {
+struct FieldBlock
+{
 	std::string name = "";
 	uint32_t ticks = 0;
 	int32_t initDamage = -1;
