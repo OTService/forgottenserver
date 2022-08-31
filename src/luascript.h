@@ -229,6 +229,8 @@ static void pushSharedPtr(lua_State* L, T value)
 	new (lua_newuserdata(L, sizeof(T))) T(std::move(value));
 }
 
+void reportErrorFunc(lua_State* L, std::string a);
+
 }; // namespace Lua
 
 class ScriptEnvironment
@@ -301,12 +303,6 @@ private:
 	static uint32_t lastResultId;
 	static DBResultMap tempResults;
 };
-
-template <typename T1, typename T2>
-constexpr auto reportErrorFunc(T1 L, T2 a)
-{
-	return LuaScriptInterface::reportError(__FUNCTION__, a, L, true);
-}
 
 enum ErrorCode_t
 {
