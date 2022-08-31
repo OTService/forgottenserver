@@ -2,10 +2,12 @@
 // Use of this source code is governed by the GPL-2.0 License that can be found in the LICENSE file.
 
 #include "otpch.h"
+
 #include "luacontainer.h"
-#include "luascript.h"
+
 #include "container.h"
 #include "game.h"
+#include "luascript.h"
 
 extern Game g_game;
 
@@ -271,4 +273,3 @@ int LuaContainer::luaContainerGetItems(lua_State* L)
 	}
 	return 1;
 }
-

@@ -2,12 +2,14 @@
 // Use of this source code is governed by the GPL-2.0 License that can be found in the LICENSE file.
 
 #include "otpch.h"
+
 #include "luatile.h"
+
+#include "combat.h"
+#include "game.h"
+#include "housetile.h"
 #include "luascript.h"
 #include "tile.h"
-#include "game.h"
-#include "combat.h"
-#include "housetile.h"
 
 extern Game g_game;
 

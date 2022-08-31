@@ -1,16 +1,18 @@
 #include "otpch.h"
+
 #include "luagame.h"
-#include "luascript.h"
-#include "game.h"
-#include "creature.h"
-#include "spectators.h"
+
 #include "configmanager.h"
-#include "monsters.h"
-#include "outfit.h"
-#include "monster.h"
+#include "creature.h"
 #include "events.h"
+#include "game.h"
+#include "luascript.h"
+#include "monster.h"
+#include "monsters.h"
 #include "npc.h"
+#include "outfit.h"
 #include "script.h"
+#include "spectators.h"
 
 extern ConfigManager g_config;
 extern Monsters g_monsters;

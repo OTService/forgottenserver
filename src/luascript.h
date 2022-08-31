@@ -696,7 +696,7 @@ private:
 	static int luaItemTypePluralName(lua_State* L);
 	static int luaItemTypeArticle(lua_State* L);
 	static int luaItemTypeDescription(lua_State* L);
-	static int luaItemTypeSlotPosition(lua_State *L);
+	static int luaItemTypeSlotPosition(lua_State* L);
 
 	static int luaItemTypeCharges(lua_State* L);
 	static int luaItemTypeFluidSource(lua_State* L);

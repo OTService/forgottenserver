@@ -5,6 +5,7 @@
 #define FS_LUAPLAYER_H
 
 #include "otpch.h"
+
 #include "luascript.h"
 #include "player.h"
 
@@ -194,7 +195,6 @@ public:
 	static int luaPlayerGetIdleTime(lua_State* L);
 
 protected:
-
 private:
 	friend class LuaScriptInterface;
 };

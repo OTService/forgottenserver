@@ -2,20 +2,22 @@
 // Use of this source code is governed by the GPL-2.0 License that can be found in the LICENSE file.
 
 #include "otpch.h"
+
 #include "luaplayer.h"
+
+#include "chat.h"
+#include "creature.h"
+#include "depotchest.h"
+#include "game.h"
+#include "inbox.h"
+#include "iologindata.h"
+#include "item.h"
 #include "luascript.h"
 #include "player.h"
-#include "game.h"
-#include "iologindata.h"
-#include "vocation.h"
-#include "item.h"
-#include "depotchest.h"
-#include "inbox.h"
-#include "chat.h"
-#include "spells.h"
-#include "creature.h"
 #include "spectators.h"
+#include "spells.h"
 #include "storeinbox.h"
+#include "vocation.h"
 
 extern Game g_game;
 extern Vocations g_vocations;

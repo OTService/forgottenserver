@@ -2,10 +2,12 @@
 // Use of this source code is governed by the GPL-2.0 License that can be found in the LICENSE file.
 
 #include "otpch.h"
+
 #include "luaposition.h"
+
+#include "game.h"
 #include "luascript.h"
 #include "spectators.h"
-#include "game.h"
 
 extern Game g_game;
 

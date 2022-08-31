@@ -2,14 +2,16 @@
 // Use of this source code is governed by the GPL-2.0 License that can be found in the LICENSE file.
 
 #include "otpch.h"
+
 #include "luacreature.h"
-#include "luascript.h"
-#include "creature.h"
-#include "game.h"
-#include "creatureevent.h"
-#include "spectators.h"
-#include "events.h"
+
 #include "condition.h"
+#include "creature.h"
+#include "creatureevent.h"
+#include "events.h"
+#include "game.h"
+#include "luascript.h"
+#include "spectators.h"
 
 extern Game g_game;
 extern Events* g_events;

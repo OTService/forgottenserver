@@ -2,16 +2,18 @@
 // Use of this source code is governed by the GPL-2.0 License that can be found in the LICENSE file.
 
 #include "otpch.h"
+
 #include "luaenums.h"
-#include "luascript.h"
-#include "enums.h"
-#include "const.h"
-#include "item.h"
-#include "creature.h"
-#include "game.h"
-#include "player.h"
-#include "monsters.h"
+
 #include "configmanager.h"
+#include "const.h"
+#include "creature.h"
+#include "enums.h"
+#include "game.h"
+#include "item.h"
+#include "luascript.h"
+#include "monsters.h"
+#include "player.h"
 
 #define registerEnum(value) \
 	{ \
