@@ -45,6 +45,7 @@ public:
 	static int luaGameCreateNpc(lua_State* L);
 	static int luaGameCreateTile(lua_State* L);
 	static int luaGameCreateMonsterType(lua_State* L);
+	static int luaGameCreateItemType(lua_State* L);
 
 	static int luaGameStartRaid(lua_State* L);
 
