@@ -1849,7 +1849,6 @@ ItemType& Items::parseItemLua(uint16_t id)
 	}
 
 	return getItemType(id);
-	;
 }
 
 ItemType& Items::getItemType(size_t id)

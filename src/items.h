@@ -459,7 +459,7 @@ public:
 
 	bool loadFromXml();
 	void parseItemNode(const pugi::xml_node& itemNode, uint16_t id);
-	ItemType& Items::parseItemLua(uint16_t id);
+	ItemType& parseItemLua(uint16_t id);
 
 	void buildInventoryList();
 
