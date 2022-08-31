@@ -3,6 +3,8 @@
 
 #include "otpch.h"
 
+#include "luamodalwindow.h"
+
 #include "luascript.h"
 #include "player.h"
 
@@ -244,34 +246,34 @@ static int luaModalWindowSendToPlayer(lua_State* L)
 	return 1;
 }
 
-void LuaScriptInterface::registerModalWindowFunctions()
+void LuaModalWindow::registerFunctions(LuaScriptInterface* interface)
 {
-	registerClass("ModalWindow", "", luaModalWindowCreate);
-	registerMetaMethod("ModalWindow", "__eq", luaUserdataCompare);
-	registerMetaMethod("ModalWindow", "__gc", luaModalWindowDelete);
-	registerMethod("ModalWindow", "delete", luaModalWindowDelete);
+	interface->registerClass("ModalWindow", "", luaModalWindowCreate);
+	interface->registerMetaMethod("ModalWindow", "__eq", interface->luaUserdataCompare);
+	interface->registerMetaMethod("ModalWindow", "__gc", luaModalWindowDelete);
+	interface->registerMethod("ModalWindow", "delete", luaModalWindowDelete);
 
-	registerMethod("ModalWindow", "getId", luaModalWindowGetId);
-	registerMethod("ModalWindow", "getTitle", luaModalWindowGetTitle);
-	registerMethod("ModalWindow", "getMessage", luaModalWindowGetMessage);
+	interface->registerMethod("ModalWindow", "getId", luaModalWindowGetId);
+	interface->registerMethod("ModalWindow", "getTitle", luaModalWindowGetTitle);
+	interface->registerMethod("ModalWindow", "getMessage", luaModalWindowGetMessage);
 
-	registerMethod("ModalWindow", "setTitle", luaModalWindowSetTitle);
-	registerMethod("ModalWindow", "setMessage", luaModalWindowSetMessage);
+	interface->registerMethod("ModalWindow", "setTitle", luaModalWindowSetTitle);
+	interface->registerMethod("ModalWindow", "setMessage", luaModalWindowSetMessage);
 
-	registerMethod("ModalWindow", "getButtonCount", luaModalWindowGetButtonCount);
-	registerMethod("ModalWindow", "getChoiceCount", luaModalWindowGetChoiceCount);
+	interface->registerMethod("ModalWindow", "getButtonCount", luaModalWindowGetButtonCount);
+	interface->registerMethod("ModalWindow", "getChoiceCount", luaModalWindowGetChoiceCount);
 
-	registerMethod("ModalWindow", "addButton", luaModalWindowAddButton);
-	registerMethod("ModalWindow", "addChoice", luaModalWindowAddChoice);
+	interface->registerMethod("ModalWindow", "addButton", luaModalWindowAddButton);
+	interface->registerMethod("ModalWindow", "addChoice", luaModalWindowAddChoice);
 
-	registerMethod("ModalWindow", "getDefaultEnterButton", luaModalWindowGetDefaultEnterButton);
-	registerMethod("ModalWindow", "setDefaultEnterButton", luaModalWindowSetDefaultEnterButton);
+	interface->registerMethod("ModalWindow", "getDefaultEnterButton", luaModalWindowGetDefaultEnterButton);
+	interface->registerMethod("ModalWindow", "setDefaultEnterButton", luaModalWindowSetDefaultEnterButton);
 
-	registerMethod("ModalWindow", "getDefaultEscapeButton", luaModalWindowGetDefaultEscapeButton);
-	registerMethod("ModalWindow", "setDefaultEscapeButton", luaModalWindowSetDefaultEscapeButton);
+	interface->registerMethod("ModalWindow", "getDefaultEscapeButton", luaModalWindowGetDefaultEscapeButton);
+	interface->registerMethod("ModalWindow", "setDefaultEscapeButton", luaModalWindowSetDefaultEscapeButton);
 
-	registerMethod("ModalWindow", "hasPriority", luaModalWindowHasPriority);
-	registerMethod("ModalWindow", "setPriority", luaModalWindowSetPriority);
+	interface->registerMethod("ModalWindow", "hasPriority", luaModalWindowHasPriority);
+	interface->registerMethod("ModalWindow", "setPriority", luaModalWindowSetPriority);
 
-	registerMethod("ModalWindow", "sendToPlayer", luaModalWindowSendToPlayer);
+	interface->registerMethod("ModalWindow", "sendToPlayer", luaModalWindowSendToPlayer);
 }

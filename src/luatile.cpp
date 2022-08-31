@@ -3,6 +3,8 @@
 
 #include "otpch.h"
 
+#include "luatile.h"
+
 #include "combat.h"
 #include "game.h"
 #include "housetile.h"
@@ -705,49 +707,49 @@ static int luaTileGetHouse(lua_State* L)
 	return 1;
 }
 
-void LuaScriptInterface::registerTileFunctions()
+void LuaTile::registerFunctions(LuaScriptInterface* interface)
 {
-	registerClass("Tile", "", luaTileCreate);
-	registerMetaMethod("Tile", "__eq", luaUserdataCompare);
+	interface->registerClass("Tile", "", luaTileCreate);
+	interface->registerMetaMethod("Tile", "__eq", interface->luaUserdataCompare);
 
-	registerMethod("Tile", "remove", luaTileRemove);
+	interface->registerMethod("Tile", "remove", luaTileRemove);
 
-	registerMethod("Tile", "getPosition", luaTileGetPosition);
-	registerMethod("Tile", "getGround", luaTileGetGround);
-	registerMethod("Tile", "getThing", luaTileGetThing);
-	registerMethod("Tile", "getThingCount", luaTileGetThingCount);
-	registerMethod("Tile", "getTopVisibleThing", luaTileGetTopVisibleThing);
+	interface->registerMethod("Tile", "getPosition", luaTileGetPosition);
+	interface->registerMethod("Tile", "getGround", luaTileGetGround);
+	interface->registerMethod("Tile", "getThing", luaTileGetThing);
+	interface->registerMethod("Tile", "getThingCount", luaTileGetThingCount);
+	interface->registerMethod("Tile", "getTopVisibleThing", luaTileGetTopVisibleThing);
 
-	registerMethod("Tile", "getTopTopItem", luaTileGetTopTopItem);
-	registerMethod("Tile", "getTopDownItem", luaTileGetTopDownItem);
-	registerMethod("Tile", "getFieldItem", luaTileGetFieldItem);
+	interface->registerMethod("Tile", "getTopTopItem", luaTileGetTopTopItem);
+	interface->registerMethod("Tile", "getTopDownItem", luaTileGetTopDownItem);
+	interface->registerMethod("Tile", "getFieldItem", luaTileGetFieldItem);
 
-	registerMethod("Tile", "getItemById", luaTileGetItemById);
-	registerMethod("Tile", "getItemByType", luaTileGetItemByType);
-	registerMethod("Tile", "getItemByTopOrder", luaTileGetItemByTopOrder);
-	registerMethod("Tile", "getItemCountById", luaTileGetItemCountById);
+	interface->registerMethod("Tile", "getItemById", luaTileGetItemById);
+	interface->registerMethod("Tile", "getItemByType", luaTileGetItemByType);
+	interface->registerMethod("Tile", "getItemByTopOrder", luaTileGetItemByTopOrder);
+	interface->registerMethod("Tile", "getItemCountById", luaTileGetItemCountById);
 
-	registerMethod("Tile", "getBottomCreature", luaTileGetBottomCreature);
-	registerMethod("Tile", "getTopCreature", luaTileGetTopCreature);
-	registerMethod("Tile", "getBottomVisibleCreature", luaTileGetBottomVisibleCreature);
-	registerMethod("Tile", "getTopVisibleCreature", luaTileGetTopVisibleCreature);
+	interface->registerMethod("Tile", "getBottomCreature", luaTileGetBottomCreature);
+	interface->registerMethod("Tile", "getTopCreature", luaTileGetTopCreature);
+	interface->registerMethod("Tile", "getBottomVisibleCreature", luaTileGetBottomVisibleCreature);
+	interface->registerMethod("Tile", "getTopVisibleCreature", luaTileGetTopVisibleCreature);
 
-	registerMethod("Tile", "getItems", luaTileGetItems);
-	registerMethod("Tile", "getItemCount", luaTileGetItemCount);
-	registerMethod("Tile", "getDownItemCount", luaTileGetDownItemCount);
-	registerMethod("Tile", "getTopItemCount", luaTileGetTopItemCount);
+	interface->registerMethod("Tile", "getItems", luaTileGetItems);
+	interface->registerMethod("Tile", "getItemCount", luaTileGetItemCount);
+	interface->registerMethod("Tile", "getDownItemCount", luaTileGetDownItemCount);
+	interface->registerMethod("Tile", "getTopItemCount", luaTileGetTopItemCount);
 
-	registerMethod("Tile", "getCreatures", luaTileGetCreatures);
-	registerMethod("Tile", "getCreatureCount", luaTileGetCreatureCount);
+	interface->registerMethod("Tile", "getCreatures", luaTileGetCreatures);
+	interface->registerMethod("Tile", "getCreatureCount", luaTileGetCreatureCount);
 
-	registerMethod("Tile", "getThingIndex", luaTileGetThingIndex);
+	interface->registerMethod("Tile", "getThingIndex", luaTileGetThingIndex);
 
-	registerMethod("Tile", "hasProperty", luaTileHasProperty);
-	registerMethod("Tile", "hasFlag", luaTileHasFlag);
+	interface->registerMethod("Tile", "hasProperty", luaTileHasProperty);
+	interface->registerMethod("Tile", "hasFlag", luaTileHasFlag);
 
-	registerMethod("Tile", "queryAdd", luaTileQueryAdd);
-	registerMethod("Tile", "addItem", luaTileAddItem);
-	registerMethod("Tile", "addItemEx", luaTileAddItemEx);
+	interface->registerMethod("Tile", "queryAdd", luaTileQueryAdd);
+	interface->registerMethod("Tile", "addItem", luaTileAddItem);
+	interface->registerMethod("Tile", "addItemEx", luaTileAddItemEx);
 
-	registerMethod("Tile", "getHouse", luaTileGetHouse);
+	interface->registerMethod("Tile", "getHouse", luaTileGetHouse);
 }

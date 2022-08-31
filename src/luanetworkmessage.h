@@ -6,35 +6,10 @@
 
 #include "luascript.h"
 
-class LuaNetworkMessage : public LuaScriptInterface
+class LuaNetworkMessage
 {
 public:
-	static int luaNetworkMessageCreate(lua_State* L);
-	static int luaNetworkMessageDelete(lua_State* L);
-
-	static int luaNetworkMessageGetByte(lua_State* L);
-	static int luaNetworkMessageGetU16(lua_State* L);
-	static int luaNetworkMessageGetU32(lua_State* L);
-	static int luaNetworkMessageGetU64(lua_State* L);
-	static int luaNetworkMessageGetString(lua_State* L);
-	static int luaNetworkMessageGetPosition(lua_State* L);
-
-	static int luaNetworkMessageAddByte(lua_State* L);
-	static int luaNetworkMessageAddU16(lua_State* L);
-	static int luaNetworkMessageAddU32(lua_State* L);
-	static int luaNetworkMessageAddU64(lua_State* L);
-	static int luaNetworkMessageAddString(lua_State* L);
-	static int luaNetworkMessageAddPosition(lua_State* L);
-	static int luaNetworkMessageAddDouble(lua_State* L);
-	static int luaNetworkMessageAddItem(lua_State* L);
-	static int luaNetworkMessageAddItemId(lua_State* L);
-
-	static int luaNetworkMessageReset(lua_State* L);
-	static int luaNetworkMessageSeek(lua_State* L);
-	static int luaNetworkMessageTell(lua_State* L);
-	static int luaNetworkMessageLength(lua_State* L);
-	static int luaNetworkMessageSkipBytes(lua_State* L);
-	static int luaNetworkMessageSendToPlayer(lua_State* L);
+	static void registerFunctions(LuaScriptInterface* interface);
 
 private:
 	friend class LuaScriptInterface;

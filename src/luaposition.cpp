@@ -3,6 +3,8 @@
 
 #include "otpch.h"
 
+#include "luaposition.h"
+
 #include "game.h"
 #include "luascript.h"
 #include "spectators.h"
@@ -152,16 +154,16 @@ static int luaPositionSendDistanceEffect(lua_State* L)
 	return 1;
 }
 
-void LuaScriptInterface::registerPositionFunctions()
+void LuaPosition::registerFunctions(LuaScriptInterface* interface)
 {
-	registerClass("Position", "", luaPositionCreate);
-	registerMetaMethod("Position", "__add", luaPositionAdd);
-	registerMetaMethod("Position", "__sub", luaPositionSub);
-	registerMetaMethod("Position", "__eq", luaPositionCompare);
+	interface->registerClass("Position", "", luaPositionCreate);
+	interface->registerMetaMethod("Position", "__add", luaPositionAdd);
+	interface->registerMetaMethod("Position", "__sub", luaPositionSub);
+	interface->registerMetaMethod("Position", "__eq", luaPositionCompare);
 
-	registerMethod("Position", "getDistance", luaPositionGetDistance);
-	registerMethod("Position", "isSightClear", luaPositionIsSightClear);
+	interface->registerMethod("Position", "getDistance", luaPositionGetDistance);
+	interface->registerMethod("Position", "isSightClear", luaPositionIsSightClear);
 
-	registerMethod("Position", "sendMagicEffect", luaPositionSendMagicEffect);
-	registerMethod("Position", "sendDistanceEffect", luaPositionSendDistanceEffect);
+	interface->registerMethod("Position", "sendMagicEffect", luaPositionSendMagicEffect);
+	interface->registerMethod("Position", "sendDistanceEffect", luaPositionSendDistanceEffect);
 }

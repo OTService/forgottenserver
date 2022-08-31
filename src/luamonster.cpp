@@ -3,6 +3,8 @@
 
 #include "otpch.h"
 
+#include "luamonster.h"
+
 #include "game.h"
 #include "luascript.h"
 #include "monster.h"
@@ -386,40 +388,40 @@ static int luaMonsterWalkToSpawn(lua_State* L)
 	return 1;
 }
 
-void LuaScriptInterface::registerMonsterFunctions()
+void LuaMonster::registerFunctions(LuaScriptInterface* interface)
 {
-	registerClass("Monster", "Creature", luaMonsterCreate);
-	registerMetaMethod("Monster", "__eq", luaUserdataCompare);
+	interface->registerClass("Monster", "Creature", luaMonsterCreate);
+	interface->registerMetaMethod("Monster", "__eq", interface->luaUserdataCompare);
 
-	registerMethod("Monster", "isMonster", luaMonsterIsMonster);
+	interface->registerMethod("Monster", "isMonster", luaMonsterIsMonster);
 
-	registerMethod("Monster", "getType", luaMonsterGetType);
+	interface->registerMethod("Monster", "getType", luaMonsterGetType);
 
-	registerMethod("Monster", "rename", luaMonsterRename);
+	interface->registerMethod("Monster", "rename", luaMonsterRename);
 
-	registerMethod("Monster", "getSpawnPosition", luaMonsterGetSpawnPosition);
-	registerMethod("Monster", "isInSpawnRange", luaMonsterIsInSpawnRange);
+	interface->registerMethod("Monster", "getSpawnPosition", luaMonsterGetSpawnPosition);
+	interface->registerMethod("Monster", "isInSpawnRange", luaMonsterIsInSpawnRange);
 
-	registerMethod("Monster", "isIdle", luaMonsterIsIdle);
-	registerMethod("Monster", "setIdle", luaMonsterSetIdle);
+	interface->registerMethod("Monster", "isIdle", luaMonsterIsIdle);
+	interface->registerMethod("Monster", "setIdle", luaMonsterSetIdle);
 
-	registerMethod("Monster", "isTarget", luaMonsterIsTarget);
-	registerMethod("Monster", "isOpponent", luaMonsterIsOpponent);
-	registerMethod("Monster", "isFriend", luaMonsterIsFriend);
+	interface->registerMethod("Monster", "isTarget", luaMonsterIsTarget);
+	interface->registerMethod("Monster", "isOpponent", luaMonsterIsOpponent);
+	interface->registerMethod("Monster", "isFriend", luaMonsterIsFriend);
 
-	registerMethod("Monster", "addFriend", luaMonsterAddFriend);
-	registerMethod("Monster", "removeFriend", luaMonsterRemoveFriend);
-	registerMethod("Monster", "getFriendList", luaMonsterGetFriendList);
-	registerMethod("Monster", "getFriendCount", luaMonsterGetFriendCount);
+	interface->registerMethod("Monster", "addFriend", luaMonsterAddFriend);
+	interface->registerMethod("Monster", "removeFriend", luaMonsterRemoveFriend);
+	interface->registerMethod("Monster", "getFriendList", luaMonsterGetFriendList);
+	interface->registerMethod("Monster", "getFriendCount", luaMonsterGetFriendCount);
 
-	registerMethod("Monster", "addTarget", luaMonsterAddTarget);
-	registerMethod("Monster", "removeTarget", luaMonsterRemoveTarget);
-	registerMethod("Monster", "getTargetList", luaMonsterGetTargetList);
-	registerMethod("Monster", "getTargetCount", luaMonsterGetTargetCount);
+	interface->registerMethod("Monster", "addTarget", luaMonsterAddTarget);
+	interface->registerMethod("Monster", "removeTarget", luaMonsterRemoveTarget);
+	interface->registerMethod("Monster", "getTargetList", luaMonsterGetTargetList);
+	interface->registerMethod("Monster", "getTargetCount", luaMonsterGetTargetCount);
 
-	registerMethod("Monster", "selectTarget", luaMonsterSelectTarget);
-	registerMethod("Monster", "searchTarget", luaMonsterSearchTarget);
+	interface->registerMethod("Monster", "selectTarget", luaMonsterSelectTarget);
+	interface->registerMethod("Monster", "searchTarget", luaMonsterSearchTarget);
 
-	registerMethod("Monster", "isWalkingToSpawn", luaMonsterIsWalkingToSpawn);
-	registerMethod("Monster", "walkToSpawn", luaMonsterWalkToSpawn);
+	interface->registerMethod("Monster", "isWalkingToSpawn", luaMonsterIsWalkingToSpawn);
+	interface->registerMethod("Monster", "walkToSpawn", luaMonsterWalkToSpawn);
 }

@@ -248,16 +248,6 @@ protected:
 	virtual bool closeState();
 
 	void registerFunctions();
-	void registerEnums();
-	void registerGameFunctions();
-	void registerPositionFunctions();
-	void registerTileFunctions();
-	void registerNetworkMessageFunctions();
-	void registerModalWindowFunctions();
-	void registerItemFunctions();
-	void registerCreatureFunctions();
-	void registerPlayerFunctions();
-	void registerMonsterFunctions();
 
 	lua_State* luaState = nullptr;
 

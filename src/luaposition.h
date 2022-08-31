@@ -6,19 +6,10 @@
 
 #include "luascript.h"
 
-class LuaPosition : public LuaScriptInterface
+class LuaPosition
 {
 public:
-	static int luaPositionCreate(lua_State* L);
-	static int luaPositionAdd(lua_State* L);
-	static int luaPositionSub(lua_State* L);
-	static int luaPositionCompare(lua_State* L);
-
-	static int luaPositionGetDistance(lua_State* L);
-	static int luaPositionIsSightClear(lua_State* L);
-
-	static int luaPositionSendMagicEffect(lua_State* L);
-	static int luaPositionSendDistanceEffect(lua_State* L);
+	static void registerFunctions(LuaScriptInterface* interface);
 
 private:
 	friend class LuaScriptInterface;

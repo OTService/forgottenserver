@@ -3,6 +3,8 @@
 
 #include "otpch.h"
 
+#include "luanetworkmessage.h"
+
 #include "item.h"
 #include "luascript.h"
 #include "networkmessage.h"
@@ -327,34 +329,34 @@ static int luaNetworkMessageSendToPlayer(lua_State* L)
 	return 1;
 }
 
-void LuaScriptInterface::registerNetworkMessageFunctions()
+void LuaNetworkMessage::registerFunctions(LuaScriptInterface* interface)
 {
-	registerClass("NetworkMessage", "", luaNetworkMessageCreate);
-	registerMetaMethod("NetworkMessage", "__eq", luaUserdataCompare);
-	registerMetaMethod("NetworkMessage", "__gc", luaNetworkMessageDelete);
-	registerMethod("NetworkMessage", "delete", luaNetworkMessageDelete);
+	interface->registerClass("NetworkMessage", "", luaNetworkMessageCreate);
+	interface->registerMetaMethod("NetworkMessage", "__eq", interface->luaUserdataCompare);
+	interface->registerMetaMethod("NetworkMessage", "__gc", luaNetworkMessageDelete);
+	interface->registerMethod("NetworkMessage", "delete", luaNetworkMessageDelete);
 
-	registerMethod("NetworkMessage", "getByte", luaNetworkMessageGetByte);
-	registerMethod("NetworkMessage", "getU16", luaNetworkMessageGetU16);
-	registerMethod("NetworkMessage", "getU32", luaNetworkMessageGetU32);
-	registerMethod("NetworkMessage", "getU64", luaNetworkMessageGetU64);
-	registerMethod("NetworkMessage", "getString", luaNetworkMessageGetString);
-	registerMethod("NetworkMessage", "getPosition", luaNetworkMessageGetPosition);
+	interface->registerMethod("NetworkMessage", "getByte", luaNetworkMessageGetByte);
+	interface->registerMethod("NetworkMessage", "getU16", luaNetworkMessageGetU16);
+	interface->registerMethod("NetworkMessage", "getU32", luaNetworkMessageGetU32);
+	interface->registerMethod("NetworkMessage", "getU64", luaNetworkMessageGetU64);
+	interface->registerMethod("NetworkMessage", "getString", luaNetworkMessageGetString);
+	interface->registerMethod("NetworkMessage", "getPosition", luaNetworkMessageGetPosition);
 
-	registerMethod("NetworkMessage", "addByte", luaNetworkMessageAddByte);
-	registerMethod("NetworkMessage", "addU16", luaNetworkMessageAddU16);
-	registerMethod("NetworkMessage", "addU32", luaNetworkMessageAddU32);
-	registerMethod("NetworkMessage", "addU64", luaNetworkMessageAddU64);
-	registerMethod("NetworkMessage", "addString", luaNetworkMessageAddString);
-	registerMethod("NetworkMessage", "addPosition", luaNetworkMessageAddPosition);
-	registerMethod("NetworkMessage", "addDouble", luaNetworkMessageAddDouble);
-	registerMethod("NetworkMessage", "addItem", luaNetworkMessageAddItem);
-	registerMethod("NetworkMessage", "addItemId", luaNetworkMessageAddItemId);
+	interface->registerMethod("NetworkMessage", "addByte", luaNetworkMessageAddByte);
+	interface->registerMethod("NetworkMessage", "addU16", luaNetworkMessageAddU16);
+	interface->registerMethod("NetworkMessage", "addU32", luaNetworkMessageAddU32);
+	interface->registerMethod("NetworkMessage", "addU64", luaNetworkMessageAddU64);
+	interface->registerMethod("NetworkMessage", "addString", luaNetworkMessageAddString);
+	interface->registerMethod("NetworkMessage", "addPosition", luaNetworkMessageAddPosition);
+	interface->registerMethod("NetworkMessage", "addDouble", luaNetworkMessageAddDouble);
+	interface->registerMethod("NetworkMessage", "addItem", luaNetworkMessageAddItem);
+	interface->registerMethod("NetworkMessage", "addItemId", luaNetworkMessageAddItemId);
 
-	registerMethod("NetworkMessage", "reset", luaNetworkMessageReset);
-	registerMethod("NetworkMessage", "seek", luaNetworkMessageSeek);
-	registerMethod("NetworkMessage", "tell", luaNetworkMessageTell);
-	registerMethod("NetworkMessage", "len", luaNetworkMessageLength);
-	registerMethod("NetworkMessage", "skipBytes", luaNetworkMessageSkipBytes);
-	registerMethod("NetworkMessage", "sendToPlayer", luaNetworkMessageSendToPlayer);
+	interface->registerMethod("NetworkMessage", "reset", luaNetworkMessageReset);
+	interface->registerMethod("NetworkMessage", "seek", luaNetworkMessageSeek);
+	interface->registerMethod("NetworkMessage", "tell", luaNetworkMessageTell);
+	interface->registerMethod("NetworkMessage", "len", luaNetworkMessageLength);
+	interface->registerMethod("NetworkMessage", "skipBytes", luaNetworkMessageSkipBytes);
+	interface->registerMethod("NetworkMessage", "sendToPlayer", luaNetworkMessageSendToPlayer);
 }

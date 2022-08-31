@@ -35,6 +35,13 @@
 #include "luacreature.h"
 #include "luaenums.h"
 #include "luaitem.h"
+#include "luamodalwindow.h"
+#include "luamonster.h"
+#include "luanetworkmessage.h"
+#include "luaplayer.h"
+#include "luaposition.h"
+#include "luatile.h"
+#include "luagame.h"
 
 #include <boost/range/adaptor/reversed.hpp>
 
@@ -1281,7 +1288,7 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("table", "create", LuaScriptInterface::luaTableCreate);
 	registerMethod("table", "pack", LuaScriptInterface::luaTablePack);
 
-	registerGameFunctions();
+	LuaGame::registerFunctions(this);
 
 	// Variant
 	registerClass("Variant", "", LuaScriptInterface::luaVariantCreate);
@@ -1290,15 +1297,15 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Variant", "getString", LuaScriptInterface::luaVariantGetString);
 	registerMethod("Variant", "getPosition", LuaScriptInterface::luaVariantGetPosition);
 
-	registerPositionFunctions();
+	LuaPosition::registerFunctions(this);
 
-	registerTileFunctions();
+	LuaTile::registerFunctions(this);
 
-	registerNetworkMessageFunctions();
+	LuaNetworkMessage::registerFunctions(this);
 
-	registerModalWindowFunctions();
+	LuaModalWindow::registerFunctions(this);
 
-	LuaItem::registerFunctions();
+	LuaItem::registerFunctions(this);
 
 	LuaContainer::registerFunctions(this);
 
@@ -1322,9 +1329,9 @@ void LuaScriptInterface::registerFunctions()
 
 	LuaCreature::registerFunctions(this);
 
-	registerPlayerFunctions();
+	LuaPlayer::registerFunctions(this);
 
-	registerMonsterFunctions();
+	LuaMonster::registerFunctions(this);
 
 	// Npc
 	registerClass("Npc", "Creature", LuaScriptInterface::luaNpcCreate);

@@ -3,6 +3,8 @@
 
 #include "otpch.h"
 
+#include "luaplayer.h"
+
 #include "chat.h"
 #include "creature.h"
 #include "depotchest.h"
@@ -2232,184 +2234,184 @@ static int luaPlayerGetIdleTime(lua_State* L)
 	return 1;
 }
 
-void LuaScriptInterface::registerPlayerFunctions()
+void LuaPlayer::registerFunctions(LuaScriptInterface* interface)
 {
-	registerClass("Player", "Creature", luaPlayerCreate);
-	registerMetaMethod("Player", "__eq", luaUserdataCompare);
+	interface->registerClass("Player", "Creature", luaPlayerCreate);
+	interface->registerMetaMethod("Player", "__eq", interface->luaUserdataCompare);
 
-	registerMethod("Player", "isPlayer", luaPlayerIsPlayer);
+	interface->registerMethod("Player", "isPlayer", luaPlayerIsPlayer);
 
-	registerMethod("Player", "getGuid", luaPlayerGetGuid);
-	registerMethod("Player", "getIp", luaPlayerGetIp);
-	registerMethod("Player", "getAccountId", luaPlayerGetAccountId);
-	registerMethod("Player", "getLastLoginSaved", luaPlayerGetLastLoginSaved);
-	registerMethod("Player", "getLastLogout", luaPlayerGetLastLogout);
+	interface->registerMethod("Player", "getGuid", luaPlayerGetGuid);
+	interface->registerMethod("Player", "getIp", luaPlayerGetIp);
+	interface->registerMethod("Player", "getAccountId", luaPlayerGetAccountId);
+	interface->registerMethod("Player", "getLastLoginSaved", luaPlayerGetLastLoginSaved);
+	interface->registerMethod("Player", "getLastLogout", luaPlayerGetLastLogout);
 
-	registerMethod("Player", "getAccountType", luaPlayerGetAccountType);
-	registerMethod("Player", "setAccountType", luaPlayerSetAccountType);
+	interface->registerMethod("Player", "getAccountType", luaPlayerGetAccountType);
+	interface->registerMethod("Player", "setAccountType", luaPlayerSetAccountType);
 
-	registerMethod("Player", "getCapacity", luaPlayerGetCapacity);
-	registerMethod("Player", "setCapacity", luaPlayerSetCapacity);
+	interface->registerMethod("Player", "getCapacity", luaPlayerGetCapacity);
+	interface->registerMethod("Player", "setCapacity", luaPlayerSetCapacity);
 
-	registerMethod("Player", "getFreeCapacity", luaPlayerGetFreeCapacity);
+	interface->registerMethod("Player", "getFreeCapacity", luaPlayerGetFreeCapacity);
 
-	registerMethod("Player", "getDepotChest", luaPlayerGetDepotChest);
-	registerMethod("Player", "getInbox", luaPlayerGetInbox);
+	interface->registerMethod("Player", "getDepotChest", luaPlayerGetDepotChest);
+	interface->registerMethod("Player", "getInbox", luaPlayerGetInbox);
 
-	registerMethod("Player", "getSkullTime", luaPlayerGetSkullTime);
-	registerMethod("Player", "setSkullTime", luaPlayerSetSkullTime);
-	registerMethod("Player", "getDeathPenalty", luaPlayerGetDeathPenalty);
+	interface->registerMethod("Player", "getSkullTime", luaPlayerGetSkullTime);
+	interface->registerMethod("Player", "setSkullTime", luaPlayerSetSkullTime);
+	interface->registerMethod("Player", "getDeathPenalty", luaPlayerGetDeathPenalty);
 
-	registerMethod("Player", "getExperience", luaPlayerGetExperience);
-	registerMethod("Player", "addExperience", luaPlayerAddExperience);
-	registerMethod("Player", "removeExperience", luaPlayerRemoveExperience);
-	registerMethod("Player", "getLevel", luaPlayerGetLevel);
+	interface->registerMethod("Player", "getExperience", luaPlayerGetExperience);
+	interface->registerMethod("Player", "addExperience", luaPlayerAddExperience);
+	interface->registerMethod("Player", "removeExperience", luaPlayerRemoveExperience);
+	interface->registerMethod("Player", "getLevel", luaPlayerGetLevel);
 
-	registerMethod("Player", "getMagicLevel", luaPlayerGetMagicLevel);
-	registerMethod("Player", "getBaseMagicLevel", luaPlayerGetBaseMagicLevel);
-	registerMethod("Player", "getMana", luaPlayerGetMana);
-	registerMethod("Player", "addMana", luaPlayerAddMana);
-	registerMethod("Player", "getMaxMana", luaPlayerGetMaxMana);
-	registerMethod("Player", "setMaxMana", luaPlayerSetMaxMana);
-	registerMethod("Player", "getManaSpent", luaPlayerGetManaSpent);
-	registerMethod("Player", "addManaSpent", luaPlayerAddManaSpent);
-	registerMethod("Player", "removeManaSpent", luaPlayerRemoveManaSpent);
+	interface->registerMethod("Player", "getMagicLevel", luaPlayerGetMagicLevel);
+	interface->registerMethod("Player", "getBaseMagicLevel", luaPlayerGetBaseMagicLevel);
+	interface->registerMethod("Player", "getMana", luaPlayerGetMana);
+	interface->registerMethod("Player", "addMana", luaPlayerAddMana);
+	interface->registerMethod("Player", "getMaxMana", luaPlayerGetMaxMana);
+	interface->registerMethod("Player", "setMaxMana", luaPlayerSetMaxMana);
+	interface->registerMethod("Player", "getManaSpent", luaPlayerGetManaSpent);
+	interface->registerMethod("Player", "addManaSpent", luaPlayerAddManaSpent);
+	interface->registerMethod("Player", "removeManaSpent", luaPlayerRemoveManaSpent);
 
-	registerMethod("Player", "getBaseMaxHealth", luaPlayerGetBaseMaxHealth);
-	registerMethod("Player", "getBaseMaxMana", luaPlayerGetBaseMaxMana);
+	interface->registerMethod("Player", "getBaseMaxHealth", luaPlayerGetBaseMaxHealth);
+	interface->registerMethod("Player", "getBaseMaxMana", luaPlayerGetBaseMaxMana);
 
-	registerMethod("Player", "getSkillLevel", luaPlayerGetSkillLevel);
-	registerMethod("Player", "getEffectiveSkillLevel", luaPlayerGetEffectiveSkillLevel);
-	registerMethod("Player", "getSkillPercent", luaPlayerGetSkillPercent);
-	registerMethod("Player", "getSkillTries", luaPlayerGetSkillTries);
-	registerMethod("Player", "addSkillTries", luaPlayerAddSkillTries);
-	registerMethod("Player", "removeSkillTries", luaPlayerRemoveSkillTries);
-	registerMethod("Player", "getSpecialSkill", luaPlayerGetSpecialSkill);
-	registerMethod("Player", "addSpecialSkill", luaPlayerAddSpecialSkill);
+	interface->registerMethod("Player", "getSkillLevel", luaPlayerGetSkillLevel);
+	interface->registerMethod("Player", "getEffectiveSkillLevel", luaPlayerGetEffectiveSkillLevel);
+	interface->registerMethod("Player", "getSkillPercent", luaPlayerGetSkillPercent);
+	interface->registerMethod("Player", "getSkillTries", luaPlayerGetSkillTries);
+	interface->registerMethod("Player", "addSkillTries", luaPlayerAddSkillTries);
+	interface->registerMethod("Player", "removeSkillTries", luaPlayerRemoveSkillTries);
+	interface->registerMethod("Player", "getSpecialSkill", luaPlayerGetSpecialSkill);
+	interface->registerMethod("Player", "addSpecialSkill", luaPlayerAddSpecialSkill);
 
-	registerMethod("Player", "addOfflineTrainingTime", luaPlayerAddOfflineTrainingTime);
-	registerMethod("Player", "getOfflineTrainingTime", luaPlayerGetOfflineTrainingTime);
-	registerMethod("Player", "removeOfflineTrainingTime", luaPlayerRemoveOfflineTrainingTime);
+	interface->registerMethod("Player", "addOfflineTrainingTime", luaPlayerAddOfflineTrainingTime);
+	interface->registerMethod("Player", "getOfflineTrainingTime", luaPlayerGetOfflineTrainingTime);
+	interface->registerMethod("Player", "removeOfflineTrainingTime", luaPlayerRemoveOfflineTrainingTime);
 
-	registerMethod("Player", "addOfflineTrainingTries", luaPlayerAddOfflineTrainingTries);
+	interface->registerMethod("Player", "addOfflineTrainingTries", luaPlayerAddOfflineTrainingTries);
 
-	registerMethod("Player", "getOfflineTrainingSkill", luaPlayerGetOfflineTrainingSkill);
-	registerMethod("Player", "setOfflineTrainingSkill", luaPlayerSetOfflineTrainingSkill);
+	interface->registerMethod("Player", "getOfflineTrainingSkill", luaPlayerGetOfflineTrainingSkill);
+	interface->registerMethod("Player", "setOfflineTrainingSkill", luaPlayerSetOfflineTrainingSkill);
 
-	registerMethod("Player", "getItemCount", luaPlayerGetItemCount);
-	registerMethod("Player", "getItemById", luaPlayerGetItemById);
+	interface->registerMethod("Player", "getItemCount", luaPlayerGetItemCount);
+	interface->registerMethod("Player", "getItemById", luaPlayerGetItemById);
 
-	registerMethod("Player", "getVocation", luaPlayerGetVocation);
-	registerMethod("Player", "setVocation", luaPlayerSetVocation);
+	interface->registerMethod("Player", "getVocation", luaPlayerGetVocation);
+	interface->registerMethod("Player", "setVocation", luaPlayerSetVocation);
 
-	registerMethod("Player", "getSex", luaPlayerGetSex);
-	registerMethod("Player", "setSex", luaPlayerSetSex);
+	interface->registerMethod("Player", "getSex", luaPlayerGetSex);
+	interface->registerMethod("Player", "setSex", luaPlayerSetSex);
 
-	registerMethod("Player", "getTown", luaPlayerGetTown);
-	registerMethod("Player", "setTown", luaPlayerSetTown);
+	interface->registerMethod("Player", "getTown", luaPlayerGetTown);
+	interface->registerMethod("Player", "setTown", luaPlayerSetTown);
 
-	registerMethod("Player", "getGuild", luaPlayerGetGuild);
-	registerMethod("Player", "setGuild", luaPlayerSetGuild);
+	interface->registerMethod("Player", "getGuild", luaPlayerGetGuild);
+	interface->registerMethod("Player", "setGuild", luaPlayerSetGuild);
 
-	registerMethod("Player", "getGuildLevel", luaPlayerGetGuildLevel);
-	registerMethod("Player", "setGuildLevel", luaPlayerSetGuildLevel);
+	interface->registerMethod("Player", "getGuildLevel", luaPlayerGetGuildLevel);
+	interface->registerMethod("Player", "setGuildLevel", luaPlayerSetGuildLevel);
 
-	registerMethod("Player", "getGuildNick", luaPlayerGetGuildNick);
-	registerMethod("Player", "setGuildNick", luaPlayerSetGuildNick);
+	interface->registerMethod("Player", "getGuildNick", luaPlayerGetGuildNick);
+	interface->registerMethod("Player", "setGuildNick", luaPlayerSetGuildNick);
 
-	registerMethod("Player", "getGroup", luaPlayerGetGroup);
-	registerMethod("Player", "setGroup", luaPlayerSetGroup);
+	interface->registerMethod("Player", "getGroup", luaPlayerGetGroup);
+	interface->registerMethod("Player", "setGroup", luaPlayerSetGroup);
 
-	registerMethod("Player", "getStamina", luaPlayerGetStamina);
-	registerMethod("Player", "setStamina", luaPlayerSetStamina);
+	interface->registerMethod("Player", "getStamina", luaPlayerGetStamina);
+	interface->registerMethod("Player", "setStamina", luaPlayerSetStamina);
 
-	registerMethod("Player", "getSoul", luaPlayerGetSoul);
-	registerMethod("Player", "addSoul", luaPlayerAddSoul);
-	registerMethod("Player", "getMaxSoul", luaPlayerGetMaxSoul);
+	interface->registerMethod("Player", "getSoul", luaPlayerGetSoul);
+	interface->registerMethod("Player", "addSoul", luaPlayerAddSoul);
+	interface->registerMethod("Player", "getMaxSoul", luaPlayerGetMaxSoul);
 
-	registerMethod("Player", "getBankBalance", luaPlayerGetBankBalance);
-	registerMethod("Player", "setBankBalance", luaPlayerSetBankBalance);
+	interface->registerMethod("Player", "getBankBalance", luaPlayerGetBankBalance);
+	interface->registerMethod("Player", "setBankBalance", luaPlayerSetBankBalance);
 
-	registerMethod("Player", "getStorageValue", luaPlayerGetStorageValue);
-	registerMethod("Player", "setStorageValue", luaPlayerSetStorageValue);
+	interface->registerMethod("Player", "getStorageValue", luaPlayerGetStorageValue);
+	interface->registerMethod("Player", "setStorageValue", luaPlayerSetStorageValue);
 
-	registerMethod("Player", "addItem", luaPlayerAddItem);
-	registerMethod("Player", "addItemEx", luaPlayerAddItemEx);
-	registerMethod("Player", "removeItem", luaPlayerRemoveItem);
-	registerMethod("Player", "sendSupplyUsed", luaPlayerSendSupplyUsed);
+	interface->registerMethod("Player", "addItem", luaPlayerAddItem);
+	interface->registerMethod("Player", "addItemEx", luaPlayerAddItemEx);
+	interface->registerMethod("Player", "removeItem", luaPlayerRemoveItem);
+	interface->registerMethod("Player", "sendSupplyUsed", luaPlayerSendSupplyUsed);
 
-	registerMethod("Player", "getMoney", luaPlayerGetMoney);
-	registerMethod("Player", "addMoney", luaPlayerAddMoney);
-	registerMethod("Player", "removeMoney", luaPlayerRemoveMoney);
+	interface->registerMethod("Player", "getMoney", luaPlayerGetMoney);
+	interface->registerMethod("Player", "addMoney", luaPlayerAddMoney);
+	interface->registerMethod("Player", "removeMoney", luaPlayerRemoveMoney);
 
-	registerMethod("Player", "showTextDialog", luaPlayerShowTextDialog);
+	interface->registerMethod("Player", "showTextDialog", luaPlayerShowTextDialog);
 
-	registerMethod("Player", "sendTextMessage", luaPlayerSendTextMessage);
-	registerMethod("Player", "sendChannelMessage", luaPlayerSendChannelMessage);
-	registerMethod("Player", "sendPrivateMessage", luaPlayerSendPrivateMessage);
-	registerMethod("Player", "channelSay", luaPlayerChannelSay);
-	registerMethod("Player", "openChannel", luaPlayerOpenChannel);
+	interface->registerMethod("Player", "sendTextMessage", luaPlayerSendTextMessage);
+	interface->registerMethod("Player", "sendChannelMessage", luaPlayerSendChannelMessage);
+	interface->registerMethod("Player", "sendPrivateMessage", luaPlayerSendPrivateMessage);
+	interface->registerMethod("Player", "channelSay", luaPlayerChannelSay);
+	interface->registerMethod("Player", "openChannel", luaPlayerOpenChannel);
 
-	registerMethod("Player", "getSlotItem", luaPlayerGetSlotItem);
+	interface->registerMethod("Player", "getSlotItem", luaPlayerGetSlotItem);
 
-	registerMethod("Player", "getParty", luaPlayerGetParty);
+	interface->registerMethod("Player", "getParty", luaPlayerGetParty);
 
-	registerMethod("Player", "addOutfit", luaPlayerAddOutfit);
-	registerMethod("Player", "addOutfitAddon", luaPlayerAddOutfitAddon);
-	registerMethod("Player", "removeOutfit", luaPlayerRemoveOutfit);
-	registerMethod("Player", "removeOutfitAddon", luaPlayerRemoveOutfitAddon);
-	registerMethod("Player", "hasOutfit", luaPlayerHasOutfit);
-	registerMethod("Player", "canWearOutfit", luaPlayerCanWearOutfit);
-	registerMethod("Player", "sendOutfitWindow", luaPlayerSendOutfitWindow);
+	interface->registerMethod("Player", "addOutfit", luaPlayerAddOutfit);
+	interface->registerMethod("Player", "addOutfitAddon", luaPlayerAddOutfitAddon);
+	interface->registerMethod("Player", "removeOutfit", luaPlayerRemoveOutfit);
+	interface->registerMethod("Player", "removeOutfitAddon", luaPlayerRemoveOutfitAddon);
+	interface->registerMethod("Player", "hasOutfit", luaPlayerHasOutfit);
+	interface->registerMethod("Player", "canWearOutfit", luaPlayerCanWearOutfit);
+	interface->registerMethod("Player", "sendOutfitWindow", luaPlayerSendOutfitWindow);
 
-	registerMethod("Player", "sendEditPodium", luaPlayerSendEditPodium);
+	interface->registerMethod("Player", "sendEditPodium", luaPlayerSendEditPodium);
 
-	registerMethod("Player", "addMount", luaPlayerAddMount);
-	registerMethod("Player", "removeMount", luaPlayerRemoveMount);
-	registerMethod("Player", "hasMount", luaPlayerHasMount);
+	interface->registerMethod("Player", "addMount", luaPlayerAddMount);
+	interface->registerMethod("Player", "removeMount", luaPlayerRemoveMount);
+	interface->registerMethod("Player", "hasMount", luaPlayerHasMount);
 
-	registerMethod("Player", "getPremiumEndsAt", luaPlayerGetPremiumEndsAt);
-	registerMethod("Player", "setPremiumEndsAt", luaPlayerSetPremiumEndsAt);
+	interface->registerMethod("Player", "getPremiumEndsAt", luaPlayerGetPremiumEndsAt);
+	interface->registerMethod("Player", "setPremiumEndsAt", luaPlayerSetPremiumEndsAt);
 
-	registerMethod("Player", "hasBlessing", luaPlayerHasBlessing);
-	registerMethod("Player", "addBlessing", luaPlayerAddBlessing);
-	registerMethod("Player", "removeBlessing", luaPlayerRemoveBlessing);
+	interface->registerMethod("Player", "hasBlessing", luaPlayerHasBlessing);
+	interface->registerMethod("Player", "addBlessing", luaPlayerAddBlessing);
+	interface->registerMethod("Player", "removeBlessing", luaPlayerRemoveBlessing);
 
-	registerMethod("Player", "canLearnSpell", luaPlayerCanLearnSpell);
-	registerMethod("Player", "learnSpell", luaPlayerLearnSpell);
-	registerMethod("Player", "forgetSpell", luaPlayerForgetSpell);
-	registerMethod("Player", "hasLearnedSpell", luaPlayerHasLearnedSpell);
+	interface->registerMethod("Player", "canLearnSpell", luaPlayerCanLearnSpell);
+	interface->registerMethod("Player", "learnSpell", luaPlayerLearnSpell);
+	interface->registerMethod("Player", "forgetSpell", luaPlayerForgetSpell);
+	interface->registerMethod("Player", "hasLearnedSpell", luaPlayerHasLearnedSpell);
 
-	registerMethod("Player", "sendTutorial", luaPlayerSendTutorial);
-	registerMethod("Player", "addMapMark", luaPlayerAddMapMark);
+	interface->registerMethod("Player", "sendTutorial", luaPlayerSendTutorial);
+	interface->registerMethod("Player", "addMapMark", luaPlayerAddMapMark);
 
-	registerMethod("Player", "save", luaPlayerSave);
-	registerMethod("Player", "popupFYI", luaPlayerPopupFYI);
+	interface->registerMethod("Player", "save", luaPlayerSave);
+	interface->registerMethod("Player", "popupFYI", luaPlayerPopupFYI);
 
-	registerMethod("Player", "isPzLocked", luaPlayerIsPzLocked);
+	interface->registerMethod("Player", "isPzLocked", luaPlayerIsPzLocked);
 
-	registerMethod("Player", "getClient", luaPlayerGetClient);
+	interface->registerMethod("Player", "getClient", luaPlayerGetClient);
 
-	registerMethod("Player", "getHouse", luaPlayerGetHouse);
-	registerMethod("Player", "sendHouseWindow", luaPlayerSendHouseWindow);
-	registerMethod("Player", "setEditHouse", luaPlayerSetEditHouse);
+	interface->registerMethod("Player", "getHouse", luaPlayerGetHouse);
+	interface->registerMethod("Player", "sendHouseWindow", luaPlayerSendHouseWindow);
+	interface->registerMethod("Player", "setEditHouse", luaPlayerSetEditHouse);
 
-	registerMethod("Player", "setGhostMode", luaPlayerSetGhostMode);
+	interface->registerMethod("Player", "setGhostMode", luaPlayerSetGhostMode);
 
-	registerMethod("Player", "getContainerId", luaPlayerGetContainerId);
-	registerMethod("Player", "getContainerById", luaPlayerGetContainerById);
-	registerMethod("Player", "getContainerIndex", luaPlayerGetContainerIndex);
+	interface->registerMethod("Player", "getContainerId", luaPlayerGetContainerId);
+	interface->registerMethod("Player", "getContainerById", luaPlayerGetContainerById);
+	interface->registerMethod("Player", "getContainerIndex", luaPlayerGetContainerIndex);
 
-	registerMethod("Player", "getInstantSpells", luaPlayerGetInstantSpells);
-	registerMethod("Player", "canCast", luaPlayerCanCast);
+	interface->registerMethod("Player", "getInstantSpells", luaPlayerGetInstantSpells);
+	interface->registerMethod("Player", "canCast", luaPlayerCanCast);
 
-	registerMethod("Player", "hasChaseMode", luaPlayerHasChaseMode);
-	registerMethod("Player", "hasSecureMode", luaPlayerHasSecureMode);
-	registerMethod("Player", "getFightMode", luaPlayerGetFightMode);
+	interface->registerMethod("Player", "hasChaseMode", luaPlayerHasChaseMode);
+	interface->registerMethod("Player", "hasSecureMode", luaPlayerHasSecureMode);
+	interface->registerMethod("Player", "getFightMode", luaPlayerGetFightMode);
 
-	registerMethod("Player", "getStoreInbox", luaPlayerGetStoreInbox);
+	interface->registerMethod("Player", "getStoreInbox", luaPlayerGetStoreInbox);
 
-	registerMethod("Player", "isNearDepotBox", luaPlayerIsNearDepotBox);
+	interface->registerMethod("Player", "isNearDepotBox", luaPlayerIsNearDepotBox);
 
-	registerMethod("Player", "getIdleTime", luaPlayerGetIdleTime);
+	interface->registerMethod("Player", "getIdleTime", luaPlayerGetIdleTime);
 }

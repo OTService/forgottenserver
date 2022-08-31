@@ -10,7 +10,6 @@
 #include "luascript.h"
 
 extern Game g_game;
-extern LuaScriptInterface* g_interface;
 
 using namespace Lua;
 
