@@ -256,6 +256,17 @@ struct Abilities
 	bool regeneration = false;
 };
 
+struct FieldBlock {
+	std::string name = "";
+	uint32_t ticks = 0;
+	int32_t initDamage = -1;
+	int32_t count = 1;
+	int32_t start = 0;
+	int32_t damage = 0;
+};
+
+class ConditionDamage;
+
 class ItemType
 {
 public:
@@ -320,6 +331,7 @@ public:
 	itemgroup_t group = ITEM_GROUP_NONE;
 	ItemTypes_t type = ITEM_TYPE_NONE;
 	uint16_t id = 0;
+	uint16_t toId = 0;
 	uint16_t clientId = 0;
 	bool stackable = false;
 	bool isAnimation = false;
@@ -446,6 +458,9 @@ public:
 
 	bool loadFromXml();
 	void parseItemNode(const pugi::xml_node& itemNode, uint16_t id);
+	ItemType& Items::parseItemLua(uint16_t id);
+
+	void buildInventoryList();
 
 	size_t size() const { return items.size(); }
 
