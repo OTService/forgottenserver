@@ -134,6 +134,7 @@ jobs:
       matrix:
         name: [windows-msvc]
         buildtype: [Debug, Release]
+        luajit: [on, off]
         include:
           - name: windows-msvc
             os: windows
