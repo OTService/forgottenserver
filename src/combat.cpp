@@ -1123,8 +1123,8 @@ void ValueCallback::getMinMaxValues(Player* player, CombatDamage& damage) const
 
 	scriptInterface->pushFunction(scriptId);
 
-	LuaScriptInterface::pushUserdata<Player>(L, player);
-	LuaScriptInterface::setMetatable(L, -1, "Player");
+	Lua::pushUserdata<Player>(L, player);
+	Lua::setMetatable(L, -1, "Player");
 
 	int parameters = 1;
 	switch (type) {
@@ -1174,8 +1174,7 @@ void ValueCallback::getMinMaxValues(Player* player, CombatDamage& damage) const
 	if (lua_pcall(L, parameters, 2, 0) != 0) {
 		LuaScriptInterface::reportError(nullptr, LuaScriptInterface::popString(L));
 	} else {
-		damage.primary.value =
-		    normal_random(LuaScriptInterface::getNumber<int32_t>(L, -2), LuaScriptInterface::getNumber<int32_t>(L, -1));
+		damage.primary.value = normal_random(Lua::getNumber<int32_t>(L, -2), Lua::getNumber<int32_t>(L, -1));
 		lua_pop(L, 2);
 	}
 
@@ -1206,12 +1205,12 @@ void TileCallback::onTileCombat(Creature* creature, Tile* tile) const
 
 	scriptInterface->pushFunction(scriptId);
 	if (creature) {
-		LuaScriptInterface::pushUserdata<Creature>(L, creature);
-		LuaScriptInterface::setCreatureMetatable(L, -1, creature);
+		Lua::pushUserdata<Creature>(L, creature);
+		Lua::setCreatureMetatable(L, -1, creature);
 	} else {
 		lua_pushnil(L);
 	}
-	LuaScriptInterface::pushPosition(L, tile->getPosition());
+	Lua::pushPosition(L, tile->getPosition());
 
 	scriptInterface->callFunction(2);
 }
@@ -1237,15 +1236,15 @@ void TargetCallback::onTargetCombat(Creature* creature, Creature* target) const
 	scriptInterface->pushFunction(scriptId);
 
 	if (creature) {
-		LuaScriptInterface::pushUserdata<Creature>(L, creature);
-		LuaScriptInterface::setCreatureMetatable(L, -1, creature);
+		Lua::pushUserdata<Creature>(L, creature);
+		Lua::setCreatureMetatable(L, -1, creature);
 	} else {
 		lua_pushnil(L);
 	}
 
 	if (target) {
-		LuaScriptInterface::pushUserdata<Creature>(L, target);
-		LuaScriptInterface::setCreatureMetatable(L, -1, target);
+		Lua::pushUserdata<Creature>(L, target);
+		Lua::setCreatureMetatable(L, -1, target);
 	} else {
 		lua_pushnil(L);
 	}

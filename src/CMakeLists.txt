@@ -76,6 +76,17 @@ set(tfs_SRC
 	${CMAKE_CURRENT_LIST_DIR}/weapons.cpp
 	${CMAKE_CURRENT_LIST_DIR}/wildcardtree.cpp
 	${CMAKE_CURRENT_LIST_DIR}/xtea.cpp
+	${CMAKE_CURRENT_LIST_DIR}/luacontainer.cpp
+	${CMAKE_CURRENT_LIST_DIR}/luacreature.cpp
+	${CMAKE_CURRENT_LIST_DIR}/luaenums.cpp
+	${CMAKE_CURRENT_LIST_DIR}/luagame.cpp
+	${CMAKE_CURRENT_LIST_DIR}/luaitem.cpp
+	${CMAKE_CURRENT_LIST_DIR}/luamodalwindow.cpp
+	${CMAKE_CURRENT_LIST_DIR}/luamonster.cpp
+	${CMAKE_CURRENT_LIST_DIR}/luanetworkmessage.cpp
+	${CMAKE_CURRENT_LIST_DIR}/luaplayer.cpp
+	${CMAKE_CURRENT_LIST_DIR}/luaposition.cpp
+	${CMAKE_CURRENT_LIST_DIR}/luatile.cpp
 	PARENT_SCOPE)
 
 set(tfs_HDR

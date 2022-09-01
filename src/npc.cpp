@@ -6,6 +6,7 @@
 #include "npc.h"
 
 #include "game.h"
+#include "luascript.h"
 #include "pugicast.h"
 #include "spectators.h"
 
@@ -14,6 +15,8 @@ extern LuaEnvironment g_luaEnvironment;
 
 uint32_t Npc::npcAutoID = 0x20000000;
 NpcScriptInterface* Npc::scriptInterface = nullptr;
+
+using namespace Lua;
 
 void Npcs::reload()
 {
@@ -761,7 +764,7 @@ int NpcScriptInterface::luaGetNpcParameter(lua_State* L)
 
 	auto it = npc->parameters.find(paramKey);
 	if (it != npc->parameters.end()) {
-		LuaScriptInterface::pushString(L, it->second);
+		Lua::pushString(L, it->second);
 	} else {
 		lua_pushnil(L);
 	}
@@ -1003,12 +1006,12 @@ int NpcScriptInterface::luaNpcOpenShopWindow(lua_State* L)
 	}
 
 	int32_t sellCallback = -1;
-	if (LuaScriptInterface::isFunction(L, 5)) {
+	if (isFunction(L, 5)) {
 		sellCallback = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 
 	int32_t buyCallback = -1;
-	if (LuaScriptInterface::isFunction(L, 4)) {
+	if (isFunction(L, 4)) {
 		buyCallback = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 
@@ -1122,8 +1125,8 @@ void NpcEventsHandler::onCreatureAppear(Creature* creature)
 
 	lua_State* L = scriptInterface->getLuaState();
 	scriptInterface->pushFunction(creatureAppearEvent);
-	LuaScriptInterface::pushUserdata<Creature>(L, creature);
-	LuaScriptInterface::setCreatureMetatable(L, -1, creature);
+	Lua::pushUserdata<Creature>(L, creature);
+	Lua::setCreatureMetatable(L, -1, creature);
 	scriptInterface->callFunction(1);
 }
 
@@ -1145,8 +1148,8 @@ void NpcEventsHandler::onCreatureDisappear(Creature* creature)
 
 	lua_State* L = scriptInterface->getLuaState();
 	scriptInterface->pushFunction(creatureDisappearEvent);
-	LuaScriptInterface::pushUserdata<Creature>(L, creature);
-	LuaScriptInterface::setCreatureMetatable(L, -1, creature);
+	Lua::pushUserdata<Creature>(L, creature);
+	Lua::setCreatureMetatable(L, -1, creature);
 	scriptInterface->callFunction(1);
 }
 
@@ -1168,10 +1171,10 @@ void NpcEventsHandler::onCreatureMove(Creature* creature, const Position& oldPos
 
 	lua_State* L = scriptInterface->getLuaState();
 	scriptInterface->pushFunction(creatureMoveEvent);
-	LuaScriptInterface::pushUserdata<Creature>(L, creature);
-	LuaScriptInterface::setCreatureMetatable(L, -1, creature);
-	LuaScriptInterface::pushPosition(L, oldPos);
-	LuaScriptInterface::pushPosition(L, newPos);
+	Lua::pushUserdata<Creature>(L, creature);
+	Lua::setCreatureMetatable(L, -1, creature);
+	Lua::pushPosition(L, oldPos);
+	Lua::pushPosition(L, newPos);
 	scriptInterface->callFunction(3);
 }
 
@@ -1193,10 +1196,10 @@ void NpcEventsHandler::onCreatureSay(Creature* creature, SpeakClasses type, cons
 
 	lua_State* L = scriptInterface->getLuaState();
 	scriptInterface->pushFunction(creatureSayEvent);
-	LuaScriptInterface::pushUserdata<Creature>(L, creature);
-	LuaScriptInterface::setCreatureMetatable(L, -1, creature);
+	Lua::pushUserdata<Creature>(L, creature);
+	Lua::setCreatureMetatable(L, -1, creature);
 	lua_pushnumber(L, type);
-	LuaScriptInterface::pushString(L, text);
+	Lua::pushString(L, text);
 	scriptInterface->callFunction(3);
 }
 
@@ -1219,13 +1222,13 @@ void NpcEventsHandler::onPlayerTrade(Player* player, int32_t callback, uint16_t 
 
 	lua_State* L = scriptInterface->getLuaState();
 	LuaScriptInterface::pushCallback(L, callback);
-	LuaScriptInterface::pushUserdata<Player>(L, player);
-	LuaScriptInterface::setMetatable(L, -1, "Player");
+	Lua::pushUserdata<Player>(L, player);
+	Lua::setMetatable(L, -1, "Player");
 	lua_pushnumber(L, itemId);
 	lua_pushnumber(L, count);
 	lua_pushnumber(L, amount);
-	LuaScriptInterface::pushBoolean(L, ignore);
-	LuaScriptInterface::pushBoolean(L, inBackpacks);
+	Lua::pushBoolean(L, ignore);
+	Lua::pushBoolean(L, inBackpacks);
 	scriptInterface->callFunction(6);
 }
 
@@ -1247,8 +1250,8 @@ void NpcEventsHandler::onPlayerCloseChannel(Player* player)
 
 	lua_State* L = scriptInterface->getLuaState();
 	scriptInterface->pushFunction(playerCloseChannelEvent);
-	LuaScriptInterface::pushUserdata<Player>(L, player);
-	LuaScriptInterface::setMetatable(L, -1, "Player");
+	Lua::pushUserdata<Player>(L, player);
+	Lua::setMetatable(L, -1, "Player");
 	scriptInterface->callFunction(1);
 }
 
@@ -1270,8 +1273,8 @@ void NpcEventsHandler::onPlayerEndTrade(Player* player)
 
 	lua_State* L = scriptInterface->getLuaState();
 	scriptInterface->pushFunction(playerEndTradeEvent);
-	LuaScriptInterface::pushUserdata<Player>(L, player);
-	LuaScriptInterface::setMetatable(L, -1, "Player");
+	Lua::pushUserdata<Player>(L, player);
+	Lua::setMetatable(L, -1, "Player");
 	scriptInterface->callFunction(1);
 }
 

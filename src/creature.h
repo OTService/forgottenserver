@@ -343,7 +343,6 @@ public:
 		}
 	}
 
-protected:
 	virtual bool useCacheMap() const { return false; }
 
 	struct CountBlock_t

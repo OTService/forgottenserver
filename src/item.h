@@ -182,9 +182,9 @@ public:
 
 			void operator()(const boost::blank&) const { lua_pushnil(L); }
 
-			void operator()(const std::string& v) const { LuaScriptInterface::pushString(L, v); }
+			void operator()(const std::string& v) const { Lua::pushString(L, v); }
 
-			void operator()(bool v) const { LuaScriptInterface::pushBoolean(L, v); }
+			void operator()(bool v) const { Lua::pushBoolean(L, v); }
 
 			void operator()(const int64_t& v) const { lua_pushnumber(L, v); }
 
