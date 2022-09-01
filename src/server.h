@@ -65,9 +65,9 @@ private:
 
 class ServiceManager
 {
-	public:
-		explicit ServiceManager(boost::asio::io_service& service) : io_service(service)	{};
-		~ServiceManager();
+public:
+	explicit ServiceManager(boost::asio::io_service& service) : io_service(service){};
+	~ServiceManager();
 
 	// non-copyable
 	ServiceManager(const ServiceManager&) = delete;
@@ -86,10 +86,10 @@ private:
 
 	std::unordered_map<uint16_t, ServicePort_ptr> acceptors;
 
-		boost::asio::io_service& io_service;
-		Signals signals{io_service};
-		boost::asio::steady_timer death_timer { io_service };
-		bool running = false;
+	boost::asio::io_service& io_service;
+	Signals signals{io_service};
+	boost::asio::steady_timer death_timer{io_service};
+	bool running = false;
 };
 
 template <typename ProtocolType>

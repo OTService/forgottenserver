@@ -10,6 +10,7 @@
 #include "configmanager.h"
 #include "databasemanager.h"
 #include "databasetasks.h"
+#include "http/responder.h"
 #include "luaaction.cpp"
 #include "luacombat.cpp"
 #include "luacondition.cpp"
@@ -52,7 +53,6 @@
 #include "protocolstatus.h"
 #include "scheduler.h"
 #include "teleport.h"
-#include "http/responder.h"
 
 #include <boost/range/adaptor/reversed.hpp>
 

@@ -55,25 +55,26 @@ public:
 		LAST_BOOLEAN_CONFIG /* this must be the last one */
 	};
 
-		enum string_config_t {
-			MAP_NAME,
-			HOUSE_RENT_PERIOD,
-			SERVER_NAME,
-			OWNER_NAME,
-			OWNER_EMAIL,
-			URL,
-			LOCATION,
-			IP,
-			WORLD_TYPE,
-			MYSQL_HOST,
-			MYSQL_USER,
-			MYSQL_PASS,
-			MYSQL_DB,
-			MYSQL_SOCK,
-			DEFAULT_PRIORITY,
-			MAP_AUTHOR,
-			CONFIG_FILE,
-			HTTP_IP,
+	enum string_config_t
+	{
+		MAP_NAME,
+		HOUSE_RENT_PERIOD,
+		SERVER_NAME,
+		OWNER_NAME,
+		OWNER_EMAIL,
+		URL,
+		LOCATION,
+		IP,
+		WORLD_TYPE,
+		MYSQL_HOST,
+		MYSQL_USER,
+		MYSQL_PASS,
+		MYSQL_DB,
+		MYSQL_SOCK,
+		DEFAULT_PRIORITY,
+		MAP_AUTHOR,
+		CONFIG_FILE,
+		HTTP_IP,
 
 		LAST_STRING_CONFIG /* this must be the last one */
 	};
