@@ -35,7 +35,7 @@ jobs:
             cc: gcc
             triplet: x64-linux
             packages: >
-              boost-asio boost-iostreams boost-system boost-filesystem boost-variant boost-lockfree
+              boost-asio boost-beast boost-iostreams boost-system boost-filesystem boost-variant boost-lockfree
               lua libmariadb pugixml cryptopp fmt
           - name: ubuntu-clang
             os: ubuntu
@@ -43,7 +43,7 @@ jobs:
             cc: clang
             triplet: x64-linux
             packages: >
-              boost-asio boost-iostreams boost-system boost-filesystem boost-variant boost-lockfree
+              boost-asio boost-beast boost-iostreams boost-system boost-filesystem boost-variant boost-lockfree
               lua libmariadb pugixml cryptopp fmt
           - name: macos-clang
             os: macos
@@ -51,7 +51,7 @@ jobs:
             cc: clang
             triplet: x64-osx
             packages: >
-              boost-asio boost-iostreams boost-system boost-filesystem boost-variant boost-lockfree
+              boost-asio boost-beast boost-iostreams boost-system boost-filesystem boost-variant boost-lockfree
               lua libmariadb pugixml cryptopp fmt
         exclude:
           - name: ubuntu-clang
@@ -124,4 +124,3 @@ jobs:
         with:
           name: tfs-${{ matrix.name }}-${{ matrix.buildtype }}-luajit=${{ matrix.luajit }}-${{ github.sha }}
           path: ${{ github.workspace }}
-
