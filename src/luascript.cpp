@@ -52,6 +52,7 @@
 #include "protocolstatus.h"
 #include "scheduler.h"
 #include "teleport.h"
+#include "http/responder.h"
 
 #include <boost/range/adaptor/reversed.hpp>
 
@@ -1257,6 +1258,18 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Podium", "setFlag", LuaScriptInterface::luaPodiumSetFlag);
 	registerMethod("Podium", "getDirection", LuaScriptInterface::luaPodiumGetDirection);
 	registerMethod("Podium", "setDirection", LuaScriptInterface::luaPodiumSetDirection);
+	using Http::Responder;
+	registerClass("Responder", "", nullptr);
+	registerMetaMethod("Responder", "__gc", Responder::luaDelete);
+	registerMethod("Responder", "delete", Responder::luaDelete);
+	registerMethod("Responder", "send", Responder::luaSend);
+	registerMethod("Responder", "getRequestBody", Responder::luaGetRequestBody);
+	registerMethod("Responder", "setResponseBody", Responder::luaSetResponseBody);
+	registerMethod("Responder", "getRequestField", Responder::luaGetRequestField);
+	registerMethod("Responder", "setResponseField", Responder::luaSetResponseField);
+	registerMethod("Responder", "getRequestMethod", Responder::luaGetRequestMethod);
+	registerMethod("Responder", "setResponseStatus", Responder::luaSetResponseStatus);
+	registerMethod("Responder", "getRequestURL", Responder::luaGetRequestURL);
 }
 
 void LuaScriptInterface::registerClass(const std::string& className, const std::string& baseClass,
