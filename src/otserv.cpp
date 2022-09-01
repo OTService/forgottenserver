@@ -7,6 +7,7 @@
 #include "databasemanager.h"
 #include "databasetasks.h"
 #include "game.h"
+#include "http/server.h"
 #include "iomarket.h"
 #include "monsters.h"
 #include "outfit.h"
@@ -18,7 +19,6 @@
 #include "script.h"
 #include "scriptmanager.h"
 #include "server.h"
-#include "http/server.h"
 
 #include <fstream>
 
@@ -112,7 +112,8 @@ int main(int argc, char* argv[])
 	g_dispatcher.start();
 	g_scheduler.start();
 
-	g_dispatcher.addTask(createTask([=, services = &serviceManager, api = &apiServer]() { mainLoader(argc, argv, services, api); }));
+	g_dispatcher.addTask(
+	    createTask([=, services = &serviceManager, api = &apiServer]() { mainLoader(argc, argv, services, api); }));
 
 	g_loaderSignal.wait(g_loaderUniqueLock);
 
