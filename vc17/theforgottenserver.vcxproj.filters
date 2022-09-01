@@ -113,6 +113,69 @@
     <ClCompile Include="..\src\luamonster.cpp">
       <Filter>luaFunctions</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\luanpc.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luaguild.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luagroup.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luavocation.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luatown.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luahouse.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luaitemtype.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luacombat.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luacondition.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luamonstertype.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\lualoot.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luamonsterspell.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luaparty.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luaspell.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luaaction.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luatalkaction.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luacreatureevent.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luamoveevent.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luaglobalevent.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luaweapon.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\luaxml.cpp">
+      <Filter>luaFunctions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\account.h" />

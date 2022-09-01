@@ -438,7 +438,6 @@ public:
 	friend class Game;
 	friend class Map;
 	friend class LuaScriptInterface;
-	friend class luaCreature;
 };
 
 #endif // FS_CREATURE_H
