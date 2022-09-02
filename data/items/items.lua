@@ -4,8 +4,8 @@ Game.createItemType(26378):register({
    weight = 1800,
    duration = 604800,
    charges = 500,
-   showcharges = true,
-   showduration = true
+   showCharges = true,
+   showDuration = true
 })
 
 -- Exaple for fields

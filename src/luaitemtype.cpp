@@ -233,23 +233,6 @@ static int luaItemTypeFluidContainer(lua_State* L)
 	return 1;
 }
 
-static int luaItemTypeMovable(lua_State* L)
-{
-	// get: itemType:movable() set: itemType:movable(bool)
-	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (itemType) {
-		if (lua_gettop(L) == 1) {
-			pushBoolean(L, itemType->moveable);
-		} else {
-			itemType->moveable = getBoolean(L, 2);
-			pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
 static int luaItemTypeRune(lua_State* L)
 {
 	// get: itemType:rune() set: itemType:rune(bool)
@@ -263,40 +246,6 @@ static int luaItemTypeRune(lua_State* L)
 			} else {
 				itemType->type = ITEM_TYPE_NONE;
 			}
-			pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-static int luaItemTypeStackable(lua_State* L)
-{
-	// get: itemType:stackable() set: itemType:stackable(bool)
-	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (itemType) {
-		if (lua_gettop(L) == 1) {
-			pushBoolean(L, itemType->stackable);
-		} else {
-			itemType->stackable = getBoolean(L, 2);
-			pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-static int luaItemTypeReadable(lua_State* L)
-{
-	// get: itemType:readable() set: itemType:readable(bool)
-	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (itemType) {
-		if (lua_gettop(L) == 1) {
-			pushBoolean(L, itemType->canReadText);
-		} else {
-			itemType->canReadText = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
 	} else {
@@ -771,23 +720,6 @@ static int luaItemTypeWorth(lua_State* L)
 	return 1;
 }
 
-static int luaItemTypeWalkStack(lua_State* L)
-{
-	// get: itemType:walkStack() set: itemType:walkStack(id)
-	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (itemType) {
-		if (lua_gettop(L) == 1) {
-			pushBoolean(L, itemType->walkStack);
-		} else {
-			itemType->walkStack = getBoolean(L, 2);
-			pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
 static int luaItemTypeField(lua_State* L)
 {
 	// get: itemType:field() set: itemType:field(fied)
@@ -873,40 +805,6 @@ static int luaItemTypeField(lua_State* L)
 	return 1;
 }
 
-static int luaItemTypeBlocking(lua_State* L)
-{
-	// get: itemType:blocking() set: itemType:blocking(bool)
-	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (itemType) {
-		if (lua_gettop(L) == 1) {
-			pushBoolean(L, itemType->blockProjectile || itemType->blockSolid);
-		} else {
-			itemType->blockSolid = getBoolean(L, 2);
-			pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-static int luaItemTypeAllowDistRead(lua_State* L)
-{
-	// get: itemType:allowDistRead() set: itemType:allowDistRead(bool)
-	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (itemType) {
-		if (lua_gettop(L) == 1) {
-			pushBoolean(L, itemType->allowDistRead);
-		} else {
-			itemType->allowDistRead = getBoolean(L, 2);
-			pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
 static int luaItemTypeWieldInfo(lua_State* L)
 {
 	// itemType:getWieldInfo()
@@ -928,23 +826,6 @@ static int luaItemTypeRotatable(lua_State* L)
 			pushBoolean(L, itemType->rotatable);
 		} else {
 			itemType->rotatable = getBoolean(L, 2);
-			pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-static int luaItemTypeBlockProjectile(lua_State* L)
-{
-	// get: itemType:blockProjectile() set: itemType:blockProjectile(bool)
-	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (itemType) {
-		if (lua_gettop(L) == 1) {
-			pushBoolean(L, itemType->blockProjectile);
-		} else {
-			itemType->blockProjectile = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
 	} else {
@@ -995,40 +876,6 @@ static int luaItemTypeMagicField(lua_State* L)
 	return 1;
 }
 
-static int luaItemTypeUseable(lua_State* L)
-{
-	// get: itemType:useable() set: itemType:useable(bool)
-	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (itemType) {
-		if (lua_gettop(L) == 1) {
-			pushBoolean(L, itemType->isUseable());
-		} else {
-			itemType->useable = getBoolean(L, 2);
-			pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-static int luaItemTypePickupable(lua_State* L)
-{
-	// get: itemType:pickupable() set: itemType:pickupable(bool)
-	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (itemType) {
-		if (lua_gettop(L) == 1) {
-			pushBoolean(L, itemType->isPickupable());
-		} else {
-			itemType->pickupable = getBoolean(L, 2);
-			pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
 static int luaItemTypeAllowPickupable(lua_State* L)
 {
 	// get: itemType:allowPickupable() set: itemType:allowPickupable(bool)
@@ -1040,43 +887,6 @@ static int luaItemTypeAllowPickupable(lua_State* L)
 			itemType->allowPickupable = getBoolean(L, 2);
 			pushBoolean(L, true);
 		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-static int luaItemTypeType(lua_State* L)
-{
-	// get: itemType:type() set: itemType:type(type)
-	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (itemType) {
-		if (lua_gettop(L) == 1) {
-			lua_pushnumber(L, itemType->type);
-		} else {
-			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
-			auto it2 = ItemTypesMap.find(tmpStrValue);
-			if (it2 != ItemTypesMap.end()) {
-				itemType->type = it2->second;
-				if (itemType->type == ITEM_TYPE_CONTAINER) {
-					itemType->group = ITEM_GROUP_CONTAINER;
-				}
-			} else {
-				std::cout << "[Warning - Items::parseItemLua] Unknown type: " << tmpStrValue << std::endl;
-			}
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-static int luaItemTypeGroup(lua_State* L)
-{
-	// itemType:getGroup()
-	const ItemType* itemType = getUserdata<const ItemType>(L, 1);
-	if (itemType) {
-		lua_pushnumber(L, itemType->group);
 	} else {
 		lua_pushnil(L);
 	}
@@ -1532,23 +1342,6 @@ static int luaItemTypeCorpseType(lua_State* L)
 	return 1;
 }
 
-static int luaItemTypeClassification(lua_State* L)
-{
-	// get: itemType:classification() set: itemType:classification(int)
-	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (itemType) {
-		if (lua_gettop(L) == 1) {
-			lua_pushnumber(L, itemType->classification);
-		} else {
-			itemType->classification = getNumber<uint8_t>(L, 2);
-			pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
 static int luaItemTypeElementType(lua_State* L)
 {
 	// get: itemType:elementType() set: itemType:elementType(damage, elementType)
@@ -1981,6 +1774,453 @@ static int luaItemTypeRegister(lua_State* L)
 	return 1;
 }
 
+static int luaItemTypeSpeed(lua_State* L)
+{
+	// get: itemType:speed() set: itemType:speed(speed)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->speed);
+		} else {
+			itemType->speed = getNumber<uint16_t>(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeWareId(lua_State* L)
+{
+	// get: itemType:wareId() set: itemType:wareId(id)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			lua_pushnumber(L, itemType->wareId);
+		} else {
+			itemType->wareId = getNumber<uint16_t>(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeLight(lua_State* L)
+{
+	// get: itemType:light() set: itemType:light(id)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			lua_pushnumber(L, itemType->lightLevel);
+			lua_pushnumber(L, itemType->lightColor);
+		} else {
+			itemType->lightLevel = getNumber<uint8_t>(L, 2);
+			itemType->lightColor = getNumber<uint8_t>(L, 3);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeAlwaysOnTopOrder(lua_State* L)
+{
+	// get: itemType:alwaysOnTopOrder() set: itemType:alwaysOnTopOrder(order)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			lua_pushnumber(L, itemType->alwaysOnTopOrder);
+		} else {
+			itemType->alwaysOnTopOrder = getNumber<uint8_t>(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeClassification(lua_State* L)
+{
+	// get: itemType:classification() set: itemType:classification(int)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			lua_pushnumber(L, itemType->classification);
+		} else {
+			itemType->classification = getNumber<uint8_t>(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeGroup(lua_State* L)
+{
+	// itemType:getGroup()
+	const ItemType* itemType = getUserdata<const ItemType>(L, 1);
+	if (itemType) {
+		lua_pushnumber(L, itemType->group);
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeType(lua_State* L)
+{
+	// get: itemType:type() set: itemType:type(type)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			lua_pushnumber(L, itemType->type);
+		} else {
+			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
+			auto it2 = ItemTypesMap.find(tmpStrValue);
+			if (it2 != ItemTypesMap.end()) {
+				itemType->type = it2->second;
+				if (itemType->type == ITEM_TYPE_CONTAINER) {
+					itemType->group = ITEM_GROUP_CONTAINER;
+				}
+			} else {
+				std::cout << "[Warning - Items::parseItemLua] Unknown type: " << tmpStrValue << std::endl;
+			}
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeBlockSolid(lua_State* L)
+{
+	// get: itemType:blockSolid() set: itemType:blockSolid(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->blockSolid);
+		} else {
+			itemType->blockSolid = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeBlockProjectile(lua_State* L)
+{
+	// get: itemType:blockProjectile() set: itemType:blockProjectile(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->blockProjectile);
+		} else {
+			itemType->blockProjectile = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeBlockPathFind(lua_State* L)
+{
+	// get: itemType:blockPathFind() set: itemType:blockPathFind(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->blockPathFind);
+		} else {
+			itemType->blockPathFind = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeHasHeight(lua_State* L)
+{
+	// get: itemType:hasHeight() set: itemType:hasHeight(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->hasHeight);
+		} else {
+			itemType->hasHeight = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeUseable(lua_State* L)
+{
+	// get: itemType:useable() set: itemType:useable(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->isUseable());
+		} else {
+			itemType->useable = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypePickupable(lua_State* L)
+{
+	// get: itemType:pickupable() set: itemType:pickupable(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->isPickupable());
+		} else {
+			itemType->pickupable = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeMoveable(lua_State* L)
+{
+	// get: itemType:moveable() set: itemType:moveable(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->moveable);
+		} else {
+			itemType->moveable = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeStackable(lua_State* L)
+{
+	// get: itemType:stackable() set: itemType:stackable(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->stackable);
+		} else {
+			itemType->stackable = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeAlwaysOnTop(lua_State* L)
+{
+	// get: itemType:alwaysOnTop() set: itemType:alwaysOnTop(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->alwaysOnTop);
+		} else {
+			itemType->alwaysOnTop = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeIsVertical(lua_State* L)
+{
+	// get: itemType:isVertical() set: itemType:isVertical(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->isVertical);
+		} else {
+			itemType->isVertical = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeIsHorizontal(lua_State* L)
+{
+	// get: itemType:isHorizontal() set: itemType:isHorizontal(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->isHorizontal);
+		} else {
+			itemType->isHorizontal = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeIsHangable(lua_State* L)
+{
+	// get: itemType:isHangable() set: itemType:isHangable(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->isHangable);
+		} else {
+			itemType->isHangable = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeAllowDistRead(lua_State* L)
+{
+	// get: itemType:allowDistRead() set: itemType:allowDistRead(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->allowDistRead);
+		} else {
+			itemType->allowDistRead = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeRotateable(lua_State* L)
+{
+	// get: itemType:rotateable() set: itemType:rotateable(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->rotatable);
+		} else {
+			itemType->rotatable = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeReadable(lua_State* L)
+{
+	// get: itemType:readable() set: itemType:readable(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->canReadText);
+		} else {
+			itemType->canReadText = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeLookThrough(lua_State* L)
+{
+	// get: itemType:lookThrough() set: itemType:lookThrough(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->lookThrough);
+		} else {
+			itemType->lookThrough = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeIsAnimation(lua_State* L)
+{
+	// get: itemType:isAnimation() set: itemType:isAnimation(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->isAnimation);
+		} else {
+			itemType->isAnimation = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeWalkStack(lua_State* L)
+{
+	// get: itemType:walkStack() set: itemType:walkStack(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->walkStack);
+		} else {
+			itemType->walkStack = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaItemTypeForceUse(lua_State* L)
+{
+	// get: itemType:forceUse() set: itemType:forceUse(bool)
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			pushBoolean(L, itemType->forceUse);
+		} else {
+			itemType->forceUse = getBoolean(L, 2);
+			pushBoolean(L, true);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
 namespace LuaItemType {
 static void registerFunctions(LuaScriptInterface* interface)
 {
@@ -1992,10 +2232,7 @@ static void registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("ItemType", "door", luaItemTypeDoor);
 	interface->registerMethod("ItemType", "container", luaItemTypeContainer);
 	interface->registerMethod("ItemType", "fluidContainer", luaItemTypeFluidContainer);
-	interface->registerMethod("ItemType", "movable", luaItemTypeMovable);
 	interface->registerMethod("ItemType", "rune", luaItemTypeRune);
-	interface->registerMethod("ItemType", "stackable", luaItemTypeStackable);
-	interface->registerMethod("ItemType", "readable", luaItemTypeReadable);
 	interface->registerMethod("ItemType", "writable", luaItemTypeWritable);
 	interface->registerMethod("ItemType", "effect", luaItemTypeEffect);
 	interface->registerMethod("ItemType", "containerSize", luaItemTypeContainerSize);
@@ -2007,18 +2244,10 @@ static void registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("ItemType", "writeOnceItemId", luaItemTypeWriteOnceItemId);
 	interface->registerMethod("ItemType", "runeSpellName", luaItemTypeRuneSpellName);
 	interface->registerMethod("ItemType", "worth", luaItemTypeWorth);
-	interface->registerMethod("ItemType", "walkStack", luaItemTypeWalkStack);
 	interface->registerMethod("ItemType", "field", luaItemTypeField);
-	interface->registerMethod("ItemType", "blocking", luaItemTypeBlocking);
 	interface->registerMethod("ItemType", "groundTile", luaItemTypeGroundTile);
 	interface->registerMethod("ItemType", "magicField", luaItemTypeMagicField);
-	interface->registerMethod("ItemType", "useable", luaItemTypeUseable);
-	interface->registerMethod("ItemType", "pickupable", luaItemTypePickupable);
 
-	interface->registerMethod("ItemType", "type", luaItemTypeType);
-	interface->registerMethod("ItemType", "group", luaItemTypeGroup);
-	interface->registerMethod("ItemType", "id", luaItemTypeId);
-	interface->registerMethod("ItemType", "clientId", luaItemTypeClientId);
 	interface->registerMethod("ItemType", "name", luaItemTypeName);
 	interface->registerMethod("ItemType", "pluralName", luaItemTypePluralName);
 	interface->registerMethod("ItemType", "article", luaItemTypeArticle);
@@ -2052,7 +2281,6 @@ static void registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("ItemType", "requiredLevel", luaItemTypeRequiredLevel);
 	interface->registerMethod("ItemType", "ammoType", luaItemTypeAmmoType);
 	interface->registerMethod("ItemType", "corpseType", luaItemTypeCorpseType);
-	interface->registerMethod("ItemType", "classification", luaItemTypeClassification);
 
 	interface->registerMethod("ItemType", "abilities", luaItemTypeAbilities);
 
@@ -2061,7 +2289,6 @@ static void registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("ItemType", "showCharges", luaItemTypeShowCharges);
 	interface->registerMethod("ItemType", "stopDuration", luaItemTypeStopDuration);
 	interface->registerMethod("ItemType", "showDuration", luaItemTypeShowDuration);
-	interface->registerMethod("ItemType", "allowDistRead", luaItemTypeAllowDistRead);
 	interface->registerMethod("ItemType", "wieldInfo", luaItemTypeWieldInfo);
 	interface->registerMethod("ItemType", "replaceable", luaItemTypeReplaceable);
 	interface->registerMethod("ItemType", "duration", luaItemTypeDuration);
@@ -2077,5 +2304,35 @@ static void registerFunctions(LuaScriptInterface* interface)
 
 	interface->registerMethod("ItemType", "storeItem", luaItemTypeStoreItem);
 	interface->registerMethod("ItemType", "register", luaItemTypeRegister);
+
+	// properties
+	interface->registerMethod("ItemType", "id", luaItemTypeId);
+	interface->registerMethod("ItemType", "clientId", luaItemTypeClientId);
+	interface->registerMethod("ItemType", "speed", luaItemTypeSpeed);
+	interface->registerMethod("ItemType", "wareId", luaItemTypeWareId);
+	interface->registerMethod("ItemType", "light", luaItemTypeLight);
+	interface->registerMethod("ItemType", "alwaysOnTopOrder", luaItemTypeAlwaysOnTopOrder);
+	interface->registerMethod("ItemType", "classification", luaItemTypeClassification);
+	interface->registerMethod("ItemType", "group", luaItemTypeGroup);
+	interface->registerMethod("ItemType", "type", luaItemTypeType);
+	interface->registerMethod("ItemType", "blockSolid", luaItemTypeBlockSolid);
+	interface->registerMethod("ItemType", "blockProjectile", luaItemTypeBlockProjectile);
+	interface->registerMethod("ItemType", "blockPathFind", luaItemTypeBlockPathFind);
+	interface->registerMethod("ItemType", "hasHeight", luaItemTypeHasHeight);
+	interface->registerMethod("ItemType", "useable", luaItemTypeUseable);
+	interface->registerMethod("ItemType", "pickupable", luaItemTypePickupable);
+	interface->registerMethod("ItemType", "moveable", luaItemTypeMoveable);
+	interface->registerMethod("ItemType", "stackable", luaItemTypeStackable);
+	interface->registerMethod("ItemType", "alwaysOnTop", luaItemTypeAlwaysOnTop);
+	interface->registerMethod("ItemType", "isVertical", luaItemTypeIsVertical);
+	interface->registerMethod("ItemType", "isHorizontal", luaItemTypeIsHorizontal);
+	interface->registerMethod("ItemType", "isHangable", luaItemTypeIsHangable);
+	interface->registerMethod("ItemType", "allowDistRead", luaItemTypeAllowDistRead);
+	interface->registerMethod("ItemType", "rotateable", luaItemTypeRotateable);
+	interface->registerMethod("ItemType", "readable", luaItemTypeReadable);
+	interface->registerMethod("ItemType", "lookThrough", luaItemTypeLookThrough);
+	interface->registerMethod("ItemType", "isAnimation", luaItemTypeIsAnimation);
+	interface->registerMethod("ItemType", "walkStack", luaItemTypeWalkStack);
+	interface->registerMethod("ItemType", "forceUse", luaItemTypeForceUse);
 }
 } // namespace LuaItemType
