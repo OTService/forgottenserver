@@ -181,7 +181,7 @@ do
 		subType = subType or (not isVirtual and item:getSubType() or -1)
 
 		-- possibility of picking the item up (will be reused later)
-		local isPickupable = itemType:isMovable() and itemType:isPickupable()
+		local isPickupable = itemType:isMoveable() and itemType:isPickupable()
 
 		-- has uniqueId tag
 		local isUnique = false
