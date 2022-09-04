@@ -126,7 +126,7 @@ void printServerVersion()
 
 	std::cout << "A server developed by " << STATUS_SERVER_DEVELOPERS << std::endl;
 	std::cout
-	    << "Visit our Discord Server: https://discord.gg/c6PXkddMxe or Githbub: https://github.com/OTService/forgottenserver"
+	    << "Visit our Discord Server: https://discord.gg/c6PXkddMxe or Github: https://github.com/OTService/forgottenserver"
 	    << std::endl;
 	std::cout << std::endl;
 }

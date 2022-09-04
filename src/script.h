@@ -13,6 +13,7 @@ public:
 	~Scripts();
 
 	bool loadScripts(std::string folderName, bool isLib, bool reload);
+	bool loadItems(std::string folderName);
 	LuaScriptInterface& getScriptInterface() { return scriptInterface; }
 
 private:

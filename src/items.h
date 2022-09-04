@@ -454,7 +454,6 @@ public:
 	Items(const Items&) = delete;
 	Items& operator=(const Items&) = delete;
 
-	bool reload();
 	void clear();
 
 	const ItemType& operator[](size_t id) const { return getItemType(id); }

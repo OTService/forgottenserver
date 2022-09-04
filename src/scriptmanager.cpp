@@ -58,8 +58,8 @@ bool ScriptingManager::loadScriptSystems()
 	g_chat = new Chat();
 
 	// load item data
-	std::cout << ">> Loading items... " << std::endl;
-	if (!g_scripts->loadScripts("items/serverid", false, false)) {
+	std::cout << ">> Loading items..." << std::endl;
+	if (!g_scripts->loadItems("serverid")) {
 		std::cout << "> ERROR: Unable to load items!" << std::endl;
 		return false;
 	}
