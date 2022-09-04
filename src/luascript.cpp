@@ -786,15 +786,16 @@ Outfit Lua::getOutfitClass(lua_State* L, int32_t arg)
 	return Outfit(name, lookType, premium, unlocked);
 }
 
-void Lua::getFieldBlock(lua_State* L, int32_t arg, FieldBlock& fieldBlock)
+FieldBlock Lua::getFieldBlock(lua_State* L, int32_t arg)
 {
-	fieldBlock.name = getFieldString(L, arg, "name");
-	fieldBlock.ticks = getField<uint32_t>(L, arg, "ticks");
-	fieldBlock.initDamage = getField<int32_t>(L, arg, "initDamage");
-	fieldBlock.count = std::max(1, getField<int32_t>(L, arg, "count"));
-	fieldBlock.start = std::max(0, getField<int32_t>(L, arg, "start"));
-	fieldBlock.damage = -getField<int32_t>(L, arg, "damage");
+	const std::string& name = getFieldString(L, arg, "name");
+	uint32_t ticks = getField<uint32_t>(L, arg, "ticks");
+	int32_t initDamage = getField<int32_t>(L, arg, "initDamage");
+	int32_t count = std::max(1, getField<int32_t>(L, arg, "count"));
+	int32_t start = std::max(0, getField<int32_t>(L, arg, "start"));
+	int32_t damage = -getField<int32_t>(L, arg, "damage");
 	lua_pop(L, 6);
+	return FieldBlock(name, ticks, initDamage, count, start, damage);
 }
 
 LuaVariant Lua::getVariant(lua_State* L, int32_t arg)
@@ -1023,7 +1024,7 @@ void Lua::pushLoot(lua_State* L, const std::vector<LootBlock>& lootList)
 
 void Lua::pushFieldBlock(lua_State* L, const FieldBlock& fieldBlock)
 {
-	lua_createtable(L, 6, 0);
+	lua_createtable(L, 0, 6);
 
 	setField(L, "name", fieldBlock.name);
 	setField(L, "initDamage", fieldBlock.initDamage);

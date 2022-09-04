@@ -24,6 +24,15 @@ const std::unordered_map<std::string, ItemTypes_t> ItemTypesMap = {
     {"door", ITEM_TYPE_DOOR},
     {"bed", ITEM_TYPE_BED},
     {"rune", ITEM_TYPE_RUNE},
+    {"podium", ITEM_TYPE_PODIUM},
+};
+
+const std::unordered_map<std::string, itemgroup_t> ItemGroupMap = {
+    {"ground", ITEM_GROUP_GROUND},     {"container", ITEM_GROUP_CONTAINER},   {"weapon", ITEM_GROUP_WEAPON},
+    {"ammo", ITEM_GROUP_AMMUNITION},   {"armor", ITEM_GROUP_ARMOR},           {"charges", ITEM_GROUP_CHARGES},
+    {"teleport", ITEM_GROUP_TELEPORT}, {"magicfield", ITEM_GROUP_MAGICFIELD}, {"writeable", ITEM_GROUP_WRITEABLE},
+    {"key", ITEM_GROUP_KEY},           {"splash", ITEM_GROUP_SPLASH},         {"fluid", ITEM_GROUP_FLUID},
+    {"door", ITEM_GROUP_DOOR},         {"deprecated", ITEM_GROUP_DEPRECATED}, {"podium", ITEM_GROUP_PODIUM},
 };
 
 const std::unordered_map<std::string, tileflags_t> TileStatesMap = {
@@ -39,7 +48,7 @@ const std::unordered_map<std::string, RaceType_t> RaceTypesMap = {
 
 const std::unordered_map<std::string, WeaponType_t> WeaponTypesMap = {
     {"sword", WEAPON_SWORD},       {"club", WEAPON_CLUB}, {"axe", WEAPON_AXE},         {"shield", WEAPON_SHIELD},
-    {"distance", WEAPON_DISTANCE}, {"wand", WEAPON_WAND}, {"ammunition", WEAPON_AMMO},
+    {"distance", WEAPON_DISTANCE}, {"wand", WEAPON_WAND}, {"ammunition", WEAPON_AMMO}, {"quiver", WEAPON_QUIVER},
 };
 
 const std::unordered_map<std::string, FluidTypes_t> FluidTypesMap = {
@@ -75,10 +84,8 @@ const std::unordered_map<std::string, skills_t> AbilitieSkillMap = {
 };
 
 const std::unordered_map<std::string, stats_t> AbilitieStatMap = {
-    {"maxhitpoints", STAT_MAXHITPOINTS},
-    {"maxmanapoints", STAT_MAXMANAPOINTS},
-    {"magicpoints", STAT_MAGICPOINTS},
-    {"magiclevelpoints", STAT_MAGICPOINTS},
+    {"maxhitpoints", STAT_MAXHITPOINTS}, {"maxmanapoints", STAT_MAXMANAPOINTS},  {"soulpoints", STAT_SOULPOINTS},
+    {"magicpoints", STAT_MAGICPOINTS},   {"magiclevelpoints", STAT_MAGICPOINTS},
 };
 
 const std::unordered_map<std::string, stats_t> AbilitieStatPercentMap = {
@@ -148,11 +155,11 @@ static int luaItemTypeCreate(lua_State* L)
 
 static int luaItemTypeCorpse(lua_State* L)
 {
-	// get: itemType:corpse() set: itemType:corpse(raceType)
+	// get: itemType:corpseType() set: itemType:corpse(raceType)
 	ItemType* itemType = getUserdata<ItemType>(L, 1);
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
-			pushBoolean(L, itemType->corpseType != RACE_NONE);
+			lua_pushnumber(L, itemType->corpseType);
 		} else {
 			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			auto it2 = RaceTypesMap.find(tmpStrValue);
@@ -201,6 +208,7 @@ static int luaItemTypeContainer(lua_State* L)
 		} else {
 			if (getBoolean(L, 2)) {
 				itemType->group = ITEM_GROUP_CONTAINER;
+				itemType->type = ITEM_TYPE_CONTAINER;
 			} else {
 				itemType->group = ITEM_GROUP_NONE;
 			}
@@ -399,12 +407,16 @@ static int luaItemTypeFloorChange(lua_State* L)
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->floorChange);
 		} else {
-			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
-			auto it2 = TileStatesMap.find(tmpStrValue);
-			if (it2 != TileStatesMap.end()) {
-				itemType->floorChange |= it2->second;
+			if (isNumber(L, 2)) {
+				itemType->floorChange = getNumber<uint8_t>(L, 2);
 			} else {
-				std::cout << "[Warning - Items::parseItemLua] Unknown floorChange: " << tmpStrValue << std::endl;
+				const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
+				auto it2 = TileStatesMap.find(tmpStrValue);
+				if (it2 != TileStatesMap.end()) {
+					itemType->floorChange |= it2->second;
+				} else {
+					std::cout << "[Warning - Items::parseItemLua] Unknown floorChange: " << tmpStrValue << std::endl;
+				}
 			}
 			pushBoolean(L, true);
 		}
@@ -489,7 +501,7 @@ static int luaItemTypeGetMarketBuyStatistics(lua_State* L)
 	if (itemType) {
 		MarketStatistics* statistics = IOMarket::getInstance().getPurchaseStatistics(itemType->id);
 		if (statistics) {
-			lua_createtable(L, 4, 0);
+			lua_createtable(L, 0, 4);
 			setField(L, "numTransactions", statistics->numTransactions);
 			setField(L, "totalPrice", statistics->totalPrice);
 			setField(L, "highestPrice", statistics->highestPrice);
@@ -510,7 +522,7 @@ static int luaItemTypeGetMarketSellStatistics(lua_State* L)
 	if (itemType) {
 		MarketStatistics* statistics = IOMarket::getInstance().getSaleStatistics(itemType->id);
 		if (statistics) {
-			lua_createtable(L, 4, 0);
+			lua_createtable(L, 0, 4);
 			setField(L, "numTransactions", statistics->numTransactions);
 			setField(L, "totalPrice", statistics->totalPrice);
 			setField(L, "highestPrice", statistics->highestPrice);
@@ -572,7 +584,7 @@ static int luaItemTypeRotateTo(lua_State* L)
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->rotateTo);
 		} else {
-			itemType->rotateTo = getNumber<int32_t>(L, 2);
+			itemType->rotateTo = getNumber<uint16_t>(L, 2);
 			pushBoolean(L, true);
 		}
 	} else {
@@ -581,9 +593,9 @@ static int luaItemTypeRotateTo(lua_State* L)
 	return 1;
 }
 
-static int luaItemTypePartnerDirection(lua_State* L)
+static int luaItemTypeBedPartnerDirection(lua_State* L)
 {
-	// get: itemType:partnerDirection() set: itemType:partnerDirection(dir)
+	// get: itemType:bedPartnerDirection() set: itemType:bedPartnerDirection(dir)
 	ItemType* itemType = getUserdata<ItemType>(L, 1);
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
@@ -712,6 +724,7 @@ static int luaItemTypeWorth(lua_State* L)
 			lua_pushnumber(L, itemType->worth);
 		} else {
 			itemType->worth = getNumber<uint64_t>(L, 2);
+			Item::items.parseItemWorth(itemType->worth, itemType->id);
 			pushBoolean(L, true);
 		}
 	} else {
@@ -725,17 +738,17 @@ static int luaItemTypeField(lua_State* L)
 	// get: itemType:field() set: itemType:field(fied)
 	ItemType* itemType = getUserdata<ItemType>(L, 1);
 	if (itemType) {
+		auto fieldBlock = itemType->getFieldBlock();
 		if (lua_gettop(L) == 1) {
-			FieldBlock fieldBlock;
-			pushFieldBlock(L, fieldBlock);
+			pushFieldBlock(L, itemType->getFieldBlock());
 		} else {
-			FieldBlock fieldBlock;
+			fieldBlock = getFieldBlock(L, 2);
 			bool onlyName = false;
 			if (isString(L, 2)) {
 				fieldBlock.name = getString(L, 2);
 				onlyName = true;
 			} else {
-				getFieldBlock(L, 2, fieldBlock);
+				fieldBlock = getFieldBlock(L, 2);
 			}
 
 			itemType->group = ITEM_GROUP_MAGICFIELD;
@@ -808,9 +821,14 @@ static int luaItemTypeField(lua_State* L)
 static int luaItemTypeWieldInfo(lua_State* L)
 {
 	// itemType:getWieldInfo()
-	const ItemType* itemType = getUserdata<const ItemType>(L, 1);
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
 	if (itemType) {
-		lua_pushinteger(L, itemType->wieldInfo);
+		if (lua_gettop(L) == 1) {
+			lua_pushnumber(L, itemType->wieldInfo);
+		} else {
+			itemType->wieldInfo = getNumber<uint32_t>(L, 2);
+			pushBoolean(L, true);
+		}
 	} else {
 		lua_pushnil(L);
 	}
@@ -936,6 +954,7 @@ static int luaItemTypeName(lua_State* L)
 			pushString(L, itemType->name);
 		} else {
 			itemType->name = getString(L, 2);
+			Item::items.parseItemName(itemType->name, itemType->id);
 			pushBoolean(L, true);
 		}
 	} else {
@@ -1098,21 +1117,18 @@ static int luaItemTypeCapacity(lua_State* L)
 
 static int luaItemTypeWeight(lua_State* L)
 {
-	// get: itemType:weight([count = 1]) set: itemType:weight(weight, <anyArg>)
+	// get: itemType:weight() set: itemType:weight(weight)
 	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (!itemType) {
-		lua_pushnil(L);
-		return 1;
-	}
-
-	if (lua_gettop(L) <= 2) {
-		uint64_t weight = static_cast<uint64_t>(itemType->weight) * std::max<int32_t>(1, getNumber<uint16_t>(L, 2, 1));
-		lua_pushnumber(L, weight);
+	if (itemType) {
+		if (lua_gettop(L) == 1) {
+			lua_pushnumber(L, itemType->weight);
+		} else {
+			itemType->weight = getNumber<uint32_t>(L, 2);
+			pushBoolean(L, true);
+		}
 	} else {
-		itemType->weight = getNumber<uint32_t>(L, 2);
-		pushBoolean(L, true);
+		lua_pushnil(L);
 	}
-
 	return 1;
 }
 
@@ -1124,7 +1140,7 @@ static int luaItemTypeHitChance(lua_State* L)
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, itemType->hitChance);
 		} else {
-			itemType->hitChance = std::min<int8_t>(100, std::max<int8_t>(-100, getNumber<uint32_t>(L, 2)));
+			itemType->hitChance = std::min<int8_t>(100, std::max<int8_t>(-100, getNumber<int8_t>(L, 2)));
 			pushBoolean(L, true);
 		}
 	} else {
@@ -1310,29 +1326,6 @@ static int luaItemTypeAmmoType(lua_State* L)
 			itemType->ammoType = getAmmoType(boost::algorithm::to_lower_copy(ammoName));
 			if (itemType->ammoType == AMMO_NONE) {
 				std::cout << "[Warning - Items::parseItemLua] Unknown ammoType: " << ammoName << std::endl;
-			}
-			pushBoolean(L, true);
-		}
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-static int luaItemTypeCorpseType(lua_State* L)
-{
-	// get: itemType:corpseType() set: itemType:corpseType(corpseType)
-	ItemType* itemType = getUserdata<ItemType>(L, 1);
-	if (itemType) {
-		if (lua_gettop(L) == 1) {
-			lua_pushnumber(L, itemType->corpseType);
-		} else {
-			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
-			auto it2 = RaceTypesMap.find(tmpStrValue);
-			if (it2 != RaceTypesMap.end()) {
-				itemType->corpseType = it2->second;
-			} else {
-				std::cout << "[Warning - Items::parseItemLua] Unknown corpseType: " << tmpStrValue << std::endl;
 			}
 			pushBoolean(L, true);
 		}
@@ -1597,6 +1590,7 @@ static int luaItemTypeAbilities(lua_State* L)
 			return 1;
 		} else {
 			const std::string& abilitieName = boost::algorithm::to_lower_copy(getString(L, 2));
+			// std::cout << abilitieName << std::endl;
 			bool foundAbilitie = true;
 			if (abilitieName == "healthgain") {
 				abilities.regeneration = true;
@@ -1616,9 +1610,10 @@ static int luaItemTypeAbilities(lua_State* L)
 				abilities.elementDamage = getNumber<uint16_t>(L, 3);
 			} else if (abilitieName == "elementtype") {
 				abilities.elementType = getNumber<CombatType_t>(L, 3, COMBAT_NONE);
-			} else if (abilitieName == "shoottype") {
-				// abilities.shootType = getNumber<uint8_t>(L, 3, CONST_ANI_NONE);
-			} else if (abilitieName == "manashield") {
+			} /*/ else if (abilitieName == "shoottype") {
+			    // abilities.shootType = getNumber<uint8_t>(L, 3, CONST_ANI_NONE);
+			}*/
+			else if (abilitieName == "manashield") {
 				abilities.manaShield = getBoolean(L, 3);
 			} else if (abilitieName == "invisible") {
 				abilities.invisible = getBoolean(L, 3);
@@ -1631,6 +1626,14 @@ static int luaItemTypeAbilities(lua_State* L)
 			if (foundAbilitie) {
 				pushBoolean(L, true);
 				return 1;
+			}
+
+			if (abilitieName == "conditionsuppressions") {
+				if (isNumber(L, 3)) {
+					abilities.conditionSuppressions = getNumber<uint32_t>(L, 3);
+					pushBoolean(L, true);
+					return 1;
+				}
 			}
 
 			// Stats
@@ -1723,7 +1726,7 @@ static int luaItemTypeAbilities(lua_State* L)
 				}
 			}
 
-			std::cout << "[Warning - Items::parseItemLua] Unknown abilitie: " << abilitieName << std::endl;
+			std::cout << "[Warning - Items::parseItemLua] Unknown abilitie: " << itemType->id << std::endl;
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -1755,15 +1758,7 @@ static int luaItemTypeRegister(lua_State* L)
 	// itemType:register()
 	ItemType* itemType = getUserdata<ItemType>(L, 1);
 	if (itemType) {
-		const uint16_t& id = itemType->id;
-		if (id != 0) {
-			if (itemType->toId == 0) {
-				itemType->toId = id;
-			}
-			for (uint16_t i = id; i <= itemType->toId; i++) {
-				itemType->id = i;
-				Item::items.parseItemLua(itemType->id);
-			}
+		if (itemType->id != 0) {
 			pushBoolean(L, true);
 		} else {
 			pushBoolean(L, false);
@@ -1814,8 +1809,9 @@ static int luaItemTypeLight(lua_State* L)
 	ItemType* itemType = getUserdata<ItemType>(L, 1);
 	if (itemType) {
 		if (lua_gettop(L) == 1) {
-			lua_pushnumber(L, itemType->lightLevel);
-			lua_pushnumber(L, itemType->lightColor);
+			lua_createtable(L, 0, 2);
+			setField(L, "level", itemType->lightLevel);
+			setField(L, "color", itemType->lightColor);
 		} else {
 			itemType->lightLevel = getNumber<uint8_t>(L, 2);
 			itemType->lightColor = getNumber<uint8_t>(L, 3);
@@ -1863,10 +1859,21 @@ static int luaItemTypeClassification(lua_State* L)
 
 static int luaItemTypeGroup(lua_State* L)
 {
-	// itemType:getGroup()
-	const ItemType* itemType = getUserdata<const ItemType>(L, 1);
+	// itemType:group()
+	ItemType* itemType = getUserdata<ItemType>(L, 1);
 	if (itemType) {
-		lua_pushnumber(L, itemType->group);
+		if (lua_gettop(L) == 1) {
+			lua_pushnumber(L, itemType->group);
+		} else {
+			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
+			auto it2 = ItemGroupMap.find(tmpStrValue);
+			if (it2 != ItemGroupMap.end()) {
+				itemType->group = it2->second;
+			} else {
+				std::cout << "[Warning - Items::parseItemLua] Unknown group: " << tmpStrValue << std::endl;
+			}
+			pushBoolean(L, true);
+		}
 	} else {
 		lua_pushnil(L);
 	}
@@ -1891,6 +1898,7 @@ static int luaItemTypeType(lua_State* L)
 			} else {
 				std::cout << "[Warning - Items::parseItemLua] Unknown type: " << tmpStrValue << std::endl;
 			}
+			pushBoolean(L, true);
 		}
 	} else {
 		lua_pushnil(L);
@@ -2228,7 +2236,7 @@ static void registerFunctions(LuaScriptInterface* interface)
 	interface->registerClass("ItemType", "", luaItemTypeCreate);
 	interface->registerMetaMethod("ItemType", "__eq", interface->luaUserdataCompare);
 
-	interface->registerMethod("ItemType", "corpse", luaItemTypeCorpse);
+	interface->registerMethod("ItemType", "corpseType", luaItemTypeCorpse);
 	interface->registerMethod("ItemType", "door", luaItemTypeDoor);
 	interface->registerMethod("ItemType", "container", luaItemTypeContainer);
 	interface->registerMethod("ItemType", "fluidContainer", luaItemTypeFluidContainer);
@@ -2237,7 +2245,7 @@ static void registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("ItemType", "effect", luaItemTypeEffect);
 	interface->registerMethod("ItemType", "containerSize", luaItemTypeContainerSize);
 	interface->registerMethod("ItemType", "rotateTo", luaItemTypeRotateTo);
-	interface->registerMethod("ItemType", "partnerDirection", luaItemTypePartnerDirection);
+	interface->registerMethod("ItemType", "bedPartnerDirection", luaItemTypeBedPartnerDirection);
 	interface->registerMethod("ItemType", "femaleSleeper", luaItemTypeFemaleSleeper);
 	interface->registerMethod("ItemType", "maleSleeper", luaItemTypeMaleSleeper);
 	interface->registerMethod("ItemType", "maxTextLen", luaItemTypeMaxTextLen);
@@ -2280,7 +2288,6 @@ static void registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("ItemType", "decayId", luaItemTypeDecayId);
 	interface->registerMethod("ItemType", "requiredLevel", luaItemTypeRequiredLevel);
 	interface->registerMethod("ItemType", "ammoType", luaItemTypeAmmoType);
-	interface->registerMethod("ItemType", "corpseType", luaItemTypeCorpseType);
 
 	interface->registerMethod("ItemType", "abilities", luaItemTypeAbilities);
 
