@@ -1,0 +1,20 @@
+-- name: remains of a spectre
+Game.createItemType(6350, 6349):register({
+	weight = 8000,
+	walkStack = true,
+	type = "container",
+	containerSize = 40,
+	capacity = 40,
+	clientId = 6349,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 6350,
+	group = "container",
+	corpseType = "undead",
+	name = "remains of a spectre",
+	decayId = 6351,
+	duration = 600,
+	slotPosition = "hand",
+})

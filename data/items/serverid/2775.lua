@@ -1,0 +1,12 @@
+-- name: swamp lilly
+Game.createItemType(2775, 3689):register({
+	alwaysOnTopOrder = 2,
+	alwaysOnTop = true,
+	walkStack = true,
+	clientId = 3689,
+	replaceable = true,
+	blockSolid = true,
+	id = 2775,
+	article = "a",
+	name = "swamp lilly",
+})

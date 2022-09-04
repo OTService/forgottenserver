@@ -1,0 +1,20 @@
+-- name: broken dream
+Game.createItemType(22363, 20029):register({
+	weight = 10,
+	description = "The fragment of a dream. Strange pictures seem to flit through the shards.",
+	walkStack = true,
+	subType = true,
+	clientId = 20029,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 20029,
+	showCount = true,
+	id = 22363,
+	article = "a",
+	pluralName = "broken dreams",
+	name = "broken dream",
+	slotPosition = "hand",
+})

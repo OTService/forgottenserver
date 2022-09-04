@@ -1,0 +1,28 @@
+-- name: necrotic rod
+Game.createItemType(2185, 3069):register({
+	weight = 2300,
+	isAnimation = true,
+	description = "It was brought up from hell to deliver death.",
+	shootType = "death",
+	shootRange = 3,
+	light = {
+		level = 2,
+		color = 199,
+	},
+	minReqLevel = 19,
+	classification = 1,
+	requiredLevel = 19,
+	walkStack = true,
+	vocationString = "druids",
+	clientId = 3069,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "wand",
+	wareId = 3069,
+	id = 2185,
+	article = "a",
+	name = "necrotic rod",
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

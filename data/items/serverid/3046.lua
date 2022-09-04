@@ -1,0 +1,22 @@
+-- name: dead skunk
+Game.createItemType(3046, 4227):register({
+	weight = 1000,
+	walkStack = true,
+	type = "container",
+	containerSize = 5,
+	capacity = 5,
+	clientId = 4227,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 3046,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead skunk",
+	decayId = 3047,
+	duration = 900,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

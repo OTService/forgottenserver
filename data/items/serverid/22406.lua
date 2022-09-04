@@ -1,0 +1,30 @@
+-- name: umbral master axe
+Game.createItemType(22406, 20072):register({
+	weight = 8000,
+	shootRange = 1,
+	minReqLevel = 250,
+	extraDefense = 3,
+	classification = 4,
+	requiredLevel = 250,
+	walkStack = true,
+	vocationString = "knights",
+	clientId = 20072,
+	abilities = {
+		skills = {
+			axe = 1,
+		},
+	},
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 30,
+	wareId = 20072,
+	id = 22406,
+	article = "an",
+	name = "umbral master axe",
+	attack = 53,
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

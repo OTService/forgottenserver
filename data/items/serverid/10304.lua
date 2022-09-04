@@ -1,0 +1,20 @@
+-- name: poet's fencing quill
+Game.createItemType(10304, 9387):register({
+	weight = 200,
+	description = "This feather is mightier than a sword.",
+	shootRange = 1,
+	classification = 2,
+	walkStack = true,
+	clientId = 9387,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	defense = 8,
+	wareId = 9387,
+	id = 10304,
+	article = "a",
+	name = "poet's fencing quill",
+	attack = 10,
+	slotPosition = "hand",
+})

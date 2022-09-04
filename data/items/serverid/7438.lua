@@ -1,0 +1,20 @@
+-- name: elvish bow
+Game.createItemType(7438, 7438):register({
+	weight = 3900,
+	description = "This beautifully ornamented bow was made by a skilled elvish bowmaker.",
+	shootRange = 6,
+	hitChance = 5,
+	classification = 2,
+	walkStack = true,
+	clientId = 7438,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	wareId = 7438,
+	id = 7438,
+	article = "an",
+	name = "elvish bow",
+	ammoType = "arrow",
+	slotPosition = "two-handed",
+})

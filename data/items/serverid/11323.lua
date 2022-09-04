@@ -1,0 +1,23 @@
+-- name: Zaoan halberd
+Game.createItemType(11323, 10406):register({
+	weight = 8700,
+	shootRange = 1,
+	minReqLevel = 25,
+	classification = 1,
+	requiredLevel = 25,
+	walkStack = true,
+	clientId = 10406,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 15,
+	wareId = 10406,
+	id = 11323,
+	article = "a",
+	name = "Zaoan halberd",
+	attack = 37,
+	wieldInfo = 1,
+	slotPosition = "two-handed",
+})

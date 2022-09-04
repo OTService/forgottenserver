@@ -1,0 +1,27 @@
+-- name: pair of soft boots
+Game.createItemType(2640, 3549):register({
+	weight = 800,
+	showAttributes = true,
+	transformDeEquipId = 6132,
+	isAnimation = true,
+	showDuration = true,
+	walkStack = true,
+	clientId = 3549,
+	abilities = {
+		manaGain = 12,
+		manaTicks = 6000,
+		regeneration = true,
+		healthGain = 3,
+		healthTicks = 6000,
+	},
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	wareId = 6530,
+	id = 2640,
+	article = "a",
+	name = "pair of soft boots",
+	decayId = 10021,
+	duration = 14400,
+	slotPosition = "feet",
+})

@@ -1,0 +1,21 @@
+-- name: ring of red plasma
+Game.createItemType(26189, 23533):register({
+	weight = 90,
+	minReqLevel = 100,
+	showDuration = true,
+	requiredLevel = 100,
+	walkStack = true,
+	transformEquipId = 26190,
+	stopDuration = true,
+	vocationString = "knights",
+	clientId = 23533,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	wareId = 23533,
+	id = 26189,
+	article = "a",
+	name = "ring of red plasma",
+	wieldInfo = 5,
+	slotPosition = "ring",
+})

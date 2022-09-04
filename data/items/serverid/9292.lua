@@ -1,0 +1,14 @@
+-- name: stone wall
+Game.createItemType(9292, 8376):register({
+	alwaysOnTopOrder = 2,
+	alwaysOnTop = true,
+	blockProjectile = true,
+	walkStack = true,
+	isVertical = true,
+	clientId = 8376,
+	replaceable = true,
+	blockSolid = true,
+	id = 9292,
+	article = "a",
+	name = "stone wall",
+})

@@ -1,0 +1,20 @@
+-- name: great health potion
+Game.createItemType(7591, 239):register({
+	weight = 310,
+	description = "This potion can only be consumed by knights of level 80 or higher.",
+	walkStack = true,
+	subType = true,
+	clientId = 239,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 239,
+	showCount = true,
+	id = 7591,
+	article = "a",
+	pluralName = "great health potions",
+	name = "great health potion",
+	slotPosition = "hand",
+})

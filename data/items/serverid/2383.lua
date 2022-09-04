@@ -1,0 +1,21 @@
+-- name: spike sword
+Game.createItemType(2383, 3271):register({
+	weight = 5000,
+	shootRange = 1,
+	extraDefense = 2,
+	classification = 1,
+	walkStack = true,
+	clientId = 3271,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 21,
+	wareId = 3271,
+	id = 2383,
+	article = "a",
+	name = "spike sword",
+	attack = 24,
+	slotPosition = "hand",
+})

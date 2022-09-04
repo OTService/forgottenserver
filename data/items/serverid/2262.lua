@@ -1,0 +1,23 @@
+-- name: energy bomb rune
+Game.createItemType(2262, 3149):register({
+	weight = 105,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3149,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3149,
+	showCount = true,
+	id = 2262,
+	article = "an",
+	pluralName = "energy bomb runes",
+	name = "energy bomb rune",
+	runeSpellName = "adevo mas vis",
+	slotPosition = "hand",
+	charges = 2,
+})

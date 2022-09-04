@@ -1,0 +1,22 @@
+-- name: dead parrot
+Game.createItemType(4314, 4379):register({
+	weight = 2000,
+	walkStack = true,
+	type = "container",
+	containerSize = 5,
+	capacity = 5,
+	clientId = 4379,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 4314,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead parrot",
+	decayId = 4315,
+	duration = 900,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

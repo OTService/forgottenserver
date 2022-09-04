@@ -1,0 +1,30 @@
+-- name: umbral master mace
+Game.createItemType(22412, 20078):register({
+	weight = 8000,
+	shootRange = 1,
+	minReqLevel = 250,
+	extraDefense = 3,
+	classification = 4,
+	requiredLevel = 250,
+	walkStack = true,
+	vocationString = "knights",
+	clientId = 20078,
+	abilities = {
+		skills = {
+			club = 1,
+		},
+	},
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 30,
+	wareId = 20078,
+	id = 22412,
+	article = "an",
+	name = "umbral master mace",
+	attack = 52,
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

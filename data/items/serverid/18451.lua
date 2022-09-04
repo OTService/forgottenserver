@@ -1,0 +1,30 @@
+-- name: crystalline axe
+Game.createItemType(18451, 16161):register({
+	weight = 7600,
+	description = "Even in the light of day, the stars seem to reflect in each facet of this crystalline axe.",
+	shootRange = 1,
+	minReqLevel = 120,
+	extraDefense = 3,
+	classification = 2,
+	requiredLevel = 120,
+	walkStack = true,
+	clientId = 16161,
+	abilities = {
+		skills = {
+			axe = 1,
+		},
+	},
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 29,
+	wareId = 16161,
+	id = 18451,
+	article = "a",
+	name = "crystalline axe",
+	attack = 51,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

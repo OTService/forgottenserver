@@ -1,0 +1,20 @@
+-- name: honeycomb
+Game.createItemType(5902, 5902):register({
+	weight = 80,
+	description = "Some people swear it makes an excellent glue.",
+	walkStack = true,
+	subType = true,
+	clientId = 5902,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 5902,
+	showCount = true,
+	id = 5902,
+	article = "a",
+	pluralName = "honeycombs",
+	name = "honeycomb",
+	slotPosition = "hand",
+})

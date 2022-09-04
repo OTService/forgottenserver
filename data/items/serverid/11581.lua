@@ -1,0 +1,12 @@
+-- name: giant tree
+Game.createItemType(11581, 10625):register({
+	alwaysOnTopOrder = 2,
+	alwaysOnTop = true,
+	walkStack = true,
+	clientId = 10625,
+	replaceable = true,
+	blockSolid = true,
+	id = 11581,
+	article = "a",
+	name = "giant tree",
+})

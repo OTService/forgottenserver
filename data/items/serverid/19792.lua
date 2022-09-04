@@ -1,0 +1,20 @@
+-- name: lightest magic missile rune
+Game.createItemType(19792, 17512):register({
+	weight = 21,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 17512,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	showCount = true,
+	id = 19792,
+	article = "a",
+	pluralName = "lightest magic missile runes",
+	name = "lightest magic missile rune",
+	slotPosition = "hand",
+})

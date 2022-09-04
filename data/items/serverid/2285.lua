@@ -1,0 +1,23 @@
+-- name: poison field rune
+Game.createItemType(2285, 3172):register({
+	weight = 70,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3172,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3172,
+	showCount = true,
+	id = 2285,
+	article = "a",
+	pluralName = "poison field runes",
+	name = "poison field rune",
+	runeSpellName = "adevo grav pox",
+	slotPosition = "hand",
+	charges = 3,
+})

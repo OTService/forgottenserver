@@ -1,0 +1,20 @@
+-- name: demonic candy ball
+Game.createItemType(12543, 11587):register({
+	weight = 950,
+	isAnimation = true,
+	description = "You're never sure what demonic candy balls will do, but they sure taste sweet and exciting.",
+	walkStack = true,
+	subType = true,
+	clientId = 11587,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	wareId = 11587,
+	showCount = true,
+	id = 12543,
+	article = "a",
+	pluralName = "demonic candy balls",
+	name = "demonic candy ball",
+	slotPosition = "hand",
+})

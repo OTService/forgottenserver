@@ -1,0 +1,22 @@
+-- name: incredible mumpiz slayer
+Game.createItemType(10313, 9396):register({
+	weight = 4200,
+	isAnimation = true,
+	description = "This magnificent weapon was forged to slay arch mumpiz demons with a single blow.",
+	shootRange = 1,
+	classification = 2,
+	walkStack = true,
+	clientId = 9396,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 14,
+	wareId = 9396,
+	id = 10313,
+	article = "an",
+	name = "incredible mumpiz slayer",
+	attack = 17,
+	slotPosition = "hand",
+})

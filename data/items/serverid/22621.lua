@@ -1,0 +1,13 @@
+-- name: dreamcatcher device
+Game.createItemType(22621, 20287):register({
+	alwaysOnTopOrder = 2,
+	alwaysOnTop = true,
+	blockProjectile = true,
+	walkStack = true,
+	clientId = 20287,
+	replaceable = true,
+	blockSolid = true,
+	id = 22621,
+	article = "the",
+	name = "dreamcatcher device",
+})

@@ -1,0 +1,20 @@
+-- name: slain ghoul
+Game.createItemType(11409, 4035):register({
+	weight = 60000,
+	walkStack = true,
+	type = "container",
+	containerSize = 8,
+	capacity = 8,
+	clientId = 4035,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 11409,
+	group = "container",
+	article = "a",
+	corpseType = "undead",
+	name = "slain ghoul",
+	duration = 600,
+	slotPosition = "hand",
+})

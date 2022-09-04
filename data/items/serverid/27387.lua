@@ -1,0 +1,12 @@
+-- name: linen
+Game.createItemType(27387, 24731):register({
+	alwaysOnTopOrder = 2,
+	alwaysOnTop = true,
+	blockProjectile = true,
+	walkStack = true,
+	clientId = 24731,
+	replaceable = true,
+	blockSolid = true,
+	id = 27387,
+	name = "linen",
+})

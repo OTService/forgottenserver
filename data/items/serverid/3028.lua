@@ -1,0 +1,21 @@
+-- name: slain crypt shambler
+Game.createItemType(3028, 4209):register({
+	weight = 100000,
+	walkStack = true,
+	type = "container",
+	containerSize = 24,
+	capacity = 24,
+	clientId = 4209,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 3028,
+	group = "container",
+	article = "a",
+	corpseType = "undead",
+	name = "slain crypt shambler",
+	decayId = 3029,
+	duration = 900,
+	slotPosition = "hand",
+})

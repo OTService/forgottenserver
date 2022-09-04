@@ -1,0 +1,21 @@
+-- name: banana staff
+Game.createItemType(3966, 3348):register({
+	weight = 5000,
+	shootRange = 1,
+	extraDefense = 2,
+	classification = 2,
+	walkStack = true,
+	clientId = 3348,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 15,
+	wareId = 3348,
+	id = 3966,
+	article = "a",
+	name = "banana staff",
+	attack = 25,
+	slotPosition = "hand",
+})

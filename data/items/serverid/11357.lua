@@ -1,0 +1,22 @@
+-- name: dead sandcrawler
+Game.createItemType(11357, 10440):register({
+	weight = 6300,
+	walkStack = true,
+	type = "container",
+	containerSize = 8,
+	capacity = 8,
+	clientId = 10440,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 11357,
+	group = "container",
+	article = "a",
+	corpseType = "venom",
+	name = "dead sandcrawler",
+	decayId = 11358,
+	duration = 300,
+	slotPosition = "hand",
+	fluidSource = "slime",
+})

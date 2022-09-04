@@ -1,0 +1,20 @@
+-- name: remains of a mummy
+Game.createItemType(2949, 4130):register({
+	weight = 1000,
+	walkStack = true,
+	type = "container",
+	containerSize = 10,
+	capacity = 10,
+	clientId = 4130,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2949,
+	group = "container",
+	corpseType = "undead",
+	name = "remains of a mummy",
+	decayId = 2950,
+	duration = 900,
+	slotPosition = "hand",
+})

@@ -1,0 +1,20 @@
+-- name: morning star
+Game.createItemType(2394, 3282):register({
+	weight = 5400,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3282,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 11,
+	wareId = 3282,
+	id = 2394,
+	article = "a",
+	name = "morning star",
+	attack = 25,
+	slotPosition = "hand",
+})

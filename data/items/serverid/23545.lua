@@ -1,0 +1,23 @@
+-- name: mino lance
+Game.createItemType(23545, 21174):register({
+	weight = 6500,
+	shootRange = 1,
+	minReqLevel = 45,
+	classification = 2,
+	requiredLevel = 45,
+	walkStack = true,
+	clientId = 21174,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 23,
+	wareId = 21174,
+	id = 23545,
+	article = "a",
+	name = "mino lance",
+	attack = 40,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

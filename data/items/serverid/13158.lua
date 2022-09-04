@@ -1,0 +1,20 @@
+-- name: handcrafted ribbon
+Game.createItemType(13158, 12171):register({
+	weight = 50,
+	description = "This ribbon was handcrafted by Rottin Wood and the Married Men of the forest.",
+	walkStack = true,
+	subType = true,
+	clientId = 12171,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 12171,
+	showCount = true,
+	id = 13158,
+	article = "a",
+	pluralName = "handcrafted ribbons",
+	name = "handcrafted ribbon",
+	slotPosition = "hand",
+})

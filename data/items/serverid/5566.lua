@@ -1,0 +1,21 @@
+-- name: slain pirate ghost
+Game.createItemType(5566, 5565):register({
+	weight = 20000,
+	walkStack = true,
+	type = "container",
+	containerSize = 20,
+	capacity = 20,
+	clientId = 5565,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 5566,
+	group = "container",
+	article = "a",
+	corpseType = "undead",
+	name = "slain pirate ghost",
+	decayId = 5567,
+	duration = 900,
+	slotPosition = "hand",
+})

@@ -1,0 +1,21 @@
+-- name: dead cobra
+Game.createItemType(3007, 4188):register({
+	weight = 6000,
+	walkStack = true,
+	type = "container",
+	containerSize = 10,
+	capacity = 10,
+	clientId = 4188,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 3007,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead cobra",
+	decayId = 3008,
+	duration = 900,
+	slotPosition = "hand",
+})

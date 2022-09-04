@@ -1,0 +1,23 @@
+-- name: throwing knife
+Game.createItemType(2410, 3298):register({
+	weight = 500,
+	shootType = "throwingknife",
+	shootRange = 4,
+	walkStack = true,
+	subType = true,
+	maxHitChance = 76,
+	clientId = 3298,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	wareId = 3298,
+	showCount = true,
+	id = 2410,
+	article = "a",
+	pluralName = "throwing knives",
+	name = "throwing knife",
+	attack = 25,
+	slotPosition = "hand",
+})

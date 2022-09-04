@@ -1,0 +1,22 @@
+-- name: dead dwarf
+Game.createItemType(2983, 4164):register({
+	weight = 80000,
+	walkStack = true,
+	type = "container",
+	containerSize = 24,
+	capacity = 24,
+	clientId = 4164,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2983,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead dwarf",
+	decayId = 2984,
+	duration = 900,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

@@ -1,0 +1,25 @@
+-- name: ring of healing
+Game.createItemType(2216, 3100):register({
+	weight = 80,
+	showAttributes = true,
+	transformDeEquipId = 2214,
+	isAnimation = true,
+	showDuration = true,
+	walkStack = true,
+	clientId = 3100,
+	abilities = {
+		manaGain = 24,
+		manaTicks = 6000,
+		regeneration = true,
+		healthGain = 6,
+		healthTicks = 6000,
+	},
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	id = 2216,
+	article = "a",
+	name = "ring of healing",
+	duration = 450,
+	slotPosition = "ring",
+})

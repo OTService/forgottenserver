@@ -1,0 +1,22 @@
+-- name: ogre scepta
+Game.createItemType(24839, 22183):register({
+	weight = 2900,
+	shootType = "eartharrow",
+	shootRange = 3,
+	minReqLevel = 37,
+	classification = 2,
+	requiredLevel = 37,
+	walkStack = true,
+	vocationString = "druids",
+	clientId = 22183,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "wand",
+	wareId = 22183,
+	id = 24839,
+	article = "an",
+	name = "ogre scepta",
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

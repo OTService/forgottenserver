@@ -1,0 +1,20 @@
+-- name: dead calamary
+Game.createItemType(15280, 13853):register({
+	weight = 6300,
+	walkStack = true,
+	type = "container",
+	forceUse = true,
+	containerSize = 18,
+	capacity = 18,
+	clientId = 13853,
+	replaceable = true,
+	container = true,
+	id = 15280,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead calamary",
+	decayId = 15281,
+	duration = 10,
+	fluidSource = "blood",
+})

@@ -1,0 +1,23 @@
+-- name: deepling axe
+Game.createItemType(15404, 13991):register({
+	weight = 9100,
+	shootRange = 1,
+	minReqLevel = 80,
+	classification = 2,
+	requiredLevel = 80,
+	walkStack = true,
+	clientId = 13991,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 29,
+	wareId = 13991,
+	id = 15404,
+	article = "a",
+	name = "deepling axe",
+	attack = 49,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

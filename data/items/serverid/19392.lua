@@ -1,0 +1,22 @@
+-- name: sorc and druid attack rune
+Game.createItemType(19392, 17112):register({
+	weight = 210,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 17112,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	showCount = true,
+	id = 19392,
+	article = "a",
+	pluralName = "sorc and druid attack runes",
+	name = "sorc and druid attack rune",
+	runeSpellName = "adori dis min vis",
+	slotPosition = "hand",
+	charges = 10,
+})

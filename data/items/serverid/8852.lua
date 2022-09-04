@@ -1,0 +1,23 @@
+-- name: the devileye
+Game.createItemType(8852, 8024):register({
+	weight = 5500,
+	shootRange = 6,
+	minReqLevel = 100,
+	hitChance = -20,
+	classification = 4,
+	requiredLevel = 100,
+	walkStack = true,
+	vocationString = "paladins",
+	clientId = 8024,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	wareId = 8024,
+	id = 8852,
+	name = "the devileye",
+	ammoType = "bolt",
+	attack = 20,
+	wieldInfo = 5,
+	slotPosition = "two-handed",
+})

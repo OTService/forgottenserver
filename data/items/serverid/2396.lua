@@ -1,0 +1,28 @@
+-- name: ice rapier
+Game.createItemType(2396, 3284):register({
+	weight = 1500,
+	description = "A deadly but fragile weapon.",
+	shootRange = 1,
+	walkStack = true,
+	elementDamage = 18,
+	subType = true,
+	elementType = 512,
+	clientId = 3284,
+	abilities = {
+		elementDamage = 18,
+		elementType = 512,
+	},
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 1,
+	wareId = 3284,
+	id = 2396,
+	article = "an",
+	name = "ice rapier",
+	attack = 42,
+	slotPosition = "hand",
+	charges = 1,
+})

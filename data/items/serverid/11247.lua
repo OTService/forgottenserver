@@ -1,0 +1,22 @@
+-- name: dead gnarlhound
+Game.createItemType(11247, 10330):register({
+	weight = 31000,
+	walkStack = true,
+	type = "container",
+	containerSize = 7,
+	capacity = 7,
+	clientId = 10330,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 11247,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead gnarlhound",
+	decayId = 11248,
+	duration = 300,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

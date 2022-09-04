@@ -1,0 +1,22 @@
+-- name: the ironworker
+Game.createItemType(8853, 8025):register({
+	weight = 5500,
+	shootRange = 5,
+	minReqLevel = 80,
+	classification = 2,
+	requiredLevel = 80,
+	walkStack = true,
+	vocationString = "paladins",
+	clientId = 8025,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	wareId = 8025,
+	id = 8853,
+	name = "the ironworker",
+	ammoType = "bolt",
+	attack = 4,
+	wieldInfo = 5,
+	slotPosition = "two-handed",
+})

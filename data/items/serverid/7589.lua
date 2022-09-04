@@ -1,0 +1,20 @@
+-- name: strong mana potion
+Game.createItemType(7589, 237):register({
+	weight = 290,
+	description = "This potion can only be consumed by players of level 50 or higher.",
+	walkStack = true,
+	subType = true,
+	clientId = 237,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 237,
+	showCount = true,
+	id = 7589,
+	article = "a",
+	pluralName = "strong mana potions",
+	name = "strong mana potion",
+	slotPosition = "hand",
+})

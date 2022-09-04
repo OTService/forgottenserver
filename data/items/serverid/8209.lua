@@ -1,0 +1,21 @@
+-- name: crimson sword
+Game.createItemType(8209, 7385):register({
+	weight = 3600,
+	description = "Its blade is very notchy",
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 7385,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 10,
+	wareId = 7385,
+	id = 8209,
+	article = "a",
+	name = "crimson sword",
+	attack = 18,
+	slotPosition = "hand",
+})

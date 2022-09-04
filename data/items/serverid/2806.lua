@@ -1,0 +1,22 @@
+-- name: dead troll
+Game.createItemType(2806, 3987):register({
+	weight = 60000,
+	walkStack = true,
+	type = "container",
+	containerSize = 24,
+	capacity = 24,
+	clientId = 3987,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2806,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead troll",
+	decayId = 2810,
+	duration = 600,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

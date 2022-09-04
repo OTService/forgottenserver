@@ -1,0 +1,22 @@
+-- name: dead elf
+Game.createItemType(2981, 4162):register({
+	weight = 100000,
+	walkStack = true,
+	type = "container",
+	containerSize = 20,
+	capacity = 20,
+	clientId = 4162,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2981,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead elf",
+	decayId = 2982,
+	duration = 900,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

@@ -1,0 +1,23 @@
+-- name: dragon hammer
+Game.createItemType(2434, 3322):register({
+	weight = 9700,
+	shootRange = 1,
+	minReqLevel = 25,
+	classification = 2,
+	requiredLevel = 25,
+	walkStack = true,
+	clientId = 3322,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 20,
+	wareId = 3322,
+	id = 2434,
+	article = "a",
+	name = "dragon hammer",
+	attack = 32,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

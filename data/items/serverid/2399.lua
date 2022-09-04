@@ -1,0 +1,23 @@
+-- name: throwing star
+Game.createItemType(2399, 3287):register({
+	weight = 200,
+	shootType = "throwingstar",
+	shootRange = 4,
+	walkStack = true,
+	subType = true,
+	maxHitChance = 76,
+	clientId = 3287,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	wareId = 3287,
+	showCount = true,
+	id = 2399,
+	article = "a",
+	pluralName = "throwing stars",
+	name = "throwing star",
+	attack = 30,
+	slotPosition = "hand",
+})

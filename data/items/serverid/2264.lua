@@ -1,0 +1,20 @@
+-- name: spell rune
+Game.createItemType(2264, 3151):register({
+	weight = 120,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3151,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	showCount = true,
+	id = 2264,
+	article = "a",
+	pluralName = "spell runes",
+	name = "spell rune",
+	slotPosition = "hand",
+})

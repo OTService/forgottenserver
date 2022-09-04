@@ -1,0 +1,23 @@
+-- name: springsprout rod
+Game.createItemType(8912, 8084):register({
+	weight = 2700,
+	description = "It is filled with the energy of growing plants.",
+	shootType = "eartharrow",
+	shootRange = 3,
+	minReqLevel = 37,
+	classification = 1,
+	requiredLevel = 37,
+	walkStack = true,
+	vocationString = "druids",
+	clientId = 8084,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "wand",
+	wareId = 8084,
+	id = 8912,
+	article = "a",
+	name = "springsprout rod",
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

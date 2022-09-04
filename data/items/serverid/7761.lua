@@ -1,0 +1,20 @@
+-- name: small enchanted emerald
+Game.createItemType(7761, 677):register({
+	weight = 10,
+	isAnimation = true,
+	walkStack = true,
+	subType = true,
+	clientId = 677,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 677,
+	showCount = true,
+	id = 7761,
+	article = "a",
+	pluralName = "small enchanted emeralds",
+	name = "small enchanted emerald",
+	slotPosition = "hand",
+})

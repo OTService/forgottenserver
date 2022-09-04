@@ -1,0 +1,15 @@
+-- name: bamboo leaves
+Game.createItemType(13538, 12549):register({
+	weight = 200,
+	description = "A hermit near Carlin might be able to tell you more about it.",
+	walkStack = true,
+	clientId = 12549,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 12549,
+	id = 13538,
+	name = "bamboo leaves",
+	slotPosition = "hand",
+})

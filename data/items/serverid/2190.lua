@@ -1,0 +1,28 @@
+-- name: wand of vortex
+Game.createItemType(2190, 3074):register({
+	weight = 1900,
+	isAnimation = true,
+	description = "Surges of energy rush through the tip of this wand.",
+	shootType = "energy",
+	shootRange = 3,
+	light = {
+		level = 2,
+		color = 23,
+	},
+	minReqLevel = 7,
+	classification = 1,
+	requiredLevel = 7,
+	walkStack = true,
+	vocationString = "sorcerers",
+	clientId = 3074,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "wand",
+	wareId = 3074,
+	id = 2190,
+	article = "a",
+	name = "wand of vortex",
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

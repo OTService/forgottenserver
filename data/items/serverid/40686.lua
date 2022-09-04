@@ -1,0 +1,20 @@
+-- name: changing backpack
+Game.createItemType(40686, 37536):register({
+	weight = 1500,
+	isAnimation = true,
+	walkStack = true,
+	type = "container",
+	containerSize = 20,
+	capacity = 20,
+	clientId = 37536,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	wareId = 37536,
+	id = 40686,
+	group = "container",
+	article = "a",
+	name = "changing backpack",
+	slotPosition = "backpack",
+})

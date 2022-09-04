@@ -1,0 +1,20 @@
+-- name: silver dagger
+Game.createItemType(2402, 3290):register({
+	weight = 1020,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3290,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 7,
+	wareId = 3290,
+	id = 2402,
+	article = "a",
+	name = "silver dagger",
+	attack = 9,
+	slotPosition = "hand",
+})

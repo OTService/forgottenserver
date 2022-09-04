@@ -1,0 +1,33 @@
+-- name: glooth amulet
+Game.createItemType(23554, 21183):register({
+	weight = 220,
+	showAttributes = true,
+	minReqLevel = 75,
+	requiredLevel = 75,
+	showCharges = true,
+	walkStack = true,
+	subType = true,
+	vocationString = "sorcerers and druids",
+	clientId = 21183,
+	abilities = {
+		absorbPercent = {
+			absorbpercentenergy = 10,
+			fieldabsorbpercentdeath = 10,
+			absorbpercentholy = 10,
+			absorbpercentfire = 10,
+			absorbpercentice = 10,
+			absorbpercentearth = 10,
+			absorbpercentphysical = 10,
+		},
+	},
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	wareId = 21183,
+	id = 23554,
+	article = "a",
+	name = "glooth amulet",
+	wieldInfo = 5,
+	slotPosition = "necklace",
+	charges = 20,
+})

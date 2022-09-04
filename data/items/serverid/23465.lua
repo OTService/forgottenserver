@@ -1,0 +1,20 @@
+-- name: dead mooh'tah warrior
+Game.createItemType(23465, 21094):register({
+	weight = 150000,
+	walkStack = true,
+	type = "container",
+	containerSize = 8,
+	capacity = 8,
+	clientId = 21094,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 23465,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead mooh'tah warrior",
+	duration = 300,
+	slotPosition = "hand",
+})

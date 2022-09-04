@@ -1,0 +1,21 @@
+-- name: dead orc marauder
+Game.createItemType(11251, 10334):register({
+	walkStack = true,
+	type = "container",
+	containerSize = 20,
+	capacity = 20,
+	clientId = 10334,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 11251,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead orc marauder",
+	decayId = 11252,
+	duration = 300,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

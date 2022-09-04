@@ -1,0 +1,21 @@
+-- name: dead bug
+Game.createItemType(2902, 4083):register({
+	weight = 10000,
+	walkStack = true,
+	type = "container",
+	containerSize = 10,
+	capacity = 10,
+	clientId = 4083,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2902,
+	group = "container",
+	article = "a",
+	corpseType = "venom",
+	name = "dead bug",
+	decayId = 2903,
+	duration = 900,
+	slotPosition = "hand",
+})

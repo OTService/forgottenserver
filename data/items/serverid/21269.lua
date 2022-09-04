@@ -1,0 +1,20 @@
+-- name: dead vicious manbat
+Game.createItemType(21269, 18952):register({
+	weight = 55000,
+	walkStack = true,
+	type = "container",
+	forceUse = true,
+	containerSize = 20,
+	capacity = 20,
+	clientId = 18952,
+	replaceable = true,
+	container = true,
+	id = 21269,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead vicious manbat",
+	decayId = 21267,
+	duration = 600,
+	fluidSource = "blood",
+})

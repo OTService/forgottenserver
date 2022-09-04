@@ -1,0 +1,27 @@
+-- name: fire wall rune
+Game.createItemType(2303, 3190):register({
+	weight = 52,
+	light = {
+		level = 1,
+		color = 215,
+	},
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3190,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3190,
+	showCount = true,
+	id = 2303,
+	article = "a",
+	pluralName = "fire wall runes",
+	name = "fire wall rune",
+	runeSpellName = "adevo mas grav flam",
+	slotPosition = "hand",
+	charges = 4,
+})

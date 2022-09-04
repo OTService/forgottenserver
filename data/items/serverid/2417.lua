@@ -1,0 +1,20 @@
+-- name: battle hammer
+Game.createItemType(2417, 3305):register({
+	weight = 6800,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3305,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 14,
+	wareId = 3305,
+	id = 2417,
+	article = "a",
+	name = "battle hammer",
+	attack = 24,
+	slotPosition = "hand",
+})

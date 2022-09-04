@@ -1,0 +1,28 @@
+-- name: solar axe
+Game.createItemType(8925, 8097):register({
+	weight = 11000,
+	shootRange = 1,
+	light = {
+		level = 3,
+		color = 198,
+	},
+	minReqLevel = 130,
+	extraDefense = 3,
+	classification = 4,
+	requiredLevel = 130,
+	walkStack = true,
+	clientId = 8097,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 29,
+	wareId = 8097,
+	id = 8925,
+	article = "a",
+	name = "solar axe",
+	attack = 52,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

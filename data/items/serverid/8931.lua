@@ -1,0 +1,27 @@
+-- name: the epiphany
+Game.createItemType(8931, 8103):register({
+	weight = 4500,
+	shootRange = 1,
+	light = {
+		level = 3,
+		color = 198,
+	},
+	minReqLevel = 120,
+	extraDefense = 3,
+	classification = 4,
+	requiredLevel = 120,
+	walkStack = true,
+	clientId = 8103,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 35,
+	wareId = 8103,
+	id = 8931,
+	name = "the epiphany",
+	attack = 50,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

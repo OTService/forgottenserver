@@ -1,0 +1,22 @@
+-- name: dead pig
+Game.createItemType(2935, 4116):register({
+	weight = 1000,
+	walkStack = true,
+	type = "container",
+	containerSize = 5,
+	capacity = 5,
+	clientId = 4116,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2935,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead pig",
+	decayId = 2936,
+	duration = 900,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

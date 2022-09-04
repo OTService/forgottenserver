@@ -1,0 +1,23 @@
+-- name: intense healing rune
+Game.createItemType(2265, 3152):register({
+	weight = 210,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3152,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3152,
+	showCount = true,
+	id = 2265,
+	article = "an",
+	pluralName = "intense healing runes",
+	name = "intense healing rune",
+	runeSpellName = "adura gran",
+	slotPosition = "hand",
+	charges = 1,
+})

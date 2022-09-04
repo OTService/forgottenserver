@@ -1,0 +1,23 @@
+-- name: taurus mace
+Game.createItemType(7425, 7425):register({
+	weight = 5100,
+	shootRange = 1,
+	minReqLevel = 20,
+	classification = 1,
+	requiredLevel = 20,
+	walkStack = true,
+	clientId = 7425,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 18,
+	wareId = 7425,
+	id = 7425,
+	article = "a",
+	name = "taurus mace",
+	attack = 30,
+	wieldInfo = 1,
+	slotPosition = "two-handed",
+})

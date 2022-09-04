@@ -1,0 +1,23 @@
+-- name: spiky club
+Game.createItemType(20139, 17859):register({
+	weight = 3900,
+	shootRange = 1,
+	minReqLevel = 20,
+	classification = 1,
+	requiredLevel = 20,
+	walkStack = true,
+	clientId = 17859,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 14,
+	wareId = 17859,
+	id = 20139,
+	article = "a",
+	name = "spiky club",
+	attack = 31,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

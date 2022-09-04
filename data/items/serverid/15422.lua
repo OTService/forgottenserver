@@ -1,0 +1,20 @@
+-- name: key to the Drowned Library
+Game.createItemType(15422, 14009):register({
+	weight = 120,
+	description = "The strange shape of this key glistens softly in the light.",
+	walkStack = true,
+	subType = true,
+	clientId = 14009,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 14009,
+	showCount = true,
+	id = 15422,
+	article = "a",
+	pluralName = "key to the Drowned Librarys",
+	name = "key to the Drowned Library",
+	slotPosition = "hand",
+})

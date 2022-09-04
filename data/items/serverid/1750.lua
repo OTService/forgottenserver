@@ -1,0 +1,20 @@
+-- name: large trunk
+Game.createItemType(1750, 2483):register({
+	rotateable = true,
+	blockPathFind = true,
+	walkStack = true,
+	rotateTo = 1753,
+	type = "container",
+	containerSize = 18,
+	capacity = 18,
+	clientId = 2483,
+	moveable = true,
+	replaceable = true,
+	hasHeight = true,
+	container = true,
+	id = 1750,
+	group = "container",
+	article = "a",
+	destroyId = 2255,
+	name = "large trunk",
+})

@@ -1,0 +1,20 @@
+-- name: magnificent trunk
+Game.createItemType(26086, 23430):register({
+	weight = 3500,
+	rotateable = true,
+	blockPathFind = true,
+	walkStack = true,
+	rotateTo = 26083,
+	type = "container",
+	containerSize = 10,
+	capacity = 10,
+	clientId = 23430,
+	moveable = true,
+	replaceable = true,
+	hasHeight = true,
+	container = true,
+	id = 26086,
+	group = "container",
+	article = "a",
+	name = "magnificent trunk",
+})

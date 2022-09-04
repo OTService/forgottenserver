@@ -1,0 +1,27 @@
+-- name: shimmer sword
+Game.createItemType(13871, 12731):register({
+	weight = 5200,
+	shootRange = 1,
+	light = {
+		level = 4,
+		color = 35,
+	},
+	minReqLevel = 40,
+	requiredLevel = 40,
+	walkStack = true,
+	vocationString = "knights",
+	clientId = 12731,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 20,
+	id = 13871,
+	article = "a",
+	name = "shimmer sword",
+	duration = 604800,
+	attack = 42,
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

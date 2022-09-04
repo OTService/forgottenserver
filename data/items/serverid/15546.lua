@@ -1,0 +1,20 @@
+-- name: four-leaf clover
+Game.createItemType(15546, 14143):register({
+	weight = 200,
+	description = "A hermit near Carlin might be able to tell you more about it.",
+	walkStack = true,
+	subType = true,
+	clientId = 14143,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 14143,
+	showCount = true,
+	id = 15546,
+	article = "a",
+	pluralName = "four-leaf clovers",
+	name = "four-leaf clover",
+	slotPosition = "hand",
+})

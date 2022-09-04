@@ -1,0 +1,23 @@
+-- name: wand of dimensions
+Game.createItemType(13760, 12603):register({
+	weight = 2800,
+	description = "This wand controls the rift between time and space.",
+	shootType = "death",
+	shootRange = 3,
+	minReqLevel = 37,
+	classification = 4,
+	requiredLevel = 37,
+	walkStack = true,
+	vocationString = "sorcerers",
+	clientId = 12603,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "wand",
+	wareId = 12603,
+	id = 13760,
+	article = "a",
+	name = "wand of dimensions",
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

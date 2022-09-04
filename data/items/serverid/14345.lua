@@ -1,0 +1,20 @@
+-- name: baking tray
+Game.createItemType(14345, 8020):register({
+	weight = 1200,
+	description = "There is cookie dough on it.",
+	walkStack = true,
+	subType = true,
+	clientId = 8020,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 8020,
+	showCount = true,
+	id = 14345,
+	article = "a",
+	pluralName = "baking trays",
+	name = "baking tray",
+	slotPosition = "hand",
+})

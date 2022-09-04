@@ -1,0 +1,22 @@
+-- name: crate
+Game.createItemType(1739, 2471):register({
+	weight = 8000,
+	blockPathFind = true,
+	walkStack = true,
+	type = "container",
+	containerSize = 15,
+	capacity = 15,
+	clientId = 2471,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	hasHeight = true,
+	container = true,
+	wareId = 2471,
+	id = 1739,
+	group = "container",
+	article = "a",
+	destroyId = 2250,
+	name = "crate",
+	slotPosition = "hand",
+})

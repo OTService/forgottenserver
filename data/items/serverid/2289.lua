@@ -1,0 +1,23 @@
+-- name: poison wall rune
+Game.createItemType(2289, 3176):register({
+	weight = 52,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3176,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3176,
+	showCount = true,
+	id = 2289,
+	article = "a",
+	pluralName = "poison wall runes",
+	name = "poison wall rune",
+	runeSpellName = "adevo mas grav pox",
+	slotPosition = "hand",
+	charges = 4,
+})

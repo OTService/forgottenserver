@@ -1,0 +1,20 @@
+-- name: dead rotworm
+Game.createItemType(3084, 4266):register({
+	weight = 8500,
+	walkStack = true,
+	type = "container",
+	containerSize = 20,
+	capacity = 20,
+	clientId = 4266,
+	moveable = true,
+	replaceable = true,
+	container = true,
+	id = 3084,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead rotworm",
+	decayId = 2824,
+	duration = 600,
+	fluidSource = "blood",
+})

@@ -1,0 +1,27 @@
+-- name: fireball rune
+Game.createItemType(2302, 3189):register({
+	weight = 42,
+	light = {
+		level = 1,
+		color = 215,
+	},
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3189,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3189,
+	showCount = true,
+	id = 2302,
+	article = "a",
+	pluralName = "fireball runes",
+	name = "fireball rune",
+	runeSpellName = "adori flam",
+	slotPosition = "hand",
+	charges = 5,
+})

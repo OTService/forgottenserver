@@ -1,0 +1,21 @@
+-- name: scythe of the reaper
+Game.createItemType(10301, 9384):register({
+	weight = 3000,
+	isAnimation = true,
+	description = "This scythe has harvested countless souls and still hungers for more.",
+	shootRange = 1,
+	classification = 2,
+	walkStack = true,
+	clientId = 9384,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	defense = 6,
+	wareId = 9384,
+	id = 10301,
+	article = "a",
+	name = "scythe of the reaper",
+	attack = 16,
+	slotPosition = "two-handed",
+})

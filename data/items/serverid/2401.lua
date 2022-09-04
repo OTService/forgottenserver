@@ -1,0 +1,20 @@
+-- name: staff
+Game.createItemType(2401, 3289):register({
+	weight = 3800,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3289,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 25,
+	wareId = 3289,
+	id = 2401,
+	article = "a",
+	name = "staff",
+	attack = 10,
+	slotPosition = "two-handed",
+})

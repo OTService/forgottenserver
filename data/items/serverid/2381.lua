@@ -1,0 +1,23 @@
+-- name: halberd
+Game.createItemType(2381, 3269):register({
+	weight = 9000,
+	shootRange = 1,
+	minReqLevel = 25,
+	classification = 1,
+	requiredLevel = 25,
+	walkStack = true,
+	clientId = 3269,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 14,
+	wareId = 3269,
+	id = 2381,
+	article = "a",
+	name = "halberd",
+	attack = 35,
+	wieldInfo = 1,
+	slotPosition = "two-handed",
+})

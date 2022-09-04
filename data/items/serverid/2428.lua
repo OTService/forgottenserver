@@ -1,0 +1,20 @@
+-- name: orcish axe
+Game.createItemType(2428, 3316):register({
+	weight = 4500,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3316,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 12,
+	wareId = 3316,
+	id = 2428,
+	article = "an",
+	name = "orcish axe",
+	attack = 23,
+	slotPosition = "hand",
+})

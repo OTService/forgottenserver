@@ -1,0 +1,23 @@
+-- name: amber staff
+Game.createItemType(7426, 7426):register({
+	weight = 3500,
+	shootRange = 1,
+	minReqLevel = 40,
+	classification = 2,
+	requiredLevel = 40,
+	walkStack = true,
+	clientId = 7426,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 25,
+	wareId = 7426,
+	id = 7426,
+	article = "an",
+	name = "amber staff",
+	attack = 43,
+	wieldInfo = 1,
+	slotPosition = "two-handed",
+})

@@ -1,0 +1,27 @@
+-- name: sparking rainbow shield
+Game.createItemType(8908, 8080):register({
+	weight = 6900,
+	description = "It has been temporarily imbued with energy magic and increases your speed.",
+	shootRange = 1,
+	minReqLevel = 100,
+	requiredLevel = 100,
+	walkStack = true,
+	vocationString = "knights",
+	clientId = 8080,
+	abilities = {
+		speed = 20,
+	},
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "shield",
+	defense = 36,
+	wareId = 8077,
+	id = 8908,
+	article = "a",
+	name = "sparking rainbow shield",
+	decayId = 8905,
+	duration = 900,
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

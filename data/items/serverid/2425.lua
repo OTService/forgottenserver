@@ -1,0 +1,23 @@
+-- name: obsidian lance
+Game.createItemType(2425, 3313):register({
+	weight = 8000,
+	shootRange = 1,
+	minReqLevel = 20,
+	classification = 1,
+	requiredLevel = 20,
+	walkStack = true,
+	clientId = 3313,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 10,
+	wareId = 3313,
+	id = 2425,
+	article = "an",
+	name = "obsidian lance",
+	attack = 34,
+	wieldInfo = 1,
+	slotPosition = "two-handed",
+})

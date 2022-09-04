@@ -1,0 +1,20 @@
+-- name: sickle
+Game.createItemType(2405, 3293):register({
+	weight = 1050,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3293,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 4,
+	wareId = 3293,
+	id = 2405,
+	article = "a",
+	name = "sickle",
+	attack = 5,
+	slotPosition = "hand",
+})

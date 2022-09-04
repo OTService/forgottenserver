@@ -1,0 +1,21 @@
+-- name: dead wasp
+Game.createItemType(2900, 4081):register({
+	weight = 1000,
+	walkStack = true,
+	type = "container",
+	containerSize = 8,
+	capacity = 8,
+	clientId = 4081,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2900,
+	group = "container",
+	article = "a",
+	corpseType = "venom",
+	name = "dead wasp",
+	decayId = 2901,
+	duration = 600,
+	slotPosition = "hand",
+})

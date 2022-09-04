@@ -1,0 +1,31 @@
+-- name: void boots
+Game.createItemType(26132, 23476):register({
+	weight = 1500,
+	showAttributes = true,
+	transformDeEquipId = 26133,
+	minReqLevel = 150,
+	showDuration = true,
+	requiredLevel = 150,
+	walkStack = true,
+	clientId = 23476,
+	abilities = {
+		manaGain = 12,
+		manaTicks = 6000,
+		speed = 60,
+		absorbPercent = {
+			absorbpercentenergy = 10,
+		},
+		regeneration = true,
+		healthGain = 3,
+		healthTicks = 6000,
+	},
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	id = 26132,
+	name = "void boots",
+	armor = 2,
+	duration = 3600,
+	wieldInfo = 1,
+	slotPosition = "feet",
+})

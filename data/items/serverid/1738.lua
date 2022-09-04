@@ -1,0 +1,22 @@
+-- name: box
+Game.createItemType(1738, 2469):register({
+	weight = 3500,
+	blockPathFind = true,
+	walkStack = true,
+	type = "container",
+	containerSize = 10,
+	capacity = 10,
+	clientId = 2469,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	hasHeight = true,
+	container = true,
+	wareId = 2469,
+	id = 1738,
+	group = "container",
+	article = "a",
+	destroyId = 2250,
+	name = "box",
+	slotPosition = "hand",
+})

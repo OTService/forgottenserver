@@ -1,0 +1,27 @@
+-- name: thunderstorm rune
+Game.createItemType(2315, 3202):register({
+	weight = 52,
+	light = {
+		level = 1,
+		color = 215,
+	},
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3202,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3202,
+	showCount = true,
+	id = 2315,
+	article = "a",
+	pluralName = "thunderstorm runes",
+	name = "thunderstorm rune",
+	runeSpellName = "adori mas vis",
+	slotPosition = "hand",
+	charges = 4,
+})

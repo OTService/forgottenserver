@@ -1,0 +1,27 @@
+-- name: ultimate healing rune
+Game.createItemType(2273, 3160):register({
+	weight = 210,
+	light = {
+		level = 1,
+		color = 215,
+	},
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3160,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3160,
+	showCount = true,
+	id = 2273,
+	article = "an",
+	pluralName = "ultimate healing runes",
+	name = "ultimate healing rune",
+	runeSpellName = "adura vita",
+	slotPosition = "hand",
+	charges = 1,
+})

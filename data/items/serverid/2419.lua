@@ -1,0 +1,21 @@
+-- name: scimitar
+Game.createItemType(2419, 3307):register({
+	weight = 2900,
+	shootRange = 1,
+	extraDefense = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3307,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 13,
+	wareId = 3307,
+	id = 2419,
+	article = "a",
+	name = "scimitar",
+	attack = 19,
+	slotPosition = "hand",
+})

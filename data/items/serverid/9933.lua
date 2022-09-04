@@ -1,0 +1,22 @@
+-- name: firewalker boots
+Game.createItemType(9933, 9019):register({
+	weight = 950,
+	isAnimation = true,
+	description = "Wearing these boots reduces the damage gotten from fiery ground.",
+	minReqLevel = 130,
+	showDuration = true,
+	requiredLevel = 130,
+	walkStack = true,
+	transformEquipId = 9932,
+	stopDuration = true,
+	clientId = 9019,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	wareId = 9019,
+	id = 9933,
+	name = "firewalker boots",
+	armor = 2,
+	wieldInfo = 1,
+	slotPosition = "feet",
+})

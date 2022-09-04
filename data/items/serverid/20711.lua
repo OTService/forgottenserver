@@ -1,0 +1,13 @@
+-- name: basalt crystal wall
+Game.createItemType(20711, 18394):register({
+	alwaysOnTopOrder = 2,
+	alwaysOnTop = true,
+	blockProjectile = true,
+	walkStack = true,
+	clientId = 18394,
+	replaceable = true,
+	blockSolid = true,
+	id = 20711,
+	article = "a",
+	name = "basalt crystal wall",
+})

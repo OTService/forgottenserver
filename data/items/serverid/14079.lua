@@ -1,0 +1,8 @@
+-- name: 
+Game.createItemType(14079, 6286):register({
+	walkStack = true,
+	clientId = 6286,
+	moveable = true,
+	replaceable = true,
+	id = 14079,
+})

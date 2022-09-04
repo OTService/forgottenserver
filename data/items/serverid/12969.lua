@@ -1,0 +1,20 @@
+-- name: dry piece of wood
+Game.createItemType(12969, 11982):register({
+	weight = 205,
+	description = "Use it on the cauldron slide to keep the fire burning.",
+	walkStack = true,
+	subType = true,
+	clientId = 11982,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 11982,
+	showCount = true,
+	id = 12969,
+	article = "a",
+	pluralName = "dry piece of woods",
+	name = "dry piece of wood",
+	slotPosition = "hand",
+})
