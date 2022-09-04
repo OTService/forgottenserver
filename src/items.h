@@ -260,8 +260,7 @@ struct FieldBlock
 {
 	FieldBlock(std::string name, uint32_t ticks, int32_t initDamage, int32_t count, int32_t start, int32_t damage) :
 	    name(std::move(name)), ticks(ticks), initDamage(initDamage), count(count), start(start), damage(damage)
-	{
-	}
+	{}
 
 	std::string name = "";
 	uint32_t ticks = 0;
