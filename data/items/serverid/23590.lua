@@ -1,0 +1,23 @@
+-- name: one hit wonder
+Game.createItemType(23590, 21219):register({
+	weight = 9600,
+	shootRange = 1,
+	minReqLevel = 70,
+	classification = 4,
+	requiredLevel = 70,
+	walkStack = true,
+	clientId = 21219,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 22,
+	wareId = 21219,
+	id = 23590,
+	article = "a",
+	name = "one hit wonder",
+	attack = 49,
+	wieldInfo = 1,
+	slotPosition = "two-handed",
+})

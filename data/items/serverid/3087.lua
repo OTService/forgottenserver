@@ -1,0 +1,21 @@
+-- name: dead wolf
+Game.createItemType(3087, 4269):register({
+	weight = 11500,
+	walkStack = true,
+	type = "container",
+	containerSize = 6,
+	capacity = 6,
+	clientId = 4269,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 3087,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead wolf",
+	decayId = 3088,
+	duration = 600,
+	slotPosition = "hand",
+})

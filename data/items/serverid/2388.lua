@@ -1,0 +1,20 @@
+-- name: hatchet
+Game.createItemType(2388, 3276):register({
+	weight = 3500,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3276,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 8,
+	wareId = 3276,
+	id = 2388,
+	article = "a",
+	name = "hatchet",
+	attack = 15,
+	slotPosition = "hand",
+})

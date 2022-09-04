@@ -1,0 +1,22 @@
+-- name: dead bat
+Game.createItemType(4298, 4363):register({
+	weight = 6300,
+	walkStack = true,
+	type = "container",
+	containerSize = 14,
+	capacity = 14,
+	clientId = 4363,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 4298,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead bat",
+	decayId = 4299,
+	duration = 900,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

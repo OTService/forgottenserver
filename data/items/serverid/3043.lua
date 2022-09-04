@@ -1,0 +1,22 @@
+-- name: dead badger
+Game.createItemType(3043, 4224):register({
+	weight = 1000,
+	walkStack = true,
+	type = "container",
+	containerSize = 20,
+	capacity = 20,
+	clientId = 4224,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 3043,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead badger",
+	decayId = 3044,
+	duration = 900,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

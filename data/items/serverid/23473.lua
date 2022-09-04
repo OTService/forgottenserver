@@ -1,0 +1,20 @@
+-- name: dead worm priestess
+Game.createItemType(23473, 21102):register({
+	walkStack = true,
+	type = "container",
+	containerSize = 40,
+	capacity = 40,
+	clientId = 21102,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 23473,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead worm priestess",
+	duration = 300,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

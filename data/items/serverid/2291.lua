@@ -1,0 +1,23 @@
+-- name: chameleon rune
+Game.createItemType(2291, 3178):register({
+	weight = 210,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3178,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3178,
+	showCount = true,
+	id = 2291,
+	article = "a",
+	pluralName = "chameleon runes",
+	name = "chameleon rune",
+	runeSpellName = "adevo ina",
+	slotPosition = "hand",
+	charges = 1,
+})

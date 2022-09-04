@@ -1,0 +1,20 @@
+-- name: anniversary cake
+Game.createItemType(16014, 14681):register({
+	weight = 500,
+	isAnimation = true,
+	description = "It was created by the finest bakers for the celebration of 15 years of the world.",
+	walkStack = true,
+	subType = true,
+	clientId = 14681,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	wareId = 14681,
+	showCount = true,
+	id = 16014,
+	article = "an",
+	pluralName = "anniversary cakes",
+	name = "anniversary cake",
+	slotPosition = "hand",
+})

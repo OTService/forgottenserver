@@ -1,0 +1,26 @@
+-- name: shimmer wand
+Game.createItemType(13880, 12741):register({
+	weight = 3100,
+	description = "It feels cold and smooth.",
+	shootType = "energy",
+	shootRange = 4,
+	light = {
+		level = 4,
+		color = 35,
+	},
+	minReqLevel = 40,
+	requiredLevel = 40,
+	walkStack = true,
+	vocationString = "sorcerers",
+	clientId = 12741,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "wand",
+	id = 13880,
+	article = "a",
+	name = "shimmer wand",
+	duration = 604800,
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

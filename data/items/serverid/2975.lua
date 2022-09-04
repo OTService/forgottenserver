@@ -1,0 +1,21 @@
+-- name: slain skeleton
+Game.createItemType(2975, 4156):register({
+	weight = 10000,
+	walkStack = true,
+	type = "container",
+	containerSize = 28,
+	capacity = 28,
+	clientId = 4156,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2975,
+	group = "container",
+	article = "a",
+	corpseType = "undead",
+	name = "slain skeleton",
+	decayId = 2976,
+	duration = 600,
+	slotPosition = "hand",
+})

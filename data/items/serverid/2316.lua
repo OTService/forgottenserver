@@ -1,0 +1,27 @@
+-- name: animate dead rune
+Game.createItemType(2316, 3203):register({
+	weight = 210,
+	light = {
+		level = 1,
+		color = 215,
+	},
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3203,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3203,
+	showCount = true,
+	id = 2316,
+	article = "an",
+	pluralName = "animate dead runes",
+	name = "animate dead rune",
+	runeSpellName = "adana mort",
+	slotPosition = "hand",
+	charges = 1,
+})

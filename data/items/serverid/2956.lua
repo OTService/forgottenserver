@@ -1,0 +1,21 @@
+-- name: slain vampire
+Game.createItemType(2956, 4137):register({
+	weight = 100000,
+	walkStack = true,
+	type = "container",
+	containerSize = 28,
+	capacity = 28,
+	clientId = 4137,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2956,
+	group = "container",
+	article = "a",
+	corpseType = "undead",
+	name = "slain vampire",
+	decayId = 2957,
+	duration = 900,
+	slotPosition = "hand",
+})

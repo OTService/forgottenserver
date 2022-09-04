@@ -1,0 +1,28 @@
+-- name: crystalline sword
+Game.createItemType(18450, 16160):register({
+	weight = 4800,
+	shootRange = 1,
+	light = {
+		level = 3,
+		color = 35,
+	},
+	minReqLevel = 62,
+	extraDefense = 1,
+	classification = 2,
+	requiredLevel = 62,
+	walkStack = true,
+	clientId = 16160,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 34,
+	wareId = 16160,
+	id = 18450,
+	article = "a",
+	name = "crystalline sword",
+	attack = 47,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

@@ -1,0 +1,20 @@
+-- name: ancient dream
+Game.createItemType(22381, 20047):register({
+	weight = 15,
+	isAnimation = true,
+	description = "The dream glows as if alive.",
+	walkStack = true,
+	subType = true,
+	clientId = 20047,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	showCount = true,
+	id = 22381,
+	article = "an",
+	pluralName = "ancient dreams",
+	name = "ancient dream",
+	slotPosition = "hand",
+})

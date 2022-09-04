@@ -1,0 +1,20 @@
+-- name: dead tortoise
+Game.createItemType(9781, 8867):register({
+	weight = 120000,
+	walkStack = true,
+	type = "container",
+	containerSize = 10,
+	capacity = 10,
+	clientId = 8867,
+	moveable = true,
+	replaceable = true,
+	container = true,
+	id = 9781,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead tortoise",
+	decayId = 9782,
+	duration = 60,
+	fluidSource = "blood",
+})

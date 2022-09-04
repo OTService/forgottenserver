@@ -1,0 +1,23 @@
+-- name: deepling staff
+Game.createItemType(15400, 13987):register({
+	weight = 8800,
+	shootRange = 1,
+	minReqLevel = 38,
+	classification = 2,
+	requiredLevel = 38,
+	walkStack = true,
+	clientId = 13987,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 23,
+	wareId = 13987,
+	id = 15400,
+	article = "a",
+	name = "deepling staff",
+	attack = 43,
+	wieldInfo = 1,
+	slotPosition = "two-handed",
+})

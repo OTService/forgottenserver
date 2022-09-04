@@ -1,0 +1,23 @@
+-- name: small stone
+Game.createItemType(1294, 1781):register({
+	weight = 360,
+	shootType = "smallstone",
+	shootRange = 4,
+	walkStack = true,
+	subType = true,
+	maxHitChance = 76,
+	clientId = 1781,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	wareId = 1781,
+	showCount = true,
+	id = 1294,
+	article = "a",
+	pluralName = "small stones",
+	name = "small stone",
+	attack = 5,
+	slotPosition = "hand",
+})

@@ -1,0 +1,26 @@
+-- name: shimmer rod
+Game.createItemType(13872, 12732):register({
+	weight = 3100,
+	description = "It feels cold and smooth.",
+	shootType = "smallholy",
+	shootRange = 4,
+	light = {
+		level = 4,
+		color = 35,
+	},
+	minReqLevel = 40,
+	requiredLevel = 40,
+	walkStack = true,
+	vocationString = "druids",
+	clientId = 12732,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "wand",
+	id = 13872,
+	article = "a",
+	name = "shimmer rod",
+	duration = 604800,
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

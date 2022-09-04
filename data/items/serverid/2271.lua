@@ -1,0 +1,27 @@
+-- name: icicle rune
+Game.createItemType(2271, 3158):register({
+	weight = 42,
+	light = {
+		level = 1,
+		color = 215,
+	},
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3158,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3158,
+	showCount = true,
+	id = 2271,
+	article = "an",
+	pluralName = "icicle runes",
+	name = "icicle rune",
+	runeSpellName = "adori frigo",
+	slotPosition = "hand",
+	charges = 5,
+})

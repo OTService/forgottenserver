@@ -1,0 +1,23 @@
+-- name: ornate mace
+Game.createItemType(15414, 14001):register({
+	weight = 14900,
+	shootRange = 1,
+	minReqLevel = 90,
+	classification = 2,
+	requiredLevel = 90,
+	walkStack = true,
+	clientId = 14001,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 24,
+	wareId = 14001,
+	id = 15414,
+	article = "an",
+	name = "ornate mace",
+	attack = 49,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

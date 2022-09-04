@@ -1,0 +1,22 @@
+-- name: dead larva
+Game.createItemType(3010, 4191):register({
+	weight = 1000,
+	walkStack = true,
+	type = "container",
+	containerSize = 6,
+	capacity = 6,
+	clientId = 4191,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 3010,
+	group = "container",
+	article = "a",
+	corpseType = "venom",
+	name = "dead larva",
+	decayId = 3011,
+	duration = 900,
+	slotPosition = "hand",
+	fluidSource = "slime",
+})

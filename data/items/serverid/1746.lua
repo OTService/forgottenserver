@@ -1,0 +1,21 @@
+-- name: treasure chest
+Game.createItemType(1746, 2478):register({
+	weight = 9500,
+	blockPathFind = true,
+	walkStack = true,
+	type = "container",
+	containerSize = 10,
+	capacity = 10,
+	clientId = 2478,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	hasHeight = true,
+	container = true,
+	wareId = 2478,
+	id = 1746,
+	group = "container",
+	article = "a",
+	name = "treasure chest",
+	slotPosition = "hand",
+})

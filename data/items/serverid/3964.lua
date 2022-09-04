@@ -1,0 +1,20 @@
+-- name: ripper lance
+Game.createItemType(3964, 3346):register({
+	weight = 8000,
+	shootRange = 1,
+	classification = 2,
+	walkStack = true,
+	clientId = 3346,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 7,
+	wareId = 3346,
+	id = 3964,
+	article = "a",
+	name = "ripper lance",
+	attack = 28,
+	slotPosition = "two-handed",
+})

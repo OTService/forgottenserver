@@ -1,0 +1,23 @@
+-- name: silkweaver bow
+Game.createItemType(8857, 8029):register({
+	weight = 2200,
+	shootRange = 6,
+	minReqLevel = 40,
+	hitChance = 3,
+	classification = 2,
+	requiredLevel = 40,
+	walkStack = true,
+	vocationString = "paladins",
+	clientId = 8029,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	wareId = 8029,
+	id = 8857,
+	article = "a",
+	name = "silkweaver bow",
+	ammoType = "arrow",
+	wieldInfo = 5,
+	slotPosition = "two-handed",
+})

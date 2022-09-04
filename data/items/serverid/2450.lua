@@ -1,0 +1,20 @@
+-- name: bone sword
+Game.createItemType(2450, 3338):register({
+	weight = 1900,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3338,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 10,
+	wareId = 3338,
+	id = 2450,
+	article = "a",
+	name = "bone sword",
+	attack = 13,
+	slotPosition = "hand",
+})

@@ -1,0 +1,23 @@
+-- name: noble axe
+Game.createItemType(7456, 7456):register({
+	weight = 3800,
+	shootRange = 1,
+	minReqLevel = 35,
+	classification = 2,
+	requiredLevel = 35,
+	walkStack = true,
+	clientId = 7456,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 22,
+	wareId = 7456,
+	id = 7456,
+	article = "a",
+	name = "noble axe",
+	attack = 39,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

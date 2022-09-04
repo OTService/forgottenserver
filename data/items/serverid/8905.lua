@@ -1,0 +1,23 @@
+-- name: rainbow shield
+Game.createItemType(8905, 8077):register({
+	weight = 6900,
+	isAnimation = true,
+	description = "Strange elemental magic flows over this shield.",
+	shootRange = 1,
+	minReqLevel = 100,
+	requiredLevel = 100,
+	walkStack = true,
+	vocationString = "knights",
+	clientId = 8077,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "shield",
+	defense = 30,
+	wareId = 8077,
+	id = 8905,
+	article = "a",
+	name = "rainbow shield",
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

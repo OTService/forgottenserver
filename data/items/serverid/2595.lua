@@ -1,0 +1,21 @@
+-- name: parcel
+Game.createItemType(2595, 3503):register({
+	weight = 1800,
+	blockPathFind = true,
+	walkStack = true,
+	type = "container",
+	containerSize = 10,
+	capacity = 10,
+	clientId = 3503,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	hasHeight = true,
+	container = true,
+	wareId = 3503,
+	id = 2595,
+	group = "container",
+	article = "a",
+	name = "parcel",
+	slotPosition = "hand",
+})

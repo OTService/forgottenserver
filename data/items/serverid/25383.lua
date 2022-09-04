@@ -1,0 +1,23 @@
+-- name: rift lance
+Game.createItemType(25383, 22727):register({
+	weight = 6600,
+	shootRange = 1,
+	minReqLevel = 70,
+	classification = 2,
+	requiredLevel = 70,
+	walkStack = true,
+	clientId = 22727,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 28,
+	wareId = 22727,
+	id = 25383,
+	article = "a",
+	name = "rift lance",
+	attack = 48,
+	wieldInfo = 1,
+	slotPosition = "two-handed",
+})

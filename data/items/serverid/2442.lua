@@ -1,0 +1,20 @@
+-- name: heavy machete
+Game.createItemType(2442, 3330):register({
+	weight = 1840,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3330,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 10,
+	wareId = 3330,
+	id = 2442,
+	article = "a",
+	name = "heavy machete",
+	attack = 16,
+	slotPosition = "hand",
+})

@@ -1,0 +1,21 @@
+-- name: chiller
+Game.createItemType(23721, 21350):register({
+	weight = 1500,
+	description = "It is a little, well, chilly to the touch.",
+	shootType = "smallholy",
+	shootRange = 3,
+	minReqLevel = 1,
+	requiredLevel = 1,
+	walkStack = true,
+	vocationString = "druids",
+	clientId = 21350,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "wand",
+	id = 23721,
+	article = "the",
+	name = "chiller",
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

@@ -1,0 +1,27 @@
+-- name: fire field rune
+Game.createItemType(2301, 3188):register({
+	weight = 70,
+	light = {
+		level = 1,
+		color = 215,
+	},
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3188,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3188,
+	showCount = true,
+	id = 2301,
+	article = "a",
+	pluralName = "fire field runes",
+	name = "fire field rune",
+	runeSpellName = "adevo grav flam",
+	slotPosition = "hand",
+	charges = 3,
+})

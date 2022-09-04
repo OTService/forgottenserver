@@ -1,0 +1,23 @@
+-- name: metal bat
+Game.createItemType(23542, 21171):register({
+	weight = 5100,
+	shootRange = 1,
+	minReqLevel = 55,
+	classification = 2,
+	requiredLevel = 55,
+	walkStack = true,
+	clientId = 21171,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 20,
+	wareId = 21171,
+	id = 23542,
+	article = "a",
+	name = "metal bat",
+	attack = 44,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

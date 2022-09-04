@@ -1,0 +1,20 @@
+-- name: dead cockroach
+Game.createItemType(8593, 7763):register({
+	weight = 60000,
+	description = "If you killed this cockroach, rightclick it and select 'Open' to see what it carried.",
+	walkStack = true,
+	type = "container",
+	forceUse = true,
+	containerSize = 8,
+	capacity = 8,
+	clientId = 7763,
+	replaceable = true,
+	container = true,
+	id = 8593,
+	group = "container",
+	article = "a",
+	corpseType = "venom",
+	name = "dead cockroach",
+	duration = 90,
+	fluidSource = "slime",
+})

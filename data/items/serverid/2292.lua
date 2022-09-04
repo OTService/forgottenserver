@@ -1,0 +1,23 @@
+-- name: stalagmite rune
+Game.createItemType(2292, 3179):register({
+	weight = 21,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3179,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3179,
+	showCount = true,
+	id = 2292,
+	article = "a",
+	pluralName = "stalagmite runes",
+	name = "stalagmite rune",
+	runeSpellName = "adori tera",
+	slotPosition = "hand",
+	charges = 10,
+})

@@ -1,0 +1,20 @@
+-- name: healing rune for druids
+Game.createItemType(19393, 17113):register({
+	weight = 210,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 17113,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	showCount = true,
+	id = 19393,
+	article = "a",
+	pluralName = "healing rune for druids",
+	name = "healing rune for druids",
+	slotPosition = "hand",
+})

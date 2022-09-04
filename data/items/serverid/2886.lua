@@ -1,0 +1,21 @@
+-- name: dead fire devil
+Game.createItemType(2886, 4067):register({
+	weight = 100000,
+	walkStack = true,
+	type = "container",
+	containerSize = 10,
+	capacity = 10,
+	clientId = 4067,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2886,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead fire devil",
+	decayId = 2887,
+	duration = 900,
+	slotPosition = "hand",
+})

@@ -1,0 +1,23 @@
+-- name: wand of voodoo
+Game.createItemType(8922, 8094):register({
+	weight = 2850,
+	description = "It is filled with the dark hatred and rage of a tormented demonic being.",
+	shootType = "death",
+	shootRange = 3,
+	minReqLevel = 42,
+	classification = 1,
+	requiredLevel = 42,
+	walkStack = true,
+	vocationString = "sorcerers",
+	clientId = 8094,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "wand",
+	wareId = 8094,
+	id = 8922,
+	article = "a",
+	name = "wand of voodoo",
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

@@ -1,0 +1,22 @@
+-- name: light stone shower rune
+Game.createItemType(23722, 21351):register({
+	weight = 210,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 21351,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	showCount = true,
+	id = 23722,
+	article = "a",
+	pluralName = "light stone shower runes",
+	name = "light stone shower rune",
+	runeSpellName = "adori infir mas tera",
+	slotPosition = "hand",
+	charges = 4,
+})

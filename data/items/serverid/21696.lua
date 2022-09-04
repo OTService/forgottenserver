@@ -1,0 +1,20 @@
+-- name: icicle bow
+Game.createItemType(21696, 19362):register({
+	weight = 4200,
+	shootRange = 6,
+	hitChance = 4,
+	classification = 2,
+	walkStack = true,
+	clientId = 19362,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	wareId = 19362,
+	id = 21696,
+	article = "an",
+	name = "icicle bow",
+	ammoType = "arrow",
+	attack = 1,
+	slotPosition = "two-handed",
+})

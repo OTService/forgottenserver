@@ -1,0 +1,23 @@
+-- name: heavy trident
+Game.createItemType(13838, 12683):register({
+	weight = 9000,
+	shootRange = 1,
+	minReqLevel = 25,
+	classification = 2,
+	requiredLevel = 25,
+	walkStack = true,
+	clientId = 12683,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 17,
+	wareId = 12683,
+	id = 13838,
+	article = "a",
+	name = "heavy trident",
+	attack = 35,
+	wieldInfo = 1,
+	slotPosition = "two-handed",
+})

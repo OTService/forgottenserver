@@ -1,0 +1,27 @@
+-- name: magic wall rune
+Game.createItemType(2293, 3180):register({
+	weight = 70,
+	light = {
+		level = 2,
+		color = 215,
+	},
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3180,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3180,
+	showCount = true,
+	id = 2293,
+	article = "a",
+	pluralName = "magic wall runes",
+	name = "magic wall rune",
+	runeSpellName = "adevo grav tera",
+	slotPosition = "hand",
+	charges = 3,
+})

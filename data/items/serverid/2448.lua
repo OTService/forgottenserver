@@ -1,0 +1,21 @@
+-- name: studded club
+Game.createItemType(2448, 3336):register({
+	weight = 3500,
+	description = "It has been reinforced with iron.",
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3336,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 8,
+	wareId = 3336,
+	id = 2448,
+	article = "a",
+	name = "studded club",
+	attack = 9,
+	slotPosition = "hand",
+})

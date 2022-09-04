@@ -1,0 +1,22 @@
+-- name: Yol's bow
+Game.createItemType(8856, 8028):register({
+	weight = 3500,
+	shootRange = 7,
+	minReqLevel = 60,
+	hitChance = 7,
+	classification = 4,
+	requiredLevel = 60,
+	walkStack = true,
+	vocationString = "paladins",
+	clientId = 8028,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	wareId = 8028,
+	id = 8856,
+	name = "Yol's bow",
+	ammoType = "arrow",
+	wieldInfo = 5,
+	slotPosition = "two-handed",
+})

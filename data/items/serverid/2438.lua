@@ -1,0 +1,23 @@
+-- name: epee
+Game.createItemType(2438, 3326):register({
+	weight = 1450,
+	shootRange = 1,
+	minReqLevel = 30,
+	classification = 2,
+	requiredLevel = 30,
+	walkStack = true,
+	clientId = 3326,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 23,
+	wareId = 3326,
+	id = 2438,
+	article = "an",
+	name = "epee",
+	attack = 37,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

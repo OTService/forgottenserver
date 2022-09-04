@@ -1,0 +1,22 @@
+-- name: snowball
+Game.createItemType(2111, 2992):register({
+	weight = 80,
+	shootType = "snowball",
+	shootRange = 6,
+	walkStack = true,
+	subType = true,
+	clientId = 2992,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	useable = true,
+	wareId = 2992,
+	showCount = true,
+	id = 2111,
+	article = "a",
+	pluralName = "snowballs",
+	name = "snowball",
+	slotPosition = "hand",
+})

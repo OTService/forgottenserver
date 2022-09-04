@@ -1,0 +1,23 @@
+-- name: destroy field rune
+Game.createItemType(2261, 3148):register({
+	weight = 70,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3148,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3148,
+	showCount = true,
+	id = 2261,
+	article = "a",
+	pluralName = "destroy field runes",
+	name = "destroy field rune",
+	runeSpellName = "adito grav",
+	slotPosition = "hand",
+	charges = 3,
+})

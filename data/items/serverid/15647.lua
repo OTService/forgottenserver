@@ -1,0 +1,23 @@
+-- name: deepling squelcher
+Game.createItemType(15647, 14250):register({
+	weight = 8900,
+	shootRange = 1,
+	minReqLevel = 48,
+	classification = 2,
+	requiredLevel = 48,
+	walkStack = true,
+	clientId = 14250,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 28,
+	wareId = 14250,
+	id = 15647,
+	article = "a",
+	name = "deepling squelcher",
+	attack = 44,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

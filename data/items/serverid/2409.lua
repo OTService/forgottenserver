@@ -1,0 +1,27 @@
+-- name: serpent sword
+Game.createItemType(2409, 3297):register({
+	weight = 4100,
+	shootRange = 1,
+	extraDefense = 1,
+	classification = 1,
+	walkStack = true,
+	elementDamage = "elementfire",
+	elementType = 4,
+	clientId = 3297,
+	abilities = {
+		elementDamage = 8,
+		elementType = 4,
+	},
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 15,
+	wareId = 3297,
+	id = 2409,
+	article = "a",
+	name = "serpent sword",
+	attack = 18,
+	slotPosition = "hand",
+})

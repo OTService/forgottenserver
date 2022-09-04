@@ -1,0 +1,20 @@
+-- name: stale bread of ancientness
+Game.createItemType(10293, 9376):register({
+	weight = 500,
+	description = "This bread is so old that it has become unbreakable and a formidable weapon.",
+	shootRange = 1,
+	classification = 2,
+	walkStack = true,
+	clientId = 9376,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	defense = 8,
+	wareId = 9376,
+	id = 10293,
+	article = "a",
+	name = "stale bread of ancientness",
+	attack = 18,
+	slotPosition = "hand",
+})

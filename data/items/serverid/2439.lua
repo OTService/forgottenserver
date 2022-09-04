@@ -1,0 +1,20 @@
+-- name: daramian mace
+Game.createItemType(2439, 3327):register({
+	weight = 6800,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3327,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 12,
+	wareId = 3327,
+	id = 2439,
+	article = "a",
+	name = "daramian mace",
+	attack = 21,
+	slotPosition = "hand",
+})

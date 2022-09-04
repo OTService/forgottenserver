@@ -1,0 +1,20 @@
+-- name: swampling club
+Game.createItemType(20104, 17824):register({
+	weight = 3100,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 17824,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 12,
+	wareId = 17824,
+	id = 20104,
+	article = "a",
+	name = "swampling club",
+	attack = 17,
+	slotPosition = "hand",
+})

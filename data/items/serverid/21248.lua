@@ -1,0 +1,25 @@
+-- name: candle made of human tallow
+Game.createItemType(21248, 18931):register({
+	weight = 30,
+	isAnimation = true,
+	description = "It burns with a reeking, pale green flame.",
+	light = {
+		level = 4,
+		color = 178,
+	},
+	walkStack = true,
+	subType = true,
+	clientId = 18931,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 18931,
+	showCount = true,
+	id = 21248,
+	article = "a",
+	pluralName = "candles made of human tallow",
+	name = "candle made of human tallow",
+	slotPosition = "hand",
+})

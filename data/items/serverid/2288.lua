@@ -1,0 +1,23 @@
+-- name: stone shower rune
+Game.createItemType(2288, 3175):register({
+	weight = 52,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3175,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3175,
+	showCount = true,
+	id = 2288,
+	article = "a",
+	pluralName = "stone shower runes",
+	name = "stone shower rune",
+	runeSpellName = "adori mas tera",
+	slotPosition = "hand",
+	charges = 4,
+})

@@ -1,0 +1,22 @@
+-- name: dead orc
+Game.createItemType(2938, 4119):register({
+	weight = 120000,
+	walkStack = true,
+	type = "container",
+	containerSize = 20,
+	capacity = 20,
+	clientId = 4119,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2938,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead orc",
+	decayId = 2939,
+	duration = 900,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

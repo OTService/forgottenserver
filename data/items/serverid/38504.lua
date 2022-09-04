@@ -1,0 +1,23 @@
+-- name: blue quiver
+Game.createItemType(38504, 35848):register({
+	weight = 1700,
+	shootRange = 1,
+	walkStack = true,
+	type = "container",
+	containerSize = 6,
+	vocationString = "paladins",
+	capacity = 6,
+	clientId = 35848,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "quiver",
+	container = true,
+	wareId = 35848,
+	id = 38504,
+	group = "container",
+	article = "a",
+	name = "blue quiver",
+	wieldInfo = 4,
+	slotPosition = "hand",
+})

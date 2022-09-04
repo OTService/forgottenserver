@@ -1,0 +1,20 @@
+-- name: dead crawler
+Game.createItemType(15292, 13865):register({
+	weight = 6300,
+	walkStack = true,
+	type = "container",
+	forceUse = true,
+	containerSize = 36,
+	capacity = 36,
+	clientId = 13865,
+	replaceable = true,
+	container = true,
+	id = 15292,
+	group = "container",
+	article = "a",
+	corpseType = "venom",
+	name = "dead crawler",
+	decayId = 15293,
+	duration = 10,
+	fluidSource = "slime",
+})

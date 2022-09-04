@@ -1,0 +1,23 @@
+-- name: guardian halberd
+Game.createItemType(2427, 3315):register({
+	weight = 11000,
+	shootRange = 1,
+	minReqLevel = 55,
+	classification = 2,
+	requiredLevel = 55,
+	walkStack = true,
+	clientId = 3315,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 15,
+	wareId = 3315,
+	id = 2427,
+	article = "a",
+	name = "guardian halberd",
+	attack = 46,
+	wieldInfo = 1,
+	slotPosition = "two-handed",
+})

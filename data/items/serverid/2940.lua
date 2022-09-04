@@ -1,0 +1,22 @@
+-- name: dead goblin
+Game.createItemType(2940, 4121):register({
+	weight = 4000,
+	walkStack = true,
+	type = "container",
+	containerSize = 24,
+	capacity = 24,
+	clientId = 4121,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2940,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead goblin",
+	decayId = 2941,
+	duration = 900,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

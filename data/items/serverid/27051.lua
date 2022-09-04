@@ -1,0 +1,20 @@
+-- name: birthday backpack
+Game.createItemType(27051, 24395):register({
+	weight = 1500,
+	description = "It was awarded during the festivities of the worlds 20th anniversary.",
+	walkStack = true,
+	type = "container",
+	containerSize = 20,
+	capacity = 20,
+	clientId = 24395,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	wareId = 24395,
+	id = 27051,
+	group = "container",
+	article = "a",
+	name = "birthday backpack",
+	slotPosition = "backpack",
+})

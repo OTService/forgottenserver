@@ -1,0 +1,27 @@
+-- name: wild growth rune
+Game.createItemType(2269, 3156):register({
+	weight = 105,
+	light = {
+		level = 1,
+		color = 215,
+	},
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3156,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3156,
+	showCount = true,
+	id = 2269,
+	article = "a",
+	pluralName = "wild growth runes",
+	name = "wild growth rune",
+	runeSpellName = "adevo grav vita",
+	slotPosition = "hand",
+	charges = 2,
+})

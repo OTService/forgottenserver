@@ -1,0 +1,12 @@
+-- name: blueberry bush
+Game.createItemType(2785, 3699):register({
+	alwaysOnTopOrder = 2,
+	alwaysOnTop = true,
+	walkStack = true,
+	clientId = 3699,
+	replaceable = true,
+	blockSolid = true,
+	id = 2785,
+	article = "a",
+	name = "blueberry bush",
+})

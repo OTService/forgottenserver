@@ -1,0 +1,23 @@
+-- name: ogre klubba
+Game.createItemType(24827, 22171):register({
+	weight = 7900,
+	shootRange = 1,
+	minReqLevel = 50,
+	classification = 2,
+	requiredLevel = 50,
+	walkStack = true,
+	clientId = 22171,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 25,
+	wareId = 22171,
+	id = 24827,
+	article = "an",
+	name = "ogre klubba",
+	attack = 45,
+	wieldInfo = 1,
+	slotPosition = "two-handed",
+})

@@ -1,0 +1,21 @@
+-- name: slain banshee
+Game.createItemType(2999, 4180):register({
+	weight = 1000,
+	walkStack = true,
+	type = "container",
+	containerSize = 44,
+	capacity = 44,
+	clientId = 4180,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2999,
+	group = "container",
+	article = "a",
+	corpseType = "undead",
+	name = "slain banshee",
+	decayId = 3000,
+	duration = 600,
+	slotPosition = "hand",
+})

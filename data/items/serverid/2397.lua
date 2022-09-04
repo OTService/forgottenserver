@@ -1,0 +1,20 @@
+-- name: longsword
+Game.createItemType(2397, 3285):register({
+	weight = 4200,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3285,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 14,
+	wareId = 3285,
+	id = 2397,
+	article = "a",
+	name = "longsword",
+	attack = 17,
+	slotPosition = "hand",
+})

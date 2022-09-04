@@ -1,0 +1,20 @@
+-- name: spirit container
+Game.createItemType(5884, 5884):register({
+	weight = 600,
+	isAnimation = true,
+	description = "It contains pure fighting spirit.",
+	walkStack = true,
+	subType = true,
+	clientId = 5884,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	wareId = 5884,
+	showCount = true,
+	id = 5884,
+	article = "a",
+	pluralName = "spirit containers",
+	name = "spirit container",
+	slotPosition = "hand",
+})

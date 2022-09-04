@@ -1,0 +1,21 @@
+-- name: dead minotaur hunter
+Game.createItemType(23467, 21096):register({
+	walkStack = true,
+	type = "container",
+	containerSize = 40,
+	capacity = 40,
+	clientId = 21096,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 23467,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead minotaur hunter",
+	decayId = 23468,
+	duration = 600,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

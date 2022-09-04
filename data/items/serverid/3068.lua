@@ -1,0 +1,21 @@
+-- name: dead spider
+Game.createItemType(3068, 4250):register({
+	weight = 1000,
+	walkStack = true,
+	type = "container",
+	containerSize = 10,
+	capacity = 10,
+	clientId = 4250,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 3068,
+	group = "container",
+	article = "a",
+	corpseType = "venom",
+	name = "dead spider",
+	decayId = 2822,
+	duration = 900,
+	slotPosition = "hand",
+})

@@ -1,0 +1,20 @@
+-- name: tiny healing rune
+Game.createItemType(19791, 17511):register({
+	weight = 210,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 17511,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	showCount = true,
+	id = 19791,
+	article = "a",
+	pluralName = "tiny healing runes",
+	name = "tiny healing rune",
+	slotPosition = "hand",
+})

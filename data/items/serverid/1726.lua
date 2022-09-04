@@ -1,0 +1,20 @@
+-- name: dresser
+Game.createItemType(1726, 2443):register({
+	rotateable = true,
+	blockPathFind = true,
+	walkStack = true,
+	rotateTo = 1725,
+	type = "container",
+	containerSize = 10,
+	capacity = 10,
+	clientId = 2443,
+	moveable = true,
+	replaceable = true,
+	hasHeight = true,
+	container = true,
+	id = 1726,
+	group = "container",
+	article = "a",
+	destroyId = 2254,
+	name = "dresser",
+})

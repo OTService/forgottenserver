@@ -1,0 +1,20 @@
+-- name: foxtail
+Game.createItemType(15545, 14142):register({
+	weight = 200,
+	description = "A hermit near Carlin might be able to tell you more about it.",
+	walkStack = true,
+	subType = true,
+	clientId = 14142,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 14142,
+	showCount = true,
+	id = 15545,
+	article = "a",
+	pluralName = "foxtails",
+	name = "foxtail",
+	slotPosition = "hand",
+})

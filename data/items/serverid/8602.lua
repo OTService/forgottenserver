@@ -1,0 +1,21 @@
+-- name: jagged sword
+Game.createItemType(8602, 7774):register({
+	weight = 2900,
+	shootRange = 1,
+	extraDefense = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 7774,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 14,
+	wareId = 7774,
+	id = 8602,
+	article = "a",
+	name = "jagged sword",
+	attack = 21,
+	slotPosition = "hand",
+})

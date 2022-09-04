@@ -1,0 +1,20 @@
+-- name: great spirit potion
+Game.createItemType(8472, 7642):register({
+	weight = 310,
+	description = "This potion can only be consumed by paladins of level 80 or higher.",
+	walkStack = true,
+	subType = true,
+	clientId = 7642,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 7642,
+	showCount = true,
+	id = 8472,
+	article = "a",
+	pluralName = "great spirit potions",
+	name = "great spirit potion",
+	slotPosition = "hand",
+})

@@ -1,0 +1,21 @@
+-- name: dead gazer
+Game.createItemType(3049, 4230):register({
+	weight = 1000,
+	walkStack = true,
+	type = "container",
+	containerSize = 6,
+	capacity = 6,
+	clientId = 4230,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 3049,
+	group = "container",
+	article = "a",
+	corpseType = "venom",
+	name = "dead gazer",
+	decayId = 3050,
+	duration = 900,
+	slotPosition = "hand",
+})

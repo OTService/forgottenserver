@@ -1,0 +1,20 @@
+-- name: muck remover
+Game.createItemType(18395, 16101):register({
+	weight = 90,
+	description = "The gnomish slime remover works wonders on mucky objects.",
+	walkStack = true,
+	subType = true,
+	clientId = 16101,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 16101,
+	showCount = true,
+	id = 18395,
+	article = "a",
+	pluralName = "muck removers",
+	name = "muck remover",
+	slotPosition = "hand",
+})

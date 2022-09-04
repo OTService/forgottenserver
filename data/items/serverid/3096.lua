@@ -1,0 +1,20 @@
+-- name: dead deer
+Game.createItemType(3096, 4278):register({
+	weight = 24000,
+	walkStack = true,
+	type = "container",
+	containerSize = 5,
+	capacity = 5,
+	clientId = 4278,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 3096,
+	group = "container",
+	article = "a",
+	name = "dead deer",
+	decayId = 3097,
+	duration = 600,
+	slotPosition = "hand",
+})

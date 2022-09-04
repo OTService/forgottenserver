@@ -1,0 +1,21 @@
+-- name: bone club
+Game.createItemType(2449, 3337):register({
+	weight = 3900,
+	description = "It apparently originally belonged to some lesser undead.",
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3337,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 8,
+	wareId = 3337,
+	id = 2449,
+	article = "a",
+	name = "bone club",
+	attack = 12,
+	slotPosition = "hand",
+})

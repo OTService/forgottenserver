@@ -1,0 +1,28 @@
+-- name: wand of decay
+Game.createItemType(2188, 3072):register({
+	weight = 2300,
+	isAnimation = true,
+	description = "It is half-rotten itself and reeks terribly.",
+	shootType = "death",
+	shootRange = 3,
+	light = {
+		level = 2,
+		color = 67,
+	},
+	minReqLevel = 19,
+	classification = 1,
+	requiredLevel = 19,
+	walkStack = true,
+	vocationString = "sorcerers",
+	clientId = 3072,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "wand",
+	wareId = 3072,
+	id = 2188,
+	article = "a",
+	name = "wand of decay",
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

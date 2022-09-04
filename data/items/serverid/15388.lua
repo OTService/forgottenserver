@@ -1,0 +1,20 @@
+-- name: dead swarmer
+Game.createItemType(15388, 13973):register({
+	weight = 26000,
+	walkStack = true,
+	type = "container",
+	forceUse = true,
+	containerSize = 24,
+	capacity = 24,
+	clientId = 13973,
+	replaceable = true,
+	container = true,
+	id = 15388,
+	group = "container",
+	article = "a",
+	corpseType = "venom",
+	name = "dead swarmer",
+	decayId = 15385,
+	duration = 10,
+	fluidSource = "slime",
+})

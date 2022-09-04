@@ -1,0 +1,20 @@
+-- name: dead cat
+Game.createItemType(7639, 288):register({
+	walkStack = true,
+	type = "container",
+	containerSize = 5,
+	capacity = 5,
+	clientId = 288,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 7639,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead cat",
+	decayId = 7640,
+	duration = 600,
+	slotPosition = "hand",
+})

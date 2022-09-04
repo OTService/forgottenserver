@@ -1,0 +1,27 @@
+-- name: explosion rune
+Game.createItemType(2313, 3200):register({
+	weight = 35,
+	light = {
+		level = 1,
+		color = 215,
+	},
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3200,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3200,
+	showCount = true,
+	id = 2313,
+	article = "an",
+	pluralName = "explosion runes",
+	name = "explosion rune",
+	runeSpellName = "adevo mas hur",
+	slotPosition = "hand",
+	charges = 6,
+})

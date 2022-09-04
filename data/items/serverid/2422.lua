@@ -1,0 +1,20 @@
+-- name: iron hammer
+Game.createItemType(2422, 3310):register({
+	weight = 6600,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3310,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 10,
+	wareId = 3310,
+	id = 2422,
+	article = "an",
+	name = "iron hammer",
+	attack = 18,
+	slotPosition = "hand",
+})

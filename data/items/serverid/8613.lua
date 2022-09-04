@@ -1,0 +1,20 @@
+-- name: bricklayers' kit
+Game.createItemType(8613, 7785):register({
+	weight = 1800,
+	description = "Use it on destroyed brick walls to repair them.",
+	walkStack = true,
+	subType = true,
+	clientId = 7785,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 7785,
+	showCount = true,
+	id = 8613,
+	article = "a",
+	pluralName = "bricklayers' kits",
+	name = "bricklayers' kit",
+	slotPosition = "hand",
+})

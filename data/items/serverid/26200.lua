@@ -1,0 +1,21 @@
+-- name: collar of red plasma
+Game.createItemType(26200, 23544):register({
+	weight = 500,
+	minReqLevel = 150,
+	showDuration = true,
+	requiredLevel = 150,
+	walkStack = true,
+	transformEquipId = 26184,
+	stopDuration = true,
+	vocationString = "knights",
+	clientId = 23544,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	wareId = 23544,
+	id = 26200,
+	article = "a",
+	name = "collar of red plasma",
+	wieldInfo = 5,
+	slotPosition = "necklace",
+})

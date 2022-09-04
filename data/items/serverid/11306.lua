@@ -1,0 +1,23 @@
+-- name: sai
+Game.createItemType(11306, 10389):register({
+	weight = 5000,
+	shootRange = 1,
+	minReqLevel = 50,
+	classification = 2,
+	requiredLevel = 50,
+	walkStack = true,
+	vocationString = "knights",
+	clientId = 10389,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 27,
+	wareId = 10389,
+	id = 11306,
+	name = "sai",
+	attack = 45,
+	wieldInfo = 5,
+	slotPosition = "two-handed",
+})

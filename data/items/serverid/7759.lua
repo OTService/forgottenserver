@@ -1,0 +1,20 @@
+-- name: small enchanted sapphire
+Game.createItemType(7759, 675):register({
+	weight = 10,
+	isAnimation = true,
+	walkStack = true,
+	subType = true,
+	clientId = 675,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 675,
+	showCount = true,
+	id = 7759,
+	article = "a",
+	pluralName = "small enchanted sapphires",
+	name = "small enchanted sapphire",
+	slotPosition = "hand",
+})

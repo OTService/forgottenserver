@@ -1,0 +1,23 @@
+-- name: chain bolter
+Game.createItemType(8850, 8022):register({
+	weight = 5500,
+	shootRange = 3,
+	minReqLevel = 60,
+	classification = 4,
+	requiredLevel = 60,
+	walkStack = true,
+	vocationString = "paladins",
+	clientId = 8022,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	wareId = 8022,
+	id = 8850,
+	article = "a",
+	name = "chain bolter",
+	ammoType = "bolt",
+	attack = 4,
+	wieldInfo = 5,
+	slotPosition = "two-handed",
+})

@@ -1,0 +1,20 @@
+-- name: flask of rust remover
+Game.createItemType(9930, 9016):register({
+	weight = 90,
+	description = "It can be used to clean and polish old and rusty armors.",
+	walkStack = true,
+	subType = true,
+	clientId = 9016,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 9016,
+	showCount = true,
+	id = 9930,
+	article = "a",
+	pluralName = "flask of rust removers",
+	name = "flask of rust remover",
+	slotPosition = "hand",
+})

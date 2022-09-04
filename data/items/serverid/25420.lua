@@ -1,0 +1,21 @@
+-- name: Ferumbras' staff
+Game.createItemType(25420, 22764):register({
+	weight = 2900,
+	description = "It is made of platinum and emeralds and topped by a large F made of gold.",
+	shootRange = 1,
+	minReqLevel = 100,
+	requiredLevel = 100,
+	walkStack = true,
+	clientId = 22764,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	defense = 30,
+	wareId = 22764,
+	id = 25420,
+	name = "Ferumbras' staff",
+	attack = 20,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

@@ -1,0 +1,23 @@
+-- name: ogre choppa
+Game.createItemType(24828, 22172):register({
+	weight = 7500,
+	shootRange = 1,
+	minReqLevel = 25,
+	classification = 2,
+	requiredLevel = 25,
+	walkStack = true,
+	clientId = 22172,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 23,
+	wareId = 22172,
+	id = 24828,
+	article = "an",
+	name = "ogre choppa",
+	attack = 39,
+	wieldInfo = 1,
+	slotPosition = "two-handed",
+})

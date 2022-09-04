@@ -1,0 +1,20 @@
+-- name: sheet of tracing paper
+Game.createItemType(4853, 4842):register({
+	weight = 100,
+	description = "It is blank.",
+	walkStack = true,
+	writable = true,
+	clientId = 4842,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 4842,
+	id = 4853,
+	maxTextLen = 1023,
+	writeOnceItemId = 4854,
+	article = "a",
+	name = "sheet of tracing paper",
+	slotPosition = "hand",
+	readable = true,
+})

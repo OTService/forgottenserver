@@ -1,0 +1,20 @@
+-- name: golden sickle
+Game.createItemType(2418, 3306):register({
+	weight = 1950,
+	shootRange = 1,
+	classification = 2,
+	walkStack = true,
+	clientId = 3306,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "axe",
+	useable = true,
+	defense = 6,
+	wareId = 3306,
+	id = 2418,
+	article = "a",
+	name = "golden sickle",
+	attack = 13,
+	slotPosition = "hand",
+})

@@ -1,0 +1,23 @@
+-- name: throwing star of Sula
+Game.createItemType(25526, 22870):register({
+	weight = 200,
+	description = "The golden starfish's arms are sharp as razor blades.",
+	shootType = "throwingstar",
+	shootRange = 4,
+	walkStack = true,
+	subType = true,
+	maxHitChance = 100,
+	clientId = 22870,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	showCount = true,
+	id = 25526,
+	article = "a",
+	pluralName = "throwing star of Sulas",
+	name = "throwing star of Sula",
+	attack = 250,
+	slotPosition = "hand",
+})

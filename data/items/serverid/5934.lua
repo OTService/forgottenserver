@@ -1,0 +1,22 @@
+-- name: dead frog
+Game.createItemType(5934, 5934):register({
+	weight = 1000,
+	walkStack = true,
+	type = "container",
+	containerSize = 9,
+	capacity = 9,
+	clientId = 5934,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 5934,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead frog",
+	decayId = 5935,
+	duration = 600,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

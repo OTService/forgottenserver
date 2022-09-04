@@ -1,0 +1,20 @@
+-- name: remains of a ghost
+Game.createItemType(3108, 4290):register({
+	weight = 1000,
+	walkStack = true,
+	type = "container",
+	containerSize = 10,
+	capacity = 10,
+	clientId = 4290,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 3108,
+	group = "container",
+	corpseType = "undead",
+	name = "remains of a ghost",
+	decayId = 2977,
+	duration = 600,
+	slotPosition = "hand",
+})

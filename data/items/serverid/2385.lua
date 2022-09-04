@@ -1,0 +1,21 @@
+-- name: sabre
+Game.createItemType(2385, 3273):register({
+	weight = 2500,
+	shootRange = 1,
+	extraDefense = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3273,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 10,
+	wareId = 3273,
+	id = 2385,
+	article = "a",
+	name = "sabre",
+	attack = 12,
+	slotPosition = "hand",
+})

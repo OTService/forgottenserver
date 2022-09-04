@@ -1,0 +1,23 @@
+-- name: onyx flail
+Game.createItemType(7421, 7421):register({
+	weight = 2600,
+	shootRange = 1,
+	minReqLevel = 65,
+	classification = 2,
+	requiredLevel = 65,
+	walkStack = true,
+	clientId = 7421,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 18,
+	wareId = 7421,
+	id = 7421,
+	article = "an",
+	name = "onyx flail",
+	attack = 45,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

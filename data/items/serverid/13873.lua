@@ -1,0 +1,27 @@
+-- name: shimmer bow
+Game.createItemType(13873, 12733):register({
+	weight = 4800,
+	shootRange = 6,
+	light = {
+		level = 4,
+		color = 35,
+	},
+	minReqLevel = 40,
+	hitChance = 7,
+	requiredLevel = 40,
+	walkStack = true,
+	vocationString = "paladins",
+	clientId = 12733,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	id = 13873,
+	article = "a",
+	name = "shimmer bow",
+	ammoType = "arrow",
+	duration = 604800,
+	attack = 1,
+	wieldInfo = 5,
+	slotPosition = "two-handed",
+})

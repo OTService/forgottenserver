@@ -1,0 +1,22 @@
+-- name: dead scorpion
+Game.createItemType(2897, 4078):register({
+	weight = 1000,
+	walkStack = true,
+	type = "container",
+	containerSize = 10,
+	capacity = 10,
+	clientId = 4078,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 2897,
+	group = "container",
+	article = "a",
+	corpseType = "venom",
+	name = "dead scorpion",
+	decayId = 2898,
+	duration = 900,
+	slotPosition = "hand",
+	fluidSource = "slime",
+})

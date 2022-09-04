@@ -1,0 +1,21 @@
+-- name: scorcher
+Game.createItemType(23719, 21348):register({
+	weight = 1500,
+	description = "It's warm to the touch.",
+	shootType = "fire",
+	shootRange = 3,
+	minReqLevel = 1,
+	requiredLevel = 1,
+	walkStack = true,
+	vocationString = "sorcerers",
+	clientId = 21348,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "wand",
+	id = 23719,
+	article = "the",
+	name = "scorcher",
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

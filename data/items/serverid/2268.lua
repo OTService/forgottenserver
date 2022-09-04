@@ -1,0 +1,23 @@
+-- name: sudden death rune
+Game.createItemType(2268, 3155):register({
+	weight = 70,
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3155,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3155,
+	showCount = true,
+	id = 2268,
+	article = "a",
+	pluralName = "sudden death runes",
+	name = "sudden death rune",
+	runeSpellName = "adori gran mort",
+	slotPosition = "hand",
+	charges = 3,
+})

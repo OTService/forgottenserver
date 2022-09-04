@@ -1,0 +1,20 @@
+-- name: dead sea serpent
+Game.createItemType(8307, 949):register({
+	weight = 60000,
+	walkStack = true,
+	type = "container",
+	forceUse = true,
+	containerSize = 40,
+	capacity = 40,
+	clientId = 949,
+	replaceable = true,
+	container = true,
+	id = 8307,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead sea serpent",
+	decayId = 8308,
+	duration = 10,
+	fluidSource = "blood",
+})

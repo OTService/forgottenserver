@@ -1,0 +1,26 @@
+-- name: poison dagger
+Game.createItemType(2411, 3299):register({
+	weight = 880,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	elementDamage = "elementenergy",
+	elementType = 4,
+	clientId = 3299,
+	abilities = {
+		elementDamage = 2,
+		elementType = 4,
+	},
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 8,
+	wareId = 3299,
+	id = 2411,
+	article = "a",
+	name = "poison dagger",
+	attack = 18,
+	slotPosition = "hand",
+})

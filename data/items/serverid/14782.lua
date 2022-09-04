@@ -1,0 +1,11 @@
+-- name: cracked insectoid eggs
+Game.createItemType(14782, 13305):register({
+	alwaysOnTopOrder = 2,
+	alwaysOnTop = true,
+	walkStack = true,
+	clientId = 13305,
+	replaceable = true,
+	blockSolid = true,
+	id = 14782,
+	name = "cracked insectoid eggs",
+})

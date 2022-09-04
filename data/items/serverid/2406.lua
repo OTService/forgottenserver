@@ -1,0 +1,20 @@
+-- name: short sword
+Game.createItemType(2406, 3294):register({
+	weight = 3500,
+	shootRange = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3294,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 11,
+	wareId = 3294,
+	id = 2406,
+	article = "a",
+	name = "short sword",
+	attack = 11,
+	slotPosition = "hand",
+})

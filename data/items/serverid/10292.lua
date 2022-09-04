@@ -1,0 +1,20 @@
+-- name: pointed rabbitslayer
+Game.createItemType(10292, 9375):register({
+	weight = 160,
+	description = "Someone has sharpened this carrot to inflict some nasty damage especially on rabbits.",
+	shootRange = 1,
+	classification = 2,
+	walkStack = true,
+	clientId = 9375,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	defense = 8,
+	wareId = 9375,
+	id = 10292,
+	article = "a",
+	name = "pointed rabbitslayer",
+	attack = 16,
+	slotPosition = "hand",
+})

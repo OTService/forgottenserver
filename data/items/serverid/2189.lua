@@ -1,0 +1,28 @@
+-- name: wand of cosmic energy
+Game.createItemType(2189, 3073):register({
+	weight = 2500,
+	isAnimation = true,
+	description = "The energy of a radiant star is trapped inside its globe.",
+	shootType = "energy",
+	shootRange = 3,
+	light = {
+		level = 2,
+		color = 205,
+	},
+	minReqLevel = 26,
+	classification = 1,
+	requiredLevel = 26,
+	walkStack = true,
+	vocationString = "sorcerers",
+	clientId = 3073,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "wand",
+	wareId = 3073,
+	id = 2189,
+	article = "a",
+	name = "wand of cosmic energy",
+	wieldInfo = 5,
+	slotPosition = "hand",
+})

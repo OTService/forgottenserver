@@ -1,0 +1,13 @@
+-- name: big wine cask
+Game.createItemType(1779, 2528):register({
+	alwaysOnTopOrder = 2,
+	alwaysOnTop = true,
+	walkStack = true,
+	clientId = 2528,
+	replaceable = true,
+	blockSolid = true,
+	id = 1779,
+	article = "a",
+	name = "big wine cask",
+	fluidSource = "wine",
+})

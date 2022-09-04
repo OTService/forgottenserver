@@ -1,0 +1,13 @@
+-- name: wall
+Game.createItemType(35820, 33164):register({
+	alwaysOnTopOrder = 2,
+	alwaysOnTop = true,
+	blockProjectile = true,
+	walkStack = true,
+	clientId = 33164,
+	replaceable = true,
+	blockSolid = true,
+	id = 35820,
+	article = "a",
+	name = "wall",
+})

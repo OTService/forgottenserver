@@ -1,0 +1,20 @@
+-- name: lump of holy water dough
+Game.createItemType(9112, 8195):register({
+	weight = 500,
+	description = "This could be turned into a great weapon against vampires.",
+	walkStack = true,
+	subType = true,
+	clientId = 8195,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 8195,
+	showCount = true,
+	id = 9112,
+	article = "a",
+	pluralName = "lump of holy water doughs",
+	name = "lump of holy water dough",
+	slotPosition = "hand",
+})

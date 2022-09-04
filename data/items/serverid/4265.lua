@@ -1,0 +1,22 @@
+-- name: dead chicken
+Game.createItemType(4265, 4330):register({
+	weight = 6300,
+	walkStack = true,
+	type = "container",
+	containerSize = 5,
+	capacity = 5,
+	clientId = 4330,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 4265,
+	group = "container",
+	article = "a",
+	corpseType = "blood",
+	name = "dead chicken",
+	decayId = 4266,
+	duration = 300,
+	slotPosition = "hand",
+	fluidSource = "blood",
+})

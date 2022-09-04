@@ -1,0 +1,20 @@
+-- name: slain blightwalker
+Game.createItemType(6355, 6354):register({
+	weight = 10000,
+	walkStack = true,
+	type = "container",
+	containerSize = 40,
+	capacity = 40,
+	clientId = 6354,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 6355,
+	group = "container",
+	article = "a",
+	corpseType = "undead",
+	name = "slain blightwalker",
+	duration = 600,
+	slotPosition = "hand",
+})

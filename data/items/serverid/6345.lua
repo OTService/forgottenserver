@@ -1,0 +1,20 @@
+-- name: remains of a phantasm
+Game.createItemType(6345, 6344):register({
+	weight = 10000,
+	walkStack = true,
+	type = "container",
+	containerSize = 32,
+	capacity = 32,
+	clientId = 6344,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	container = true,
+	id = 6345,
+	group = "container",
+	corpseType = "undead",
+	name = "remains of a phantasm",
+	decayId = 6346,
+	duration = 600,
+	slotPosition = "hand",
+})

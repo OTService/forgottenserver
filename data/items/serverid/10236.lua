@@ -1,0 +1,13 @@
+-- name: framework wall
+Game.createItemType(10236, 9319):register({
+	alwaysOnTopOrder = 2,
+	alwaysOnTop = true,
+	blockProjectile = true,
+	walkStack = true,
+	clientId = 9319,
+	replaceable = true,
+	blockSolid = true,
+	id = 10236,
+	article = "a",
+	name = "framework wall",
+})

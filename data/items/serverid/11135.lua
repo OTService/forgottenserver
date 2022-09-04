@@ -1,0 +1,20 @@
+-- name: corned fish
+Game.createItemType(11135, 10218):register({
+	weight = 510,
+	description = "This fish has been salted and already prepared as provision for soldiers.",
+	walkStack = true,
+	subType = true,
+	clientId = 10218,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 10218,
+	showCount = true,
+	id = 11135,
+	article = "a",
+	pluralName = "corned fishs",
+	name = "corned fish",
+	slotPosition = "hand",
+})

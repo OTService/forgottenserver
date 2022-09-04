@@ -1,0 +1,14 @@
+-- name: burning wall
+Game.createItemType(5061, 5061):register({
+	isAnimation = true,
+	light = {
+		level = 3,
+		color = 206,
+	},
+	walkStack = true,
+	clientId = 5061,
+	replaceable = true,
+	id = 5061,
+	article = "a",
+	name = "burning wall",
+})

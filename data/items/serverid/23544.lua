@@ -1,0 +1,23 @@
+-- name: moohtant cudgel
+Game.createItemType(23544, 21173):register({
+	weight = 8500,
+	shootRange = 1,
+	minReqLevel = 60,
+	classification = 2,
+	requiredLevel = 60,
+	walkStack = true,
+	clientId = 21173,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 21,
+	wareId = 21173,
+	id = 23544,
+	article = "a",
+	name = "moohtant cudgel",
+	attack = 47,
+	wieldInfo = 1,
+	slotPosition = "two-handed",
+})

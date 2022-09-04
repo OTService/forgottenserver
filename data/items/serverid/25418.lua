@@ -1,0 +1,27 @@
+-- name: maimer
+Game.createItemType(25418, 22762):register({
+	weight = 7700,
+	shootRange = 1,
+	light = {
+		level = 4,
+		color = 145,
+	},
+	minReqLevel = 150,
+	classification = 3,
+	requiredLevel = 150,
+	walkStack = true,
+	clientId = 22762,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "club",
+	useable = true,
+	defense = 32,
+	wareId = 22762,
+	id = 25418,
+	article = "a",
+	name = "maimer",
+	attack = 51,
+	wieldInfo = 1,
+	slotPosition = "hand",
+})

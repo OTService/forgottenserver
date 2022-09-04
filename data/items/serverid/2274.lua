@@ -1,0 +1,27 @@
+-- name: avalanche rune
+Game.createItemType(2274, 3161):register({
+	weight = 52,
+	light = {
+		level = 1,
+		color = 215,
+	},
+	walkStack = true,
+	subType = true,
+	type = "rune",
+	rune = true,
+	clientId = 3161,
+	stackable = true,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	useable = true,
+	wareId = 3161,
+	showCount = true,
+	id = 2274,
+	article = "an",
+	pluralName = "avalanche runes",
+	name = "avalanche rune",
+	runeSpellName = "adori mas frigo",
+	slotPosition = "hand",
+	charges = 4,
+})

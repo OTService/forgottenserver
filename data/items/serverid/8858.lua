@@ -1,0 +1,22 @@
+-- name: Elethriel's elemental bow
+Game.createItemType(8858, 8030):register({
+	weight = 4400,
+	shootRange = 4,
+	minReqLevel = 70,
+	classification = 4,
+	requiredLevel = 70,
+	walkStack = true,
+	vocationString = "paladins",
+	clientId = 8030,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "distance",
+	wareId = 8030,
+	id = 8858,
+	name = "Elethriel's elemental bow",
+	ammoType = "arrow",
+	attack = 7,
+	wieldInfo = 5,
+	slotPosition = "two-handed",
+})

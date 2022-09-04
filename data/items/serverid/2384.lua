@@ -1,0 +1,21 @@
+-- name: rapier
+Game.createItemType(2384, 3272):register({
+	weight = 1500,
+	shootRange = 1,
+	extraDefense = 1,
+	classification = 1,
+	walkStack = true,
+	clientId = 3272,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "sword",
+	useable = true,
+	defense = 8,
+	wareId = 3272,
+	id = 2384,
+	article = "a",
+	name = "rapier",
+	attack = 10,
+	slotPosition = "hand",
+})

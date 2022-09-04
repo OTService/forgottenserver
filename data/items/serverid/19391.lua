@@ -1,0 +1,21 @@
+-- name: sorcerer and druid staff
+Game.createItemType(19391, 17111):register({
+	weight = 1900,
+	isAnimation = true,
+	shootType = "energy",
+	shootRange = 3,
+	minReqLevel = 1,
+	requiredLevel = 1,
+	walkStack = true,
+	vocationString = "nones",
+	clientId = 17111,
+	moveable = true,
+	pickupable = true,
+	replaceable = true,
+	weaponType = "wand",
+	id = 19391,
+	article = "a",
+	name = "sorcerer and druid staff",
+	wieldInfo = 5,
+	slotPosition = "hand",
+})
