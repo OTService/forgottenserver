@@ -208,7 +208,9 @@ static int luaItemTypeContainer(lua_State* L)
 		} else {
 			if (getBoolean(L, 2)) {
 				itemType->group = ITEM_GROUP_CONTAINER;
-				itemType->type = ITEM_TYPE_CONTAINER;
+				if (itemType->type == ITEM_TYPE_NONE) {
+					itemType->type = ITEM_TYPE_CONTAINER;
+				}
 			} else {
 				itemType->group = ITEM_GROUP_NONE;
 			}
