@@ -258,6 +258,10 @@ struct Abilities
 
 struct FieldBlock
 {
+	FieldBlock(std::string name, uint32_t ticks, int32_t initDamage, int32_t count, int32_t start, int32_t damage) :
+	    name(std::move(name)), ticks(ticks), initDamage(initDamage), count(count), start(start), damage(damage)
+	{}
+
 	std::string name = "";
 	uint32_t ticks = 0;
 	int32_t initDamage = -1;
@@ -308,6 +312,14 @@ public:
 		return *abilities;
 	}
 
+	FieldBlock& getFieldBlock()
+	{
+		if (!fieldBlock) {
+			fieldBlock.reset(new FieldBlock("", 0, 0, 0, 0, 0));
+		}
+		return *fieldBlock;
+	}
+
 	std::string getPluralName() const
 	{
 		if (!pluralName.empty()) {
@@ -345,6 +357,7 @@ public:
 	std::string vocationString;
 
 	std::unique_ptr<Abilities> abilities;
+	std::unique_ptr<FieldBlock> fieldBlock;
 	std::unique_ptr<ConditionDamage> conditionDamage;
 
 	uint32_t attackSpeed = 0;
@@ -444,8 +457,6 @@ public:
 	bool reload();
 	void clear();
 
-	bool loadFromOtb(const std::string& file);
-
 	const ItemType& operator[](size_t id) const { return getItemType(id); }
 	const ItemType& getItemType(size_t id) const;
 	ItemType& getItemType(size_t id);
@@ -457,9 +468,10 @@ public:
 	uint32_t minorVersion = 0;
 	uint32_t buildNumber = 0;
 
-	bool loadFromXml();
-	void parseItemNode(const pugi::xml_node& itemNode, uint16_t id);
-	ItemType& parseItemLua(uint16_t id);
+	ItemType& parseItemLua(uint16_t id, uint16_t clientid);
+	void parseItemName(const std::string& name, uint16_t id);
+	void parseItemWorth(uint64_t worth, uint16_t id);
+	void shrinkItemVector();
 
 	void buildInventoryList();
 
@@ -468,7 +480,6 @@ public:
 	NameMap nameToItems;
 	CurrencyMap currencyItems;
 
-private:
 	std::vector<ItemType> items;
 	InventoryVector inventory;
 	class ClientIdToServerIdMap

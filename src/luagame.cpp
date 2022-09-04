@@ -536,26 +536,16 @@ static int luaGameCreateMonsterType(lua_State* L)
 
 static int luaGameCreateItemType(lua_State* L)
 {
-	// Game.createItemType(id)
+	// Game.createItemType(id, clientid)
 	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
 		reportErrorFunc(L, "ItemTypes can only be registered in the Scripts interface.");
 		lua_pushnil(L);
 		return 1;
 	}
 
-	uint32_t id = getNumber<uint32_t>(L, 1);
-	ItemType& itemType = Item::items.parseItemLua(id);
-	if (itemType.id == 0) {
-		pushBoolean(L, false);
-		return 1;
-	}
-
-	if (!itemType.name.empty()) {
-		std::cout << "[Warning - Items::parseItemNode] Duplicate item with id: " << id << std::endl;
-		pushBoolean(L, false);
-		return 1;
-	}
-
+	uint16_t id = getNumber<uint16_t>(L, 1);
+	uint16_t clientid = getNumber<uint16_t>(L, 2);
+	ItemType& itemType = Item::items.parseItemLua(id, clientid);
 	pushUserdata<ItemType>(L, &itemType);
 	setMetatable(L, -1, "ItemType");
 	return 1;

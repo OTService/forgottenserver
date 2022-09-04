@@ -527,7 +527,7 @@ Outfit getOutfitClass(lua_State* L, int32_t arg);
 LuaVariant getVariant(lua_State* L, int32_t arg);
 InstantSpell* getInstantSpell(lua_State* L, int32_t arg);
 Reflect getReflect(lua_State* L, int32_t arg);
-void getFieldBlock(lua_State* L, int32_t arg, FieldBlock& fieldBlock);
+FieldBlock getFieldBlock(lua_State* L, int32_t arg);
 
 Thing* getThing(lua_State* L, int32_t arg);
 Creature* getCreature(lua_State* L, int32_t arg);
