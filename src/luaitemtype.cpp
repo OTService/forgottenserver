@@ -140,8 +140,16 @@ static int luaItemTypeCreate(lua_State* L)
 	uint32_t id;
 	if (isNumber(L, 2)) {
 		id = getNumber<uint32_t>(L, 2);
+		if (!Item::items.itemTypeExists(id)) {
+			lua_pushnil(L);
+			return 1;
+		}
 	} else if (isString(L, 2)) {
 		id = Item::items.getItemIdByName(getString(L, 2));
+		if (id == 0) {
+			lua_pushnil(L);
+			return 1;
+		}
 	} else {
 		lua_pushnil(L);
 		return 1;
@@ -1592,7 +1600,6 @@ static int luaItemTypeAbilities(lua_State* L)
 			return 1;
 		} else {
 			const std::string& abilitieName = boost::algorithm::to_lower_copy(getString(L, 2));
-			// std::cout << abilitieName << std::endl;
 			bool foundAbilitie = true;
 			if (abilitieName == "healthgain") {
 				abilities.regeneration = true;
@@ -1612,7 +1619,7 @@ static int luaItemTypeAbilities(lua_State* L)
 				abilities.elementDamage = getNumber<uint16_t>(L, 3);
 			} else if (abilitieName == "elementtype") {
 				abilities.elementType = getNumber<CombatType_t>(L, 3, COMBAT_NONE);
-			} /*/ else if (abilitieName == "shoottype") {
+			} /* else if (abilitieName == "shoottype") {
 			    // abilities.shootType = getNumber<uint8_t>(L, 3, CONST_ANI_NONE);
 			}*/
 			else if (abilitieName == "manashield") {

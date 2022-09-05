@@ -926,7 +926,6 @@ static void registerEnums(LuaScriptInterface* interface)
 	registerEnum(interface, RELOAD_TYPE_EVENTS);
 	registerEnum(interface, RELOAD_TYPE_GLOBAL);
 	registerEnum(interface, RELOAD_TYPE_GLOBALEVENTS);
-	registerEnum(interface, RELOAD_TYPE_ITEMS);
 	registerEnum(interface, RELOAD_TYPE_MONSTERS);
 	registerEnum(interface, RELOAD_TYPE_MOUNTS);
 	registerEnum(interface, RELOAD_TYPE_MOVEMENTS);

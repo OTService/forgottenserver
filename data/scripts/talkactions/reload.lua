@@ -21,8 +21,6 @@ local reloadTypes = {
 	["globalevent"] = RELOAD_TYPE_GLOBALEVENTS,
 	["globalevents"] = RELOAD_TYPE_GLOBALEVENTS,
 
-	["items"] = RELOAD_TYPE_ITEMS,
-
 	["monster"] = RELOAD_TYPE_MONSTERS,
 	["monsters"] = RELOAD_TYPE_MONSTERS,
 
@@ -56,7 +54,9 @@ local reloadTypes = {
 	["libs"] = RELOAD_TYPE_GLOBAL
 }
 
-function onSay(player, words, param)
+local talk = TalkAction("/reload", "!reload")
+
+function talk.onSay(player, words, param)
 	if not player:getGroup():getAccess() then
 		return true
 	end
@@ -67,6 +67,17 @@ function onSay(player, words, param)
 
 	logCommand(player, words, param)
 
+	local reload = param:lower():split(",")
+	if reload[1] == "item" then
+		if ItemType(tonumber(reload[2]:trim())) then
+			dofile("data/items/serverid/".. reload[2]:trim() ..".lua")
+			player:sendTextMessage(MESSAGE_INFO_DESCR, string.format("Reloaded item with id: %s.", reload[2]:trim()))
+		else
+			player:sendTextMessage(MESSAGE_INFO_DESCR, string.format("Item with id: %s does not exist.", reload[2]:trim()))
+		end
+		return false
+	end
+	
 	local reloadType = reloadTypes[param:lower()]
 	if not reloadType then
 		player:sendTextMessage(MESSAGE_INFO_DESCR, "Reload type not found.")
@@ -82,3 +93,6 @@ function onSay(player, words, param)
 	player:sendTextMessage(MESSAGE_INFO_DESCR, string.format("Reloaded %s.", param:lower()))
 	return false
 end
+
+talk:separator(" ")
+talk:register()

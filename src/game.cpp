@@ -5894,8 +5894,6 @@ bool Game::reload(ReloadTypes_t reloadType)
 			return g_events->load();
 		case RELOAD_TYPE_GLOBALEVENTS:
 			return g_globalEvents->reload();
-		case RELOAD_TYPE_ITEMS:
-			return Item::items.reload();
 		case RELOAD_TYPE_MONSTERS:
 			return g_monsters.reload();
 		case RELOAD_TYPE_MOUNTS:
@@ -5974,7 +5972,6 @@ bool Game::reload(ReloadTypes_t reloadType)
 			Npcs::reload();
 			raids.reload() && raids.startup();
 			g_talkActions->reload();
-			Item::items.reload();
 			g_weapons->reload();
 			g_weapons->clear(true);
 			g_weapons->loadDefaults();

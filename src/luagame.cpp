@@ -544,9 +544,17 @@ static int luaGameCreateItemType(lua_State* L)
 	}
 
 	uint16_t id = getNumber<uint16_t>(L, 1);
+
+	if (Item::items.itemTypeExists(id)) {
+		ItemType& itemType = Item::items.getItemType(id);
+		pushUserdata<ItemType>(L, &itemType);
+		setMetatable(L, -1, "ItemType");
+		return 1;
+	}
+
 	uint16_t clientid = getNumber<uint16_t>(L, 2);
-	ItemType& itemType = Item::items.parseItemLua(id, clientid);
-	pushUserdata<ItemType>(L, &itemType);
+	ItemType& iType = Item::items.parseItemLua(id, clientid);
+	pushUserdata<ItemType>(L, &iType);
 	setMetatable(L, -1, "ItemType");
 	return 1;
 }

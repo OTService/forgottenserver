@@ -77,8 +77,7 @@ int main(int argc, char* argv[])
 	g_loaderSignal.wait(g_loaderUniqueLock);
 
 	if (serviceManager.is_running()) {
-		std::cout << ">> " << g_config.getString(ConfigManager::SERVER_NAME) << " Server Online!" << std::endl
-		          << std::endl;
+		std::cout << ">> " << g_config.getString(ConfigManager::SERVER_NAME) << " Server Online!" << std::endl;
 		serviceManager.run();
 	} else {
 		std::cout << ">> No services running. The server is NOT online." << std::endl;
@@ -95,18 +94,6 @@ int main(int argc, char* argv[])
 
 void printServerVersion()
 {
-#if defined(GIT_RETRIEVED_STATE) && GIT_RETRIEVED_STATE
-	std::cout << STATUS_SERVER_NAME << " - Version " << GIT_DESCRIBE << std::endl;
-	std::cout << "Git SHA1 " << GIT_SHORT_SHA1 << " dated " << GIT_COMMIT_DATE_ISO8601 << std::endl;
-#if GIT_IS_DIRTY
-	std::cout << "*** DIRTY - NOT OFFICIAL RELEASE ***" << std::endl;
-#endif
-#else
-	std::cout << STATUS_SERVER_NAME << " - Version " << STATUS_SERVER_VERSION << std::endl;
-#endif
-	std::cout << std::endl;
-
-	std::cout << "Compiled with " << BOOST_COMPILER << std::endl;
 	std::cout << "Compiled on " << __DATE__ << ' ' << __TIME__ << " for platform ";
 #if defined(__amd64__) || defined(_M_X64)
 	std::cout << "x64" << std::endl;
@@ -117,17 +104,16 @@ void printServerVersion()
 #else
 	std::cout << "unknown" << std::endl;
 #endif
-#if defined(LUAJIT_VERSION)
-	std::cout << "Linked with " << LUAJIT_VERSION << " for Lua support" << std::endl;
-#else
-	std::cout << "Linked with " << LUA_RELEASE << " for Lua support" << std::endl;
-#endif
 	std::cout << std::endl;
 
+	std::cout << "-----------------------------------------------------------------" << std::endl;
+	std::cout << STATUS_SERVER_NAME << " - Version " << STATUS_SERVER_VERSION << " (revscriptsystem)" << std::endl;
+	std::cout << "-----------------------------------------------------------------" << std::endl;
 	std::cout << "A server developed by " << STATUS_SERVER_DEVELOPERS << std::endl;
-	std::cout
-	    << "Visit our Discord Server: https://discord.gg/c6PXkddMxe or Githbub: https://github.com/OTService/forgottenserver"
-	    << std::endl;
+	std::cout << "Visit our platforms for support or development" << std::endl;
+	std::cout << "Discord Server	-> https://discord.gg/c6PXkddMxe" << std::endl;
+	std::cout << "Github		-> https://github.com/OTService/forgottenserver" << std::endl;
+	std::cout << "-----------------------------------------------------------------" << std::endl;
 	std::cout << std::endl;
 }
 

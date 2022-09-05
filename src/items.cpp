@@ -29,19 +29,6 @@ void Items::clear()
 	inventory.clear();
 }
 
-bool Items::reload()
-{
-	clear();
-
-	g_scripts->loadScripts("items/serverid", false, true);
-	items.shrink_to_fit();
-	buildInventoryList();
-	g_moveEvents->reload();
-	g_weapons->reload();
-	g_weapons->loadDefaults();
-	return true;
-}
-
 void Items::buildInventoryList()
 {
 	inventory.reserve(items.size());
@@ -90,6 +77,8 @@ void Items::parseItemWorth(uint64_t worth, uint16_t id)
 		currencyItems.insert(CurrencyMap::value_type(worth, id));
 	}
 }
+
+bool Items::itemTypeExists(uint16_t id) { return id < items.size() && items[id].id != 0; }
 
 ItemType& Items::getItemType(size_t id)
 {

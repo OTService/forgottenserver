@@ -76,3 +76,19 @@ bool Scripts::loadScripts(std::string folderName, bool isLib, bool reload)
 
 	return true;
 }
+
+bool Scripts::loadItems(std::string folderName)
+{
+	std::filesystem::path dir = "data/items/" + folderName;
+	std::filesystem::recursive_directory_iterator endit;
+
+	for (std::filesystem::recursive_directory_iterator it(dir); it != endit; ++it) {
+		if (scriptInterface.loadFile(it->path().string()) == -1) {
+			std::cout << "> " << it->path().string() << " [error]" << std::endl;
+			std::cout << "^ " << scriptInterface.getLastLuaError() << std::endl;
+			continue;
+		}
+	}
+
+	return true;
+}
