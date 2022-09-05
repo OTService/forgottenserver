@@ -78,6 +78,8 @@ void Items::parseItemWorth(uint64_t worth, uint16_t id)
 	}
 }
 
+bool Items::itemTypeExists(uint16_t id) { return id < items.size() && items[id].id != 0; }
+
 ItemType& Items::getItemType(size_t id)
 {
 	if (id < items.size()) {

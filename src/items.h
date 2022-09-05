@@ -456,6 +456,7 @@ public:
 
 	void clear();
 
+	bool itemTypeExists(uint16_t id);
 	const ItemType& operator[](size_t id) const { return getItemType(id); }
 	const ItemType& getItemType(size_t id) const;
 	ItemType& getItemType(size_t id);

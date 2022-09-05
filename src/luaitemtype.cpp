@@ -140,8 +140,16 @@ static int luaItemTypeCreate(lua_State* L)
 	uint32_t id;
 	if (isNumber(L, 2)) {
 		id = getNumber<uint32_t>(L, 2);
+		if (!Item::items.itemTypeExists(id)) {
+			lua_pushnil(L);
+			return 1;
+		}
 	} else if (isString(L, 2)) {
 		id = Item::items.getItemIdByName(getString(L, 2));
+		if (id == 0) {
+			lua_pushnil(L);
+			return 1;
+		}
 	} else {
 		lua_pushnil(L);
 		return 1;
