@@ -1,7 +1,3 @@
-local invalidIds = {
-	1, 2, 3, 4, 5, 6, 7, 10, 11, 13, 14, 15, 19, 21, 26, 27, 28, 35, 43
-}
-
 function onSay(player, words, param)
 	if not player:getGroup():getAccess() then
 		return true
@@ -13,16 +9,10 @@ function onSay(player, words, param)
 
 	local split = param:splitTrimmed(",")
 
-	local itemType = ItemType(split[1])
-	if itemType:getId() == 0 then
-		itemType = ItemType(tonumber(split[1]))
-		if not tonumber(split[1]) or itemType:getId() == 0 then
-			player:sendCancelMessage("There is no item with that id or name.")
-			return false
-		end
-	end
-
-	if table.contains(invalidIds, itemType:getId()) then
+	local id = tonumber(split[1]) and tonumber(split[1]) or split[1]
+	local itemType = ItemType(id)
+	if not itemType then
+		player:sendCancelMessage("There is no item with that id or name.")
 		return false
 	end
 

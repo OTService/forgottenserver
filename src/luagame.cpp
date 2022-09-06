@@ -597,9 +597,8 @@ static int luaGameReload(lua_State* L)
 {
 	// Game.reload(reloadType)
 	ReloadTypes_t reloadType = getNumber<ReloadTypes_t>(L, 1);
-	if (reloadType == RELOAD_TYPE_GLOBAL) {
-		pushBoolean(L, g_luaEnvironment.loadFile("data/global.lua") == 0);
-		pushBoolean(L, g_scripts->loadScripts("scripts/lib", true, true));
+	if (reloadType == RELOAD_TYPE_LIBRARY) {
+		pushBoolean(L, g_scripts->loadLibs());
 	} else {
 		pushBoolean(L, g_game.reload(reloadType));
 	}
