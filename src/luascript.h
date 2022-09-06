@@ -245,6 +245,8 @@ public:
 
 	static std::string getErrorDesc(ErrorCode_t code);
 
+	const void removeCacheFile(int32_t id) { cacheFiles.erase(id); }
+
 protected:
 	virtual bool closeState();
 

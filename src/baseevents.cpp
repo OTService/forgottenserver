@@ -158,6 +158,14 @@ bool Event::loadCallback()
 
 bool Event::loadCallback(std::string name)
 {
+	// this happens when we hook back the event, now we have to reset the scriptId in order to give it a new function
+	if (scriptInterface && scriptId) {
+		// removing the cache file
+		scriptInterface->removeCacheFile(scriptId);
+		// now we are resetting the scriptId for the new cache file
+		scriptId = 0;
+	}
+
 	if (!scriptInterface || scriptId != 0) {
 		std::cout << "Failure: [Event::loadCallback] scriptInterface == nullptr. scriptid = " << scriptId << std::endl;
 		return false;
