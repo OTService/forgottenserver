@@ -394,6 +394,29 @@ int32_t LuaScriptInterface::getEvent()
 	return runningEventId++;
 }
 
+int32_t LuaScriptInterface::getEventCallback(std::string name)
+{
+	// check if function is on the stack
+	if (!isFunction(luaState, -1)) {
+		return -1;
+	}
+
+	// get our events table
+	lua_rawgeti(luaState, LUA_REGISTRYINDEX, eventTableRef);
+	if (!isTable(luaState, -1)) {
+		lua_pop(luaState, 1);
+		return -1;
+	}
+
+	// save in our events table
+	lua_pushvalue(luaState, -2);
+	lua_rawseti(luaState, -2, runningEventId);
+	lua_pop(luaState, 2);
+
+	cacheFiles[runningEventId] = ">> " + name + " <<";
+	return runningEventId++;
+}
+
 int32_t LuaScriptInterface::getMetaEvent(const std::string& globalName, const std::string& eventName)
 {
 	// get our events table

@@ -180,6 +180,7 @@ public:
 	const std::string& getFileById(int32_t scriptId);
 	int32_t getEvent(const std::string& eventName);
 	int32_t getEvent();
+	int32_t getEventCallback(std::string name);
 	int32_t getMetaEvent(const std::string& globalName, const std::string& eventName);
 
 	static ScriptEnvironment* getScriptEnv()
@@ -539,6 +540,8 @@ static T getField(lua_State* L, int32_t arg, const std::string& key)
 	lua_getfield(L, arg, key.c_str());
 	return getNumber<T>(L, -1);
 }
+
+int64_t getField(lua_State* L, int64_t key);
 
 std::string getFieldString(lua_State* L, int32_t arg, const std::string& key);
 

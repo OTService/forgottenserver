@@ -194,6 +194,7 @@ bool Actions::registerEvent(Event_ptr event, const pugi::xml_node& node)
 bool Actions::registerLuaEvent(Action* event)
 {
 	Action_ptr action{event};
+	bool success = false;
 	if (!action->getItemIdRange().empty()) {
 		const auto& range = action->getItemIdRange();
 		for (auto id : range) {
@@ -203,7 +204,7 @@ bool Actions::registerLuaEvent(Action* event)
 				          << " in range from id: " << range.front() << ", to id: " << range.back() << std::endl;
 			}
 		}
-		return true;
+		success = true;
 	} else if (!action->getUniqueIdRange().empty()) {
 		const auto& range = action->getUniqueIdRange();
 		for (auto id : range) {
@@ -213,7 +214,7 @@ bool Actions::registerLuaEvent(Action* event)
 				          << " in range from uid: " << range.front() << ", to uid: " << range.back() << std::endl;
 			}
 		}
-		return true;
+		success = true;
 	} else if (!action->getActionIdRange().empty()) {
 		const auto& range = action->getActionIdRange();
 		for (auto id : range) {
@@ -223,6 +224,10 @@ bool Actions::registerLuaEvent(Action* event)
 				          << " in range from aid: " << range.front() << ", to aid: " << range.back() << std::endl;
 			}
 		}
+		success = true;
+	}
+
+	if (success) {
 		return true;
 	}
 
@@ -299,6 +304,26 @@ Action* Actions::getAction(const Item* item)
 
 	// rune items
 	return g_spells->getRuneSpell(item->getID());
+}
+
+Action* Actions::getActionEvent(std::string type, uint16_t id)
+{
+	if (type == "id") {
+		auto& it = g_actions->useItemMap.find(id);
+		if (it != g_actions->useItemMap.end()) {
+			return &it->second;
+		}
+	} else if (type == "uid") {
+		auto& it = g_actions->uniqueItemMap.find(id);
+		if (it != g_actions->uniqueItemMap.end()) {
+			return &it->second;
+		}
+	} else if (type == "aid") {
+		auto& it = g_actions->actionItemMap.find(id);
+		if (it != g_actions->actionItemMap.end()) {
+			return &it->second;
+		}
+	}
 }
 
 ReturnValue Actions::internalUseItem(Player* player, const Position& pos, uint8_t index, Item* item, bool isHotkey)
