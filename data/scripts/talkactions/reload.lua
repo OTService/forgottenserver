@@ -16,7 +16,7 @@ local reloadTypes = {
 
 	["events"] = RELOAD_TYPE_EVENTS,
 
-	["global"] = RELOAD_TYPE_LIBRARY,
+	["global"] = RELOAD_TYPE_GLOBAL,
 
 	["globalevent"] = RELOAD_TYPE_GLOBALEVENTS,
 	["globalevents"] = RELOAD_TYPE_GLOBALEVENTS,
@@ -51,8 +51,7 @@ local reloadTypes = {
 	["weapons"] = RELOAD_TYPE_WEAPONS,
 
 	["scripts"] = RELOAD_TYPE_SCRIPTS,
-	["lib"] = RELOAD_TYPE_LIBRARY,
-	["libs"] = RELOAD_TYPE_LIBRARY
+	["libs"] = RELOAD_TYPE_GLOBAL
 }
 
 local talk = TalkAction("/reload", "!reload")

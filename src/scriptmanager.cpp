@@ -44,11 +44,14 @@ ScriptingManager::~ScriptingManager()
 
 bool ScriptingManager::loadScriptSystems()
 {
-	g_scripts = new Scripts();
+	if (g_luaEnvironment.loadFile("data/global.lua") == -1) {
+		std::cout << "[Warning - ScriptingManager::loadScriptSystems] Can not load data/global.lua" << std::endl;
+	}
 
-	std::cout << ">> Loading libs" << std::endl;
-	if (!g_scripts->loadLibs()) {
-		std::cout << "> ERROR: Unable to load libs!" << std::endl;
+	g_scripts = new Scripts();
+	std::cout << ">> Loading lua libs" << std::endl;
+	if (!g_scripts->loadScripts("scripts/lib", true, false)) {
+		std::cout << "> ERROR: Unable to load lua libs!" << std::endl;
 		return false;
 	}
 

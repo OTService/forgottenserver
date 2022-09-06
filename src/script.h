@@ -12,9 +12,7 @@ public:
 	Scripts();
 	~Scripts();
 
-	bool loadScripts(bool reload);
-	bool loadMonsters();
-	bool loadLibs();
+	bool loadScripts(std::string folderName, bool isLib, bool reload);
 	bool loadItems(std::string folderName);
 	LuaScriptInterface& getScriptInterface() { return scriptInterface; }
 
