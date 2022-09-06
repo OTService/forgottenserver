@@ -324,6 +324,7 @@ Action* Actions::getActionEvent(std::string type, uint16_t id)
 			return &it->second;
 		}
 	}
+	return nullptr;
 }
 
 ReturnValue Actions::internalUseItem(Player* player, const Position& pos, uint8_t index, Item* item, bool isHotkey)
