@@ -3,6 +3,7 @@
 
 #include "otpch.h"
 
+#include "actions.h"
 #include "configmanager.h"
 #include "creature.h"
 #include "events.h"
@@ -14,7 +15,6 @@
 #include "outfit.h"
 #include "script.h"
 #include "spectators.h"
-#include "actions.h"
 
 extern ConfigManager g_config;
 extern Monsters g_monsters;
