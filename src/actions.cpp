@@ -309,17 +309,17 @@ Action* Actions::getAction(const Item* item)
 Action* Actions::getActionEvent(std::string type, uint16_t id)
 {
 	if (type == "id") {
-		auto& it = g_actions->useItemMap.find(id);
+		auto it = g_actions->useItemMap.find(id);
 		if (it != g_actions->useItemMap.end()) {
 			return &it->second;
 		}
 	} else if (type == "uid") {
-		auto& it = g_actions->uniqueItemMap.find(id);
+		auto it = g_actions->uniqueItemMap.find(id);
 		if (it != g_actions->uniqueItemMap.end()) {
 			return &it->second;
 		}
 	} else if (type == "aid") {
-		auto& it = g_actions->actionItemMap.find(id);
+		auto it = g_actions->actionItemMap.find(id);
 		if (it != g_actions->actionItemMap.end()) {
 			return &it->second;
 		}
