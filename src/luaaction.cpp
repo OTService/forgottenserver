@@ -56,7 +56,7 @@ static int luaCreateAction(lua_State* L)
 		uint16_t id = getNumber<uint16_t>(L, 3);
 		if (type == "id") {
 			if (isTable(L, 3)) {
-				for (auto& id : iterateTable(L, 3)) {
+				for (auto id : iterateTable(L, 3)) {
 					action->addItemId(id);
 				}
 				id = action->getItemIdRange().front();
@@ -65,7 +65,7 @@ static int luaCreateAction(lua_State* L)
 			}
 		} else if (type == "uid") {
 			if (isTable(L, 3)) {
-				for (auto& id : iterateTable(L, 3)) {
+				for (auto id : iterateTable(L, 3)) {
 					action->addUniqueId(id);
 				}
 				id = action->getUniqueIdRange().front();
@@ -74,7 +74,7 @@ static int luaCreateAction(lua_State* L)
 			}
 		} else if (type == "aid") {
 			if (isTable(L, 3)) {
-				for (auto& id : iterateTable(L, 3)) {
+				for (auto id : iterateTable(L, 3)) {
 					action->addActionId(id);
 				}
 				id = action->getActionIdRange().front();
