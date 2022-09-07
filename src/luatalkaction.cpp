@@ -23,12 +23,30 @@ static int luaCreateTalkaction(lua_State* L)
 
 	TalkAction* talk = new TalkAction(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 	if (talk) {
-		for (int i = 2; i <= lua_gettop(L); i++) {
-			talk->setWords(getString(L, i));
+		// classic revscriptsys registering
+		if (isString(L, 2)) {
+			for (int i = 2; i <= lua_gettop(L); i++) {
+				talk->setWords(getString(L, i));
+			}
 		}
 		talk->fromLua = true;
 		pushUserdata<TalkAction>(L, talk);
 		setMetatable(L, -1, "TalkAction");
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaTalkactionWord(lua_State* L)
+{
+	// talkAction:word(word)
+	TalkAction* talk = getUserdata<TalkAction>(L, 1);
+	if (talk) {
+		for (int i = 2; i <= lua_gettop(L); i++) {
+			talk->setWords(getString(L, i));
+		}
+		pushBoolean(L, true);
 	} else {
 		lua_pushnil(L);
 	}
@@ -40,7 +58,8 @@ static int luaTalkactionOnSay(lua_State* L)
 	// talkAction:onSay(callback)
 	TalkAction* talk = getUserdata<TalkAction>(L, 1);
 	if (talk) {
-		if (!talk->loadCallback()) {
+		std::string functionName = getString(L, 2);
+		if (!talk->loadCallback(functionName)) {
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -111,6 +130,7 @@ static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("TalkAction", "", luaCreateTalkaction);
 	interface->registerMethod("TalkAction", "onSay", luaTalkactionOnSay);
+	interface->registerMethod("TalkAction", "word", luaTalkactionWord);
 	interface->registerMethod("TalkAction", "register", luaTalkactionRegister);
 	interface->registerMethod("TalkAction", "separator", luaTalkactionSeparator);
 	interface->registerMethod("TalkAction", "access", luaTalkactionAccess);

@@ -102,11 +102,11 @@ TalkActionResult_t TalkActions::playerSaySpell(Player* player, SpeakClasses type
 
 		if (it->second.fromLua) {
 			if (it->second.getNeedAccess() && !player->getGroup()->access) {
-				return TALKACTION_CONTINUE;
+				return TALKACTION_BREAK;
 			}
 
 			if (player->getAccountType() < it->second.getRequiredAccountType()) {
-				return TALKACTION_CONTINUE;
+				return TALKACTION_BREAK;
 			}
 		}
 

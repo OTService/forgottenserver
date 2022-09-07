@@ -55,17 +55,9 @@ local reloadTypes = {
 	["libs"] = RELOAD_TYPE_LIBRARY
 }
 
-local talk = TalkAction("/reload", "!reload")
+local talk = TalkAction({word={"/reload", "!reload"}, separator=" ", access=5, accountType=ACCOUNT_TYPE_GOD})
 
-function talk.onSay(player, words, param)
-	if not player:getGroup():getAccess() then
-		return true
-	end
-
-	if player:getAccountType() < ACCOUNT_TYPE_GOD then
-		return false
-	end
-
+function talk.onReload(player, words, param)
 	logCommand(player, words, param)
 
 	local reload = param:lower():split(",")
@@ -94,6 +86,3 @@ function talk.onSay(player, words, param)
 	player:sendTextMessage(MESSAGE_INFO_DESCR, string.format("Reloaded %s.", param:lower()))
 	return false
 end
-
-talk:separator(" ")
-talk:register()

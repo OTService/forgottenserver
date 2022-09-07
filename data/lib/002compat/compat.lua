@@ -122,17 +122,6 @@ do
 end
 
 do
-	local function TalkActionNewIndex(self, key, value)
-		if key == "onSay" then
-			self:onSay(value)
-			return
-		end
-		rawset(self, key, value)
-	end
-	rawgetmetatable("TalkAction").__newindex = TalkActionNewIndex
-end
-
-do
 	local function CreatureEventNewIndex(self, key, value)
 		if key == "onLogin" then
 			self:type("login")
