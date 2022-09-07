@@ -156,7 +156,7 @@ bool Event::loadCallback()
 	return true;
 }
 
-bool Event::loadCallback(std::string name)
+bool Event::loadCallback(const std::string& name)
 {
 	// this happens when we hook back the event, now we have to reset the scriptId in order to give it a new function
 	if (scriptInterface && scriptId) {
