@@ -191,9 +191,8 @@ bool Actions::registerEvent(Event_ptr event, const pugi::xml_node& node)
 	return false;
 }
 
-bool Actions::registerLuaEvent(Action* event)
+bool Actions::registerLuaEvent(Action_shared_ptr action)
 {
-	Action_ptr action{event};
 	bool success = false;
 	if (!action->getItemIdRange().empty()) {
 		const auto& range = action->getItemIdRange();
@@ -306,22 +305,22 @@ Action* Actions::getAction(const Item* item)
 	return g_spells->getRuneSpell(item->getID());
 }
 
-Action* Actions::getActionEvent(std::string type, uint16_t id)
+Action_shared_ptr Actions::getActionEvent(const std::string& type, uint16_t id)
 {
 	if (type == "id") {
-		auto it = g_actions->useItemMap.find(id);
-		if (it != g_actions->useItemMap.end()) {
-			return &it->second;
+		auto it = useItemMap.find(id);
+		if (it != useItemMap.end()) {
+			return Action_shared_ptr(&it->second);
 		}
 	} else if (type == "uid") {
-		auto it = g_actions->uniqueItemMap.find(id);
-		if (it != g_actions->uniqueItemMap.end()) {
-			return &it->second;
+		auto it = uniqueItemMap.find(id);
+		if (it != uniqueItemMap.end()) {
+			return Action_shared_ptr(&it->second);
 		}
 	} else if (type == "aid") {
-		auto it = g_actions->actionItemMap.find(id);
-		if (it != g_actions->actionItemMap.end()) {
-			return &it->second;
+		auto it = actionItemMap.find(id);
+		if (it != actionItemMap.end()) {
+			return Action_shared_ptr(&it->second);
 		}
 	}
 	return nullptr;

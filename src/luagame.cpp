@@ -640,19 +640,19 @@ static int luaGameSaveAccountStorageValues(lua_State* L)
 
 static int luaGameGetAction(lua_State* L)
 {
-	// Game.getAction(eventType, id)
+	// Game.getAction(id, eventType)
 	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
 		reportErrorFunc(L, "Game.getAction can only be called in the Scripts interface.");
 		lua_pushnil(L);
 		return 1;
 	}
 
-	std::string eventType = getString(L, 1);
-	uint16_t id = getNumber<uint16_t>(L, 2);
+	uint16_t id = getNumber<uint16_t>(L, 1);
+	const std::string& eventType = getString(L, 2);
 
-	Action* action = g_actions->getActionEvent(eventType, id);
+	Action_shared_ptr action = g_actions->getActionEvent(eventType, id);
 	if (action) {
-		pushUserdata<Action>(L, action);
+		pushSharedPtr<Action_shared_ptr>(L, action);
 		setMetatable(L, -1, "Action");
 	} else {
 		lua_pushnil(L);

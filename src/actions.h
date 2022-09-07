@@ -83,14 +83,9 @@ public:
 	ReturnValue canUse(const Player* player, const Position& pos, const Item* item);
 	ReturnValue canUseFar(const Creature* creature, const Position& toPos, bool checkLineOfSight, bool checkFloor);
 
-	bool registerLuaEvent(Action* event);
-	Action* getActionEvent(std::string type, uint16_t id);
+	bool registerLuaEvent(Action_shared_ptr action);
+	Action_shared_ptr getActionEvent(const std::string& type, uint16_t id);
 	void clear(bool fromLua) override final;
-
-	using ActionUseMap = std::map<uint16_t, Action>;
-	ActionUseMap useItemMap;
-	ActionUseMap uniqueItemMap;
-	ActionUseMap actionItemMap;
 
 private:
 	ReturnValue internalUseItem(Player* player, const Position& pos, uint8_t index, Item* item, bool isHotkey);
@@ -99,6 +94,11 @@ private:
 	std::string getScriptBaseName() const override;
 	Event_ptr getEvent(const std::string& nodeName) override;
 	bool registerEvent(Event_ptr event, const pugi::xml_node& node) override;
+
+	using ActionUseMap = std::map<uint16_t, Action>;
+	ActionUseMap useItemMap;
+	ActionUseMap uniqueItemMap;
+	ActionUseMap actionItemMap;
 
 	Action* getAction(const Item* item);
 	void clearMap(ActionUseMap& map, bool fromLua);
