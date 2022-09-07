@@ -7,7 +7,7 @@ local blessings = {
 	"Twist of Fate"
 }
 
-local checkBless = Action()
+local checkBless = Action({id={12424, 6561}})
 
 function checkBless.onUse(player, item, fromPosition, target, toPosition, isHotkey)
 	local message = {"Received blessings:"}
@@ -20,6 +20,3 @@ function checkBless.onUse(player, item, fromPosition, target, toPosition, isHotk
 	player:sendTextMessage(MESSAGE_EVENT_ADVANCE, #message == 1 and "No blessings received." or table.concat(message, '\n'))
 	return true
 end
-
-checkBless:id(12424, 6561)
-checkBless:register()

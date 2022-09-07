@@ -1,6 +1,6 @@
 local config = {}
 
-local goldConverter = Action("id", 26378)
+local goldConverter = Action({id=26378})
 
 function goldConverter.onUseGoldConverter(player, item, fromPosition, target, toPosition, isHotkey)
 	local coin = config[target.itemid]

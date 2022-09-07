@@ -121,19 +121,6 @@ do
 	rawgetmetatable("Podium").__index = ItemIndex
 end
 
---[[
-do
-	local function ActionNewIndex(self, key, value)
-		if key == "onUse" then
-			self:onUse(value)
-			return
-		end
-		rawset(self, key, value)
-	end
-	rawgetmetatable("Action").__newindex = ActionNewIndex
-end
-]]
-
 do
 	local function TalkActionNewIndex(self, key, value)
 		if key == "onSay" then

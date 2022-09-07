@@ -12,88 +12,25 @@ extern Actions* g_actions;
 
 using namespace Lua;
 
-static std::vector<uint16_t> iterateTable(lua_State* L, int index)
-{
-	std::vector<uint16_t> ids;
-	lua_pushvalue(L, index);
-	lua_pushnil(L);
-	while (lua_next(L, -2) != 0) {
-		const auto value = getNumber<uint16_t>(L, -1);
-		const auto key = getNumber<uint16_t>(L, -2);
-		ids.push_back(value);
-		lua_pop(L, 1);
-	}
-	lua_pop(L, 1);
-	return ids;
-}
-
 static int luaCreateAction(lua_State* L)
 {
-	// Action(type, number)
+	// Action({id=1, uid={5,1,2}, aid=7, allowFarUse=true, blockWalls=true, checkFloor=true}) <-- example
 	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
 		reportErrorFunc(L, "Actions can only be registered in the Scripts interface.");
 		lua_pushnil(L);
 		return 1;
 	}
 
-	// classic revscriptsys with register for backwards compatibility
-	if (lua_gettop(L) == 1) {
-		Action* action = new Action(LuaScriptInterface::getScriptEnv()->getScriptInterface());
-		if (action) {
-			action->fromLua = true;
-			pushUserdata(L, action);
-			setMetatable(L, -1, "Action");
-			return 1;
-		} else {
-			lua_pushnil(L);
-			return 1;
-		}
-	}
-
 	Action* action = new Action(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 	if (action) {
-		std::string type = getString(L, 2);
-		uint16_t id = getNumber<uint16_t>(L, 3);
-		if (type == "id") {
-			if (isTable(L, 3)) {
-				for (auto id : iterateTable(L, 3)) {
-					action->addItemId(id);
-				}
-				id = action->getItemIdRange().front();
-			} else {
-				action->addItemId(getNumber<uint16_t>(L, 3));
-			}
-		} else if (type == "uid") {
-			if (isTable(L, 3)) {
-				for (auto id : iterateTable(L, 3)) {
-					action->addUniqueId(id);
-				}
-				id = action->getUniqueIdRange().front();
-			} else {
-				action->addUniqueId(getNumber<uint16_t>(L, 3));
-			}
-		} else if (type == "aid") {
-			if (isTable(L, 3)) {
-				for (auto id : iterateTable(L, 3)) {
-					action->addActionId(id);
-				}
-				id = action->getActionIdRange().front();
-			} else {
-				action->addActionId(getNumber<uint16_t>(L, 3));
-			}
-		}
-
 		action->fromLua = true;
-		g_actions->registerLuaEvent(action);
-		Action* ref = g_actions->getActionEvent(type, id);
-		action->clearActionIdRange();
-		action->clearItemIdRange();
-		action->clearUniqueIdRange();
-		pushUserdata(L, ref);
+		pushUserdata<Action>(L, action);
 		setMetatable(L, -1, "Action");
 	} else {
 		lua_pushnil(L);
+		return 1;
 	}
+
 	return 1;
 }
 
@@ -102,25 +39,8 @@ static int luaActionOnUse(lua_State* L)
 	// action:onUse(callback)
 	Action* action = getUserdata<Action>(L, 1);
 	if (action) {
-		if (!action->loadCallback()) {
-			pushBoolean(L, false);
-			return 1;
-		}
-		action->scripted = true;
-		pushBoolean(L, true);
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-static int luaActionNewIndex(lua_State* L)
-{
-	// action__newindex(callback)
-	Action* action = getUserdata<Action>(L, 1);
-	std::string test = getString(L, 2);
-	if (action) {
-		if (!action->loadCallback(test)) {
+		std::string functionName = getString(L, 2);
+		if (!action->loadCallback(functionName)) {
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -254,7 +174,6 @@ namespace LuaAction {
 static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("Action", "", luaCreateAction);
-	interface->registerMetaMethod("Action", "__newindex", luaActionNewIndex);
 	interface->registerMethod("Action", "onUse", luaActionOnUse);
 	interface->registerMethod("Action", "register", luaActionRegister);
 	interface->registerMethod("Action", "id", luaActionItemId);
