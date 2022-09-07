@@ -52,9 +52,8 @@ bool TalkActions::registerEvent(Event_ptr event, const pugi::xml_node&)
 	return true;
 }
 
-bool TalkActions::registerLuaEvent(TalkAction* event)
+bool TalkActions::registerLuaEvent(TalkAction_shared_ptr talkAction)
 {
-	TalkAction_ptr talkAction{event};
 	std::vector<std::string> words = talkAction->getWordsMap();
 
 	for (size_t i = 0; i < words.size(); i++) {
@@ -66,6 +65,16 @@ bool TalkActions::registerLuaEvent(TalkAction* event)
 	}
 
 	return true;
+}
+
+TalkAction_shared_ptr TalkActions::getTalkActionEvent(const std::string& word)
+{
+	auto it = talkActions.find(word);
+	if (it != talkActions.end()) {
+		return TalkAction_shared_ptr(&it->second);
+	}
+	
+	return nullptr;
 }
 
 TalkActionResult_t TalkActions::playerSaySpell(Player* player, SpeakClasses type, const std::string& words) const

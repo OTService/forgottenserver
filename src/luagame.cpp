@@ -15,6 +15,7 @@
 #include "outfit.h"
 #include "script.h"
 #include "spectators.h"
+#include "talkaction.h"
 
 extern ConfigManager g_config;
 extern Monsters g_monsters;
@@ -22,6 +23,7 @@ extern Events* g_events;
 extern Scripts* g_scripts;
 extern LuaEnvironment g_luaEnvironment;
 extern Actions* g_actions;
+extern TalkActions* g_talkActions;
 
 using namespace Lua;
 
@@ -661,6 +663,28 @@ static int luaGameGetAction(lua_State* L)
 	return 1;
 }
 
+static int luaGameGetTalkAction(lua_State* L)
+{
+	// Game.getTalkAction(word)
+	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
+		reportErrorFunc(L, "Game.getTalkAction can only be called in the Scripts interface.");
+		lua_pushnil(L);
+		return 1;
+	}
+
+	const std::string& word = getString(L, 2);
+
+	TalkAction_shared_ptr talk = g_talkActions->getTalkActionEvent(word);
+	if (talk) {
+		pushSharedPtr<TalkAction_shared_ptr>(L, talk);
+		setMetatable(L, -1, "TalkAction");
+	} else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
 namespace LuaGame {
 static void registerFunctions(LuaScriptInterface* interface)
 {
@@ -715,5 +739,6 @@ static void registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("Game", "saveAccountStorageValues", luaGameSaveAccountStorageValues);
 
 	interface->registerMethod("Game", "getAction", luaGameGetAction);
+	interface->registerMethod("Game", "getTalkAction", luaGameGetTalkAction);
 }
 } // namespace LuaGame

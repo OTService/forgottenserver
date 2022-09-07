@@ -10,6 +10,7 @@
 
 class TalkAction;
 using TalkAction_ptr = std::unique_ptr<TalkAction>;
+using TalkAction_shared_ptr = std::shared_ptr<TalkAction>;
 
 enum TalkActionResult_t
 {
@@ -68,7 +69,8 @@ public:
 
 	TalkActionResult_t playerSaySpell(Player* player, SpeakClasses type, const std::string& words) const;
 
-	bool registerLuaEvent(TalkAction* event);
+	bool registerLuaEvent(TalkAction_shared_ptr talkAction);
+	TalkAction_shared_ptr getTalkActionEvent(const std::string& word);
 	void clear(bool fromLua) override final;
 
 private:
