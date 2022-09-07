@@ -73,7 +73,7 @@ TalkAction_shared_ptr TalkActions::getTalkActionEvent(const std::string& word)
 	if (it != talkActions.end()) {
 		return TalkAction_shared_ptr(&it->second);
 	}
-	
+
 	return nullptr;
 }
 
