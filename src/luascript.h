@@ -543,8 +543,6 @@ static T getField(lua_State* L, int32_t arg, const std::string& key)
 	return getNumber<T>(L, -1);
 }
 
-int64_t getField(lua_State* L, int64_t key);
-
 std::string getFieldString(lua_State* L, int32_t arg, const std::string& key);
 
 LuaDataType getUserdataType(lua_State* L, int32_t arg);

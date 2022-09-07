@@ -74,10 +74,6 @@ static int luaActionItemId(lua_State* L)
 	// action:id(ids)
 	Action_shared_ptr action = getSharedPtr<Action>(L, 1);
 	if (action) {
-		// we are re using the event, need to make sure to clear the vector first
-		if (!action->getItemIdRange().empty()) {
-			action->clearItemIdRange();
-		}
 		int parameters = lua_gettop(L) - 1; // - 1 because self is a parameter aswell, which we want to skip ofc
 		if (parameters > 1) {
 			for (int i = 0; i < parameters; ++i) {
@@ -98,10 +94,6 @@ static int luaActionActionId(lua_State* L)
 	// action:aid(aids)
 	Action_shared_ptr action = getSharedPtr<Action>(L, 1);
 	if (action) {
-		// we are re using the event, need to make sure to clear the vector first
-		if (!action->getActionIdRange().empty()) {
-			action->clearActionIdRange();
-		}
 		int parameters = lua_gettop(L) - 1; // - 1 because self is a parameter aswell, which we want to skip ofc
 		if (parameters > 1) {
 			for (int i = 0; i < parameters; ++i) {
@@ -122,10 +114,6 @@ static int luaActionUniqueId(lua_State* L)
 	// action:uid(uids)
 	Action_shared_ptr action = getSharedPtr<Action>(L, 1);
 	if (action) {
-		// we are re using the event, need to make sure to clear the vector first
-		if (!action->getUniqueIdRange().empty()) {
-			action->clearUniqueIdRange();
-		}
 		int parameters = lua_gettop(L) - 1; // - 1 because self is a parameter aswell, which we want to skip ofc
 		if (parameters > 1) {
 			for (int i = 0; i < parameters; ++i) {

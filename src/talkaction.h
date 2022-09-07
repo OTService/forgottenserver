@@ -27,6 +27,7 @@ public:
 	bool configureEvent(const pugi::xml_node& node) override;
 
 	const std::string& getWords() const { return words; }
+	void clearWords() { wordsMap.clear(); }
 	const std::vector<std::string>& getWordsMap() const { return wordsMap; }
 	void setWords(std::string word)
 	{

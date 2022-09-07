@@ -54,14 +54,21 @@ bool TalkActions::registerEvent(Event_ptr event, const pugi::xml_node&)
 
 bool TalkActions::registerLuaEvent(TalkAction_shared_ptr talkAction)
 {
-	std::vector<std::string> words = talkAction->getWordsMap();
-
-	for (size_t i = 0; i < words.size(); i++) {
-		if (i == words.size() - 1) {
-			talkActions.emplace(words[i], std::move(*talkAction));
-		} else {
-			talkActions.emplace(words[i], *talkAction);
+	bool success = false;
+	if (!talkAction->getWordsMap().empty()) {
+		const auto& words = talkAction->getWordsMap();
+		for (auto& word : words) {
+			auto result = talkActions.emplace(word, *talkAction);
+			if (!result.second) {
+				std::cout << "[Warning - Talkctions::registerLuaEvent] Duplicate registered word: " << word << std::endl;
+			}
 		}
+		success = true;
+		talkAction->clearWords();
+	}
+
+	if (!success) {
+		return false;
 	}
 
 	return true;

@@ -204,6 +204,7 @@ bool Actions::registerLuaEvent(Action_shared_ptr action)
 			}
 		}
 		success = true;
+		action->clearItemIdRange();
 	} else if (!action->getUniqueIdRange().empty()) {
 		const auto& range = action->getUniqueIdRange();
 		for (auto id : range) {
@@ -214,6 +215,7 @@ bool Actions::registerLuaEvent(Action_shared_ptr action)
 			}
 		}
 		success = true;
+		action->clearUniqueIdRange();
 	} else if (!action->getActionIdRange().empty()) {
 		const auto& range = action->getActionIdRange();
 		for (auto id : range) {
@@ -224,6 +226,7 @@ bool Actions::registerLuaEvent(Action_shared_ptr action)
 			}
 		}
 		success = true;
+		action->clearActionIdRange();
 	}
 
 	if (success) {
