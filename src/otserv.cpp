@@ -107,7 +107,7 @@ void printServerVersion()
 	std::cout << std::endl;
 
 	std::cout << "-----------------------------------------------------------------" << std::endl;
-	std::cout << STATUS_SERVER_NAME << " - Version " << STATUS_SERVER_VERSION << " (revscriptsystem)" << std::endl;
+	std::cout << STATUS_SERVER_NAME << " - Version " << STATUS_SERVER_VERSION << " (revscriptsys)" << std::endl;
 	std::cout << "-----------------------------------------------------------------" << std::endl;
 	std::cout << "A server developed by " << STATUS_SERVER_DEVELOPERS << std::endl;
 	std::cout << "Visit our platforms for support or development" << std::endl;
@@ -216,7 +216,7 @@ void mainLoader(int, char*[], ServiceManager* services)
 	}
 
 	std::cout << ">> Loading lua scripts" << std::endl;
-	if (!g_scripts->loadScripts("scripts", false, false)) {
+	if (!g_scripts->loadScripts(false)) {
 		startupErrorMessage("Failed to load lua scripts");
 		return;
 	}
@@ -228,7 +228,7 @@ void mainLoader(int, char*[], ServiceManager* services)
 	}
 
 	std::cout << ">> Loading lua monsters" << std::endl;
-	if (!g_scripts->loadScripts("monster", false, false)) {
+	if (!g_scripts->loadMonsters()) {
 		startupErrorMessage("Failed to load lua monsters");
 		return;
 	}
