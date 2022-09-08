@@ -71,8 +71,7 @@ static int luaGlobalEventType(lua_State* L)
 		} else if (tmpStr == "think") {
 			// just don't throw an error message due to non existing type
 		} else {
-			std::cout << "[Error - luaGlobalEventType] Invalid type for global event: " << typeName
-			          << std::endl;
+			std::cout << "[Error - luaGlobalEventType] Invalid type for global event: " << typeName << std::endl;
 			pushBoolean(L, false);
 		}
 		pushBoolean(L, true);

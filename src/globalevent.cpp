@@ -90,8 +90,8 @@ bool GlobalEvents::registerLuaEvent(GlobalEvent_shared_ptr globalEvent)
 	return false;
 }
 
-GlobalEvent_shared_ptr GlobalEvents::getGlobalEvent(const std::string& name) {
-
+GlobalEvent_shared_ptr GlobalEvents::getGlobalEvent(const std::string& name)
+{
 	auto it = serverMap.find(name);
 	if (it != serverMap.end()) {
 		return GlobalEvent_shared_ptr(&it->second);
