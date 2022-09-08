@@ -29,7 +29,6 @@ static int luaCreateAction(lua_State* L)
 		setMetatable(L, -1, "Action");
 	} else {
 		lua_pushnil(L);
-		return 1;
 	}
 
 	return 1;
@@ -40,7 +39,7 @@ static int luaActionOnUse(lua_State* L)
 	// action:onUse(callback)
 	Action_shared_ptr action = getSharedPtr<Action>(L, 1);
 	if (action) {
-		std::string functionName = getString(L, 2);
+		const std::string& functionName = getString(L, 2);
 		if (!action->loadCallback(functionName)) {
 			pushBoolean(L, false);
 			return 1;

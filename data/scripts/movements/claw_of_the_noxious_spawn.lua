@@ -1,4 +1,4 @@
-local clawOfTheNoxiousSpawn = MoveEvent()
+local clawOfTheNoxiousSpawn = MoveEvent({slot="ring", id=10310})
 
 function clawOfTheNoxiousSpawn.onEquip(player, item, slot, isCheck)
 	if not isCheck then
@@ -10,8 +10,3 @@ function clawOfTheNoxiousSpawn.onEquip(player, item, slot, isCheck)
 	end
 	return true
 end
-
-clawOfTheNoxiousSpawn:type("equip")
-clawOfTheNoxiousSpawn:slot("ring")
-clawOfTheNoxiousSpawn:id(10310)
-clawOfTheNoxiousSpawn:register()

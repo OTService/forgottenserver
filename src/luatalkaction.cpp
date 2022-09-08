@@ -59,7 +59,7 @@ static int luaTalkactionOnSay(lua_State* L)
 	// talkAction:onSay(callback)
 	TalkAction_shared_ptr talk = getSharedPtr<TalkAction>(L, 1);
 	if (talk) {
-		std::string functionName = getString(L, 2);
+		const std::string& functionName = getString(L, 2);
 		if (!talk->loadCallback(functionName)) {
 			pushBoolean(L, false);
 			return 1;

@@ -29,6 +29,7 @@ enum MoveEvent_t
 };
 
 using MoveEvent_ptr = std::unique_ptr<MoveEvent>;
+using MoveEvent_shared_ptr = std::shared_ptr<MoveEvent>;
 
 struct MoveEventList
 {
@@ -54,8 +55,8 @@ public:
 
 	MoveEvent* getEvent(Item* item, MoveEvent_t eventType);
 
-	bool registerLuaEvent(MoveEvent* event);
-	bool registerLuaFunction(MoveEvent* event);
+	bool registerLuaEvent(MoveEvent_shared_ptr moveEvent);
+	bool registerLuaFunction(MoveEvent_shared_ptr moveEvent);
 	void clear(bool fromLua) override final;
 
 private:

@@ -172,10 +172,8 @@ bool MoveEvents::registerEvent(Event_ptr event, const pugi::xml_node& node)
 	return true;
 }
 
-bool MoveEvents::registerLuaFunction(MoveEvent* event)
+bool MoveEvents::registerLuaFunction(MoveEvent_shared_ptr moveEvent)
 {
-	MoveEvent_ptr moveEvent{event};
-
 	const MoveEvent_t eventType = moveEvent->getEventType();
 	if (eventType == MOVE_EVENT_ADD_ITEM || eventType == MOVE_EVENT_REMOVE_ITEM) {
 		if (moveEvent->getTileItem()) {
@@ -192,10 +190,8 @@ bool MoveEvents::registerLuaFunction(MoveEvent* event)
 		}
 	}
 
-	if (moveEvent->getItemIdRange().size() > 0) {
-		if (moveEvent->getItemIdRange().size() == 1) {
-			uint32_t id = moveEvent->getItemIdRange().at(0);
-			addEvent(*moveEvent, id, itemIdMap);
+	if (!moveEvent->getItemIdRange().empty()) {
+		for (auto& id : moveEvent->getItemIdRange()) {
 			if (moveEvent->getEventType() == MOVE_EVENT_EQUIP) {
 				ItemType& it = Item::items.getItemType(id);
 				it.wieldInfo = moveEvent->getWieldInfo();
@@ -203,18 +199,8 @@ bool MoveEvents::registerLuaFunction(MoveEvent* event)
 				it.minReqMagicLevel = moveEvent->getReqMagLv();
 				it.vocationString = moveEvent->getVocationString();
 			}
-		} else {
-			uint32_t iterId = 0;
-			while (++iterId < moveEvent->getItemIdRange().size()) {
-				if (moveEvent->getEventType() == MOVE_EVENT_EQUIP) {
-					ItemType& it = Item::items.getItemType(moveEvent->getItemIdRange().at(iterId));
-					it.wieldInfo = moveEvent->getWieldInfo();
-					it.minReqLevel = moveEvent->getReqLevel();
-					it.minReqMagicLevel = moveEvent->getReqMagLv();
-					it.vocationString = moveEvent->getVocationString();
-				}
-				addEvent(*moveEvent, moveEvent->getItemIdRange().at(iterId), itemIdMap);
-			}
+			addEvent(*moveEvent, id, itemIdMap);
+			moveEvent->clearItemIdRange();
 		}
 	} else {
 		return false;
@@ -222,10 +208,8 @@ bool MoveEvents::registerLuaFunction(MoveEvent* event)
 	return true;
 }
 
-bool MoveEvents::registerLuaEvent(MoveEvent* event)
+bool MoveEvents::registerLuaEvent(MoveEvent_shared_ptr moveEvent)
 {
-	MoveEvent_ptr moveEvent{event};
-
 	const MoveEvent_t eventType = moveEvent->getEventType();
 	if (eventType == MOVE_EVENT_ADD_ITEM || eventType == MOVE_EVENT_REMOVE_ITEM) {
 		if (moveEvent->getTileItem()) {
@@ -242,10 +226,8 @@ bool MoveEvents::registerLuaEvent(MoveEvent* event)
 		}
 	}
 
-	if (moveEvent->getItemIdRange().size() > 0) {
-		if (moveEvent->getItemIdRange().size() == 1) {
-			uint32_t id = moveEvent->getItemIdRange().at(0);
-			addEvent(*moveEvent, id, itemIdMap);
+	if (!moveEvent->getItemIdRange().empty()) {
+		for (auto& id : moveEvent->getItemIdRange()) {
 			if (moveEvent->getEventType() == MOVE_EVENT_EQUIP) {
 				ItemType& it = Item::items.getItemType(id);
 				it.wieldInfo = moveEvent->getWieldInfo();
@@ -253,49 +235,24 @@ bool MoveEvents::registerLuaEvent(MoveEvent* event)
 				it.minReqMagicLevel = moveEvent->getReqMagLv();
 				it.vocationString = moveEvent->getVocationString();
 			}
-		} else {
-			auto v = moveEvent->getItemIdRange();
-			for (auto i = v.begin(); i != v.end(); i++) {
-				if (moveEvent->getEventType() == MOVE_EVENT_EQUIP) {
-					ItemType& it = Item::items.getItemType(*i);
-					it.wieldInfo = moveEvent->getWieldInfo();
-					it.minReqLevel = moveEvent->getReqLevel();
-					it.minReqMagicLevel = moveEvent->getReqMagLv();
-					it.vocationString = moveEvent->getVocationString();
-				}
-				addEvent(*moveEvent, *i, itemIdMap);
-			}
+			addEvent(*moveEvent, id, itemIdMap);
+			moveEvent->clearItemIdRange();
 		}
-	} else if (moveEvent->getActionIdRange().size() > 0) {
-		if (moveEvent->getActionIdRange().size() == 1) {
-			int32_t id = moveEvent->getActionIdRange().at(0);
+	} else if (!moveEvent->getActionIdRange().empty()) {
+		for (auto& id : moveEvent->getActionIdRange()) {
 			addEvent(*moveEvent, id, actionIdMap);
-		} else {
-			auto v = moveEvent->getActionIdRange();
-			for (auto i = v.begin(); i != v.end(); i++) {
-				addEvent(*moveEvent, *i, actionIdMap);
-			}
 		}
-	} else if (moveEvent->getUniqueIdRange().size() > 0) {
-		if (moveEvent->getUniqueIdRange().size() == 1) {
-			int32_t id = moveEvent->getUniqueIdRange().at(0);
+		moveEvent->clearActionIdRange();
+	} else if (!moveEvent->getUniqueIdRange().empty()) {
+		for (auto& id : moveEvent->getUniqueIdRange()) {
 			addEvent(*moveEvent, id, uniqueIdMap);
-		} else {
-			auto v = moveEvent->getUniqueIdRange();
-			for (auto i = v.begin(); i != v.end(); i++) {
-				addEvent(*moveEvent, *i, uniqueIdMap);
-			}
 		}
-	} else if (moveEvent->getPosList().size() > 0) {
-		if (moveEvent->getPosList().size() == 1) {
-			Position pos = moveEvent->getPosList().at(0);
+		moveEvent->clearUniqueIdRange();
+	} else if (!moveEvent->getPosList().empty()) {
+		for (auto& pos : moveEvent->getPosList()) {
 			addEvent(*moveEvent, pos, positionMap);
-		} else {
-			auto v = moveEvent->getPosList();
-			for (auto i = v.begin(); i != v.end(); i++) {
-				addEvent(*moveEvent, *i, positionMap);
-			}
 		}
+		moveEvent->clearPosList();
 	} else {
 		return false;
 	}
