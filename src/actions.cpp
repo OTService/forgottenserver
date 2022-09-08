@@ -311,17 +311,17 @@ Action* Actions::getAction(const Item* item)
 Action_shared_ptr Actions::getActionEvent(const std::string& type, uint16_t id)
 {
 	if (type == "id") {
-		auto& it = useItemMap.find(id);
+		auto it = useItemMap.find(id);
 		if (it != useItemMap.end()) {
 			return Action_shared_ptr(&it->second);
 		}
 	} else if (type == "uid") {
-		auto& it = uniqueItemMap.find(id);
+		auto it = uniqueItemMap.find(id);
 		if (it != uniqueItemMap.end()) {
 			return Action_shared_ptr(&it->second);
 		}
 	} else if (type == "aid") {
-		auto& it = actionItemMap.find(id);
+		auto it = actionItemMap.find(id);
 		if (it != actionItemMap.end()) {
 			return Action_shared_ptr(&it->second);
 		}
