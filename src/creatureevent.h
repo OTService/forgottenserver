@@ -10,6 +10,7 @@
 
 class CreatureEvent;
 using CreatureEvent_ptr = std::unique_ptr<CreatureEvent>;
+using CreatureEvent_shared_ptr = std::shared_ptr<CreatureEvent>;
 
 enum CreatureEventType_t
 {
@@ -85,7 +86,8 @@ public:
 
 	CreatureEvent* getEventByName(const std::string& name, bool forceLoaded = true);
 
-	bool registerLuaEvent(CreatureEvent* event);
+	bool registerLuaEvent(CreatureEvent_shared_ptr event);
+	CreatureEvent_shared_ptr getCreatureEvent(const std::string& name);
 	void clear(bool fromLua) override final;
 
 	void removeInvalidEvents();

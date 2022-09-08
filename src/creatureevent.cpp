@@ -66,9 +66,8 @@ bool CreatureEvents::registerEvent(Event_ptr event, const pugi::xml_node&)
 	return true;
 }
 
-bool CreatureEvents::registerLuaEvent(CreatureEvent* event)
+bool CreatureEvents::registerLuaEvent(CreatureEvent_shared_ptr creatureEvent)
 {
-	CreatureEvent_ptr creatureEvent{event};
 	if (creatureEvent->getEventType() == CREATURE_EVENT_NONE) {
 		std::cout << "Error: [CreatureEvents::registerLuaEvent] Trying to register event without type!" << std::endl;
 		return false;
@@ -87,6 +86,17 @@ bool CreatureEvents::registerLuaEvent(CreatureEvent* event)
 	// if not, register it normally
 	creatureEvents.emplace(creatureEvent->getName(), std::move(*creatureEvent));
 	return true;
+}
+
+CreatureEvent_shared_ptr CreatureEvents::getCreatureEvent(const std::string& name)
+{
+	auto it = creatureEvents.find(name);
+	if (it != creatureEvents.end()) {
+		if (!it->second.isLoaded()) {
+			return CreatureEvent_shared_ptr(&it->second);
+		}
+	}
+	return nullptr;
 }
 
 CreatureEvent* CreatureEvents::getEventByName(const std::string& name, bool forceLoaded /*= true*/)

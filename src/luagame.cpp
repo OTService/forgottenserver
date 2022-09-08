@@ -6,6 +6,7 @@
 #include "actions.h"
 #include "configmanager.h"
 #include "creature.h"
+#include "creatureevent.h"
 #include "events.h"
 #include "game.h"
 #include "luascript.h"
@@ -26,6 +27,7 @@ extern LuaEnvironment g_luaEnvironment;
 extern Actions* g_actions;
 extern TalkActions* g_talkActions;
 extern MoveEvents* g_moveEvents;
+extern CreatureEvents* g_creatureEvents;
 
 using namespace Lua;
 
@@ -722,6 +724,28 @@ static int luaGameGetMoveEvent(lua_State* L)
 	return 1;
 }
 
+static int luaGameGetCreatureEvent(lua_State* L)
+{
+	// Game.getCreatureEvent(name)
+	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
+		reportErrorFunc(L, "Game.getCreatureEvent can only be called in the Scripts interface.");
+		lua_pushnil(L);
+		return 1;
+	}
+
+	const std::string& name = getString(L, 2);
+
+	CreatureEvent_shared_ptr creature = g_creatureEvents->getCreatureEvent(name);
+	if (creature) {
+		pushSharedPtr<CreatureEvent_shared_ptr>(L, creature);
+		setMetatable(L, -1, "CreatureEvent");
+	} else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
 namespace LuaGame {
 static void registerFunctions(LuaScriptInterface* interface)
 {
@@ -777,5 +801,7 @@ static void registerFunctions(LuaScriptInterface* interface)
 
 	interface->registerMethod("Game", "getAction", luaGameGetAction);
 	interface->registerMethod("Game", "getTalkAction", luaGameGetTalkAction);
+	interface->registerMethod("Game", "getMoveEvent", luaGameGetMoveEvent);
+	interface->registerMethod("Game", "getCreatureEvent", luaGameGetCreatureEvent);
 }
 } // namespace LuaGame
