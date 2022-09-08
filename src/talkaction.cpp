@@ -60,7 +60,8 @@ bool TalkActions::registerLuaEvent(TalkAction_shared_ptr talkAction)
 		for (auto& word : words) {
 			auto result = talkActions.emplace(word, *talkAction);
 			if (!result.second) {
-				std::cout << "[Warning - Talkctions::registerLuaEvent] Duplicate registered word: " << word << std::endl;
+				std::cout << "[Warning - Talkctions::registerLuaEvent] Duplicate registered word: " << word
+				          << std::endl;
 			}
 		}
 		success = true;
