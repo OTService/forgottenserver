@@ -9,6 +9,7 @@
 
 class GlobalEvent;
 using GlobalEvent_ptr = std::unique_ptr<GlobalEvent>;
+using GlobalEvent_shared_ptr = std::shared_ptr<GlobalEvent>;
 using GlobalEventMap = std::map<std::string, GlobalEvent>;
 
 enum GlobalEvent_t
@@ -40,7 +41,8 @@ public:
 	GlobalEventMap getEventMap(GlobalEvent_t type);
 	static void clearMap(GlobalEventMap& map, bool fromLua);
 
-	bool registerLuaEvent(GlobalEvent* event);
+	bool registerLuaEvent(GlobalEvent_shared_ptr event);
+	GlobalEvent_shared_ptr getGlobalEvent(const std::string& name);
 	void clear(bool fromLua) override final;
 
 private:
@@ -52,7 +54,7 @@ private:
 	LuaScriptInterface& getScriptInterface() override { return scriptInterface; }
 	LuaScriptInterface scriptInterface;
 
-	GlobalEventMap thinkMap, serverMap, timerMap;
+	GlobalEventMap serverMap;
 	int32_t thinkEventId = 0, timerEventId = 0;
 };
 

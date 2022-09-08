@@ -34,9 +34,7 @@ void GlobalEvents::clear(bool fromLua)
 	g_scheduler.stopEvent(timerEventId);
 	timerEventId = 0;
 
-	clearMap(thinkMap, fromLua);
 	clearMap(serverMap, fromLua);
-	clearMap(timerMap, fromLua);
 
 	reInitState(fromLua);
 }
@@ -52,27 +50,18 @@ Event_ptr GlobalEvents::getEvent(const std::string& nodeName)
 bool GlobalEvents::registerEvent(Event_ptr event, const pugi::xml_node&)
 {
 	GlobalEvent_ptr globalEvent{static_cast<GlobalEvent*>(event.release())}; // event is guaranteed to be a GlobalEvent
-	if (globalEvent->getEventType() == GLOBALEVENT_TIMER) {
-		auto result = timerMap.emplace(globalEvent->getName(), std::move(*globalEvent));
-		if (result.second) {
+	auto result = serverMap.emplace(globalEvent->getName(), std::move(*globalEvent));
+	if (result.second) {
+		if (globalEvent->getEventType() == GLOBALEVENT_TIMER) {
 			if (timerEventId == 0) {
 				timerEventId = g_scheduler.addEvent(createSchedulerTask(SCHEDULER_MINTICKS, [this]() { timer(); }));
 			}
-			return true;
-		}
-	} else if (globalEvent->getEventType() != GLOBALEVENT_NONE) {
-		auto result = serverMap.emplace(globalEvent->getName(), std::move(*globalEvent));
-		if (result.second) {
-			return true;
-		}
-	} else { // think event
-		auto result = thinkMap.emplace(globalEvent->getName(), std::move(*globalEvent));
-		if (result.second) {
+		} else if (globalEvent->getEventType() == GLOBALEVENT_NONE) {
 			if (thinkEventId == 0) {
 				thinkEventId = g_scheduler.addEvent(createSchedulerTask(SCHEDULER_MINTICKS, [this]() { think(); }));
 			}
-			return true;
 		}
+		return true;
 	}
 
 	std::cout << "[Warning - GlobalEvents::configureEvent] Duplicate registered globalevent with name: "
@@ -80,35 +69,34 @@ bool GlobalEvents::registerEvent(Event_ptr event, const pugi::xml_node&)
 	return false;
 }
 
-bool GlobalEvents::registerLuaEvent(GlobalEvent* event)
+bool GlobalEvents::registerLuaEvent(GlobalEvent_shared_ptr globalEvent)
 {
-	GlobalEvent_ptr globalEvent{event};
-	if (globalEvent->getEventType() == GLOBALEVENT_TIMER) {
-		auto result = timerMap.emplace(globalEvent->getName(), std::move(*globalEvent));
-		if (result.second) {
+	auto result = serverMap.emplace(globalEvent->getName(), std::move(*globalEvent));
+	if (result.second) {
+		if (globalEvent->getEventType() == GLOBALEVENT_TIMER) {
 			if (timerEventId == 0) {
 				timerEventId = g_scheduler.addEvent(createSchedulerTask(SCHEDULER_MINTICKS, [this]() { timer(); }));
 			}
-			return true;
-		}
-	} else if (globalEvent->getEventType() != GLOBALEVENT_NONE) {
-		auto result = serverMap.emplace(globalEvent->getName(), std::move(*globalEvent));
-		if (result.second) {
-			return true;
-		}
-	} else { // think event
-		auto result = thinkMap.emplace(globalEvent->getName(), std::move(*globalEvent));
-		if (result.second) {
+		} else if (globalEvent->getEventType() == GLOBALEVENT_NONE) {
 			if (thinkEventId == 0) {
 				thinkEventId = g_scheduler.addEvent(createSchedulerTask(SCHEDULER_MINTICKS, [this]() { think(); }));
 			}
-			return true;
 		}
+		return true;
 	}
 
 	std::cout << "[Warning - GlobalEvents::configureEvent] Duplicate registered globalevent with name: "
 	          << globalEvent->getName() << std::endl;
 	return false;
+}
+
+GlobalEvent_shared_ptr GlobalEvents::getGlobalEvent(const std::string& name) {
+
+	auto it = serverMap.find(name);
+	if (it != serverMap.end()) {
+		return GlobalEvent_shared_ptr(&it->second);
+	}
+	return nullptr;
 }
 
 void GlobalEvents::startup() const { execute(GLOBALEVENT_STARTUP); }
@@ -119,8 +107,8 @@ void GlobalEvents::timer()
 
 	int64_t nextScheduledTime = std::numeric_limits<int64_t>::max();
 
-	auto it = timerMap.begin();
-	while (it != timerMap.end()) {
+	auto it = serverMap.begin();
+	while (it != serverMap.end() && it->second.getEventType() == GLOBALEVENT_TIMER) {
 		GlobalEvent& globalEvent = it->second;
 
 		int64_t nextExecutionTime = globalEvent.getNextExecution() - now;
@@ -134,7 +122,7 @@ void GlobalEvents::timer()
 		}
 
 		if (!globalEvent.executeEvent()) {
-			it = timerMap.erase(it);
+			it = serverMap.erase(it);
 			continue;
 		}
 
@@ -159,28 +147,30 @@ void GlobalEvents::think()
 	int64_t now = OTSYS_TIME();
 
 	int64_t nextScheduledTime = std::numeric_limits<int64_t>::max();
-	for (auto& it : thinkMap) {
-		GlobalEvent& globalEvent = it.second;
+	for (auto& it : serverMap) {
+		if (it.second.getEventType() == GLOBALEVENT_NONE) {
+			GlobalEvent& globalEvent = it.second;
 
-		int64_t nextExecutionTime = globalEvent.getNextExecution() - now;
-		if (nextExecutionTime > 0) {
+			int64_t nextExecutionTime = globalEvent.getNextExecution() - now;
+			if (nextExecutionTime > 0) {
+				if (nextExecutionTime < nextScheduledTime) {
+					nextScheduledTime = nextExecutionTime;
+				}
+				continue;
+			}
+
+			if (!globalEvent.executeEvent()) {
+				std::cout << "[Error - GlobalEvents::think] Failed to execute event: " << globalEvent.getName()
+				          << std::endl;
+			}
+
+			nextExecutionTime = globalEvent.getInterval();
 			if (nextExecutionTime < nextScheduledTime) {
 				nextScheduledTime = nextExecutionTime;
 			}
-			continue;
-		}
 
-		if (!globalEvent.executeEvent()) {
-			std::cout << "[Error - GlobalEvents::think] Failed to execute event: " << globalEvent.getName()
-			          << std::endl;
+			globalEvent.setNextExecution(globalEvent.getNextExecution() + nextExecutionTime);
 		}
-
-		nextExecutionTime = globalEvent.getInterval();
-		if (nextExecutionTime < nextScheduledTime) {
-			nextScheduledTime = nextExecutionTime;
-		}
-
-		globalEvent.setNextExecution(globalEvent.getNextExecution() + nextExecutionTime);
 	}
 
 	if (nextScheduledTime != std::numeric_limits<int64_t>::max()) {
@@ -200,26 +190,14 @@ void GlobalEvents::execute(GlobalEvent_t type) const
 
 GlobalEventMap GlobalEvents::getEventMap(GlobalEvent_t type)
 {
-	// TODO: This should be better implemented. Maybe have a map for every type.
-	switch (type) {
-		case GLOBALEVENT_NONE:
-			return thinkMap;
-		case GLOBALEVENT_TIMER:
-			return timerMap;
-		case GLOBALEVENT_STARTUP:
-		case GLOBALEVENT_SHUTDOWN:
-		case GLOBALEVENT_RECORD: {
-			GlobalEventMap retMap;
-			for (const auto& it : serverMap) {
-				if (it.second.getEventType() == type) {
-					retMap.emplace(it.first, it.second);
-				}
-			}
-			return retMap;
+	GlobalEventMap tmp;
+	for (const auto& it : serverMap) {
+		const GlobalEvent& globalEvent = it.second;
+		if (globalEvent.getEventType() == type) {
+			tmp.emplace(globalEvent.getName(), globalEvent);
 		}
-		default:
-			return GlobalEventMap();
 	}
+	return tmp;
 }
 
 GlobalEvent::GlobalEvent(LuaScriptInterface* interface) : Event(interface) {}

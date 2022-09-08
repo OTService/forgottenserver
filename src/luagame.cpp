@@ -9,6 +9,7 @@
 #include "creatureevent.h"
 #include "events.h"
 #include "game.h"
+#include "globalevent.h"
 #include "luascript.h"
 #include "monster.h"
 #include "monsters.h"
@@ -28,6 +29,7 @@ extern Actions* g_actions;
 extern TalkActions* g_talkActions;
 extern MoveEvents* g_moveEvents;
 extern CreatureEvents* g_creatureEvents;
+extern GlobalEvents* g_globalEvents;
 
 using namespace Lua;
 
@@ -739,6 +741,28 @@ static int luaGameGetCreatureEvent(lua_State* L)
 	if (creature) {
 		pushSharedPtr<CreatureEvent_shared_ptr>(L, creature);
 		setMetatable(L, -1, "CreatureEvent");
+	} else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
+static int luaGameGetGlobalEvent(lua_State* L)
+{
+	// Game.getGlobalEvent(name)
+	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
+		reportErrorFunc(L, "Game.getGlobalEvent can only be called in the Scripts interface.");
+		lua_pushnil(L);
+		return 1;
+	}
+
+	const std::string& name = getString(L, 2);
+
+	GlobalEvent_shared_ptr global = g_globalEvents->getGlobalEvent(name);
+	if (global) {
+		pushSharedPtr<GlobalEvent_shared_ptr>(L, global);
+		setMetatable(L, -1, "GlobalEvent");
 	} else {
 		lua_pushnil(L);
 	}

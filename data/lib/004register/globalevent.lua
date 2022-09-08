@@ -1,23 +1,23 @@
-local CreatureEventRegister = false
+local GlobalEventRegister = false
 local notifiyOldSystem = false
-local eventList = {["onLogin"] = "login", ["onLogout"] = "logout", ["onThink"] = "think", ["onPrepareDeath"] = "preparedeath", ["onDeath"] = "death", ["onKill"] = "kill", ["onAdvance"] = "advance", ["onModalWindow"] = "modalwindow", ["onTextEdit"] = "textedit", ["onHealthChange"] = "healthchange", ["onManaChange"] = "manachange", ["onExtendedOpcode"] = "extendedopcode"}
+local eventList = {["onThink"] = "think", ["onTime"] = "time", ["onStartup"] = "startup", ["onShutdown"] = "shutdown", ["onRecord"] = "record"}
 do
-	local mt = getmetatable(CreatureEvent)
+	local mt = getmetatable(GlobalEvent)
 	local defaultCall = mt.__call
 
 	mt.__call = function(self, params)
-		-- we need to make sure that the CreatureEvent contains a setup table, if not we are using an outdated version
+		-- we need to make sure that the GlobalEvent contains a setup table, if not we are using an outdated version
 		if type(params) == "string" then
 			if not notifiyOldSystem then
-				print("\nYou are using an outdated version of revscriptsys (CreatureEvent)")
-				print("New way to register looks like this: (onThink example)")
-				print('\nlocal think = CreatureEvent({\n	event = "think", -- you can avoid this if you place onThink infront of the function name\n	name = "EventName"\n})\nfunction think.useWhateverNameYouWantHere(...)\n')
+				print("\nYou are using an outdated version of revscriptsys (GlobalEvent)")
+				print("New way to register looks like this: (onTime example)")
+				print('\nlocal time = GlobalEvent({\n	event = "time", -- you can avoid this if you place onTime infront of the function name\n	name = "EventName"\n	time = "09:00:00" -- would laucnh the script at 9am\n})\nfunction time.useWhateverNameYouWantHere(...)\n')
 				notifiyOldSystem = true
 			end
 			return defaultCall(self)
 		end
 		-- we are adding the table params with the parameters onto self without calling __newindex
-		CreatureEventRegister = params
+		GlobalEventRegister = params
 		return defaultCall(self)
 	end
 end
@@ -25,17 +25,17 @@ end
 -- hooking the callback function to c
 -- if not we are just adding it as a regular table index without calling __newindex
 do
-	local function CreatureEventNewIndex(self, key, value)
+	local function GlobalEventNewIndex(self, key, value)
 		-- we need to make sure that we are pushing something as a callback function
 		if type(value) == "function" then
 			-- we know now that it is a function and hook it in c
 			-- checking for outdated revscriptsys
-			if CreatureEventRegister then
+			if GlobalEventRegister then
 				-- looking if event has been set so we can directly hook
-				if CreatureEventRegister.event then
+				if GlobalEventRegister.event then
 					-- eventType is set through our config table
-					self:event(CreatureEventRegister.event)
-					self[CreatureEventRegister.event](self, key, value)
+					self:event(GlobalEventRegister.event)
+					self[GlobalEventRegister.event](self, key, value)
 				else
 					-- we get the type through the hook name
 					for k, v in pairs(eventList) do
@@ -55,13 +55,13 @@ do
 			-- now that we know that we have a hooked event we want to pass the params and register
 			
 			-- making aware that there is no event name set if that's the case
-			if not CreatureEventRegister.name then
+			if not GlobalEventRegister.name then
 				print("There is no event name set for this callback: ".. key)
 				return
 			end
 
 			-- we are safe to go now as we are sure that everything is correct
-			for func, params in pairs(CreatureEventRegister) do
+			for func, params in pairs(GlobalEventRegister) do
 				if type(params) == "table" then
 					self[func](self, unpack(params))
 				else
@@ -72,11 +72,11 @@ do
 			-- now we are registering, which frees our userdata
 			self:register()
 			-- resetting the global variable which holds our parameter table
-			CreatureEventRegister = false
+			GlobalEventRegister = false
 
 			return
 		end
 		rawset(self, key, value)
 	end
-	rawgetmetatable("CreatureEvent").__newindex = CreatureEventNewIndex
+	rawgetmetatable("GlobalEvent").__newindex = GlobalEventNewIndex
 end

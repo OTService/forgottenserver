@@ -122,32 +122,6 @@ do
 end
 
 do
-	local function GlobalEventNewIndex(self, key, value)
-		if key == "onThink" then
-			self:onThink(value)
-			return
-		elseif key == "onTime" then
-			self:onTime(value)
-			return
-		elseif key == "onStartup" then
-			self:type("startup")
-			self:onStartup(value)
-			return
-		elseif key == "onShutdown" then
-			self:type("shutdown")
-			self:onShutdown(value)
-			return
-		elseif key == "onRecord" then
-			self:type("record")
-			self:onRecord(value)
-			return
-		end
-		rawset(self, key, value)
-	end
-	rawgetmetatable("GlobalEvent").__newindex = GlobalEventNewIndex
-end
-
-do
 	local function WeaponNewIndex(self, key, value)
 		if key == "onUseWeapon" then
 			self:onUseWeapon(value)
