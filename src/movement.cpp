@@ -263,7 +263,7 @@ bool MoveEvents::registerLuaEvent(MoveEvent_shared_ptr moveEvent)
 MoveEvent_shared_ptr MoveEvents::getMoveEvent(uint16_t id, MoveEvent_t eventType, const std::string& stringType)
 {
 	if (stringType == "id") {
-		auto& it = itemIdMap.find(id);
+		auto it = itemIdMap.find(id);
 		if (it != itemIdMap.end()) {
 			std::list<MoveEvent>& moveEventList = it->second.moveEvent[eventType];
 			for (MoveEvent& moveEvent : moveEventList) {
@@ -274,7 +274,7 @@ MoveEvent_shared_ptr MoveEvents::getMoveEvent(uint16_t id, MoveEvent_t eventType
 			}
 		}
 	} else if (stringType == "uid") {
-		auto& it = uniqueIdMap.find(id);
+		auto it = uniqueIdMap.find(id);
 		if (it != uniqueIdMap.end()) {
 			std::list<MoveEvent>& moveEventList = it->second.moveEvent[eventType];
 			for (MoveEvent& moveEvent : moveEventList) {
@@ -285,7 +285,7 @@ MoveEvent_shared_ptr MoveEvents::getMoveEvent(uint16_t id, MoveEvent_t eventType
 			}
 		}
 	} else if (stringType == "aid") {
-		auto& it = actionIdMap.find(id);
+		auto it = actionIdMap.find(id);
 		if (it != actionIdMap.end()) {
 			std::list<MoveEvent>& moveEventList = it->second.moveEvent[eventType];
 			for (MoveEvent& moveEvent : moveEventList) {
