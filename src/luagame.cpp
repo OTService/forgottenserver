@@ -11,6 +11,7 @@
 #include "luascript.h"
 #include "monster.h"
 #include "monsters.h"
+#include "movement.h"
 #include "npc.h"
 #include "outfit.h"
 #include "script.h"
@@ -24,6 +25,7 @@ extern Scripts* g_scripts;
 extern LuaEnvironment g_luaEnvironment;
 extern Actions* g_actions;
 extern TalkActions* g_talkActions;
+extern MoveEvents* g_moveEvents;
 
 using namespace Lua;
 
@@ -680,6 +682,41 @@ static int luaGameGetTalkAction(lua_State* L)
 		setMetatable(L, -1, "TalkAction");
 	} else {
 		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
+static int luaGameGetMoveEvent(lua_State* L)
+{
+	// Game.getMoveEvent(id or pos, ex: MOVE_EVENT_STEP_IN[, "id"])
+	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
+		reportErrorFunc(L, "Game.getMoveEvent can only be called in the Scripts interface.");
+		lua_pushnil(L);
+		return 1;
+	}
+
+	if (isNumber(L, 1)) {
+		uint16_t id = getNumber<uint16_t>(L, 1);
+		MoveEvent_t eventType = getNumber<MoveEvent_t>(L, 2);
+		const std::string& stringType = getString(L, 3);
+		MoveEvent_shared_ptr move = g_moveEvents->getMoveEvent(id, eventType, stringType);
+		if (move) {
+			pushSharedPtr<MoveEvent_shared_ptr>(L, move);
+			setMetatable(L, -1, "MoveEvent");
+		} else {
+			lua_pushnil(L);
+		}
+	} else {
+		const Position& pos = getPosition(L, 1);
+		MoveEvent_t eventType = getNumber<MoveEvent_t>(L, 2);
+		MoveEvent_shared_ptr move = g_moveEvents->getMoveEvent(pos, eventType);
+		if (move) {
+			pushSharedPtr<MoveEvent_shared_ptr>(L, move);
+			setMetatable(L, -1, "MoveEvent");
+		} else {
+			lua_pushnil(L);
+		}
 	}
 
 	return 1;

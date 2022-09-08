@@ -260,6 +260,58 @@ bool MoveEvents::registerLuaEvent(MoveEvent_shared_ptr moveEvent)
 	return true;
 }
 
+MoveEvent_shared_ptr MoveEvents::getMoveEvent(uint16_t id, MoveEvent_t eventType, const std::string& stringType)
+{
+	if (stringType == "id") {
+		auto& it = itemIdMap.find(id);
+		if (it != itemIdMap.end()) {
+			std::list<MoveEvent>& moveEventList = it->second.moveEvent[eventType];
+			for (MoveEvent& moveEvent : moveEventList) {
+				auto& event = moveEvent;
+				if (event.eventType != eventType) {
+					return MoveEvent_shared_ptr(&event);
+				}
+			}
+		}
+	} else if (stringType == "uid") {
+		auto& it = uniqueIdMap.find(id);
+		if (it != uniqueIdMap.end()) {
+			std::list<MoveEvent>& moveEventList = it->second.moveEvent[eventType];
+			for (MoveEvent& moveEvent : moveEventList) {
+				auto& event = moveEvent;
+				if (event.eventType != eventType) {
+					return MoveEvent_shared_ptr(&event);
+				}
+			}
+		}
+	} else if (stringType == "aid") {
+		auto& it = actionIdMap.find(id);
+		if (it != actionIdMap.end()) {
+			std::list<MoveEvent>& moveEventList = it->second.moveEvent[eventType];
+			for (MoveEvent& moveEvent : moveEventList) {
+				auto& event = moveEvent;
+				if (event.eventType != eventType) {
+					return MoveEvent_shared_ptr(&event);
+				}
+			}
+		}
+	}
+	return nullptr;
+}
+
+MoveEvent_shared_ptr MoveEvents::getMoveEvent(const Position& pos, MoveEvent_t eventType)
+{
+	auto& it = positionMap.at(pos);
+	std::list<MoveEvent>& moveEventList = it.moveEvent[eventType];
+	for (MoveEvent& moveEvent : moveEventList) {
+		auto& event = moveEvent;
+		if (event.eventType != eventType) {
+			return MoveEvent_shared_ptr(&event);
+		}
+	}
+	return nullptr;
+}
+
 void MoveEvents::addEvent(MoveEvent moveEvent, int32_t id, MoveListMap& map)
 {
 	auto it = map.find(id);

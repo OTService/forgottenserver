@@ -11,6 +11,7 @@
 #include "item.h"
 #include "luascript.h"
 #include "monsters.h"
+#include "movement.h"
 #include "player.h"
 
 #define registerEnum(i, value) \
@@ -957,6 +958,15 @@ static void registerEnums(LuaScriptInterface* interface)
 	registerEnum(interface, DECAYING_FALSE);
 	registerEnum(interface, DECAYING_TRUE);
 	registerEnum(interface, DECAYING_PENDING);
+
+	registerEnum(interface, MOVE_EVENT_STEP_IN);
+	registerEnum(interface, MOVE_EVENT_STEP_OUT);
+	registerEnum(interface, MOVE_EVENT_EQUIP);
+	registerEnum(interface, MOVE_EVENT_DEEQUIP);
+	registerEnum(interface, MOVE_EVENT_ADD_ITEM);
+	registerEnum(interface, MOVE_EVENT_REMOVE_ITEM);
+	registerEnum(interface, MOVE_EVENT_ADD_ITEM_ITEMTILE);
+	registerEnum(interface, MOVE_EVENT_REMOVE_ITEM_ITEMTILE);
 
 	// configKeys
 	interface->registerTable("configKeys");

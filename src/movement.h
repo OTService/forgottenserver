@@ -57,6 +57,8 @@ public:
 
 	bool registerLuaEvent(MoveEvent_shared_ptr moveEvent);
 	bool registerLuaFunction(MoveEvent_shared_ptr moveEvent);
+	MoveEvent_shared_ptr getMoveEvent(uint16_t id, MoveEvent_t eventType, const std::string& stringType);
+	MoveEvent_shared_ptr getMoveEvent(const Position& pos, MoveEvent_t eventType);
 	void clear(bool fromLua) override final;
 
 private:
