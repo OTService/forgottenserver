@@ -14,7 +14,7 @@ do
 				print('\nlocal time = GlobalEvent({\n	event = "time", -- you can avoid this if you place onTime infront of the function name\n	name = "EventName"\n	time = "09:00:00" -- would laucnh the script at 9am\n})\nfunction time.useWhateverNameYouWantHere(...)\n')
 				notifiyOldSystem = true
 			end
-			return defaultCall(self)
+			return defaultCall(self, params)
 		end
 		-- we are adding the table params with the parameters onto self without calling __newindex
 		GlobalEventRegister = params

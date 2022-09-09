@@ -14,7 +14,7 @@ do
 				print('\nlocal think = CreatureEvent({\n	event = "think", -- you can avoid this if you place onThink infront of the function name\n	name = "EventName"\n})\nfunction think.useWhateverNameYouWantHere(...)\n')
 				notifiyOldSystem = true
 			end
-			return defaultCall(self)
+			return defaultCall(self, params)
 		end
 		-- we are adding the table params with the parameters onto self without calling __newindex
 		CreatureEventRegister = params

@@ -17,7 +17,7 @@ do
 		end
 		-- we are adding the table params with the parameters onto self without calling __newindex
 		TalkActionRegister = params
-		return defaultCall(self, params)
+		return defaultCall(self)
 	end
 end
 
