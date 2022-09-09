@@ -158,12 +158,15 @@ bool Event::loadCallback()
 
 bool Event::loadCallback(const std::string& name)
 {
-	// this happens when we hook back the event, now we have to reset the scriptId in order to give it a new function
-	if (scriptInterface && scriptId) {
-		// removing the cache file
-		scriptInterface->removeCacheFile(scriptId);
-		// now we are resetting the scriptId for the new cache file
-		scriptId = 0;
+	// we are looking if that event already exists, if yes we re use the event instead of giving it a new one
+	int32_t oldId = 0;
+	if (scriptInterface) {
+		for (auto& it : scriptInterface->cacheFiles) {
+			if (it.second == ">> " + name + " <<") {
+				oldId = it.first;
+				break;
+			}
+		}
 	}
 
 	if (!scriptInterface || scriptId != 0) {
@@ -171,7 +174,7 @@ bool Event::loadCallback(const std::string& name)
 		return false;
 	}
 
-	int32_t id = scriptInterface->getEventCallback(name);
+	int32_t id = scriptInterface->getEventCallback(name, oldId);
 	if (id == -1) {
 		std::cout << "[Warning - Event::loadCallback] Event " << getScriptEventName() << " not found. " << std::endl;
 		return false;

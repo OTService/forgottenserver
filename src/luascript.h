@@ -180,7 +180,7 @@ public:
 	const std::string& getFileById(int32_t scriptId);
 	int32_t getEvent(const std::string& eventName);
 	int32_t getEvent();
-	int32_t getEventCallback(std::string name);
+	int32_t getEventCallback(std::string name, int32_t oldId);
 	int32_t getMetaEvent(const std::string& globalName, const std::string& eventName);
 
 	static ScriptEnvironment* getScriptEnv()
@@ -245,7 +245,8 @@ public:
 
 	static std::string getErrorDesc(ErrorCode_t code);
 
-	const void removeCacheFile(int32_t id) { cacheFiles.erase(id); }
+	// script file cache
+	std::map<int32_t, std::string> cacheFiles;
 
 protected:
 	virtual bool closeState();
@@ -256,9 +257,6 @@ protected:
 
 	int32_t eventTableRef = -1;
 	int32_t runningEventId = EVENT_ID_USER;
-
-	// script file cache
-	std::map<int32_t, std::string> cacheFiles;
 
 private:
 	static bool getArea(lua_State* L, std::vector<uint32_t>& vec, uint32_t& rows);
