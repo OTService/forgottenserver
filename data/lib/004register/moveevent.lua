@@ -90,3 +90,32 @@ do
 	end
 	rawgetmetatable("MoveEvent").__newindex = MoveEventNewIndex
 end
+
+-- we need to check for moveevents without a function and register them correctly
+do
+	local register = MoveEvent.register
+	function MoveEvent.register(self)
+		if MoveEventRegister then
+			if not MoveEventRegister.event then
+				print("There is no event set for this callback: ".. key)
+				return
+			end
+
+			-- we are safe to go now as we are sure that everything is correct
+			for func, params in pairs(MoveEventRegister) do
+				if type(params) == "table" then
+					self[func](self, unpack(params))
+				else
+					self[func](self, params)
+				end
+			end
+
+			-- now we are registering, which frees our userdata
+			register(self)
+			-- resetting the global variable which holds our parameter table
+			MoveEventRegister = false
+			return
+		end
+		register(self)
+	end
+end

@@ -132,7 +132,7 @@ static int luaWeaponRegister(lua_State* L)
 
 	weapon->configureWeapon(it);
 	pushBoolean(L, g_weapons->registerLuaEvent(weapon));
-	
+
 	return 1;
 }
 
@@ -275,9 +275,8 @@ static int luaWeaponBreakChance(lua_State* L)
 static int luaWeaponWandDamage(lua_State* L)
 {
 	// weapon:damage(damage[min, max]) only use this if the weapon is a wand!
-	//Weapon_shared_ptr weaponPtr = getSharedPtr<Weapon>(L, 1);
-	//WeaponWand* weapon = static_cast<WeaponWand*>(weaponPtr.get());
-	WeaponWand* weapon = getUserdata<WeaponWand>(L, 1);
+	Weapon_shared_ptr weaponPtr = getSharedPtr<Weapon>(L, 1);
+	WeaponWand* weapon = static_cast<WeaponWand*>(weaponPtr.get());
 	if (weapon) {
 		weapon->setMinChange(getNumber<uint32_t>(L, 2));
 		if (lua_gettop(L) > 2) {

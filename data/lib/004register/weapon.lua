@@ -64,3 +64,32 @@ do
 	end
 	rawgetmetatable("Weapon").__newindex = WeaponNewIndex
 end
+
+-- we need to check for weapons without a function and register them correctly
+do
+	local register = Weapon.register
+	function Weapon.register(self)
+		if WeaponRegister then
+			if not WeaponRegister.id then
+				print("There is no id set for this callback: ".. key)
+				return
+			end
+
+			-- we are safe to go now as we are sure that everything is correct
+			for func, params in pairs(WeaponRegister) do
+				if type(params) == "table" then
+					self[func](self, unpack(params))
+				else
+					self[func](self, params)
+				end
+			end
+
+			-- now we are registering, which frees our userdata
+			register(self)
+			-- resetting the global variable which holds our parameter table
+			WeaponRegister = false
+			return
+		end
+		register(self)
+	end
+end
