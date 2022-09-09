@@ -122,17 +122,6 @@ do
 end
 
 do
-	local function WeaponNewIndex(self, key, value)
-		if key == "onUseWeapon" then
-			self:onUseWeapon(value)
-			return
-		end
-		rawset(self, key, value)
-	end
-	rawgetmetatable("Weapon").__newindex = WeaponNewIndex
-end
-
-do
 	local function SpellNewIndex(self, key, value)
 		if key == "onCastSpell" then
 			self:onCastSpell(value)

@@ -12,7 +12,13 @@ combat:setParameter(COMBAT_PARAM_BLOCKARMOR, true)
 combat:setFormula(COMBAT_FORMULA_SKILL, 0, 0, 1, 0)
 combat:setArea(area)
 
-function onUseWeapon(player, variant)
+local weapon = Weapon({
+	id = 2546,
+	weaponType = WEAPON_AMMO,
+	action = "removecount"
+})
+
+function weapon.onBurstArrow(player, variant)
 	if player:getSkull() == SKULL_BLACK then
 		return false
 	end

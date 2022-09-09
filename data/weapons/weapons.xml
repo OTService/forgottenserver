@@ -604,7 +604,6 @@
 	<distance id="2543" action="removecount" /> <!-- Bolt -->
 	<distance id="2544" action="removecount" /> <!-- Arrow -->
 	<distance id="2545" action="removecount" script="poison_arrow.lua" />
-	<distance id="2546" action="removecount" script="burst_arrow.lua" />
 	<distance id="2547" action="removecount" unproperly="1" level="55" /> <!-- Power Bolt -->
 	<distance id="3965" breakchance="6" unproperly="1" level="20" /> <!-- Hunting Spear -->
 	<distance id="6529" action="removecount" unproperly="1" level="110" /> <!-- Infernal Bolt -->

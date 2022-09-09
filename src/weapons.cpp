@@ -110,10 +110,21 @@ bool Weapons::registerEvent(Event_ptr event, const pugi::xml_node&)
 	return result.second;
 }
 
-bool Weapons::registerLuaEvent(Weapon* weapon)
+bool Weapons::registerLuaEvent(Weapon_shared_ptr weapon)
 {
-	weapons[weapon->getID()] = weapon;
-	return true;
+	Weapon* raw = static_cast<Weapon*>(weapon.get());
+
+	auto it = weapons.find(raw->getID());
+	if (it == weapons.end()) {
+		weapons.emplace(raw->getID(), raw);
+		return true;
+	} else {
+		weapons.erase(raw->getID());
+		weapons.emplace(raw->getID(), raw);
+		return true;
+	}
+
+	return false;
 }
 
 // monsters

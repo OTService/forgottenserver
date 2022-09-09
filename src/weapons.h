@@ -13,6 +13,7 @@
 class Weapon;
 
 using Weapon_ptr = std::unique_ptr<Weapon>;
+using Weapon_shared_ptr = std::shared_ptr<Weapon>;
 
 extern Vocations g_vocations;
 
@@ -32,7 +33,7 @@ public:
 	static int32_t getMaxMeleeDamage(int32_t attackSkill, int32_t attackValue);
 	static int32_t getMaxWeaponDamage(uint32_t level, int32_t attackSkill, int32_t attackValue, float attackFactor);
 
-	bool registerLuaEvent(Weapon* event);
+	bool registerLuaEvent(Weapon_shared_ptr weapon);
 	void clear(bool fromLua) override final;
 
 private:
