@@ -117,9 +117,9 @@ static int luaCreatureEventOnCallback(lua_State* L)
 	if (creature) {
 		const std::string& functionName = getString(L, 2);
 		bool fileName = false;
-		const static std::vector<std::string> tmp = {"onLogin",    "onLogout",       "onThink",      "onPrepareDeath",
-		                                "onDeath",    "onKill",         "onAdvance",    "onModalWindow",
-		                                "onTextEdit", "onHealthChange", "onManaChange", "onExtendedOpcode"};
+		const static std::vector<std::string> tmp = {
+		    "onLogin",   "onLogout",      "onThink",    "onPrepareDeath", "onDeath",      "onKill",
+		    "onAdvance", "onModalWindow", "onTextEdit", "onHealthChange", "onManaChange", "onExtendedOpcode"};
 		for (auto& it : tmp) {
 			if (it == functionName) {
 				fileName = true;

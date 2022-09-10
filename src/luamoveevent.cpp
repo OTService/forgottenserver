@@ -97,7 +97,8 @@ static int luaMoveEventOnCallback(lua_State* L)
 	if (moveevent) {
 		const std::string& functionName = getString(L, 2);
 		bool fileName = false;
-		const static std::vector<std::string> tmp = {"onEquip", "onDeequip", "onStepIn", "onStepOut", "onAddItem", "onRemoveItem"};
+		const static std::vector<std::string> tmp = {"onEquip",   "onDeequip", "onStepIn",
+		                                             "onStepOut", "onAddItem", "onRemoveItem"};
 		for (auto& it : tmp) {
 			if (it == functionName) {
 				fileName = true;
