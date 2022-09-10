@@ -45,10 +45,20 @@ do
 
 			-- we are safe to go now as we are sure that everything is correct
 			for func, params in pairs(WeaponRegister) do
-				if type(params) == "table" then
-					self[func](self, unpack(params))
+				if func == "vocation" then
+					if type(params[1]) == "table" then
+						for k, v in pairs(params) do
+							self:vocation(unpack(v))
+						end
+					else
+						self:vocation(unpack(params))
+					end
 				else
-					self[func](self, params)
+					if type(params) == "table" then
+						self[func](self, unpack(params))
+					else
+						self[func](self, params)
+					end
 				end
 			end
 
@@ -78,10 +88,20 @@ do
 
 				-- we are safe to go now as we are sure that everything is correct
 				for func, params in pairs(WeaponRegister) do
-					if type(params) == "table" then
-						self[func](self, unpack(params))
+					if func == "vocation" then
+						if type(params[1]) == "table" then
+							for k, v in pairs(params) do
+								self:vocation(unpack(v))
+							end
+						else
+							self:vocation(unpack(params))
+						end
 					else
-						self[func](self, params)
+						if type(params) == "table" then
+							self[func](self, unpack(params))
+						else
+							self[func](self, params)
+						end
 					end
 				end
 
