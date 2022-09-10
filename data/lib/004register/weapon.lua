@@ -1,5 +1,4 @@
 local WeaponRegister = false
-local notifiyOldSystem = false
 local alreadyRegistered = false
 do
 	local mt = getmetatable(Weapon)
@@ -8,10 +7,8 @@ do
 	mt.__call = function(self, params)
 		-- we need to make sure that the Weapon contains a setup table, if not we are using an outdated version
 		if type(params) == "number" then
-			if not notifiyOldSystem then
-				print("You are using scripts with an outdated version of revscriptsys (Weapon)")
-				notifiyOldSystem = true
-			end
+			print("You are using scripts with an outdated version of revscriptsys (Weapon)")
+			print(string.format(">> file: %s\n", debug.getinfo(2, "S").source))
 			return defaultCall(self, params)
 		end
 		-- we are adding the table params with the parameters onto self without calling __newindex

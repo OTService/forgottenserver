@@ -1,5 +1,4 @@
 local CreatureEventRegister = false
-local notifiyOldSystem = false
 local eventList = {["onLogin"] = "login", ["onLogout"] = "logout", ["onThink"] = "think", ["onPrepareDeath"] = "preparedeath", ["onDeath"] = "death", ["onKill"] = "kill", ["onAdvance"] = "advance", ["onModalWindow"] = "modalwindow", ["onTextEdit"] = "textedit", ["onHealthChange"] = "healthchange", ["onManaChange"] = "manachange", ["onExtendedOpcode"] = "extendedopcode"}
 do
 	local mt = getmetatable(CreatureEvent)
@@ -8,10 +7,8 @@ do
 	mt.__call = function(self, params)
 		-- we need to make sure that the CreatureEvent contains a setup table, if not we are using an outdated version
 		if type(params) == "string" then
-			if not notifiyOldSystem then
-				print("You are using scripts with an outdated version of revscriptsys (CreatureEvent)")
-				notifiyOldSystem = true
-			end
+			print("You are using scripts with an outdated version of revscriptsys (CreatureEvent)")
+			print(string.format(">> file: %s\n", debug.getinfo(2, "S").source))
 			return defaultCall(self, params)
 		end
 		-- we are adding the table params with the parameters onto self without calling __newindex

@@ -1,5 +1,4 @@
 local MoveEventRegister = false
-local notifiyOldSystem = false
 local alreadyRegistered = false
 local eventList = {["onStepIn"] = "stepin", ["onStepOut"] = "stepout", ["onEquip"] = "equip", ["onDeEquip"] = "deequip", ["onAddItem"] = "additem", ["onRemoveItem"] = "removeitem"}
 do
@@ -9,10 +8,8 @@ do
 	mt.__call = function(self, params)
 		-- we need to make sure that the MoveEvent contains a setup table, if not we are using an outdated version
 		if not params then
-			if not notifiyOldSystem then
-				print("You are using scripts with an outdated version of revscriptsys (MoveEvent)")
-				notifiyOldSystem = true
-			end
+			print("You are using scripts with an outdated version of revscriptsys (MoveEvent)")
+			print(string.format(">> file: %s\n", debug.getinfo(2, "S").source))
 			return defaultCall(self)
 		end
 		-- we are adding the table params with the parameters onto self without calling __newindex
