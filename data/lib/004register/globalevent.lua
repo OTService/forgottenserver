@@ -9,9 +9,7 @@ do
 		-- we need to make sure that the GlobalEvent contains a setup table, if not we are using an outdated version
 		if type(params) == "string" then
 			if not notifiyOldSystem then
-				print("\nYou are using an outdated version of revscriptsys (GlobalEvent)")
-				print("New way to register looks like this: (onTime example)")
-				print('\nlocal time = GlobalEvent({\n	event = "time", -- you can avoid this if you place onTime infront of the function name\n	name = "EventName"\n	time = "09:00:00" -- would laucnh the script at 9am\n})\nfunction time.useWhateverNameYouWantHere(...)\n')
+				print("You are using scripts with an outdated version of revscriptsys (GlobalEvent)")
 				notifiyOldSystem = true
 			end
 			return defaultCall(self, params)

@@ -9,9 +9,7 @@ do
 		-- we need to make sure that the CreatureEvent contains a setup table, if not we are using an outdated version
 		if type(params) == "string" then
 			if not notifiyOldSystem then
-				print("\nYou are using an outdated version of revscriptsys (CreatureEvent)")
-				print("New way to register looks like this: (onThink example)")
-				print('\nlocal think = CreatureEvent({\n	event = "think", -- you can avoid this if you place onThink infront of the function name\n	name = "EventName"\n})\nfunction think.useWhateverNameYouWantHere(...)\n')
+				print("You are using scripts with an outdated version of revscriptsys (CreatureEvent)")
 				notifiyOldSystem = true
 			end
 			return defaultCall(self, params)

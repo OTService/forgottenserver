@@ -162,9 +162,16 @@ bool Event::loadCallback(const std::string& name, bool fileName)
 	int32_t oldId = 0;
 	if (scriptInterface) {
 		for (auto& it : scriptInterface->cacheFiles) {
-			if (it.second == ">> " + name + " <<") {
-				oldId = it.first;
-				break;
+			if (fileName) {
+				if (it.second == scriptInterface->loadingFile + ":" + name) {
+					oldId = it.first;
+					break;
+				}
+			} else {
+				if (it.second == ">> " + name + " <<") {
+					oldId = it.first;
+					break;
+				}
 			}
 		}
 	}

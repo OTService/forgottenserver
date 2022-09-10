@@ -8,9 +8,7 @@ do
 		-- we need to make sure that the TalkAction contains a setup table, if not we are using an outdated version
 		if type(params) == "string" then
 			if not notifiyOldSystem then
-				print("\nYou are using an outdated version of revscriptsys (TalkAction)")
-				print("New way to register looks like this:")
-				print('\nlocal talk = TalkAction({word={"/test", "!test"}, separator = " ", access=4, accountType=ACCOUNT_TYPE_NORMAL})\nfunction talk.useWhateverNameYouWantHere(...)\n')
+				print("You are using scripts with an outdated version of revscriptsys (TalkAction)")
 				notifiyOldSystem = true
 			end
 			return defaultCall(self, params, ...)

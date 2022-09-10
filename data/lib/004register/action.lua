@@ -8,9 +8,7 @@ do
 		-- we need to make sure that the Action contains a setup table, if not we are using an outdated version
 		if not params then
 			if not notifiyOldSystem then
-				print("\nYou are using an outdated version of revscriptsys (Action)")
-				print("New way to register looks like this:")
-				print("\nlocal action = Action({id={1,2,3,4}, uid=10, aid=5, allowFarUse=false, checkFloor=true, blockWalls=true})\nfunction action.useWhateverNameYouWantHere(...)\n")
+				print("You are using scripts with an outdated version of revscriptsys (Action)")
 				notifiyOldSystem = true
 			end
 			return defaultCall(self)

@@ -10,9 +10,7 @@ do
 		-- we need to make sure that the MoveEvent contains a setup table, if not we are using an outdated version
 		if not params then
 			if not notifiyOldSystem then
-				print("\nYou are using an outdated version of revscriptsys (MoveEvent)")
-				print("New way to register looks like this: (onEquip example with a ring)")
-				print('\nlocal move = MoveEvent({\n	event = "equip", -- you can avoid this if you place onEquip infront of the function name\n	id/aid/uid = {12,213,4325},\n	slot="ring",\n})\nfunction move.useWhateverNameYouWantHere(...)\n')
+				print("You are using scripts with an outdated version of revscriptsys (MoveEvent)")
 				notifiyOldSystem = true
 			end
 			return defaultCall(self)
