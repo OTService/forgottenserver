@@ -1,5 +1,6 @@
 local WeaponRegister = false
 local notifiyOldSystem = false
+local alreadyRegistered = false
 do
 	local mt = getmetatable(Weapon)
 	local defaultCall = mt.__call
@@ -54,6 +55,7 @@ do
 			end
 
 			-- now we are registering, which frees our userdata
+			alreadyRegistered = true
 			self:register()
 			-- resetting the global variable which holds our parameter table
 			WeaponRegister = false
@@ -69,27 +71,30 @@ end
 do
 	local register = Weapon.register
 	function Weapon.register(self)
-		if WeaponRegister then
-			if not WeaponRegister.id then
-				print("There is no id set for this callback: ".. key)
+		if not alreadyRegistered then
+			if WeaponRegister then
+				if not WeaponRegister.id then
+					print("There is no id set for this callback: ".. key)
+					return
+				end
+
+				-- we are safe to go now as we are sure that everything is correct
+				for func, params in pairs(WeaponRegister) do
+					if type(params) == "table" then
+						self[func](self, unpack(params))
+					else
+						self[func](self, params)
+					end
+				end
+
+				-- now we are registering, which frees our userdata
+				register(self)
+				-- resetting the global variable which holds our parameter table
+				WeaponRegister = false
 				return
 			end
-
-			-- we are safe to go now as we are sure that everything is correct
-			for func, params in pairs(WeaponRegister) do
-				if type(params) == "table" then
-					self[func](self, unpack(params))
-				else
-					self[func](self, params)
-				end
-			end
-
-			-- now we are registering, which frees our userdata
-			register(self)
-			-- resetting the global variable which holds our parameter table
-			WeaponRegister = false
-			return
 		end
 		register(self)
+		alreadyRegistered = false
 	end
 end
