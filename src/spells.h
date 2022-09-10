@@ -17,6 +17,7 @@ class Spell;
 using VocSpellMap = std::map<uint16_t, bool>;
 using InstantSpell_ptr = std::unique_ptr<InstantSpell>;
 using RuneSpell_ptr = std::unique_ptr<RuneSpell>;
+using Spell_shared_ptr = std::shared_ptr<Spell>;
 
 class Spells final : public BaseEvents
 {
@@ -44,8 +45,8 @@ public:
 
 	void clearMaps(bool fromLua);
 	void clear(bool fromLua) override final;
-	bool registerInstantLuaEvent(InstantSpell* event);
-	bool registerRuneLuaEvent(RuneSpell* event);
+	bool registerInstantLuaEvent(Spell_shared_ptr event);
+	bool registerRuneLuaEvent(Spell_shared_ptr event);
 
 private:
 	LuaScriptInterface& getScriptInterface() override;

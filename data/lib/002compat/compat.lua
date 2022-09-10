@@ -122,17 +122,6 @@ do
 end
 
 do
-	local function SpellNewIndex(self, key, value)
-		if key == "onCastSpell" then
-			self:onCastSpell(value)
-			return
-		end
-		rawset(self, key, value)
-	end
-	rawgetmetatable("Spell").__newindex = SpellNewIndex
-end
-
-do
 	local function MonsterTypeNewIndex(self, key, value)
 		if key == "onThink" then
 			self:eventType(MONSTERS_EVENT_THINK)
