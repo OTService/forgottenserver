@@ -29,6 +29,7 @@ public:
 
 	void loadDefaults();
 	const Weapon* getWeapon(const Item* item) const;
+	Weapon_shared_ptr getWeapon(uint16_t id);
 
 	static int32_t getMaxMeleeDamage(int32_t attackSkill, int32_t attackValue);
 	static int32_t getMaxWeaponDamage(uint32_t level, int32_t attackSkill, int32_t attackValue, float attackFactor);

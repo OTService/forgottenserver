@@ -19,6 +19,7 @@
 #include "script.h"
 #include "spectators.h"
 #include "talkaction.h"
+#include "weapons.h"
 
 extern ConfigManager g_config;
 extern Monsters g_monsters;
@@ -30,6 +31,7 @@ extern TalkActions* g_talkActions;
 extern MoveEvents* g_moveEvents;
 extern CreatureEvents* g_creatureEvents;
 extern GlobalEvents* g_globalEvents;
+extern Weapons* g_weapons;
 
 using namespace Lua;
 
@@ -770,6 +772,28 @@ static int luaGameGetGlobalEvent(lua_State* L)
 	return 1;
 }
 
+static int luaGameGetWeapon(lua_State* L)
+{
+	// Game.getWeapon(id)
+	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
+		reportErrorFunc(L, "Game.getWeapon can only be called in the Scripts interface.");
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t id = getNumber<uint16_t>(L, 2);
+
+	Weapon_shared_ptr weapon = g_weapons->getWeapon(id);
+	if (weapon) {
+		pushSharedPtr<Weapon_shared_ptr>(L, weapon);
+		setMetatable(L, -1, "Weapon");
+	} else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
 namespace LuaGame {
 static void registerFunctions(LuaScriptInterface* interface)
 {
@@ -827,5 +851,7 @@ static void registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("Game", "getTalkAction", luaGameGetTalkAction);
 	interface->registerMethod("Game", "getMoveEvent", luaGameGetMoveEvent);
 	interface->registerMethod("Game", "getCreatureEvent", luaGameGetCreatureEvent);
+	interface->registerMethod("Game", "getGlobalEvent", luaGameGetGlobalEvent);
+	interface->registerMethod("Game", "getWeapon", luaGameGetWeapon);
 }
 } // namespace LuaGame
