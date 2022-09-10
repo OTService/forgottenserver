@@ -40,7 +40,8 @@ static int luaActionOnUse(lua_State* L)
 	Action_shared_ptr action = getSharedPtr<Action>(L, 1);
 	if (action) {
 		const std::string& functionName = getString(L, 2);
-		if (!action->loadCallback(functionName)) {
+		bool fileName = functionName == "onUse" ? true : false;
+		if (!action->loadCallback(functionName, fileName)) {
 			pushBoolean(L, false);
 			return 1;
 		}

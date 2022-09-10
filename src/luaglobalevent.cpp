@@ -111,7 +111,15 @@ static int luaGlobalEventOnCallback(lua_State* L)
 	GlobalEvent_shared_ptr global = getSharedPtr<GlobalEvent>(L, 1);
 	if (global) {
 		const std::string& functionName = getString(L, 2);
-		if (!global->loadCallback(functionName)) {
+		bool fileName = false;
+		std::vector<std::string> tmp = {"onThink", "onTime", "onStartup", "onShutdown", "onRecord"};
+		for (auto& it : tmp) {
+			if (it == functionName) {
+				fileName = true;
+				break;
+			}
+		}
+		if (!global->loadCallback(functionName, fileName)) {
 			pushBoolean(L, false);
 			return 1;
 		}

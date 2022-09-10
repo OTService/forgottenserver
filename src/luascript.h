@@ -180,7 +180,7 @@ public:
 	const std::string& getFileById(int32_t scriptId);
 	int32_t getEvent(const std::string& eventName);
 	int32_t getEvent();
-	int32_t getEventCallback(std::string name, int32_t oldId);
+	int32_t getEventCallback(std::string name, bool fileName, int32_t oldId);
 	int32_t getMetaEvent(const std::string& globalName, const std::string& eventName);
 
 	static ScriptEnvironment* getScriptEnv()

@@ -156,7 +156,7 @@ bool Event::loadCallback()
 	return true;
 }
 
-bool Event::loadCallback(const std::string& name)
+bool Event::loadCallback(const std::string& name, bool fileName)
 {
 	// we are looking if that event already exists, if yes we re use the event instead of giving it a new one
 	int32_t oldId = 0;
@@ -174,7 +174,7 @@ bool Event::loadCallback(const std::string& name)
 		return false;
 	}
 
-	int32_t id = scriptInterface->getEventCallback(name, oldId);
+	int32_t id = scriptInterface->getEventCallback(name, fileName, oldId);
 	if (id == -1) {
 		std::cout << "[Warning - Event::loadCallback] Event " << getScriptEventName() << " not found. " << std::endl;
 		return false;

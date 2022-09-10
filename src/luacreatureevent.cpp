@@ -117,7 +117,17 @@ static int luaCreatureEventOnCallback(lua_State* L)
 	CreatureEvent_shared_ptr creature = getSharedPtr<CreatureEvent>(L, 1);
 	if (creature) {
 		const std::string& functionName = getString(L, 2);
-		if (!creature->loadCallback(functionName)) {
+		bool fileName = false;
+		std::vector<std::string> tmp = {"onLogin",    "onLogout",       "onThink",      "onPrepareDeath",
+		                                "onDeath",    "onKill",         "onAdvance",    "onModalWindow",
+		                                "onTextEdit", "onHealthChange", "onManaChange", "onExtendedOpcode"};
+		for (auto& it : tmp) {
+			if (it == functionName) {
+				fileName = true;
+				break;
+			}
+		}
+		if (!creature->loadCallback(functionName, fileName)) {
 			pushBoolean(L, false);
 			return 1;
 		}

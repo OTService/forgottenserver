@@ -394,7 +394,7 @@ int32_t LuaScriptInterface::getEvent()
 	return runningEventId++;
 }
 
-int32_t LuaScriptInterface::getEventCallback(std::string name, int32_t id)
+int32_t LuaScriptInterface::getEventCallback(std::string name, bool fileName, int32_t id)
 {
 	// check if function is on the stack
 	if (!isFunction(luaState, -1)) {
@@ -413,7 +413,11 @@ int32_t LuaScriptInterface::getEventCallback(std::string name, int32_t id)
 	lua_rawseti(luaState, -2, id == 0 ? runningEventId : id);
 	lua_pop(luaState, 2);
 
-	cacheFiles[id == 0 ? runningEventId : id] = ">> " + name + " <<";
+	if (fileName) {
+		cacheFiles[id == 0 ? runningEventId : id] = loadingFile + ":" + name;
+	} else {
+		cacheFiles[id == 0 ? runningEventId : id] = ">> " + name + " <<";
+	}
 	return id == 0 ? runningEventId++ : id;
 }
 

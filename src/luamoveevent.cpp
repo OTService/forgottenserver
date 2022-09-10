@@ -97,7 +97,15 @@ static int luaMoveEventOnCallback(lua_State* L)
 	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
 		const std::string& functionName = getString(L, 2);
-		if (!moveevent->loadCallback(functionName)) {
+		bool fileName = false;
+		std::vector<std::string> tmp = {"onEquip", "onDeequip", "onStepIn", "onStepOut", "onAddItem", "onRemoveItem"};
+		for (auto& it : tmp) {
+			if (it == functionName) {
+				fileName = true;
+				break;
+			}
+		}
+		if (!moveevent->loadCallback(functionName, fileName)) {
 			pushBoolean(L, false);
 			return 1;
 		}

@@ -142,7 +142,8 @@ static int luaWeaponOnUseWeapon(lua_State* L)
 	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		const std::string& functionName = getString(L, 2);
-		if (!weapon->loadCallback(functionName)) {
+		bool fileName = functionName == "onUseWeapon" ? true : false;
+		if (!weapon->loadCallback(functionName, fileName)) {
 			pushBoolean(L, false);
 			return 1;
 		}
