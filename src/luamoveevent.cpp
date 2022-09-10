@@ -38,8 +38,7 @@ static int luaMoveEventType(lua_State* L)
 	// moveevent:type(callback) // moveevent:event(callback)
 	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
-		const std::string& typeName = getString(L, 2);
-		const std::string& tmpStr = boost::algorithm::to_lower_copy(typeName);
+		const std::string& tmpStr = boost::algorithm::to_lower_copy(getString(L, 2));
 		if (tmpStr == "stepin") {
 			moveevent->setEventType(MOVE_EVENT_STEP_IN);
 			moveevent->stepFunction = moveevent->StepInField;
@@ -59,7 +58,7 @@ static int luaMoveEventType(lua_State* L)
 			moveevent->setEventType(MOVE_EVENT_REMOVE_ITEM);
 			moveevent->moveFunction = moveevent->RemoveItemField;
 		} else {
-			std::cout << "Error: [MoveEvent::configureMoveEvent] No valid event name " << typeName << std::endl;
+			std::cout << "Error: [MoveEvent::configureMoveEvent] No valid event name " << tmpStr << std::endl;
 			pushBoolean(L, false);
 		}
 		pushBoolean(L, true);
@@ -98,7 +97,7 @@ static int luaMoveEventOnCallback(lua_State* L)
 	if (moveevent) {
 		const std::string& functionName = getString(L, 2);
 		bool fileName = false;
-		std::vector<std::string> tmp = {"onEquip", "onDeequip", "onStepIn", "onStepOut", "onAddItem", "onRemoveItem"};
+		const static std::vector<std::string> tmp = {"onEquip", "onDeequip", "onStepIn", "onStepOut", "onAddItem", "onRemoveItem"};
 		for (auto& it : tmp) {
 			if (it == functionName) {
 				fileName = true;

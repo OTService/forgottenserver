@@ -58,8 +58,7 @@ static int luaGlobalEventType(lua_State* L)
 	// globalevent:type(callback)
 	GlobalEvent_shared_ptr global = getSharedPtr<GlobalEvent>(L, 1);
 	if (global) {
-		const std::string& typeName = getString(L, 2);
-		const std::string& tmpStr = boost::algorithm::to_lower_copy(typeName);
+		const std::string& tmpStr = boost::algorithm::to_lower_copy(getString(L, 2));
 		if (tmpStr == "startup") {
 			global->setEventType(GLOBALEVENT_STARTUP);
 		} else if (tmpStr == "shutdown") {
@@ -71,7 +70,7 @@ static int luaGlobalEventType(lua_State* L)
 		} else if (tmpStr == "think") {
 			// just don't throw an error message due to non existing type
 		} else {
-			std::cout << "[Error - luaGlobalEventType] Invalid type for global event: " << typeName << std::endl;
+			std::cout << "[Error - luaGlobalEventType] Invalid type for global event: " << tmpStr << std::endl;
 			pushBoolean(L, false);
 		}
 		pushBoolean(L, true);
@@ -112,7 +111,7 @@ static int luaGlobalEventOnCallback(lua_State* L)
 	if (global) {
 		const std::string& functionName = getString(L, 2);
 		bool fileName = false;
-		std::vector<std::string> tmp = {"onThink", "onTime", "onStartup", "onShutdown", "onRecord"};
+		const static std::vector<std::string> tmp = {"onThink", "onTime", "onStartup", "onShutdown", "onRecord"};
 		for (auto& it : tmp) {
 			if (it == functionName) {
 				fileName = true;

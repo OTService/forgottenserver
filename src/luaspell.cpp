@@ -188,13 +188,13 @@ static int luaSpellGroup(lua_State* L)
 				if (group != SPELLGROUP_NONE) {
 					spell->setGroup(group);
 				} else {
-					std::cout << "[Warning - Spell::group] Unknown group: " << getString(L, 2) << std::endl;
+					std::cout << "[Warning - luaSpellGroup] Unknown group: " << getString(L, 2) << std::endl;
 					pushBoolean(L, false);
 					return 1;
 				}
 				pushBoolean(L, true);
 			} else {
-				std::cout << "[Warning - Spell::group] Unknown group: " << getString(L, 2) << std::endl;
+				std::cout << "[Warning - luaSpellGroup] Unknown group: " << getString(L, 2) << std::endl;
 				pushBoolean(L, false);
 				return 1;
 			}
@@ -210,7 +210,7 @@ static int luaSpellGroup(lua_State* L)
 				if (primaryGroup != SPELLGROUP_NONE) {
 					spell->setGroup(primaryGroup);
 				} else {
-					std::cout << "[Warning - Spell::group] Unknown primaryGroup: " << getString(L, 2) << std::endl;
+					std::cout << "[Warning - luaSpellGroup] Unknown primaryGroup: " << getString(L, 2) << std::endl;
 					pushBoolean(L, false);
 					return 1;
 				}
@@ -218,13 +218,13 @@ static int luaSpellGroup(lua_State* L)
 				if (secondaryGroup != SPELLGROUP_NONE) {
 					spell->setSecondaryGroup(secondaryGroup);
 				} else {
-					std::cout << "[Warning - Spell::group] Unknown secondaryGroup: " << getString(L, 3) << std::endl;
+					std::cout << "[Warning - luaSpellGroup] Unknown secondaryGroup: " << getString(L, 3) << std::endl;
 					pushBoolean(L, false);
 					return 1;
 				}
 				pushBoolean(L, true);
 			} else {
-				std::cout << "[Warning - Spell::group] Unknown primaryGroup: " << getString(L, 2)
+				std::cout << "[Warning - luaSpellGroup] Unknown primaryGroup: " << getString(L, 2)
 				          << " or secondaryGroup: " << getString(L, 3) << std::endl;
 				pushBoolean(L, false);
 				return 1;

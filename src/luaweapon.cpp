@@ -91,8 +91,7 @@ static int luaWeaponAction(lua_State* L)
 	// weapon:action(callback)
 	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
-		const std::string& typeName = getString(L, 2);
-		const std::string& tmpStr = boost::algorithm::to_lower_copy(typeName);
+		const std::string& tmpStr = boost::algorithm::to_lower_copy(getString(L, 2));
 		if (tmpStr == "removecount") {
 			weapon->action = WEAPONACTION_REMOVECOUNT;
 		} else if (tmpStr == "removecharge") {
@@ -100,7 +99,7 @@ static int luaWeaponAction(lua_State* L)
 		} else if (tmpStr == "move") {
 			weapon->action = WEAPONACTION_MOVE;
 		} else {
-			std::cout << "Error: [luaWeaponAction] No valid action " << typeName << std::endl;
+			std::cout << "Error: [luaWeaponAction] No valid action " << tmpStr << std::endl;
 			pushBoolean(L, false);
 		}
 		pushBoolean(L, true);
@@ -298,8 +297,7 @@ static int luaWeaponElement(lua_State* L)
 	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		if (!getNumber<CombatType_t>(L, 2)) {
-			const std::string& element = getString(L, 2);
-			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(element);
+			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			if (tmpStrValue == "earth") {
 				weapon->params.combatType = COMBAT_EARTHDAMAGE;
 			} else if (tmpStrValue == "ice") {
@@ -313,7 +311,7 @@ static int luaWeaponElement(lua_State* L)
 			} else if (tmpStrValue == "holy") {
 				weapon->params.combatType = COMBAT_HOLYDAMAGE;
 			} else {
-				std::cout << "[Warning - luaWeaponElement] Type \"" << element << "\" does not exist." << std::endl;
+				std::cout << "[Warning - luaWeaponElement] Type \"" << tmpStrValue << "\" does not exist." << std::endl;
 			}
 		} else {
 			weapon->params.combatType = getNumber<CombatType_t>(L, 2);
@@ -540,7 +538,7 @@ static int luaWeaponSlotType(lua_State* L)
 	if (weapon) {
 		uint16_t id = weapon->getID();
 		ItemType& it = Item::items.getItemType(id);
-		std::string slot = getString(L, 2);
+		const std::string& slot = getString(L, 2);
 
 		if (slot == "two-handed") {
 			it.slotPosition |= SLOTP_TWO_HAND;
@@ -561,7 +559,7 @@ static int luaWeaponAmmoType(lua_State* L)
 	if (weapon) {
 		uint16_t id = weapon->getID();
 		ItemType& it = Item::items.getItemType(id);
-		std::string type = getString(L, 2);
+		const std::string& type = getString(L, 2);
 
 		if (type == "arrow") {
 			it.ammoType = AMMO_ARROW;

@@ -42,8 +42,7 @@ static int luaCreatureEventType(lua_State* L)
 	// creatureevent:type(callback) creatureevent:event(callback)
 	CreatureEvent_shared_ptr creature = getSharedPtr<CreatureEvent>(L, 1);
 	if (creature) {
-		const std::string& typeName = getString(L, 2);
-		const std::string& tmpStr = boost::algorithm::to_lower_copy(typeName);
+		const std::string& tmpStr = boost::algorithm::to_lower_copy(getString(L, 2));
 		if (tmpStr == "login") {
 			creature->setEventType(CREATURE_EVENT_LOGIN);
 		} else if (tmpStr == "logout") {
@@ -69,7 +68,7 @@ static int luaCreatureEventType(lua_State* L)
 		} else if (tmpStr == "extendedopcode") {
 			creature->setEventType(CREATURE_EVENT_EXTENDED_OPCODE);
 		} else {
-			std::cout << "[Error - CreatureEvent::configureLuaEvent] Invalid type for creature event: " << typeName
+			std::cout << "[Error - CreatureEvent::configureLuaEvent] Invalid type for creature event: " << tmpStr
 			          << std::endl;
 			pushBoolean(L, false);
 		}
@@ -118,7 +117,7 @@ static int luaCreatureEventOnCallback(lua_State* L)
 	if (creature) {
 		const std::string& functionName = getString(L, 2);
 		bool fileName = false;
-		std::vector<std::string> tmp = {"onLogin",    "onLogout",       "onThink",      "onPrepareDeath",
+		const static std::vector<std::string> tmp = {"onLogin",    "onLogout",       "onThink",      "onPrepareDeath",
 		                                "onDeath",    "onKill",         "onAdvance",    "onModalWindow",
 		                                "onTextEdit", "onHealthChange", "onManaChange", "onExtendedOpcode"};
 		for (auto& it : tmp) {
