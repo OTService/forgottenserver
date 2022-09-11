@@ -21,8 +21,7 @@ static int luaCreateMoveEvent(lua_State* L)
 		return 1;
 	}
 
-	MoveEvent* raw = new MoveEvent(LuaScriptInterface::getScriptEnv()->getScriptInterface());
-	MoveEvent_shared_ptr moveevent(raw);
+	auto moveevent = std::make_shared<MoveEvent>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 	if (moveevent) {
 		moveevent->fromLua = true;
 		pushSharedPtr<MoveEvent_shared_ptr>(L, moveevent);

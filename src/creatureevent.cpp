@@ -93,7 +93,7 @@ CreatureEvent_shared_ptr CreatureEvents::getCreatureEvent(const std::string& nam
 	auto it = creatureEvents.find(name);
 	if (it != creatureEvents.end()) {
 		if (!it->second.isLoaded()) {
-			return CreatureEvent_shared_ptr(&it->second);
+			return std::make_shared<CreatureEvent>(it->second);
 		}
 	}
 	return nullptr;

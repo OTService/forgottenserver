@@ -26,8 +26,7 @@ static int luaCreateWeapon(lua_State* L)
 		case WEAPON_SWORD:
 		case WEAPON_AXE:
 		case WEAPON_CLUB: {
-			WeaponMelee* raw = new WeaponMelee(LuaScriptInterface::getScriptEnv()->getScriptInterface());
-			Weapon_shared_ptr weapon(raw);
+			auto weapon = std::make_shared<WeaponMelee>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 			if (weapon) {
 				weapon->weaponType = type;
 				weapon->fromLua = true;
@@ -40,8 +39,7 @@ static int luaCreateWeapon(lua_State* L)
 		}
 		case WEAPON_DISTANCE:
 		case WEAPON_AMMO: {
-			WeaponDistance* raw = new WeaponDistance(LuaScriptInterface::getScriptEnv()->getScriptInterface());
-			Weapon_shared_ptr weapon(raw);
+			auto weapon = std::make_shared<WeaponDistance>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 			if (weapon) {
 				weapon->weaponType = type;
 				weapon->fromLua = true;
@@ -53,8 +51,7 @@ static int luaCreateWeapon(lua_State* L)
 			break;
 		}
 		case WEAPON_WAND: {
-			WeaponWand* raw = new WeaponWand(LuaScriptInterface::getScriptEnv()->getScriptInterface());
-			Weapon_shared_ptr weapon(raw);
+			auto weapon = std::make_shared<WeaponWand>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 			if (weapon) {
 				weapon->weaponType = type;
 				weapon->fromLua = true;
@@ -275,8 +272,7 @@ static int luaWeaponBreakChance(lua_State* L)
 static int luaWeaponWandDamage(lua_State* L)
 {
 	// weapon:damage(damage[min, max]) only use this if the weapon is a wand!
-	Weapon_shared_ptr weaponPtr = getSharedPtr<Weapon>(L, 1);
-	WeaponWand* weapon = static_cast<WeaponWand*>(weaponPtr.get());
+	auto weapon = std::static_pointer_cast<WeaponWand>(getSharedPtr<Weapon>(L, 1));
 	if (weapon) {
 		weapon->setMinChange(getNumber<uint32_t>(L, 2));
 		if (lua_gettop(L) > 2) {

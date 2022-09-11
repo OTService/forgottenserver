@@ -21,8 +21,7 @@ static int luaCreateAction(lua_State* L)
 		return 1;
 	}
 
-	Action* raw = new Action(LuaScriptInterface::getScriptEnv()->getScriptInterface());
-	Action_shared_ptr action(raw);
+	auto action = std::make_shared<Action>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 	if (action) {
 		action->fromLua = true;
 		pushSharedPtr<Action_shared_ptr>(L, action);

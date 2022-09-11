@@ -21,8 +21,7 @@ static int luaCreateCreatureEvent(lua_State* L)
 		return 1;
 	}
 
-	CreatureEvent* raw = new CreatureEvent(LuaScriptInterface::getScriptEnv()->getScriptInterface());
-	CreatureEvent_shared_ptr creature(raw);
+	auto creature = std::make_shared<CreatureEvent>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 	if (creature) {
 		// checking if it's old revscriptsys
 		if (isString(L, 2)) {

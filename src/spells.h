@@ -45,8 +45,8 @@ public:
 
 	void clearMaps(bool fromLua);
 	void clear(bool fromLua) override final;
-	bool registerInstantLuaEvent(Spell_shared_ptr event);
-	bool registerRuneLuaEvent(Spell_shared_ptr event);
+	bool registerInstantLuaEvent(Spell_shared_ptr spell);
+	bool registerRuneLuaEvent(Spell_shared_ptr spell);
 
 private:
 	LuaScriptInterface& getScriptInterface() override;

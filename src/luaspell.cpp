@@ -23,23 +23,19 @@ static int luaSpellCreate(lua_State* L)
 	}
 
 	if (isString(L, 2)) {
-		const std::string& arg = getString(L, 2);
-		InstantSpell* raw = g_spells->getInstantSpellByName(arg);
-		Spell_shared_ptr instant(raw);
+		auto instant = std::make_shared<InstantSpell>(getString(L, 2));
 		if (instant) {
 			pushSharedPtr<Spell_shared_ptr>(L, instant);
 			setMetatable(L, -1, "Spell");
 			return 1;
 		}
-		raw = g_spells->getInstantSpell(arg);
-		Spell_shared_ptr instant2(raw);
+		auto instant2 = std::make_shared<InstantSpell>(g_spells->getInstantSpell(getString(L, 2)));
 		if (instant2) {
 			pushSharedPtr<Spell_shared_ptr>(L, instant2);
 			setMetatable(L, -1, "Spell");
 			return 1;
 		}
-		RuneSpell* rawRune = g_spells->getRuneSpellByName(arg);
-		Spell_shared_ptr rune(rawRune);
+		auto rune = std::make_shared<RuneSpell>(g_spells->getRuneSpellByName(getString(L, 2)));
 		if (rune) {
 			pushSharedPtr<Spell_shared_ptr>(L, rune);
 			setMetatable(L, -1, "Spell");
@@ -50,17 +46,15 @@ static int luaSpellCreate(lua_State* L)
 	SpellType_t spellType = getNumber<SpellType_t>(L, 2);
 
 	if (spellType == SPELL_INSTANT) {
-		InstantSpell* raw = new InstantSpell(LuaScriptInterface::getScriptEnv()->getScriptInterface());
-		Spell_shared_ptr spell(raw);
-		raw->fromLua = true;
+		auto spell = std::make_shared<InstantSpell>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
+		spell->fromLua = true;
 		spell->spellType = SPELL_INSTANT;
 		pushSharedPtr<Spell_shared_ptr>(L, spell);
 		setMetatable(L, -1, "Spell");
 		return 1;
 	} else if (spellType == SPELL_RUNE) {
-		RuneSpell* raw = new RuneSpell(LuaScriptInterface::getScriptEnv()->getScriptInterface());
-		Spell_shared_ptr rune(raw);
-		raw->fromLua = true;
+		auto rune = std::make_shared<RuneSpell>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
+		rune->fromLua = true;
 		rune->spellType = SPELL_RUNE;
 		pushSharedPtr<Spell_shared_ptr>(L, rune);
 		setMetatable(L, -1, "Spell");
@@ -575,7 +569,7 @@ static int luaSpellWords(lua_State* L)
 			return 1;
 		}
 
-		InstantSpell* instant = static_cast<InstantSpell*>(spell.get());
+		auto instant = std::static_pointer_cast<InstantSpell>(spell);
 
 		if (lua_gettop(L) == 1) {
 			pushString(L, instant->getWords());
@@ -608,7 +602,7 @@ static int luaSpellNeedDirection(lua_State* L)
 			return 1;
 		}
 
-		InstantSpell* instant = static_cast<InstantSpell*>(spell.get());
+		auto instant = std::static_pointer_cast<InstantSpell>(spell);
 
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, instant->getNeedDirection());
@@ -634,7 +628,7 @@ static int luaSpellHasParams(lua_State* L)
 			return 1;
 		}
 
-		InstantSpell* instant = static_cast<InstantSpell*>(spell.get());
+		auto instant = std::static_pointer_cast<InstantSpell>(spell);
 
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, instant->getHasParam());
@@ -660,7 +654,7 @@ static int luaSpellHasPlayerNameParam(lua_State* L)
 			return 1;
 		}
 
-		InstantSpell* instant = static_cast<InstantSpell*>(spell.get());
+		auto instant = std::static_pointer_cast<InstantSpell>(spell);
 
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, instant->getHasPlayerNameParam());
@@ -686,7 +680,7 @@ static int luaSpellNeedCasterTargetOrDirection(lua_State* L)
 			return 1;
 		}
 
-		InstantSpell* instant = static_cast<InstantSpell*>(spell.get());
+		auto instant = std::static_pointer_cast<InstantSpell>(spell);
 
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, instant->getNeedCasterTargetOrDirection());
@@ -712,7 +706,7 @@ static int luaSpellIsBlockingWalls(lua_State* L)
 			return 1;
 		}
 
-		InstantSpell* instant = static_cast<InstantSpell*>(spell.get());
+		auto instant = std::static_pointer_cast<InstantSpell>(spell);
 
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, instant->getBlockWalls());
@@ -739,7 +733,7 @@ static int luaSpellRuneLevel(lua_State* L)
 			return 1;
 		}
 
-		RuneSpell* rune = static_cast<RuneSpell*>(spell.get());
+		auto rune = std::static_pointer_cast<RuneSpell>(spell);
 
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, rune->getLevel());
@@ -766,7 +760,7 @@ static int luaSpellRuneMagicLevel(lua_State* L)
 			return 1;
 		}
 
-		RuneSpell* rune = static_cast<RuneSpell*>(spell.get());
+		auto rune = std::static_pointer_cast<RuneSpell>(spell);
 
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, rune->getMagicLevel());
@@ -792,7 +786,7 @@ static int luaSpellRuneId(lua_State* L)
 			return 1;
 		}
 
-		RuneSpell* rune = static_cast<RuneSpell*>(spell.get());
+		auto rune = std::static_pointer_cast<RuneSpell>(spell);
 
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, rune->getRuneItemId());
@@ -818,7 +812,7 @@ static int luaSpellCharges(lua_State* L)
 			return 1;
 		}
 
-		RuneSpell* rune = static_cast<RuneSpell*>(spell.get());
+		auto rune = std::static_pointer_cast<RuneSpell>(spell);
 
 		if (lua_gettop(L) == 1) {
 			lua_pushnumber(L, rune->getCharges());
@@ -844,7 +838,7 @@ static int luaSpellAllowFarUse(lua_State* L)
 			return 1;
 		}
 
-		RuneSpell* rune = static_cast<RuneSpell*>(spell.get());
+		auto rune = std::static_pointer_cast<RuneSpell>(spell);
 
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, rune->getAllowFarUse());
@@ -870,7 +864,7 @@ static int luaSpellBlockWalls(lua_State* L)
 			return 1;
 		}
 
-		RuneSpell* rune = static_cast<RuneSpell*>(spell.get());
+		auto rune = std::static_pointer_cast<RuneSpell>(spell);
 
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, rune->getCheckLineOfSight());
@@ -896,7 +890,7 @@ static int luaSpellCheckFloor(lua_State* L)
 			return 1;
 		}
 
-		RuneSpell* rune = static_cast<RuneSpell*>(spell.get());
+		auto rune = std::static_pointer_cast<RuneSpell>(spell);
 
 		if (lua_gettop(L) == 1) {
 			pushBoolean(L, rune->getCheckFloor());

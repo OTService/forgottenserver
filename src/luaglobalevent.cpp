@@ -22,8 +22,7 @@ static int luaCreateGlobalEvent(lua_State* L)
 		return 1;
 	}
 
-	GlobalEvent* raw = new GlobalEvent(LuaScriptInterface::getScriptEnv()->getScriptInterface());
-	GlobalEvent_shared_ptr global(raw);
+	auto global = std::make_shared<GlobalEvent>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 	if (global) {
 		// checking for old revscriptsys
 		if (isString(L, 2)) {

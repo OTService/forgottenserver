@@ -36,10 +36,10 @@ const Weapon* Weapons::getWeapon(const Item* item) const
 Weapon_shared_ptr Weapons::getWeapon(uint16_t id)
 {
 	auto it = weapons.find(id);
-	if (it == weapons.end()) {
-		return nullptr;
+	if (it != weapons.end()) {
+		return std::make_shared<Weapon>(it->second);
 	}
-	return Weapon_shared_ptr(it->second);
+	return nullptr;
 }
 
 void Weapons::clear(bool fromLua)
