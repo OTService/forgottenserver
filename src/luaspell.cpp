@@ -23,19 +23,19 @@ static int luaSpellCreate(lua_State* L)
 	}
 
 	if (isString(L, 2)) {
-		auto instant = std::make_shared<InstantSpell>(getString(L, 2));
+		auto instant = std::make_shared<InstantSpell>(*g_spells->getInstantSpellByName(getString(L, 2)));
 		if (instant) {
 			pushSharedPtr<Spell_shared_ptr>(L, instant);
 			setMetatable(L, -1, "Spell");
 			return 1;
 		}
-		auto instant2 = std::make_shared<InstantSpell>(g_spells->getInstantSpell(getString(L, 2)));
+		auto instant2 = std::make_shared<InstantSpell>(*g_spells->getInstantSpell(getString(L, 2)));
 		if (instant2) {
 			pushSharedPtr<Spell_shared_ptr>(L, instant2);
 			setMetatable(L, -1, "Spell");
 			return 1;
 		}
-		auto rune = std::make_shared<RuneSpell>(g_spells->getRuneSpellByName(getString(L, 2)));
+		auto rune = std::make_shared<RuneSpell>(*g_spells->getRuneSpellByName(getString(L, 2)));
 		if (rune) {
 			pushSharedPtr<Spell_shared_ptr>(L, rune);
 			setMetatable(L, -1, "Spell");
