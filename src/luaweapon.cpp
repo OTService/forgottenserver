@@ -12,7 +12,6 @@ extern Weapons* g_weapons;
 
 using namespace Lua;
 
-// Weapon
 static int luaCreateWeapon(lua_State* L)
 {
 	// Weapon(type)
@@ -27,12 +26,11 @@ static int luaCreateWeapon(lua_State* L)
 		case WEAPON_SWORD:
 		case WEAPON_AXE:
 		case WEAPON_CLUB: {
-			WeaponMelee* weapon = new WeaponMelee(LuaScriptInterface::getScriptEnv()->getScriptInterface());
+			auto weapon = std::make_shared<WeaponMelee>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 			if (weapon) {
-				pushUserdata<WeaponMelee>(L, weapon);
-				setMetatable(L, -1, "Weapon");
 				weapon->weaponType = type;
-				weapon->fromLua = true;
+				pushSharedPtr<Weapon_shared_ptr>(L, weapon);
+				setMetatable(L, -1, "Weapon");
 			} else {
 				lua_pushnil(L);
 			}
@@ -40,24 +38,22 @@ static int luaCreateWeapon(lua_State* L)
 		}
 		case WEAPON_DISTANCE:
 		case WEAPON_AMMO: {
-			WeaponDistance* weapon = new WeaponDistance(LuaScriptInterface::getScriptEnv()->getScriptInterface());
+			auto weapon = std::make_shared<WeaponDistance>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 			if (weapon) {
-				pushUserdata<WeaponDistance>(L, weapon);
-				setMetatable(L, -1, "Weapon");
 				weapon->weaponType = type;
-				weapon->fromLua = true;
+				pushSharedPtr<Weapon_shared_ptr>(L, weapon);
+				setMetatable(L, -1, "Weapon");
 			} else {
 				lua_pushnil(L);
 			}
 			break;
 		}
 		case WEAPON_WAND: {
-			WeaponWand* weapon = new WeaponWand(LuaScriptInterface::getScriptEnv()->getScriptInterface());
+			auto weapon = std::make_shared<WeaponWand>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 			if (weapon) {
-				pushUserdata<WeaponWand>(L, weapon);
-				setMetatable(L, -1, "Weapon");
 				weapon->weaponType = type;
-				weapon->fromLua = true;
+				pushSharedPtr<Weapon_shared_ptr>(L, weapon);
+				setMetatable(L, -1, "Weapon");
 			} else {
 				lua_pushnil(L);
 			}
@@ -71,13 +67,25 @@ static int luaCreateWeapon(lua_State* L)
 	return 1;
 }
 
+static int luaWeaponType(lua_State* L)
+{
+	// weapon:weaponType(weaponType)
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
+	if (weapon) {
+		weapon->weaponType = getNumber<WeaponType_t>(L, 2);
+		pushBoolean(L, true);
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
 static int luaWeaponAction(lua_State* L)
 {
 	// weapon:action(callback)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
-		std::string typeName = getString(L, 2);
-		std::string tmpStr = boost::algorithm::to_lower_copy(typeName);
+		const std::string& tmpStr = boost::algorithm::to_lower_copy(getString(L, 2));
 		if (tmpStr == "removecount") {
 			weapon->action = WEAPONACTION_REMOVECOUNT;
 		} else if (tmpStr == "removecharge") {
@@ -85,7 +93,7 @@ static int luaWeaponAction(lua_State* L)
 		} else if (tmpStr == "move") {
 			weapon->action = WEAPONACTION_MOVE;
 		} else {
-			std::cout << "Error: [Weapon::action] No valid action " << typeName << std::endl;
+			std::cout << "Error: [luaWeaponAction] No valid action " << tmpStr << std::endl;
 			pushBoolean(L, false);
 		}
 		pushBoolean(L, true);
@@ -98,47 +106,37 @@ static int luaWeaponAction(lua_State* L)
 static int luaWeaponRegister(lua_State* L)
 {
 	// weapon:register()
-	Weapon** weaponPtr = getRawUserdata<Weapon>(L, 1);
-	if (!weaponPtr) {
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
+	if (!weapon) {
 		lua_pushnil(L);
 		return 1;
 	}
 
-	if (auto* weapon = *weaponPtr) {
-		if (weapon->weaponType == WEAPON_DISTANCE || weapon->weaponType == WEAPON_AMMO) {
-			weapon = getUserdata<WeaponDistance>(L, 1);
-		} else if (weapon->weaponType == WEAPON_WAND) {
-			weapon = getUserdata<WeaponWand>(L, 1);
-		} else {
-			weapon = getUserdata<WeaponMelee>(L, 1);
-		}
+	uint16_t id = weapon->getID();
+	ItemType& it = Item::items.getItemType(id);
+	it.weaponType = weapon->weaponType;
 
-		uint16_t id = weapon->getID();
-		ItemType& it = Item::items.getItemType(id);
-		it.weaponType = weapon->weaponType;
-
-		if (weapon->getWieldInfo() != 0) {
-			it.wieldInfo = weapon->getWieldInfo();
-			it.vocationString = weapon->getVocationString();
-			it.minReqLevel = weapon->getReqLevel();
-			it.minReqMagicLevel = weapon->getReqMagLv();
-		}
-
-		weapon->configureWeapon(it);
-		pushBoolean(L, g_weapons->registerLuaEvent(weapon));
-		*weaponPtr = nullptr; // Remove luascript reference
-	} else {
-		lua_pushnil(L);
+	if (weapon->getWieldInfo() != 0) {
+		it.wieldInfo = weapon->getWieldInfo();
+		it.vocationString = weapon->getVocationString();
+		it.minReqLevel = weapon->getReqLevel();
+		it.minReqMagicLevel = weapon->getReqMagLv();
 	}
+
+	weapon->configureWeapon(it);
+	pushBoolean(L, g_weapons->registerLuaEvent(weapon));
+
 	return 1;
 }
 
 static int luaWeaponOnUseWeapon(lua_State* L)
 {
 	// weapon:onUseWeapon(callback)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
-		if (!weapon->loadCallback()) {
+		const std::string& functionName = getString(L, 2);
+		bool fileName = functionName == "onUseWeapon" ? true : false;
+		if (!weapon->loadCallback(functionName, fileName)) {
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -152,7 +150,7 @@ static int luaWeaponOnUseWeapon(lua_State* L)
 static int luaWeaponUnproperly(lua_State* L)
 {
 	// weapon:wieldUnproperly(bool)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		weapon->setWieldUnproperly(getBoolean(L, 2));
 		pushBoolean(L, true);
@@ -165,7 +163,7 @@ static int luaWeaponUnproperly(lua_State* L)
 static int luaWeaponLevel(lua_State* L)
 {
 	// weapon:level(lvl)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		weapon->setRequiredLevel(getNumber<uint32_t>(L, 2));
 		weapon->setWieldInfo(WIELDINFO_LEVEL);
@@ -179,7 +177,7 @@ static int luaWeaponLevel(lua_State* L)
 static int luaWeaponMagicLevel(lua_State* L)
 {
 	// weapon:magicLevel(lvl)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		weapon->setRequiredMagLevel(getNumber<uint32_t>(L, 2));
 		weapon->setWieldInfo(WIELDINFO_MAGLV);
@@ -193,7 +191,7 @@ static int luaWeaponMagicLevel(lua_State* L)
 static int luaWeaponMana(lua_State* L)
 {
 	// weapon:mana(mana)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		weapon->setMana(getNumber<uint32_t>(L, 2));
 		pushBoolean(L, true);
@@ -206,7 +204,7 @@ static int luaWeaponMana(lua_State* L)
 static int luaWeaponManaPercent(lua_State* L)
 {
 	// weapon:manaPercent(percent)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		weapon->setManaPercent(getNumber<uint32_t>(L, 2));
 		pushBoolean(L, true);
@@ -219,7 +217,7 @@ static int luaWeaponManaPercent(lua_State* L)
 static int luaWeaponHealth(lua_State* L)
 {
 	// weapon:health(health)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		weapon->setHealth(getNumber<int32_t>(L, 2));
 		pushBoolean(L, true);
@@ -232,7 +230,7 @@ static int luaWeaponHealth(lua_State* L)
 static int luaWeaponHealthPercent(lua_State* L)
 {
 	// weapon:healthPercent(percent)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		weapon->setHealthPercent(getNumber<uint32_t>(L, 2));
 		pushBoolean(L, true);
@@ -245,7 +243,7 @@ static int luaWeaponHealthPercent(lua_State* L)
 static int luaWeaponSoul(lua_State* L)
 {
 	// weapon:soul(soul)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		weapon->setSoul(getNumber<uint32_t>(L, 2));
 		pushBoolean(L, true);
@@ -258,7 +256,7 @@ static int luaWeaponSoul(lua_State* L)
 static int luaWeaponBreakChance(lua_State* L)
 {
 	// weapon:breakChance(percent)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		weapon->setBreakChance(getNumber<uint32_t>(L, 2));
 		pushBoolean(L, true);
@@ -271,7 +269,7 @@ static int luaWeaponBreakChance(lua_State* L)
 static int luaWeaponWandDamage(lua_State* L)
 {
 	// weapon:damage(damage[min, max]) only use this if the weapon is a wand!
-	WeaponWand* weapon = getUserdata<WeaponWand>(L, 1);
+	auto weapon = std::static_pointer_cast<WeaponWand>(getSharedPtr<Weapon>(L, 1));
 	if (weapon) {
 		weapon->setMinChange(getNumber<uint32_t>(L, 2));
 		if (lua_gettop(L) > 2) {
@@ -289,11 +287,10 @@ static int luaWeaponWandDamage(lua_State* L)
 static int luaWeaponElement(lua_State* L)
 {
 	// weapon:element(combatType)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		if (!getNumber<CombatType_t>(L, 2)) {
-			std::string element = getString(L, 2);
-			std::string tmpStrValue = boost::algorithm::to_lower_copy(element);
+			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(getString(L, 2));
 			if (tmpStrValue == "earth") {
 				weapon->params.combatType = COMBAT_EARTHDAMAGE;
 			} else if (tmpStrValue == "ice") {
@@ -307,7 +304,7 @@ static int luaWeaponElement(lua_State* L)
 			} else if (tmpStrValue == "holy") {
 				weapon->params.combatType = COMBAT_HOLYDAMAGE;
 			} else {
-				std::cout << "[Warning - weapon:element] Type \"" << element << "\" does not exist." << std::endl;
+				std::cout << "[Warning - luaWeaponElement] Type \"" << tmpStrValue << "\" does not exist." << std::endl;
 			}
 		} else {
 			weapon->params.combatType = getNumber<CombatType_t>(L, 2);
@@ -322,7 +319,7 @@ static int luaWeaponElement(lua_State* L)
 static int luaWeaponPremium(lua_State* L)
 {
 	// weapon:premium(bool)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		weapon->setNeedPremium(getBoolean(L, 2));
 		weapon->setWieldInfo(WIELDINFO_PREMIUM);
@@ -336,7 +333,7 @@ static int luaWeaponPremium(lua_State* L)
 static int luaWeaponVocation(lua_State* L)
 {
 	// weapon:vocation(vocName[, showInDescription = false, lastVoc = false])
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		weapon->addVocWeaponMap(getString(L, 2));
 		weapon->setWieldInfo(WIELDINFO_VOCREQ);
@@ -371,7 +368,7 @@ static int luaWeaponVocation(lua_State* L)
 static int luaWeaponId(lua_State* L)
 {
 	// weapon:id(id)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		weapon->setID(getNumber<uint32_t>(L, 2));
 		pushBoolean(L, true);
@@ -384,7 +381,7 @@ static int luaWeaponId(lua_State* L)
 static int luaWeaponAttack(lua_State* L)
 {
 	// weapon:attack(atk)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		uint16_t id = weapon->getID();
 		ItemType& it = Item::items.getItemType(id);
@@ -399,7 +396,7 @@ static int luaWeaponAttack(lua_State* L)
 static int luaWeaponDefense(lua_State* L)
 {
 	// weapon:defense(defense[, extraDefense])
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		uint16_t id = weapon->getID();
 		ItemType& it = Item::items.getItemType(id);
@@ -417,7 +414,7 @@ static int luaWeaponDefense(lua_State* L)
 static int luaWeaponRange(lua_State* L)
 {
 	// weapon:range(range)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		uint16_t id = weapon->getID();
 		ItemType& it = Item::items.getItemType(id);
@@ -432,7 +429,7 @@ static int luaWeaponRange(lua_State* L)
 static int luaWeaponCharges(lua_State* L)
 {
 	// weapon:charges(charges[, showCharges = true])
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		bool showCharges = getBoolean(L, 3, true);
 		uint16_t id = weapon->getID();
@@ -450,7 +447,7 @@ static int luaWeaponCharges(lua_State* L)
 static int luaWeaponDuration(lua_State* L)
 {
 	// weapon:duration(duration[, showDuration = true])
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		bool showDuration = getBoolean(L, 3, true);
 		uint16_t id = weapon->getID();
@@ -468,7 +465,7 @@ static int luaWeaponDuration(lua_State* L)
 static int luaWeaponDecayTo(lua_State* L)
 {
 	// weapon:decayTo([itemid = 0])
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		uint16_t itemid = getNumber<uint16_t>(L, 2, 0);
 		uint16_t id = weapon->getID();
@@ -485,7 +482,7 @@ static int luaWeaponDecayTo(lua_State* L)
 static int luaWeaponTransformEquipTo(lua_State* L)
 {
 	// weapon:transformEquipTo(itemid)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		uint16_t id = weapon->getID();
 		ItemType& it = Item::items.getItemType(id);
@@ -500,7 +497,7 @@ static int luaWeaponTransformEquipTo(lua_State* L)
 static int luaWeaponTransformDeEquipTo(lua_State* L)
 {
 	// weapon:transformDeEquipTo(itemid)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		uint16_t id = weapon->getID();
 		ItemType& it = Item::items.getItemType(id);
@@ -515,7 +512,7 @@ static int luaWeaponTransformDeEquipTo(lua_State* L)
 static int luaWeaponShootType(lua_State* L)
 {
 	// weapon:shootType(type)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		uint16_t id = weapon->getID();
 		ItemType& it = Item::items.getItemType(id);
@@ -530,11 +527,11 @@ static int luaWeaponShootType(lua_State* L)
 static int luaWeaponSlotType(lua_State* L)
 {
 	// weapon:slotType(slot)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		uint16_t id = weapon->getID();
 		ItemType& it = Item::items.getItemType(id);
-		std::string slot = getString(L, 2);
+		const std::string& slot = getString(L, 2);
 
 		if (slot == "two-handed") {
 			it.slotPosition |= SLOTP_TWO_HAND;
@@ -551,18 +548,18 @@ static int luaWeaponSlotType(lua_State* L)
 static int luaWeaponAmmoType(lua_State* L)
 {
 	// weapon:ammoType(type)
-	WeaponDistance* weapon = getUserdata<WeaponDistance>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		uint16_t id = weapon->getID();
 		ItemType& it = Item::items.getItemType(id);
-		std::string type = getString(L, 2);
+		const std::string& type = getString(L, 2);
 
 		if (type == "arrow") {
 			it.ammoType = AMMO_ARROW;
 		} else if (type == "bolt") {
 			it.ammoType = AMMO_BOLT;
 		} else {
-			std::cout << "[Warning - weapon:ammoType] Type \"" << type << "\" does not exist." << std::endl;
+			std::cout << "[Warning - luaWeaponAmmoType] Type \"" << type << "\" does not exist." << std::endl;
 			lua_pushnil(L);
 			return 1;
 		}
@@ -576,7 +573,7 @@ static int luaWeaponAmmoType(lua_State* L)
 static int luaWeaponHitChance(lua_State* L)
 {
 	// weapon:hitChance(chance)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		uint16_t id = weapon->getID();
 		ItemType& it = Item::items.getItemType(id);
@@ -591,7 +588,7 @@ static int luaWeaponHitChance(lua_State* L)
 static int luaWeaponMaxHitChance(lua_State* L)
 {
 	// weapon:maxHitChance(max)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		uint16_t id = weapon->getID();
 		ItemType& it = Item::items.getItemType(id);
@@ -606,15 +603,15 @@ static int luaWeaponMaxHitChance(lua_State* L)
 static int luaWeaponExtraElement(lua_State* L)
 {
 	// weapon:extraElement(atk, combatType)
-	Weapon* weapon = getUserdata<Weapon>(L, 1);
+	Weapon_shared_ptr weapon = getSharedPtr<Weapon>(L, 1);
 	if (weapon) {
 		uint16_t id = weapon->getID();
 		ItemType& it = Item::items.getItemType(id);
 		it.abilities.get()->elementDamage = getNumber<uint16_t>(L, 2);
 
 		if (!getNumber<CombatType_t>(L, 3)) {
-			std::string element = getString(L, 3);
-			std::string tmpStrValue = boost::algorithm::to_lower_copy(element);
+			const std::string& element = getString(L, 3);
+			const std::string& tmpStrValue = boost::algorithm::to_lower_copy(element);
 			if (tmpStrValue == "earth") {
 				it.abilities.get()->elementType = COMBAT_EARTHDAMAGE;
 			} else if (tmpStrValue == "ice") {
@@ -644,6 +641,7 @@ namespace LuaWeapon {
 static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("Weapon", "", luaCreateWeapon);
+	interface->registerMethod("Weapon", "weaponType", luaWeaponType);
 	interface->registerMethod("Weapon", "action", luaWeaponAction);
 	interface->registerMethod("Weapon", "register", luaWeaponRegister);
 	interface->registerMethod("Weapon", "id", luaWeaponId);

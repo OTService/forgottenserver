@@ -14,18 +14,20 @@ using namespace Lua;
 
 static int luaCreateCreatureEvent(lua_State* L)
 {
-	// CreatureEvent(eventName)
+	// CreatureEvent({event = "login", name = "test"})
 	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
 		reportErrorFunc(L, "CreatureEvents can only be registered in the Scripts interface.");
 		lua_pushnil(L);
 		return 1;
 	}
 
-	CreatureEvent* creature = new CreatureEvent(LuaScriptInterface::getScriptEnv()->getScriptInterface());
+	auto creature = std::make_shared<CreatureEvent>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 	if (creature) {
-		creature->setName(getString(L, 2));
-		creature->fromLua = true;
-		pushUserdata<CreatureEvent>(L, creature);
+		// checking if it's old revscriptsys
+		if (isString(L, 2)) {
+			creature->setName(getString(L, 2));
+		}
+		pushSharedPtr<CreatureEvent_shared_ptr>(L, creature);
 		setMetatable(L, -1, "CreatureEvent");
 	} else {
 		lua_pushnil(L);
@@ -35,11 +37,10 @@ static int luaCreateCreatureEvent(lua_State* L)
 
 static int luaCreatureEventType(lua_State* L)
 {
-	// creatureevent:type(callback)
-	CreatureEvent* creature = getUserdata<CreatureEvent>(L, 1);
+	// creatureevent:type(callback) creatureevent:event(callback)
+	CreatureEvent_shared_ptr creature = getSharedPtr<CreatureEvent>(L, 1);
 	if (creature) {
-		std::string typeName = getString(L, 2);
-		std::string tmpStr = boost::algorithm::to_lower_copy(typeName);
+		const std::string& tmpStr = boost::algorithm::to_lower_copy(getString(L, 2));
 		if (tmpStr == "login") {
 			creature->setEventType(CREATURE_EVENT_LOGIN);
 		} else if (tmpStr == "logout") {
@@ -65,7 +66,7 @@ static int luaCreatureEventType(lua_State* L)
 		} else if (tmpStr == "extendedopcode") {
 			creature->setEventType(CREATURE_EVENT_EXTENDED_OPCODE);
 		} else {
-			std::cout << "[Error - CreatureEvent::configureLuaEvent] Invalid type for creature event: " << typeName
+			std::cout << "[Error - CreatureEvent::configureLuaEvent] Invalid type for creature event: " << tmpStr
 			          << std::endl;
 			pushBoolean(L, false);
 		}
@@ -77,10 +78,24 @@ static int luaCreatureEventType(lua_State* L)
 	return 1;
 }
 
+static int luaCreatureEventName(lua_State* L)
+{
+	// creatureevent:name(name)
+	CreatureEvent_shared_ptr creature = getSharedPtr<CreatureEvent>(L, 1);
+	if (creature) {
+		const std::string& name = getString(L, 2);
+		creature->setName(name);
+		pushBoolean(L, true);
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
 static int luaCreatureEventRegister(lua_State* L)
 {
 	// creatureevent:register()
-	CreatureEvent* creature = getUserdata<CreatureEvent>(L, 1);
+	CreatureEvent_shared_ptr creature = getSharedPtr<CreatureEvent>(L, 1);
 	if (creature) {
 		if (!creature->isScripted()) {
 			pushBoolean(L, false);
@@ -96,9 +111,20 @@ static int luaCreatureEventRegister(lua_State* L)
 static int luaCreatureEventOnCallback(lua_State* L)
 {
 	// creatureevent:onLogin / logout / etc. (callback)
-	CreatureEvent* creature = getUserdata<CreatureEvent>(L, 1);
+	CreatureEvent_shared_ptr creature = getSharedPtr<CreatureEvent>(L, 1);
 	if (creature) {
-		if (!creature->loadCallback()) {
+		const std::string& functionName = getString(L, 2);
+		bool fileName = false;
+		const static std::vector<std::string> tmp = {
+		    "onLogin",   "onLogout",      "onThink",    "onPrepareDeath", "onDeath",      "onKill",
+		    "onAdvance", "onModalWindow", "onTextEdit", "onHealthChange", "onManaChange", "onExtendedOpcode"};
+		for (auto& it : tmp) {
+			if (it == functionName) {
+				fileName = true;
+				break;
+			}
+		}
+		if (!creature->loadCallback(functionName, fileName)) {
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -109,11 +135,23 @@ static int luaCreatureEventOnCallback(lua_State* L)
 	return 1;
 }
 
+static int luaCreatureEventDelete(lua_State* L)
+{
+	CreatureEvent_shared_ptr& creature = getSharedPtr<CreatureEvent>(L, 1);
+	if (creature) {
+		creature.reset();
+	}
+	return 0;
+}
+
 namespace LuaCreatureEvent {
 static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("CreatureEvent", "", luaCreateCreatureEvent);
+	interface->registerMetaMethod("CreatureEvent", "__gc", luaCreatureEventDelete);
 	interface->registerMethod("CreatureEvent", "type", luaCreatureEventType);
+	interface->registerMethod("CreatureEvent", "event", luaCreatureEventType);
+	interface->registerMethod("CreatureEvent", "name", luaCreatureEventName);
 	interface->registerMethod("CreatureEvent", "register", luaCreatureEventRegister);
 	interface->registerMethod("CreatureEvent", "onLogin", luaCreatureEventOnCallback);
 	interface->registerMethod("CreatureEvent", "onLogout", luaCreatureEventOnCallback);

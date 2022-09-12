@@ -21,10 +21,9 @@ static int luaCreateMoveEvent(lua_State* L)
 		return 1;
 	}
 
-	MoveEvent* moveevent = new MoveEvent(LuaScriptInterface::getScriptEnv()->getScriptInterface());
+	auto moveevent = std::make_shared<MoveEvent>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 	if (moveevent) {
-		moveevent->fromLua = true;
-		pushUserdata<MoveEvent>(L, moveevent);
+		pushSharedPtr<MoveEvent_shared_ptr>(L, moveevent);
 		setMetatable(L, -1, "MoveEvent");
 	} else {
 		lua_pushnil(L);
@@ -34,11 +33,10 @@ static int luaCreateMoveEvent(lua_State* L)
 
 static int luaMoveEventType(lua_State* L)
 {
-	// moveevent:type(callback)
-	MoveEvent* moveevent = getUserdata<MoveEvent>(L, 1);
+	// moveevent:type(callback) // moveevent:event(callback)
+	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
-		std::string typeName = getString(L, 2);
-		std::string tmpStr = boost::algorithm::to_lower_copy(typeName);
+		const std::string& tmpStr = boost::algorithm::to_lower_copy(getString(L, 2));
 		if (tmpStr == "stepin") {
 			moveevent->setEventType(MOVE_EVENT_STEP_IN);
 			moveevent->stepFunction = moveevent->StepInField;
@@ -58,7 +56,7 @@ static int luaMoveEventType(lua_State* L)
 			moveevent->setEventType(MOVE_EVENT_REMOVE_ITEM);
 			moveevent->moveFunction = moveevent->RemoveItemField;
 		} else {
-			std::cout << "Error: [MoveEvent::configureMoveEvent] No valid event name " << typeName << std::endl;
+			std::cout << "Error: [MoveEvent::configureMoveEvent] No valid event name " << tmpStr << std::endl;
 			pushBoolean(L, false);
 		}
 		pushBoolean(L, true);
@@ -71,7 +69,7 @@ static int luaMoveEventType(lua_State* L)
 static int luaMoveEventRegister(lua_State* L)
 {
 	// moveevent:register()
-	MoveEvent* moveevent = getUserdata<MoveEvent>(L, 1);
+	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
 		if ((moveevent->getEventType() == MOVE_EVENT_EQUIP || moveevent->getEventType() == MOVE_EVENT_DEEQUIP) &&
 		    moveevent->getSlot() == SLOTP_WHEREEVER) {
@@ -84,10 +82,6 @@ static int luaMoveEventRegister(lua_State* L)
 			return 1;
 		}
 		pushBoolean(L, g_moveEvents->registerLuaEvent(moveevent));
-		moveevent->clearItemIdRange();
-		moveevent->clearActionIdRange();
-		moveevent->clearUniqueIdRange();
-		moveevent->clearPosList();
 	} else {
 		lua_pushnil(L);
 	}
@@ -97,9 +91,19 @@ static int luaMoveEventRegister(lua_State* L)
 static int luaMoveEventOnCallback(lua_State* L)
 {
 	// moveevent:onEquip / deEquip / etc. (callback)
-	MoveEvent* moveevent = getUserdata<MoveEvent>(L, 1);
+	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
-		if (!moveevent->loadCallback()) {
+		const std::string& functionName = getString(L, 2);
+		bool fileName = false;
+		const static std::vector<std::string> tmp = {"onEquip",   "onDeequip", "onStepIn",
+		                                             "onStepOut", "onAddItem", "onRemoveItem"};
+		for (auto& it : tmp) {
+			if (it == functionName) {
+				fileName = true;
+				break;
+			}
+		}
+		if (!moveevent->loadCallback(functionName, fileName)) {
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -113,14 +117,14 @@ static int luaMoveEventOnCallback(lua_State* L)
 static int luaMoveEventSlot(lua_State* L)
 {
 	// moveevent:slot(slot)
-	MoveEvent* moveevent = getUserdata<MoveEvent>(L, 1);
+	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (!moveevent) {
 		lua_pushnil(L);
 		return 1;
 	}
 
 	if (moveevent->getEventType() == MOVE_EVENT_EQUIP || moveevent->getEventType() == MOVE_EVENT_DEEQUIP) {
-		std::string slotName = boost::algorithm::to_lower_copy(getString(L, 2));
+		const std::string& slotName = boost::algorithm::to_lower_copy(getString(L, 2));
 		if (slotName == "head") {
 			moveevent->setSlot(SLOTP_HEAD);
 		} else if (slotName == "necklace") {
@@ -157,7 +161,7 @@ static int luaMoveEventSlot(lua_State* L)
 static int luaMoveEventLevel(lua_State* L)
 {
 	// moveevent:level(lvl)
-	MoveEvent* moveevent = getUserdata<MoveEvent>(L, 1);
+	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
 		moveevent->setRequiredLevel(getNumber<uint32_t>(L, 2));
 		moveevent->setWieldInfo(WIELDINFO_LEVEL);
@@ -171,7 +175,7 @@ static int luaMoveEventLevel(lua_State* L)
 static int luaMoveEventMagLevel(lua_State* L)
 {
 	// moveevent:magicLevel(lvl)
-	MoveEvent* moveevent = getUserdata<MoveEvent>(L, 1);
+	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
 		moveevent->setRequiredMagLevel(getNumber<uint32_t>(L, 2));
 		moveevent->setWieldInfo(WIELDINFO_MAGLV);
@@ -185,7 +189,7 @@ static int luaMoveEventMagLevel(lua_State* L)
 static int luaMoveEventPremium(lua_State* L)
 {
 	// moveevent:premium(bool)
-	MoveEvent* moveevent = getUserdata<MoveEvent>(L, 1);
+	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
 		moveevent->setNeedPremium(getBoolean(L, 2));
 		moveevent->setWieldInfo(WIELDINFO_PREMIUM);
@@ -199,7 +203,7 @@ static int luaMoveEventPremium(lua_State* L)
 static int luaMoveEventVocation(lua_State* L)
 {
 	// moveevent:vocation(vocName[, showInDescription = false, lastVoc = false])
-	MoveEvent* moveevent = getUserdata<MoveEvent>(L, 1);
+	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
 		moveevent->addVocEquipMap(getString(L, 2));
 		moveevent->setWieldInfo(WIELDINFO_VOCREQ);
@@ -239,7 +243,7 @@ static int luaMoveEventVocation(lua_State* L)
 static int luaMoveEventTileItem(lua_State* L)
 {
 	// moveevent:tileItem(bool)
-	MoveEvent* moveevent = getUserdata<MoveEvent>(L, 1);
+	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
 		moveevent->setTileItem(getBoolean(L, 2));
 		pushBoolean(L, true);
@@ -252,7 +256,7 @@ static int luaMoveEventTileItem(lua_State* L)
 static int luaMoveEventItemId(lua_State* L)
 {
 	// moveevent:id(ids)
-	MoveEvent* moveevent = getUserdata<MoveEvent>(L, 1);
+	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
 		int parameters = lua_gettop(L) - 1; // - 1 because self is a parameter aswell, which we want to skip ofc
 		if (parameters > 1) {
@@ -272,7 +276,7 @@ static int luaMoveEventItemId(lua_State* L)
 static int luaMoveEventActionId(lua_State* L)
 {
 	// moveevent:aid(ids)
-	MoveEvent* moveevent = getUserdata<MoveEvent>(L, 1);
+	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
 		int parameters = lua_gettop(L) - 1; // - 1 because self is a parameter aswell, which we want to skip ofc
 		if (parameters > 1) {
@@ -292,7 +296,7 @@ static int luaMoveEventActionId(lua_State* L)
 static int luaMoveEventUniqueId(lua_State* L)
 {
 	// moveevent:uid(ids)
-	MoveEvent* moveevent = getUserdata<MoveEvent>(L, 1);
+	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
 		int parameters = lua_gettop(L) - 1; // - 1 because self is a parameter aswell, which we want to skip ofc
 		if (parameters > 1) {
@@ -312,7 +316,7 @@ static int luaMoveEventUniqueId(lua_State* L)
 static int luaMoveEventPosition(lua_State* L)
 {
 	// moveevent:position(positions)
-	MoveEvent* moveevent = getUserdata<MoveEvent>(L, 1);
+	MoveEvent_shared_ptr moveevent = getSharedPtr<MoveEvent>(L, 1);
 	if (moveevent) {
 		int parameters = lua_gettop(L) - 1; // - 1 because self is a parameter aswell, which we want to skip ofc
 		if (parameters > 1) {
@@ -329,11 +333,22 @@ static int luaMoveEventPosition(lua_State* L)
 	return 1;
 }
 
+static int luaMoveEventDelete(lua_State* L)
+{
+	MoveEvent_shared_ptr& moveEvent = getSharedPtr<MoveEvent>(L, 1);
+	if (moveEvent) {
+		moveEvent.reset();
+	}
+	return 0;
+}
+
 namespace LuaMoveEvent {
 static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("MoveEvent", "", luaCreateMoveEvent);
+	interface->registerMetaMethod("MoveEvent", "__gc", luaMoveEventDelete);
 	interface->registerMethod("MoveEvent", "type", luaMoveEventType);
+	interface->registerMethod("MoveEvent", "event", luaMoveEventType);
 	interface->registerMethod("MoveEvent", "register", luaMoveEventRegister);
 	interface->registerMethod("MoveEvent", "level", luaMoveEventLevel);
 	interface->registerMethod("MoveEvent", "magicLevel", luaMoveEventMagLevel);

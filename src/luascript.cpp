@@ -76,7 +76,7 @@ void ScriptEnvironment::resetEnv()
 	tempResults.clear();
 
 	auto pair = tempItems.equal_range(this);
-	auto it = pair.first;
+	auto& it = pair.first;
 	while (it != pair.second) {
 		Item* item = it->second;
 		if (item && item->getParent() == VirtualCylinder::virtualCylinder) {
@@ -392,6 +392,33 @@ int32_t LuaScriptInterface::getEvent()
 
 	cacheFiles[runningEventId] = loadingFile + ":callback";
 	return runningEventId++;
+}
+
+int32_t LuaScriptInterface::getEventCallback(std::string name, bool fileName, int32_t id)
+{
+	// check if function is on the stack
+	if (!isFunction(luaState, -1)) {
+		return -1;
+	}
+
+	// get our events table
+	lua_rawgeti(luaState, LUA_REGISTRYINDEX, eventTableRef);
+	if (!isTable(luaState, -1)) {
+		lua_pop(luaState, 1);
+		return -1;
+	}
+
+	// save in our events table
+	lua_pushvalue(luaState, -2);
+	lua_rawseti(luaState, -2, id == 0 ? runningEventId : id);
+	lua_pop(luaState, 2);
+
+	if (fileName) {
+		cacheFiles[id == 0 ? runningEventId : id] = loadingFile + ":" + name;
+	} else {
+		cacheFiles[id == 0 ? runningEventId : id] = ">> " + name + " <<";
+	}
+	return id == 0 ? runningEventId++ : id;
 }
 
 int32_t LuaScriptInterface::getMetaEvent(const std::string& globalName, const std::string& eventName)
@@ -838,9 +865,9 @@ LuaVariant Lua::getVariant(lua_State* L, int32_t arg)
 
 InstantSpell* Lua::getInstantSpell(lua_State* L, int32_t arg)
 {
-	InstantSpell* spell = g_spells->getInstantSpellByName(getFieldString(L, arg, "name"));
+	InstantSpell_shared_ptr spell = g_spells->getInstantSpellByName(getFieldString(L, arg, "name"));
 	lua_pop(L, 1);
-	return spell;
+	return spell.get();
 }
 
 Reflect Lua::getReflect(lua_State* L, int32_t arg)

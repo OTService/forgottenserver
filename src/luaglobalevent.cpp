@@ -15,20 +15,36 @@ using namespace Lua;
 
 static int luaCreateGlobalEvent(lua_State* L)
 {
-	// GlobalEvent(eventName)
+	// GlobalEvent({event = "think", name = "test"})
 	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
 		reportErrorFunc(L, "GlobalEvents can only be registered in the Scripts interface.");
 		lua_pushnil(L);
 		return 1;
 	}
 
-	GlobalEvent* global = new GlobalEvent(LuaScriptInterface::getScriptEnv()->getScriptInterface());
+	auto global = std::make_shared<GlobalEvent>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 	if (global) {
-		global->setName(getString(L, 2));
+		// checking for old revscriptsys
+		if (isString(L, 2)) {
+			global->setName(getString(L, 2));
+		}
 		global->setEventType(GLOBALEVENT_NONE);
-		global->fromLua = true;
-		pushUserdata<GlobalEvent>(L, global);
+		pushSharedPtr<GlobalEvent_shared_ptr>(L, global);
 		setMetatable(L, -1, "GlobalEvent");
+	} else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+static int luaGlobalEventName(lua_State* L)
+{
+	// globalevent:name(name)
+	GlobalEvent_shared_ptr global = getSharedPtr<GlobalEvent>(L, 1);
+	if (global) {
+		const std::string& name = getString(L, 2);
+		global->setName(name);
+		pushBoolean(L, true);
 	} else {
 		lua_pushnil(L);
 	}
@@ -38,19 +54,21 @@ static int luaCreateGlobalEvent(lua_State* L)
 static int luaGlobalEventType(lua_State* L)
 {
 	// globalevent:type(callback)
-	GlobalEvent* global = getUserdata<GlobalEvent>(L, 1);
+	GlobalEvent_shared_ptr global = getSharedPtr<GlobalEvent>(L, 1);
 	if (global) {
-		std::string typeName = getString(L, 2);
-		std::string tmpStr = boost::algorithm::to_lower_copy(typeName);
+		const std::string& tmpStr = boost::algorithm::to_lower_copy(getString(L, 2));
 		if (tmpStr == "startup") {
 			global->setEventType(GLOBALEVENT_STARTUP);
 		} else if (tmpStr == "shutdown") {
 			global->setEventType(GLOBALEVENT_SHUTDOWN);
 		} else if (tmpStr == "record") {
 			global->setEventType(GLOBALEVENT_RECORD);
+		} else if (tmpStr == "time") {
+			global->setEventType(GLOBALEVENT_TIMER);
+		} else if (tmpStr == "think") {
+			// just don't throw an error message due to non existing type
 		} else {
-			std::cout << "[Error - CreatureEvent::configureLuaEvent] Invalid type for global event: " << typeName
-			          << std::endl;
+			std::cout << "[Error - luaGlobalEventType] Invalid type for global event: " << tmpStr << std::endl;
 			pushBoolean(L, false);
 		}
 		pushBoolean(L, true);
@@ -63,21 +81,21 @@ static int luaGlobalEventType(lua_State* L)
 static int luaGlobalEventRegister(lua_State* L)
 {
 	// globalevent:register()
-	GlobalEvent* globalevent = getUserdata<GlobalEvent>(L, 1);
-	if (globalevent) {
-		if (!globalevent->isScripted()) {
+	GlobalEvent_shared_ptr global = getSharedPtr<GlobalEvent>(L, 1);
+	if (global) {
+		if (!global->isScripted()) {
 			pushBoolean(L, false);
 			return 1;
 		}
 
-		if (globalevent->getEventType() == GLOBALEVENT_NONE && globalevent->getInterval() == 0) {
-			std::cout << "[Error - LuaScriptInterface::luaGlobalEventRegister] No interval for globalevent with name "
-			          << globalevent->getName() << std::endl;
+		if (global->getEventType() == GLOBALEVENT_NONE && global->getInterval() == 0) {
+			std::cout << "[Error - luaGlobalEventRegister] No interval/time for globalevent with name "
+			          << global->getName() << std::endl;
 			pushBoolean(L, false);
 			return 1;
 		}
 
-		pushBoolean(L, g_globalEvents->registerLuaEvent(globalevent));
+		pushBoolean(L, g_globalEvents->registerLuaEvent(global));
 	} else {
 		lua_pushnil(L);
 	}
@@ -87,9 +105,18 @@ static int luaGlobalEventRegister(lua_State* L)
 static int luaGlobalEventOnCallback(lua_State* L)
 {
 	// globalevent:onThink / record / etc. (callback)
-	GlobalEvent* globalevent = getUserdata<GlobalEvent>(L, 1);
-	if (globalevent) {
-		if (!globalevent->loadCallback()) {
+	GlobalEvent_shared_ptr global = getSharedPtr<GlobalEvent>(L, 1);
+	if (global) {
+		const std::string& functionName = getString(L, 2);
+		bool fileName = false;
+		const static std::vector<std::string> tmp = {"onThink", "onTime", "onStartup", "onShutdown", "onRecord"};
+		for (auto& it : tmp) {
+			if (it == functionName) {
+				fileName = true;
+				break;
+			}
+		}
+		if (!global->loadCallback(functionName, fileName)) {
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -103,28 +130,28 @@ static int luaGlobalEventOnCallback(lua_State* L)
 static int luaGlobalEventTime(lua_State* L)
 {
 	// globalevent:time(time)
-	GlobalEvent* globalevent = getUserdata<GlobalEvent>(L, 1);
-	if (globalevent) {
+	GlobalEvent_shared_ptr global = getSharedPtr<GlobalEvent>(L, 1);
+	if (global) {
 		std::string timer = getString(L, 2);
 		std::vector<int32_t> params = vectorAtoi(explodeString(timer, ":"));
 
 		int32_t hour = params.front();
 		if (hour < 0 || hour > 23) {
-			std::cout << "[Error - GlobalEvent::configureEvent] Invalid hour \"" << timer
-			          << "\" for globalevent with name: " << globalevent->getName() << std::endl;
+			std::cout << "[Error - luaGlobalEventTime] Invalid hour \"" << timer
+			          << "\" for globalevent with name: " << global->getName() << std::endl;
 			pushBoolean(L, false);
 			return 1;
 		}
 
-		globalevent->setInterval(hour << 16);
+		global->setInterval(hour << 16);
 
 		int32_t min = 0;
 		int32_t sec = 0;
 		if (params.size() > 1) {
 			min = params[1];
 			if (min < 0 || min > 59) {
-				std::cout << "[Error - GlobalEvent::configureEvent] Invalid minute \"" << timer
-				          << "\" for globalevent with name: " << globalevent->getName() << std::endl;
+				std::cout << "[Error - luaGlobalEventTime] Invalid minute \"" << timer
+				          << "\" for globalevent with name: " << global->getName() << std::endl;
 				pushBoolean(L, false);
 				return 1;
 			}
@@ -132,8 +159,8 @@ static int luaGlobalEventTime(lua_State* L)
 			if (params.size() > 2) {
 				sec = params[2];
 				if (sec < 0 || sec > 59) {
-					std::cout << "[Error - GlobalEvent::configureEvent] Invalid second \"" << timer
-					          << "\" for globalevent with name: " << globalevent->getName() << std::endl;
+					std::cout << "[Error - luaGlobalEventTime] Invalid second \"" << timer
+					          << "\" for globalevent with name: " << global->getName() << std::endl;
 					pushBoolean(L, false);
 					return 1;
 				}
@@ -151,8 +178,8 @@ static int luaGlobalEventTime(lua_State* L)
 			difference += 86400;
 		}
 
-		globalevent->setNextExecution(current_time + difference);
-		globalevent->setEventType(GLOBALEVENT_TIMER);
+		global->setNextExecution(current_time + difference);
+		global->setEventType(GLOBALEVENT_TIMER);
 		pushBoolean(L, true);
 	} else {
 		lua_pushnil(L);
@@ -163,10 +190,10 @@ static int luaGlobalEventTime(lua_State* L)
 static int luaGlobalEventInterval(lua_State* L)
 {
 	// globalevent:interval(interval)
-	GlobalEvent* globalevent = getUserdata<GlobalEvent>(L, 1);
-	if (globalevent) {
-		globalevent->setInterval(getNumber<uint32_t>(L, 2));
-		globalevent->setNextExecution(OTSYS_TIME() + getNumber<uint32_t>(L, 2));
+	GlobalEvent_shared_ptr global = getSharedPtr<GlobalEvent>(L, 1);
+	if (global) {
+		global->setInterval(getNumber<uint32_t>(L, 2));
+		global->setNextExecution(OTSYS_TIME() + getNumber<uint32_t>(L, 2));
 		pushBoolean(L, true);
 	} else {
 		lua_pushnil(L);
@@ -174,11 +201,23 @@ static int luaGlobalEventInterval(lua_State* L)
 	return 1;
 }
 
+static int luaGlobalEventDelete(lua_State* L)
+{
+	GlobalEvent_shared_ptr& global = getSharedPtr<GlobalEvent>(L, 1);
+	if (global) {
+		global.reset();
+	}
+	return 0;
+}
+
 namespace LuaGlobalEvent {
 static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("GlobalEvent", "", luaCreateGlobalEvent);
+	interface->registerMetaMethod("GlobalEvent", "__gc", luaGlobalEventDelete);
+	interface->registerMethod("GlobalEvent", "name", luaGlobalEventName);
 	interface->registerMethod("GlobalEvent", "type", luaGlobalEventType);
+	interface->registerMethod("GlobalEvent", "event", luaGlobalEventType);
 	interface->registerMethod("GlobalEvent", "register", luaGlobalEventRegister);
 	interface->registerMethod("GlobalEvent", "time", luaGlobalEventTime);
 	interface->registerMethod("GlobalEvent", "interval", luaGlobalEventInterval);

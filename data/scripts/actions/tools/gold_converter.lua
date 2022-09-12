@@ -1,10 +1,9 @@
 local config = {}
 
-local goldConverter = Action()
+local goldConverter = Action({id=26378})
 
-function goldConverter.onUse(player, item, fromPosition, target, toPosition, isHotkey)
+function goldConverter.onUseGoldConverter(player, item, fromPosition, target, toPosition, isHotkey)
 	local coin = config[target.itemid]
-
 	if not coin then
 		return false
 	end
@@ -34,6 +33,3 @@ for index, currency in pairs(currencyItems) do
 	local currencyId = currency:getId()
 	config[currencyId] = { changeBack = back and back:getId(), changeTo = to and to:getId() }
 end
-
-goldConverter:id(26378)
-goldConverter:register()

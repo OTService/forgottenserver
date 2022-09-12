@@ -9,7 +9,7 @@
 #include "luascript.h"
 
 class TalkAction;
-using TalkAction_ptr = std::unique_ptr<TalkAction>;
+using TalkAction_shared_ptr = std::shared_ptr<TalkAction>;
 
 enum TalkActionResult_t
 {
@@ -26,6 +26,7 @@ public:
 	bool configureEvent(const pugi::xml_node& node) override;
 
 	const std::string& getWords() const { return words; }
+	void clearWords() { wordsMap.clear(); }
 	const std::vector<std::string>& getWordsMap() const { return wordsMap; }
 	void setWords(std::string word)
 	{
@@ -56,7 +57,7 @@ private:
 	AccountType_t requiredAccountType = ACCOUNT_TYPE_NORMAL;
 };
 
-class TalkActions final : public BaseEvents
+class TalkActions
 {
 public:
 	TalkActions();
@@ -68,16 +69,12 @@ public:
 
 	TalkActionResult_t playerSaySpell(Player* player, SpeakClasses type, const std::string& words) const;
 
-	bool registerLuaEvent(TalkAction* event);
-	void clear(bool fromLua) override final;
+	bool registerLuaEvent(TalkAction_shared_ptr talkAction);
+	TalkAction_shared_ptr getTalkActionEvent(const std::string& word);
+	void clear();
 
 private:
-	LuaScriptInterface& getScriptInterface() override;
-	std::string getScriptBaseName() const override;
-	Event_ptr getEvent(const std::string& nodeName) override;
-	bool registerEvent(Event_ptr event, const pugi::xml_node& node) override;
-
-	std::map<std::string, TalkAction> talkActions;
+	std::map<std::string, TalkAction_shared_ptr> talkActions;
 
 	LuaScriptInterface scriptInterface;
 };

@@ -14,30 +14,32 @@ using namespace Lua;
 
 static int luaCreateAction(lua_State* L)
 {
-	// Action()
+	// Action({id=1, uid={5,1,2}, aid=7, allowFarUse=true, blockWalls=true, checkFloor=true}) <-- example
 	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
 		reportErrorFunc(L, "Actions can only be registered in the Scripts interface.");
 		lua_pushnil(L);
 		return 1;
 	}
 
-	Action* action = new Action(LuaScriptInterface::getScriptEnv()->getScriptInterface());
+	auto action = std::make_shared<Action>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 	if (action) {
-		action->fromLua = true;
-		pushUserdata<Action>(L, action);
+		pushSharedPtr<Action_shared_ptr>(L, action);
 		setMetatable(L, -1, "Action");
 	} else {
 		lua_pushnil(L);
 	}
+
 	return 1;
 }
 
 static int luaActionOnUse(lua_State* L)
 {
 	// action:onUse(callback)
-	Action* action = getUserdata<Action>(L, 1);
+	Action_shared_ptr action = getSharedPtr<Action>(L, 1);
 	if (action) {
-		if (!action->loadCallback()) {
+		const std::string& functionName = getString(L, 2);
+		bool fileName = functionName == "onUse" ? true : false;
+		if (!action->loadCallback(functionName, fileName)) {
 			pushBoolean(L, false);
 			return 1;
 		}
@@ -52,16 +54,13 @@ static int luaActionOnUse(lua_State* L)
 static int luaActionRegister(lua_State* L)
 {
 	// action:register()
-	Action* action = getUserdata<Action>(L, 1);
+	Action_shared_ptr action = getSharedPtr<Action>(L, 1);
 	if (action) {
 		if (!action->isScripted()) {
 			pushBoolean(L, false);
 			return 1;
 		}
 		pushBoolean(L, g_actions->registerLuaEvent(action));
-		action->clearActionIdRange();
-		action->clearItemIdRange();
-		action->clearUniqueIdRange();
 	} else {
 		lua_pushnil(L);
 	}
@@ -71,7 +70,7 @@ static int luaActionRegister(lua_State* L)
 static int luaActionItemId(lua_State* L)
 {
 	// action:id(ids)
-	Action* action = getUserdata<Action>(L, 1);
+	Action_shared_ptr action = getSharedPtr<Action>(L, 1);
 	if (action) {
 		int parameters = lua_gettop(L) - 1; // - 1 because self is a parameter aswell, which we want to skip ofc
 		if (parameters > 1) {
@@ -91,7 +90,7 @@ static int luaActionItemId(lua_State* L)
 static int luaActionActionId(lua_State* L)
 {
 	// action:aid(aids)
-	Action* action = getUserdata<Action>(L, 1);
+	Action_shared_ptr action = getSharedPtr<Action>(L, 1);
 	if (action) {
 		int parameters = lua_gettop(L) - 1; // - 1 because self is a parameter aswell, which we want to skip ofc
 		if (parameters > 1) {
@@ -111,7 +110,7 @@ static int luaActionActionId(lua_State* L)
 static int luaActionUniqueId(lua_State* L)
 {
 	// action:uid(uids)
-	Action* action = getUserdata<Action>(L, 1);
+	Action_shared_ptr action = getSharedPtr<Action>(L, 1);
 	if (action) {
 		int parameters = lua_gettop(L) - 1; // - 1 because self is a parameter aswell, which we want to skip ofc
 		if (parameters > 1) {
@@ -131,7 +130,7 @@ static int luaActionUniqueId(lua_State* L)
 static int luaActionAllowFarUse(lua_State* L)
 {
 	// action:allowFarUse(bool)
-	Action* action = getUserdata<Action>(L, 1);
+	Action_shared_ptr action = getSharedPtr<Action>(L, 1);
 	if (action) {
 		action->setAllowFarUse(getBoolean(L, 2));
 		pushBoolean(L, true);
@@ -144,7 +143,7 @@ static int luaActionAllowFarUse(lua_State* L)
 static int luaActionBlockWalls(lua_State* L)
 {
 	// action:blockWalls(bool)
-	Action* action = getUserdata<Action>(L, 1);
+	Action_shared_ptr action = getSharedPtr<Action>(L, 1);
 	if (action) {
 		action->setCheckLineOfSight(getBoolean(L, 2));
 		pushBoolean(L, true);
@@ -157,7 +156,7 @@ static int luaActionBlockWalls(lua_State* L)
 static int luaActionCheckFloor(lua_State* L)
 {
 	// action:checkFloor(bool)
-	Action* action = getUserdata<Action>(L, 1);
+	Action_shared_ptr action = getSharedPtr<Action>(L, 1);
 	if (action) {
 		action->setCheckFloor(getBoolean(L, 2));
 		pushBoolean(L, true);
@@ -167,10 +166,20 @@ static int luaActionCheckFloor(lua_State* L)
 	return 1;
 }
 
+static int luaActionDelete(lua_State* L)
+{
+	Action_shared_ptr& action = getSharedPtr<Action>(L, 1);
+	if (action) {
+		action.reset();
+	}
+	return 0;
+}
+
 namespace LuaAction {
 static void registerFunctions(LuaScriptInterface* interface)
 {
 	interface->registerClass("Action", "", luaCreateAction);
+	interface->registerMetaMethod("Action", "__gc", luaActionDelete);
 	interface->registerMethod("Action", "onUse", luaActionOnUse);
 	interface->registerMethod("Action", "register", luaActionRegister);
 	interface->registerMethod("Action", "id", luaActionItemId);

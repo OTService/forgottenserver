@@ -11,6 +11,7 @@
 #include "item.h"
 #include "luascript.h"
 #include "monsters.h"
+#include "movement.h"
 #include "player.h"
 
 #define registerEnum(i, value) \
@@ -919,23 +920,16 @@ static void registerEnums(LuaScriptInterface* interface)
 	registerEnum(interface, RETURNVALUE_YOUCANNOTUSETHISBED);
 
 	registerEnum(interface, RELOAD_TYPE_ALL);
-	registerEnum(interface, RELOAD_TYPE_ACTIONS);
 	registerEnum(interface, RELOAD_TYPE_CHAT);
 	registerEnum(interface, RELOAD_TYPE_CONFIG);
-	registerEnum(interface, RELOAD_TYPE_CREATURESCRIPTS);
 	registerEnum(interface, RELOAD_TYPE_EVENTS);
 	registerEnum(interface, RELOAD_TYPE_LIBRARY);
-	registerEnum(interface, RELOAD_TYPE_GLOBALEVENTS);
 	registerEnum(interface, RELOAD_TYPE_MONSTERS);
 	registerEnum(interface, RELOAD_TYPE_MOUNTS);
-	registerEnum(interface, RELOAD_TYPE_MOVEMENTS);
 	registerEnum(interface, RELOAD_TYPE_NPCS);
 	registerEnum(interface, RELOAD_TYPE_QUESTS);
 	registerEnum(interface, RELOAD_TYPE_RAIDS);
 	registerEnum(interface, RELOAD_TYPE_SCRIPTS);
-	registerEnum(interface, RELOAD_TYPE_SPELLS);
-	registerEnum(interface, RELOAD_TYPE_TALKACTIONS);
-	registerEnum(interface, RELOAD_TYPE_WEAPONS);
 
 	registerEnum(interface, ZONE_PROTECTION);
 	registerEnum(interface, ZONE_NOPVP);
@@ -957,6 +951,15 @@ static void registerEnums(LuaScriptInterface* interface)
 	registerEnum(interface, DECAYING_FALSE);
 	registerEnum(interface, DECAYING_TRUE);
 	registerEnum(interface, DECAYING_PENDING);
+
+	registerEnum(interface, MOVE_EVENT_STEP_IN);
+	registerEnum(interface, MOVE_EVENT_STEP_OUT);
+	registerEnum(interface, MOVE_EVENT_EQUIP);
+	registerEnum(interface, MOVE_EVENT_DEEQUIP);
+	registerEnum(interface, MOVE_EVENT_ADD_ITEM);
+	registerEnum(interface, MOVE_EVENT_REMOVE_ITEM);
+	registerEnum(interface, MOVE_EVENT_ADD_ITEM_ITEMTILE);
+	registerEnum(interface, MOVE_EVENT_REMOVE_ITEM_ITEMTILE);
 
 	// configKeys
 	interface->registerTable("configKeys");

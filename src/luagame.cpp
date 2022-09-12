@@ -3,23 +3,35 @@
 
 #include "otpch.h"
 
+#include "actions.h"
 #include "configmanager.h"
 #include "creature.h"
+#include "creatureevent.h"
 #include "events.h"
 #include "game.h"
+#include "globalevent.h"
 #include "luascript.h"
 #include "monster.h"
 #include "monsters.h"
+#include "movement.h"
 #include "npc.h"
 #include "outfit.h"
 #include "script.h"
 #include "spectators.h"
+#include "talkaction.h"
+#include "weapons.h"
 
 extern ConfigManager g_config;
 extern Monsters g_monsters;
 extern Events* g_events;
 extern Scripts* g_scripts;
 extern LuaEnvironment g_luaEnvironment;
+extern Actions* g_actions;
+extern TalkActions* g_talkActions;
+extern MoveEvents* g_moveEvents;
+extern CreatureEvents* g_creatureEvents;
+extern GlobalEvents* g_globalEvents;
+extern Weapons* g_weapons;
 
 using namespace Lua;
 
@@ -636,6 +648,152 @@ static int luaGameSaveAccountStorageValues(lua_State* L)
 	return 1;
 }
 
+static int luaGameGetAction(lua_State* L)
+{
+	// Game.getAction(id, eventType)
+	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
+		reportErrorFunc(L, "Game.getAction can only be called in the Scripts interface.");
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t id = getNumber<uint16_t>(L, 1);
+	const std::string& eventType = getString(L, 2);
+
+	Action_shared_ptr action = g_actions->getActionEvent(eventType, id);
+	if (action) {
+		pushSharedPtr<Action_shared_ptr>(L, action);
+		setMetatable(L, -1, "Action");
+	} else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
+static int luaGameGetTalkAction(lua_State* L)
+{
+	// Game.getTalkAction(word)
+	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
+		reportErrorFunc(L, "Game.getTalkAction can only be called in the Scripts interface.");
+		lua_pushnil(L);
+		return 1;
+	}
+
+	const std::string& word = getString(L, 2);
+
+	TalkAction_shared_ptr talk = g_talkActions->getTalkActionEvent(word);
+	if (talk) {
+		pushSharedPtr<TalkAction_shared_ptr>(L, talk);
+		setMetatable(L, -1, "TalkAction");
+	} else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
+static int luaGameGetMoveEvent(lua_State* L)
+{
+	// Game.getMoveEvent(id or pos, ex: MOVE_EVENT_STEP_IN[, "id"])
+	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
+		reportErrorFunc(L, "Game.getMoveEvent can only be called in the Scripts interface.");
+		lua_pushnil(L);
+		return 1;
+	}
+
+	if (isNumber(L, 1)) {
+		uint16_t id = getNumber<uint16_t>(L, 1);
+		MoveEvent_t eventType = getNumber<MoveEvent_t>(L, 2);
+		const std::string& stringType = getString(L, 3);
+		MoveEvent_shared_ptr move = g_moveEvents->getMoveEvent(id, eventType, stringType);
+		if (move) {
+			pushSharedPtr<MoveEvent_shared_ptr>(L, move);
+			setMetatable(L, -1, "MoveEvent");
+		} else {
+			lua_pushnil(L);
+		}
+	} else {
+		const Position& pos = getPosition(L, 1);
+		MoveEvent_t eventType = getNumber<MoveEvent_t>(L, 2);
+		MoveEvent_shared_ptr move = g_moveEvents->getMoveEvent(pos, eventType);
+		if (move) {
+			pushSharedPtr<MoveEvent_shared_ptr>(L, move);
+			setMetatable(L, -1, "MoveEvent");
+		} else {
+			lua_pushnil(L);
+		}
+	}
+
+	return 1;
+}
+
+static int luaGameGetCreatureEvent(lua_State* L)
+{
+	// Game.getCreatureEvent(name)
+	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
+		reportErrorFunc(L, "Game.getCreatureEvent can only be called in the Scripts interface.");
+		lua_pushnil(L);
+		return 1;
+	}
+
+	const std::string& name = getString(L, 2);
+
+	CreatureEvent_shared_ptr creature = g_creatureEvents->getCreatureEvent(name);
+	if (creature) {
+		pushSharedPtr<CreatureEvent_shared_ptr>(L, creature);
+		setMetatable(L, -1, "CreatureEvent");
+	} else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
+static int luaGameGetGlobalEvent(lua_State* L)
+{
+	// Game.getGlobalEvent(name)
+	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
+		reportErrorFunc(L, "Game.getGlobalEvent can only be called in the Scripts interface.");
+		lua_pushnil(L);
+		return 1;
+	}
+
+	const std::string& name = getString(L, 2);
+
+	GlobalEvent_shared_ptr global = g_globalEvents->getGlobalEvent(name);
+	if (global) {
+		pushSharedPtr<GlobalEvent_shared_ptr>(L, global);
+		setMetatable(L, -1, "GlobalEvent");
+	} else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
+static int luaGameGetWeapon(lua_State* L)
+{
+	// Game.getWeapon(id)
+	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
+		reportErrorFunc(L, "Game.getWeapon can only be called in the Scripts interface.");
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t id = getNumber<uint16_t>(L, 2);
+
+	Weapon_shared_ptr weapon = g_weapons->getWeapon(id);
+	if (weapon) {
+		pushSharedPtr<Weapon_shared_ptr>(L, weapon);
+		setMetatable(L, -1, "Weapon");
+	} else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
 namespace LuaGame {
 static void registerFunctions(LuaScriptInterface* interface)
 {
@@ -688,5 +846,12 @@ static void registerFunctions(LuaScriptInterface* interface)
 	interface->registerMethod("Game", "getAccountStorageValue", luaGameGetAccountStorageValue);
 	interface->registerMethod("Game", "setAccountStorageValue", luaGameSetAccountStorageValue);
 	interface->registerMethod("Game", "saveAccountStorageValues", luaGameSaveAccountStorageValues);
+
+	interface->registerMethod("Game", "getAction", luaGameGetAction);
+	interface->registerMethod("Game", "getTalkAction", luaGameGetTalkAction);
+	interface->registerMethod("Game", "getMoveEvent", luaGameGetMoveEvent);
+	interface->registerMethod("Game", "getCreatureEvent", luaGameGetCreatureEvent);
+	interface->registerMethod("Game", "getGlobalEvent", luaGameGetGlobalEvent);
+	interface->registerMethod("Game", "getWeapon", luaGameGetWeapon);
 }
 } // namespace LuaGame
