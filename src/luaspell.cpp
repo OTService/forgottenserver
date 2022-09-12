@@ -23,19 +23,19 @@ static int luaSpellCreate(lua_State* L)
 	}
 
 	if (isString(L, 2)) {
-		auto instant = std::make_shared<InstantSpell>(*g_spells->getInstantSpellByName(getString(L, 2)));
+		auto instant = g_spells->getInstantSpellByName(getString(L, 2));
 		if (instant) {
 			pushSharedPtr<Spell_shared_ptr>(L, instant);
 			setMetatable(L, -1, "Spell");
 			return 1;
 		}
-		auto instant2 = std::make_shared<InstantSpell>(*g_spells->getInstantSpell(getString(L, 2)));
+		auto instant2 = g_spells->getInstantSpell(getString(L, 2));
 		if (instant2) {
 			pushSharedPtr<Spell_shared_ptr>(L, instant2);
 			setMetatable(L, -1, "Spell");
 			return 1;
 		}
-		auto rune = std::make_shared<RuneSpell>(*g_spells->getRuneSpellByName(getString(L, 2)));
+		auto rune = g_spells->getRuneSpellByName(getString(L, 2));
 		if (rune) {
 			pushSharedPtr<Spell_shared_ptr>(L, rune);
 			setMetatable(L, -1, "Spell");
@@ -101,14 +101,14 @@ static int luaSpellRegister(lua_State* L)
 	Spell_shared_ptr spell = getSharedPtr<Spell>(L, 1);
 	if (spell) {
 		if (spell->spellType == SPELL_INSTANT) {
-			InstantSpell* instant = static_cast<InstantSpell*>(spell.get());
+			InstantSpell_shared_ptr instant = getSharedPtr<InstantSpell>(L, 1);
 			if (!instant->isScripted()) {
 				pushBoolean(L, false);
 				return 1;
 			}
-			pushBoolean(L, g_spells->registerInstantLuaEvent(spell));
+			pushBoolean(L, g_spells->registerInstantLuaEvent(instant));
 		} else if (spell->spellType == SPELL_RUNE) {
-			RuneSpell* rune = static_cast<RuneSpell*>(spell.get());
+			RuneSpell_shared_ptr rune = getSharedPtr<RuneSpell>(L, 1);
 			if (rune->getMagicLevel() != 0 || rune->getLevel() != 0) {
 				// Change information in the ItemType to get accurate description
 				ItemType& iType = Item::items.getItemType(rune->getRuneItemId());
@@ -121,7 +121,7 @@ static int luaSpellRegister(lua_State* L)
 				pushBoolean(L, false);
 				return 1;
 			}
-			pushBoolean(L, g_spells->registerRuneLuaEvent(spell));
+			pushBoolean(L, g_spells->registerRuneLuaEvent(rune));
 		}
 	} else {
 		lua_pushnil(L);

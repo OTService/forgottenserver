@@ -18,9 +18,9 @@ extern Weapons* g_weapons;
 
 Weapons::Weapons() { scriptInterface.initState(); }
 
-Weapons::~Weapons() { clear(false); }
+Weapons::~Weapons() { clear(); }
 
-const Weapon* Weapons::getWeapon(const Item* item) const
+const Weapon_shared_ptr Weapons::getWeapon(const Item* item) const
 {
 	if (!item) {
 		return nullptr;
@@ -37,27 +37,17 @@ Weapon_shared_ptr Weapons::getWeapon(uint16_t id)
 {
 	auto it = weapons.find(id);
 	if (it != weapons.end()) {
-		return std::make_shared<Weapon>(it->second);
+		return it->second;
 	}
 	return nullptr;
 }
 
-void Weapons::clear(bool fromLua)
+void Weapons::clear()
 {
-	for (auto it = weapons.begin(); it != weapons.end();) {
-		if (fromLua == it->second->fromLua) {
-			it = weapons.erase(it);
-		} else {
-			++it;
-		}
-	}
+	weapons.clear();
 
-	reInitState(fromLua);
+	scriptInterface.reInitState();
 }
-
-LuaScriptInterface& Weapons::getScriptInterface() { return scriptInterface; }
-
-std::string Weapons::getScriptBaseName() const { return "weapons"; }
 
 void Weapons::loadDefaults()
 {
@@ -71,7 +61,7 @@ void Weapons::loadDefaults()
 			case WEAPON_AXE:
 			case WEAPON_SWORD:
 			case WEAPON_CLUB: {
-				WeaponMelee* weapon = new WeaponMelee(&scriptInterface);
+				auto weapon = std::make_shared<WeaponMelee>(&scriptInterface);
 				weapon->configureWeapon(it);
 				weapons[i] = weapon;
 				break;
@@ -83,7 +73,7 @@ void Weapons::loadDefaults()
 					continue;
 				}
 
-				WeaponDistance* weapon = new WeaponDistance(&scriptInterface);
+				auto weapon = std::make_shared<WeaponDistance>(&scriptInterface);
 				weapon->configureWeapon(it);
 				weapons[i] = weapon;
 				break;
@@ -93,30 +83,6 @@ void Weapons::loadDefaults()
 				break;
 		}
 	}
-}
-
-Event_ptr Weapons::getEvent(const std::string& nodeName)
-{
-	if (caseInsensitiveEqual(nodeName, "melee")) {
-		return Event_ptr(new WeaponMelee(&scriptInterface));
-	} else if (caseInsensitiveEqual(nodeName, "distance")) {
-		return Event_ptr(new WeaponDistance(&scriptInterface));
-	} else if (caseInsensitiveEqual(nodeName, "wand")) {
-		return Event_ptr(new WeaponWand(&scriptInterface));
-	}
-	return nullptr;
-}
-
-bool Weapons::registerEvent(Event_ptr event, const pugi::xml_node&)
-{
-	Weapon* weapon = static_cast<Weapon*>(event.release()); // event is guaranteed to be a Weapon
-
-	auto result = weapons.emplace(weapon->getID(), weapon);
-	if (!result.second) {
-		std::cout << "[Warning - Weapons::registerEvent] Duplicate registered item with id: " << weapon->getID()
-		          << std::endl;
-	}
-	return result.second;
 }
 
 bool Weapons::registerLuaEvent(Weapon_shared_ptr weapon)
@@ -660,7 +626,7 @@ bool WeaponDistance::useWeapon(Player* player, Item* item, Creature* target) con
 	const ItemType& it = Item::items[id];
 	if (it.weaponType == WEAPON_AMMO) {
 		Item* mainWeaponItem = player->getWeapon(true);
-		const Weapon* mainWeapon = g_weapons->getWeapon(mainWeaponItem);
+		const Weapon_shared_ptr mainWeapon = g_weapons->getWeapon(mainWeaponItem);
 		if (mainWeapon) {
 			damageModifier = mainWeapon->playerWeaponCheck(player, target, mainWeaponItem->getShootRange());
 		} else if (mainWeaponItem) {

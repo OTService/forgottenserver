@@ -21,7 +21,7 @@ extern LuaEnvironment g_luaEnvironment;
 
 Spells::Spells() { scriptInterface.initState(); }
 
-Spells::~Spells() { clear(false); }
+Spells::~Spells() { clear(); }
 
 TalkActionResult_t Spells::playerSaySpell(Player* player, std::string& words)
 {
@@ -30,7 +30,7 @@ TalkActionResult_t Spells::playerSaySpell(Player* player, std::string& words)
 	// strip trailing spaces
 	boost::algorithm::trim(str_words);
 
-	InstantSpell* instantSpell = getInstantSpell(str_words);
+	InstantSpell_shared_ptr instantSpell = getInstantSpell(str_words);
 	if (!instantSpell) {
 		return TALKACTION_CONTINUE;
 	}
@@ -77,77 +77,19 @@ TalkActionResult_t Spells::playerSaySpell(Player* player, std::string& words)
 	return TALKACTION_FAILED;
 }
 
-void Spells::clearMaps(bool fromLua)
+void Spells::clear()
 {
-	for (auto instant = instants.begin(); instant != instants.end();) {
-		if (fromLua == instant->second.fromLua) {
-			instant = instants.erase(instant);
-		} else {
-			++instant;
-		}
-	}
+	instants.clear();
+	runes.clear();
 
-	for (auto rune = runes.begin(); rune != runes.end();) {
-		if (fromLua == rune->second.fromLua) {
-			rune = runes.erase(rune);
-		} else {
-			++rune;
-		}
-	}
+	scriptInterface.reInitState();
 }
 
-void Spells::clear(bool fromLua)
+bool Spells::registerInstantLuaEvent(InstantSpell_shared_ptr instant)
 {
-	clearMaps(fromLua);
-
-	reInitState(fromLua);
-}
-
-LuaScriptInterface& Spells::getScriptInterface() { return scriptInterface; }
-
-std::string Spells::getScriptBaseName() const { return "spells"; }
-
-Event_ptr Spells::getEvent(const std::string& nodeName)
-{
-	if (caseInsensitiveEqual(nodeName, "rune")) {
-		return Event_ptr(new RuneSpell(&scriptInterface));
-	} else if (caseInsensitiveEqual(nodeName, "instant")) {
-		return Event_ptr(new InstantSpell(&scriptInterface));
-	}
-	return nullptr;
-}
-
-bool Spells::registerEvent(Event_ptr event, const pugi::xml_node&)
-{
-	InstantSpell* instant = dynamic_cast<InstantSpell*>(event.get());
-	if (instant) {
-		auto result = instants.emplace(instant->getWords(), std::move(*instant));
-		if (!result.second) {
-			std::cout << "[Warning - Spells::registerEvent] Duplicate registered instant spell with words: "
-			          << instant->getWords() << std::endl;
-		}
-		return result.second;
-	}
-
-	RuneSpell* rune = dynamic_cast<RuneSpell*>(event.get());
-	if (rune) {
-		auto result = runes.emplace(rune->getRuneItemId(), std::move(*rune));
-		if (!result.second) {
-			std::cout << "[Warning - Spells::registerEvent] Duplicate registered rune with id: "
-			          << rune->getRuneItemId() << std::endl;
-		}
-		return result.second;
-	}
-
-	return false;
-}
-
-bool Spells::registerInstantLuaEvent(Spell_shared_ptr spell)
-{
-	auto instant = std::static_pointer_cast<InstantSpell>(spell);
 	if (instant) {
 		const std::string& words = instant->getWords();
-		auto result = instants.emplace(instant->getWords(), *instant);
+		auto result = instants.emplace(instant->getWords(), instant);
 		if (!result.second) {
 			std::cout << "[Warning - Spells::registerInstantLuaEvent] Duplicate registered instant spell with words: "
 			          << words << std::endl;
@@ -158,12 +100,11 @@ bool Spells::registerInstantLuaEvent(Spell_shared_ptr spell)
 	return false;
 }
 
-bool Spells::registerRuneLuaEvent(Spell_shared_ptr spell)
+bool Spells::registerRuneLuaEvent(RuneSpell_shared_ptr rune)
 {
-	auto rune = std::static_pointer_cast<RuneSpell>(spell);
 	if (rune) {
 		uint16_t id = rune->getRuneItemId();
-		auto result = runes.emplace(rune->getRuneItemId(), *rune);
+		auto result = runes.emplace(rune->getRuneItemId(), rune);
 		if (!result.second) {
 			std::cout << "[Warning - Spells::registerRuneLuaEvent] Duplicate registered rune with id: " << id
 			          << std::endl;
@@ -174,49 +115,49 @@ bool Spells::registerRuneLuaEvent(Spell_shared_ptr spell)
 	return false;
 }
 
-Spell* Spells::getSpellByName(const std::string& name)
+Spell_shared_ptr Spells::getSpellByName(const std::string& name)
 {
-	Spell* spell = getRuneSpellByName(name);
+	Spell_shared_ptr spell = getRuneSpellByName(name);
 	if (!spell) {
 		spell = getInstantSpellByName(name);
 	}
 	return spell;
 }
 
-RuneSpell* Spells::getRuneSpell(uint32_t id)
+RuneSpell_shared_ptr Spells::getRuneSpell(uint32_t id)
 {
 	auto it = runes.find(id);
 	if (it == runes.end()) {
 		for (auto& rune : runes) {
-			if (rune.second.getId() == id) {
-				return &rune.second;
+			if (rune.second->getId() == id) {
+				return rune.second;
 			}
 		}
 		return nullptr;
 	}
-	return &it->second;
+	return it->second;
 }
 
-RuneSpell* Spells::getRuneSpellByName(const std::string& name)
+RuneSpell_shared_ptr Spells::getRuneSpellByName(const std::string& name)
 {
 	for (auto& it : runes) {
-		if (caseInsensitiveEqual(it.second.getName(), name)) {
-			return &it.second;
+		if (caseInsensitiveEqual(it.second->getName(), name)) {
+			return it.second;
 		}
 	}
 	return nullptr;
 }
 
-InstantSpell* Spells::getInstantSpell(const std::string& words)
+InstantSpell_shared_ptr Spells::getInstantSpell(const std::string& words)
 {
-	InstantSpell* result = nullptr;
+	InstantSpell_shared_ptr result = nullptr;
 
 	for (auto& it : instants) {
-		const std::string& instantSpellWords = it.second.getWords();
+		const std::string& instantSpellWords = it.second->getWords();
 		size_t spellLen = instantSpellWords.length();
 		if (caseInsensitiveStartsWith(words, instantSpellWords)) {
 			if (!result || spellLen > result->getWords().size()) {
-				result = &it.second;
+				result = it.second;
 				if (words.length() == spellLen) {
 					break;
 				}
@@ -242,11 +183,11 @@ InstantSpell* Spells::getInstantSpell(const std::string& words)
 	return nullptr;
 }
 
-InstantSpell* Spells::getInstantSpellByName(const std::string& name)
+InstantSpell_shared_ptr Spells::getInstantSpellByName(const std::string& name)
 {
 	for (auto& it : instants) {
-		if (caseInsensitiveEqual(it.second.getName(), name)) {
-			return &it.second;
+		if (caseInsensitiveEqual(it.second->getName(), name)) {
+			return it.second;
 		}
 	}
 	return nullptr;
@@ -258,7 +199,7 @@ Position Spells::getCasterPosition(Creature* creature, Direction dir)
 }
 
 CombatSpell::CombatSpell(Combat_ptr combat, bool needTarget, bool needDirection) :
-    Event(&g_spells->getScriptInterface()), combat(combat), needDirection(needDirection), needTarget(needTarget)
+    Event(&g_spells->scriptInterface), combat(combat), needDirection(needDirection), needTarget(needTarget)
 {}
 
 bool CombatSpell::loadScriptCombat()

@@ -9,7 +9,6 @@
 #include "luascript.h"
 
 class TalkAction;
-using TalkAction_ptr = std::unique_ptr<TalkAction>;
 using TalkAction_shared_ptr = std::shared_ptr<TalkAction>;
 
 enum TalkActionResult_t
@@ -58,7 +57,7 @@ private:
 	AccountType_t requiredAccountType = ACCOUNT_TYPE_NORMAL;
 };
 
-class TalkActions final : public BaseEvents
+class TalkActions
 {
 public:
 	TalkActions();
@@ -72,15 +71,10 @@ public:
 
 	bool registerLuaEvent(TalkAction_shared_ptr talkAction);
 	TalkAction_shared_ptr getTalkActionEvent(const std::string& word);
-	void clear(bool fromLua) override final;
+	void clear();
 
 private:
-	LuaScriptInterface& getScriptInterface() override;
-	std::string getScriptBaseName() const override;
-	Event_ptr getEvent(const std::string& nodeName) override;
-	bool registerEvent(Event_ptr event, const pugi::xml_node& node) override;
-
-	std::map<std::string, TalkAction> talkActions;
+	std::map<std::string, TalkAction_shared_ptr> talkActions;
 
 	LuaScriptInterface scriptInterface;
 };

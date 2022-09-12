@@ -76,7 +76,7 @@ void ScriptEnvironment::resetEnv()
 	tempResults.clear();
 
 	auto pair = tempItems.equal_range(this);
-	auto it = pair.first;
+	auto& it = pair.first;
 	while (it != pair.second) {
 		Item* item = it->second;
 		if (item && item->getParent() == VirtualCylinder::virtualCylinder) {
@@ -865,9 +865,9 @@ LuaVariant Lua::getVariant(lua_State* L, int32_t arg)
 
 InstantSpell* Lua::getInstantSpell(lua_State* L, int32_t arg)
 {
-	InstantSpell* spell = g_spells->getInstantSpellByName(getFieldString(L, arg, "name"));
+	InstantSpell_shared_ptr spell = g_spells->getInstantSpellByName(getFieldString(L, arg, "name"));
 	lua_pop(L, 1);
-	return spell;
+	return spell.get();
 }
 
 Reflect Lua::getReflect(lua_State* L, int32_t arg)
