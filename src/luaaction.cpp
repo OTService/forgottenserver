@@ -23,7 +23,6 @@ static int luaCreateAction(lua_State* L)
 
 	auto action = std::make_shared<Action>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 	if (action) {
-		action->fromLua = true;
 		pushSharedPtr<Action_shared_ptr>(L, action);
 		setMetatable(L, -1, "Action");
 	} else {

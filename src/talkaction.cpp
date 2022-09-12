@@ -83,14 +83,12 @@ TalkActionResult_t TalkActions::playerSaySpell(Player* player, SpeakClasses type
 			}
 		}
 
-		if (it->second->fromLua) {
-			if (it->second->getNeedAccess() && !player->getGroup()->access) {
-				return TALKACTION_BREAK;
-			}
+		if (it->second->getNeedAccess() && !player->getGroup()->access) {
+			return TALKACTION_BREAK;
+		}
 
-			if (player->getAccountType() < it->second->getRequiredAccountType()) {
-				return TALKACTION_BREAK;
-			}
+		if (player->getAccountType() < it->second->getRequiredAccountType()) {
+			return TALKACTION_BREAK;
 		}
 
 		if (it->second->executeSay(player, talkactionWords, param, type)) {

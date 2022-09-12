@@ -29,7 +29,6 @@ static int luaCreateGlobalEvent(lua_State* L)
 			global->setName(getString(L, 2));
 		}
 		global->setEventType(GLOBALEVENT_NONE);
-		global->fromLua = true;
 		pushSharedPtr<GlobalEvent_shared_ptr>(L, global);
 		setMetatable(L, -1, "GlobalEvent");
 	} else {

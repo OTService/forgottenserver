@@ -30,7 +30,6 @@ static int luaCreateTalkaction(lua_State* L)
 				talk->setWords(getString(L, i));
 			}
 		}
-		talk->fromLua = true;
 		pushSharedPtr<TalkAction_shared_ptr>(L, talk);
 		setMetatable(L, -1, "TalkAction");
 	} else {

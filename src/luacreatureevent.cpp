@@ -27,7 +27,6 @@ static int luaCreateCreatureEvent(lua_State* L)
 		if (isString(L, 2)) {
 			creature->setName(getString(L, 2));
 		}
-		creature->fromLua = true;
 		pushSharedPtr<CreatureEvent_shared_ptr>(L, creature);
 		setMetatable(L, -1, "CreatureEvent");
 	} else {

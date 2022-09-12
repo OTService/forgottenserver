@@ -26,7 +26,6 @@ public:
 	bool isScripted() const { return scripted; }
 
 	bool scripted = false;
-	bool fromLua = false;
 
 	int32_t getScriptId() { return scriptId; }
 

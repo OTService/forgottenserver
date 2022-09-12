@@ -23,7 +23,6 @@ static int luaCreateMoveEvent(lua_State* L)
 
 	auto moveevent = std::make_shared<MoveEvent>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 	if (moveevent) {
-		moveevent->fromLua = true;
 		pushSharedPtr<MoveEvent_shared_ptr>(L, moveevent);
 		setMetatable(L, -1, "MoveEvent");
 	} else {

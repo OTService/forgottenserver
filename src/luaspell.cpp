@@ -47,14 +47,12 @@ static int luaSpellCreate(lua_State* L)
 
 	if (spellType == SPELL_INSTANT) {
 		auto spell = std::make_shared<InstantSpell>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
-		spell->fromLua = true;
 		spell->spellType = SPELL_INSTANT;
 		pushSharedPtr<Spell_shared_ptr>(L, spell);
 		setMetatable(L, -1, "Spell");
 		return 1;
 	} else if (spellType == SPELL_RUNE) {
 		auto rune = std::make_shared<RuneSpell>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
-		rune->fromLua = true;
 		rune->spellType = SPELL_RUNE;
 		pushSharedPtr<Spell_shared_ptr>(L, rune);
 		setMetatable(L, -1, "Spell");

@@ -29,7 +29,6 @@ static int luaCreateWeapon(lua_State* L)
 			auto weapon = std::make_shared<WeaponMelee>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 			if (weapon) {
 				weapon->weaponType = type;
-				weapon->fromLua = true;
 				pushSharedPtr<Weapon_shared_ptr>(L, weapon);
 				setMetatable(L, -1, "Weapon");
 			} else {
@@ -42,7 +41,6 @@ static int luaCreateWeapon(lua_State* L)
 			auto weapon = std::make_shared<WeaponDistance>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 			if (weapon) {
 				weapon->weaponType = type;
-				weapon->fromLua = true;
 				pushSharedPtr<Weapon_shared_ptr>(L, weapon);
 				setMetatable(L, -1, "Weapon");
 			} else {
@@ -54,7 +52,6 @@ static int luaCreateWeapon(lua_State* L)
 			auto weapon = std::make_shared<WeaponWand>(LuaScriptInterface::getScriptEnv()->getScriptInterface());
 			if (weapon) {
 				weapon->weaponType = type;
-				weapon->fromLua = true;
 				pushSharedPtr<Weapon_shared_ptr>(L, weapon);
 				setMetatable(L, -1, "Weapon");
 			} else {
