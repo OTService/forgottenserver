@@ -551,10 +551,10 @@ NpcScriptInterface* Npc::getScriptInterface() { return scriptInterface; }
 NpcScriptInterface::NpcScriptInterface() : LuaScriptInterface("Npc interface")
 {
 	libLoaded = false;
-	initState();
+	initState(false);
 }
 
-bool NpcScriptInterface::initState()
+bool NpcScriptInterface::initState(bool newLuaState)
 {
 	luaState = g_luaEnvironment.getLuaState();
 	if (!luaState) {

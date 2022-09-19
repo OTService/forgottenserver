@@ -56,7 +56,7 @@ bool ScriptingManager::loadScriptSystems()
 
 	// load item data
 	std::cout << ">> Loading items..." << std::endl;
-	if (!g_scripts->loadItems("serverid")) {
+	if (!g_scripts->loadItemsMultiThreaded("serverid")) {
 		std::cout << "> ERROR: Unable to load items!" << std::endl;
 		return false;
 	}

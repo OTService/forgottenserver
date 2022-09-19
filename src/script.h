@@ -9,13 +9,14 @@
 class Scripts
 {
 public:
-	Scripts();
+	Scripts(bool newLuaState = false);
 	~Scripts();
 
 	bool loadScripts(bool reload);
 	bool loadMonsters();
 	bool loadLibs();
 	bool loadItems(std::string folderName);
+	bool loadItemsMultiThreaded(std::string folderName);
 	LuaScriptInterface& getScriptInterface() { return scriptInterface; }
 
 private:

@@ -172,7 +172,7 @@ public:
 	LuaScriptInterface(const LuaScriptInterface&) = delete;
 	LuaScriptInterface& operator=(const LuaScriptInterface&) = delete;
 
-	virtual bool initState();
+	virtual bool initState(bool newLuaState = false);
 	bool reInitState();
 
 	int32_t loadFile(const std::string& file, Npc* npc = nullptr);
@@ -184,15 +184,15 @@ public:
 
 	static ScriptEnvironment* getScriptEnv()
 	{
-		assert(scriptEnvIndex >= 0 && scriptEnvIndex < 16);
+		//assert(scriptEnvIndex >= 0 && scriptEnvIndex < 16);
 		return scriptEnv + scriptEnvIndex;
 	}
 
-	static bool reserveScriptEnv() { return ++scriptEnvIndex < 16; }
+	static bool reserveScriptEnv() { return ++scriptEnvIndex; }
 
 	static void resetScriptEnv()
 	{
-		assert(scriptEnvIndex >= 0);
+		//assert(scriptEnvIndex >= 0);
 		scriptEnv[scriptEnvIndex--].resetEnv();
 	}
 
@@ -244,7 +244,6 @@ public:
 
 	static std::string getErrorDesc(ErrorCode_t code);
 
-protected:
 	virtual bool closeState();
 
 	void registerFunctions();
@@ -378,7 +377,7 @@ private:
 
 	std::string interfaceName;
 
-	static ScriptEnvironment scriptEnv[16];
+	static ScriptEnvironment scriptEnv[128];
 	static int32_t scriptEnvIndex;
 
 	std::string loadingFile;
@@ -394,7 +393,7 @@ public:
 	LuaEnvironment(const LuaEnvironment&) = delete;
 	LuaEnvironment& operator=(const LuaEnvironment&) = delete;
 
-	bool initState() override;
+	bool initState(bool newLuaState = false) override;
 	bool reInitState();
 	bool closeState() override;
 

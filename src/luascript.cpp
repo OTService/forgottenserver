@@ -271,7 +271,7 @@ std::string LuaScriptInterface::getErrorDesc(ErrorCode_t code)
 	}
 }
 
-ScriptEnvironment LuaScriptInterface::scriptEnv[16];
+ScriptEnvironment LuaScriptInterface::scriptEnv[128];
 int32_t LuaScriptInterface::scriptEnvIndex = -1;
 
 LuaScriptInterface::LuaScriptInterface(std::string interfaceName) : interfaceName(std::move(interfaceName))
@@ -493,9 +493,23 @@ bool LuaScriptInterface::pushFunction(int32_t functionId)
 	return isFunction(luaState, -1);
 }
 
-bool LuaScriptInterface::initState()
+bool LuaScriptInterface::initState(bool newLuaState)
 {
-	luaState = g_luaEnvironment.getLuaState();
+	if (newLuaState) {
+		luaState = luaL_newstate();
+
+		lua_newtable(luaState);
+		eventTableRef = luaL_ref(luaState, LUA_REGISTRYINDEX);
+		runningEventId = EVENT_ID_USER;
+
+		luaL_openlibs(luaState);
+		registerFunctions();
+
+		return true;
+	} else {
+		luaState = g_luaEnvironment.getLuaState();
+	}
+
 	if (!luaState) {
 		return false;
 	}
@@ -2610,7 +2624,7 @@ LuaEnvironment::~LuaEnvironment()
 	closeState();
 }
 
-bool LuaEnvironment::initState()
+bool LuaEnvironment::initState(bool newLuaState)
 {
 	luaState = luaL_newstate();
 	if (!luaState) {

@@ -8,13 +8,17 @@
 #include "configmanager.h"
 
 #include <filesystem>
+#include <thread>
 
 extern LuaEnvironment g_luaEnvironment;
 extern ConfigManager g_config;
 
-Scripts::Scripts() : scriptInterface("Scripts Interface") { scriptInterface.initState(); }
+Scripts::Scripts(bool newLuaState) : scriptInterface("Scripts Interface")
+{
+	scriptInterface.initState(newLuaState);
+}
 
-Scripts::~Scripts() { scriptInterface.reInitState(); }
+Scripts::~Scripts() { scriptInterface.closeState(); }
 
 bool Scripts::loadScripts(bool reload)
 {
@@ -131,6 +135,58 @@ bool Scripts::loadItems(std::string folderName)
 			std::cout << "^ " << scriptInterface.getLastLuaError() << std::endl;
 			continue;
 		}
+	}
+
+	return true;
+}
+
+bool Scripts::loadItemsMultiThreaded(std::string folderName)
+{
+	std::filesystem::path dir = "data/items/" + folderName;
+	std::filesystem::recursive_directory_iterator endit;
+	std::vector<std::string> temp;
+
+	for (std::filesystem::recursive_directory_iterator it(dir); it != endit; ++it) {
+		temp.push_back(it->path().string());
+	}
+
+	auto cores = std::thread::hardware_concurrency();
+	std::vector<std::thread> t(cores);
+	size_t size = temp.size();
+	uint16_t perCore = size / cores;
+
+	while (perCore * cores < temp.size()) {
+		++perCore;
+	}
+
+	for (int i = 0; i < cores; ++i) {
+		t[i] = std::thread([i, perCore, cores, size, &temp] {
+			int start = i == 0 ? 1 : perCore * i + 1;
+			int end = i == 0 ? perCore * 1 : start + perCore - 1;
+			if (i == cores-1) {
+				end = size;
+			}
+			std::cout << "core[" << i << "] start = " << start << " end = " << end << std::endl;
+
+			Scripts* items = new Scripts(true);
+
+			for (int x = start; x < end; x++) {
+				//std::cout << temp[x] << std::endl;
+				if (items->scriptInterface.loadFile(temp[x]) == -1) {
+					std::cout << "> " << temp[x] << " [error]" << std::endl;
+					std::cout << "^ " << items->scriptInterface.getLastLuaError() << std::endl;
+					continue;
+				}
+			}
+
+			//items->~Scripts();
+			delete items;
+			
+		});
+	}
+
+	for (auto& th : t) {
+		th.join();
 	}
 
 	return true;

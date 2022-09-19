@@ -537,11 +537,13 @@ static int luaGameCreateMonsterType(lua_State* L)
 static int luaGameCreateItemType(lua_State* L)
 {
 	// Game.createItemType(id, clientid)
+	/*
 	if (LuaScriptInterface::getScriptEnv()->getScriptInterface() != &g_scripts->getScriptInterface()) {
 		reportErrorFunc(L, "ItemTypes can only be registered in the Scripts interface.");
 		lua_pushnil(L);
 		return 1;
 	}
+	*/
 
 	uint16_t id = getNumber<uint16_t>(L, 1);
 

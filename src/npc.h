@@ -47,7 +47,7 @@ private:
 	static int luaNpcCloseShopWindow(lua_State* L);
 
 private:
-	bool initState() override;
+	bool initState(bool newLuaState) override;
 	bool closeState() override;
 
 	bool libLoaded;
