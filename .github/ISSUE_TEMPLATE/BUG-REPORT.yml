@@ -71,7 +71,7 @@ body:
     id: actual-behavior
     attributes:
       label: Actual Behavior
-      description: This is what happens instead
+      description: This is what happens right now
       placeholder: Please include videos/screenshots (if possible)
     validations:
       required: true
@@ -79,7 +79,7 @@ body:
     id: expected-behavior
     attributes:
       label: Expected Behavior
-      description: This is what happens normaly
+      description: This is what actually should happen
       placeholder: Please include videos/screenshots (if possible)
     validations:
       required: true
