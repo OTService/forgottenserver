@@ -59,7 +59,6 @@ body:
       label: Expected Behavior
       description: What should normaly happen?
       placeholder: Please include video/screenshot (if possible)
-      value: "expected behavior"
     validations:
       required: true
   - type: textarea
@@ -68,7 +67,6 @@ body:
       label: Actual Behavior
       description: This is what happens instead
       placeholder: Please include video/screenshot (if possible)
-      value: "actual behavior"
     validations:
       required: true
   - type: textarea
@@ -77,7 +75,7 @@ body:
       label: Backtrace
       description: Please provide a backtrace of your debugger if this bug crashes tfs.
       placeholder: This will be automatically formatted into code, so no need for backticks.
-      render: shell
+      render: cpp
   - type: markdown
     attributes:
       value: |
