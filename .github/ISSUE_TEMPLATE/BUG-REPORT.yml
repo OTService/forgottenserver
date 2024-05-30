@@ -4,7 +4,7 @@ title: "[Bug]: "
 labels: ["bug", "needs-confirmation"]
 body:
   - type: dropdown
-    id: server version
+    id: server-version
     attributes:
       label: Server Version
       description: Which version was this tested on?
