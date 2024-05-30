@@ -52,7 +52,7 @@ body:
         - Ubuntu 24.04
         - Debian 12
         - MacOS
-      deufault: 0
+      default: 0
     validations:
       required: true
   - type: textarea
