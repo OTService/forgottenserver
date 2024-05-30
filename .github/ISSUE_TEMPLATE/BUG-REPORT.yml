@@ -1,15 +1,34 @@
-name: Bug Report test
+name: Bug Report 
 description: File a bug report.
 title: "[Bug]: "
-labels: ["bug", "triage"]
-projects: ["octo-org/1", "octo-org/44"]
-assignees:
-  - octocat
+labels: ["bug", "needs-confirmation"]
 body:
-  - type: markdown
+  - type: dropdown
+    id: server version
     attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
+      label: Server Version
+      description: Which version was this tested on?
+      multiple: true
+      options:
+        - 1.7 (Master)
+        - 1.6 (Release)
+        - 1.5 (Development)
+        - 1.4.x (Release)
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: On which OS does this bug appear?
+      multiple: true
+      options:
+        - Windows
+        - Ubuntu 20.04
+        - Ubuntu 22.04
+        - Ubuntu 24.04
+        - Debian 12
+        - MacOS
   - type: input
     id: contact
     attributes:
@@ -27,33 +46,16 @@ body:
       value: "A bug happened!"
     validations:
       required: true
-  - type: dropdown
-    id: version
-    attributes:
-      label: Version
-      description: What version of our software are you running?
-      options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
-      default: 0
-    validations:
-      required: true
-  - type: dropdown
-    id: browsers
-    attributes:
-      label: What browsers are you seeing the problem on?
-      multiple: true
-      options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
   - type: textarea
     id: logs
     attributes:
       label: Relevant log output
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
       render: shell
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
   - type: checkboxes
     id: terms
     attributes:
