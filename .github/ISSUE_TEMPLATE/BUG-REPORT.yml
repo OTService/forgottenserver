@@ -3,6 +3,15 @@ description: File a bug report.
 title: "[Bug]: "
 labels: ["bug", "needs-confirmation"]
 body:
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: By submitting this bug issue, you agree to the following.
+      options:
+        - label: This bug does not happen due to changed c++ source code (vanilla version)
+          required: true
+        - label: This bug has not been resolved in master branch
+          required: true
   - type: dropdown
     id: server-version
     attributes:
@@ -66,16 +75,6 @@ body:
       description: Please provide a backtrace of your debugger if this bug crashes tfs.
       placeholder: This will be automatically formatted into code, so no need for backticks.
       render: shell
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: By submitting this bug issue, you agree to the following. 
-      options:
-        - label: This bug does not happen due to changed c++ source code (vanilla version)
-          required: true
-        - label: This bug has not been resolved in master branch
-          required: true
   - type: markdown
     attributes:
       value: |
