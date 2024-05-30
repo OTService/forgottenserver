@@ -20,7 +20,8 @@ body:
   - type: dropdown
     id: os
     attributes:
-      label: On which OS does this bug appear?
+      label: Operation System
+      description: On which OS does this bug appear?
       multiple: true
       options:
         - Windows
@@ -29,38 +30,53 @@ body:
         - Ubuntu 24.04
         - Debian 12
         - MacOS
-  - type: input
-    id: contact
-    attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
-    validations:
-      required: false
-  - type: textarea
-    id: what-happened
-    attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
     validations:
       required: true
   - type: textarea
-    id: logs
+    id: steps
     attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      label: Steps to reproduce
+      description: Tell us how this bug happens?
+      placeholder: please step by step
+      value: "detailed explanation"
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What should normaly happen?
+      placeholder: Please include video/screenshot (if possible)
+      value: "expected behavior"
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: This is what happens instead
+      placeholder: Please include video/screenshot (if possible)
+      value: "actual behavior"
+    validations:
+      required: true
+  - type: textarea
+    id: backtrace
+    attributes:
+      label: Backtrace
+      description: Please provide a backtrace of your debugger if this bug crashes tfs.
+      placeholder: This will be automatically formatted into code, so no need for backticks.
       render: shell
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
   - type: checkboxes
     id: terms
     attributes:
       label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com). 
+      description: By submitting this bug issue, you agree to the following. 
       options:
-        - label: I agree to follow this project's Code of Conduct
+        - label: This bug does not happen due to changed c++ source code (vanilla version)
           required: true
+        - label: This bug has not been resolved in master branch
+          required: true
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
