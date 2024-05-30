@@ -45,9 +45,13 @@ body:
     id: steps
     attributes:
       label: Steps to reproduce
-      description: Tell us how this bug happens?
+      description: Tell us step by step how to reproduce this bug
       placeholder: please step by step
-      value: "detailed explanation"
+      value: |
+        1.
+        2.
+        3.
+        ...
     validations:
       required: true
   - type: textarea
