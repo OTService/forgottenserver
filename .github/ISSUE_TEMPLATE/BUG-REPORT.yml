@@ -46,11 +46,7 @@ body:
     attributes:
       label: Steps to reproduce
       description: Tell us step by step how to reproduce this bug
-      value: |
-        1.
-        2.
-        3.
-        ...
+      value: 1.. 2.. 3..
     validations:
       required: true
   - type: textarea
