@@ -13,6 +13,17 @@ body:
         - label: This bug has not been resolved in master branch
           required: true
   - type: dropdown
+    id: crash
+    attributes:
+      label: Does this bug crash tfs?
+      description: Make sure you pick the right one
+      options:
+        - "no"
+        - "yes"
+        - "yes (not always)"
+    validations:
+      required: true
+  - type: dropdown
     id: server-version
     attributes:
       label: Server Version
@@ -23,17 +34,6 @@ body:
         - 1.6 (Release)
         - 1.5 (Development)
         - 1.4.x (Release)
-      default: 0
-    validations:
-      required: true
-  - type: dropdown
-    id: crash
-    attributes:
-      label: Does this bug crash tfs?
-      options:
-        - "no"
-        - "yes"
-        - "yes (not always)"
       default: 0
     validations:
       required: true
