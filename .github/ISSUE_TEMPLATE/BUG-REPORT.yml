@@ -27,6 +27,17 @@ body:
     validations:
       required: true
   - type: dropdown
+    id: crash
+    attributes:
+      label: Does this bug crash tfs?
+      options:
+        - no
+        - yes
+        - yes (not always)
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
     id: os
     attributes:
       label: Operation System
