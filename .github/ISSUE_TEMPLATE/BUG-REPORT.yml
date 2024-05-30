@@ -8,7 +8,7 @@ body:
     attributes:
       label: By submitting this bug issue, you agree to the following.
       options:
-        - label: This bug does not happen due to changed c++ source code (vanilla version)
+        - label: This bug does not happen due to changes in c++ source code (vanilla version)
           required: true
         - label: This bug has not been resolved in master branch
           required: true
@@ -18,6 +18,7 @@ body:
       label: Does this bug crash tfs?
       description: Make sure you pick the right one
       options:
+        - "not sure"
         - "no"
         - "yes"
         - "yes (not always)"
@@ -44,12 +45,14 @@ body:
       description: On which OS does this bug appear?
       multiple: true
       options:
+        - all (listed below)
         - Windows
         - Ubuntu 20.04
         - Ubuntu 22.04
         - Ubuntu 24.04
         - Debian 12
         - MacOS
+      deufalt: 0
     validations:
       required: true
   - type: textarea
@@ -69,7 +72,7 @@ body:
     attributes:
       label: Expected Behavior
       description: What should normaly happen?
-      placeholder: Please include video/screenshot (if possible)
+      placeholder: Please include videos/screenshots (if possible)
     validations:
       required: true
   - type: textarea
@@ -77,7 +80,7 @@ body:
     attributes:
       label: Actual Behavior
       description: This is what happens instead
-      placeholder: Please include video/screenshot (if possible)
+      placeholder: Please include videos/screenshots (if possible)
     validations:
       required: true
   - type: textarea
@@ -85,7 +88,7 @@ body:
     attributes:
       label: Backtrace
       description: Please provide a backtrace of your debugger if this bug crashes tfs.
-      placeholder: This will be automatically formatted into code, so no need for backticks.
+      placeholder: This will be automatically formatted into code, no need for backticks.
       render: cpp
   - type: markdown
     attributes:
