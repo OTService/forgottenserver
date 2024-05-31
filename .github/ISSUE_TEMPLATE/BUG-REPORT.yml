@@ -1,5 +1,5 @@
-name: Bug Report Formular
-description: File a bug report.
+name: Bug Report
+description: Reporting a bug reproducible using unmodified engine
 title: "[Bug]: "
 labels: ["bug", "needs-confirmation"]
 body:
@@ -55,13 +55,20 @@ body:
         - Ubuntu 24.04
         - Debian 12
         - MacOS
+        - other (specify in the description)
       default: 0
     validations:
       required: true
   - type: input
+    id: os-description
+    attributes:
+      label: OS Description
+      description: If you picked 'other' in Operation System, please specify here
+      placeholder: "Example: Fedora 35"
+  - type: input
     id: title
     attributes:
-      label: Brief bug description
+      label: Bug description
       description: A clear and concise title that describes the bug
       placeholder: "Example: Server crashes when using X spell"
     validations:

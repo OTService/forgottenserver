@@ -75,7 +75,7 @@ body:
     attributes:
       label: Compiler Description
       description: If you selected 'other' in the Compiler, please specify the compiler you used
-      placeholder: e.g. GCC 12.0.0
+      placeholder: "Example: GCC 12.0.0"
   - type: textarea
     id: pr-cause
     attributes:
