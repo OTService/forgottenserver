@@ -61,7 +61,7 @@ body:
   - type: input
     id: title
     attributes:
-      label: Title
+      label: Brief bug description
       description: A clear and concise title that describes the bug
       placeholder: "Example: Server crashes when using X spell"
     validations:
@@ -69,7 +69,7 @@ body:
   - type: textarea
     id: pr-cause
     attributes:
-      label: Possible PRs which are to blame
+      label: Possible Pull Requests which are to blame
       description: If you suspect a PR caused this bug, please provide the PR number (you can insert several)
       placeholder: |
         - [x] #pr1
@@ -86,7 +86,7 @@ body:
         1.
         2.
         3.
-        Code to reproduce the issue:
+        **Code to reproduce the issue:**
         ```lua
         -- paste your script here
         ```
