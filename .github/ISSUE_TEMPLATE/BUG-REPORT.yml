@@ -72,8 +72,8 @@ body:
       label: Possible PRs which are to blame
       description: If you suspect a PR caused this bug, please provide the PR number (you can insert several)
       placeholder: |
-        "- [x] #pr1"
-        "- [x] #pr2"
+        - [x] #pr1
+        - [x] #pr2
       value: |
         - [x] #
         - [x] #
