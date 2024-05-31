@@ -93,7 +93,8 @@ body:
     id: error
     attributes:
       label: Error Message
-      description: Please include the error message you received when trying to compile the software
+      placeholder: Please include the error message you received when trying to compile the software
+      description: This will be automatically formatted into code, no need for backticks.
       render: cpp
     validations:
       required: true
