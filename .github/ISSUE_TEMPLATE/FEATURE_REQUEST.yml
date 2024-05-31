@@ -6,7 +6,7 @@ body:
   - type: checkboxes
     id: terms
     attributes:
-      label: By submitting this bug issue, you agree to the following.
+      label: By submitting this feature issue, you agree to the following.
       options:
         - label: There is no existing issue for this feature (or similar) already
           required: true
@@ -27,7 +27,7 @@ body:
   - type: textarea
     id: request
     attributes:
-      label: Explanation of what you want to do that is currently impossible
+      label: Request
       description: Tell us what you tried to do to make it possible and why it didn't work
       value: |
         **What do you want to achieve?**
