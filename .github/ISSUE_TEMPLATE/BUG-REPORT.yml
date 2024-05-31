@@ -66,13 +66,17 @@ body:
       placeholder: "Example: Server crashes when using X spell"
     validations:
       required: true
-  - type: input
+  - type: textarea
     id: pr-cause
     attributes:
-      label: Possible PR cause
-      description: If you suspect a PR caused this bug, please provide the PR number
-      placeholder: "Example: #1234"
-      value: "- [x] #"
+      label: Possible PRs which are to blame
+      description: If you suspect a PR caused this bug, please provide the PR number (you can insert several)
+      placeholder: |
+        "- [x] #pr1"
+        "- [x] #pr2"
+      value: |
+        "- [x] #"
+        "- [x] #"
   - type: textarea
     id: steps
     attributes:
