@@ -19,11 +19,11 @@ body:
         If there is another source which adds this functionality, please link it here
         Delete everything inside if there aren't any
       placeholder: |
-        - [x] #pr1
-        link to Wiki/Forum/other
+        - #pr1
+        - link to Wiki/Forum/other
       value: |
-        - [x] #
-        link to Wiki/Forum/other
+        - #
+        - link to Wiki/Forum/other
   - type: textarea
     id: request
     attributes:
