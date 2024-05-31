@@ -70,7 +70,9 @@ body:
     id: pr-cause
     attributes:
       label: Possible Pull Requests which are to blame
-      description: If you suspect a PR caused this bug, please provide the PR number (you can insert several)
+      description: |
+        If you suspect a PR caused this bug, please provide the PR number (you can insert several)
+        Delete everything inside if you don't suspect any
       placeholder: |
         - [x] #pr1
         - [x] #pr2
