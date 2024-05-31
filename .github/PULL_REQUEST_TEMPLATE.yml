@@ -6,6 +6,7 @@ body:
       value: |
         "[cont]: https://github.com/otland/forgottenserver/wiki/Contributing"
         "[code]: https://github.com/otland/forgottenserver/wiki/TFS-Coding-Style-Guide"
+        "test"
   - type: checkboxes
     id: terms
     attributes:
