@@ -58,6 +58,21 @@ body:
       default: 0
     validations:
       required: true
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      description: A clear and concise title that describes the bug
+      placeholder: Example: "Server crashes when using X spell"
+    validations:
+      required: true
+  - type: input
+    id: pr-cause
+    attributes:
+      label: Possible PR cause
+      description: If you suspect a PR caused this bug, please provide the PR number
+      placeholder: Example: #1234
+      value: "#"
   - type: textarea
     id: steps
     attributes:
