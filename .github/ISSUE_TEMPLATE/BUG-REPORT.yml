@@ -63,7 +63,7 @@ body:
     attributes:
       label: Title
       description: A clear and concise title that describes the bug
-      placeholder: Example: Server crashes when using X spell
+      placeholder: "Example: Server crashes when using X spell"
     validations:
       required: true
   - type: input
