@@ -1,0 +1,77 @@
+name: Compilation Problem Report
+description: Reporting a compilation problem reproducible using unmodified engine
+title: "[Compilation]: "
+labels: ["compilation"]
+body:
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: By submitting this compilation problem issue, you agree to the following.
+      options:
+        - label: This is a compilation problem in the software that resides in this repository, 
+            and not a support matter (use https://otland.net/forums/support.16/ for support)
+          required: true
+        - label: This issue is reproducible without changes to the C++ code in this repository
+          required: true
+        - label: This compilation problem has not been resolved in master branch
+          required: true
+        - label: There is no existing issue for this compilation problem already
+          required: true
+        - label: I have tried to compile the software using the provided instructions in the Wiki page
+          required: true
+  - type: dropdown
+    id: server-version
+    attributes:
+      label: Server Version
+      description: Which version did you try to compile?
+      multiple: true
+      options:
+        - 1.7 (Master)
+        - 1.6 (Release)
+        - 1.5 (Development)
+        - 1.4.x (Release)
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operation System
+      description: On which OS does this problem appear?
+      multiple: true
+      options:
+        - all (listed below)
+        - Windows
+        - Ubuntu 20.04
+        - Ubuntu 22.04
+        - Ubuntu 24.04
+        - Debian 12
+        - MacOS
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: pr-cause
+    attributes:
+      label: Possible Pull Requests which are to blame
+      description: |
+        If you suspect a PR caused this bug, please provide the PR number (you can insert several)
+        Delete everything inside if you don't suspect any
+      placeholder: |
+        - [x] #pr1
+        - [x] #pr2
+      value: |
+        - [x] #
+        - [x] #
+  - type: textarea
+    id: error
+    attributes:
+      label: Error Message
+      description: Please include the error message you received when trying to compile the software
+      render: cpp
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
