@@ -72,7 +72,7 @@ body:
       label: Possible PR cause
       description: If you suspect a PR caused this bug, please provide the PR number
       placeholder: "Example: #1234"
-      value: "#"
+      value: "- [x] #"
   - type: textarea
     id: steps
     attributes:
