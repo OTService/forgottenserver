@@ -47,9 +47,35 @@ body:
         - Ubuntu 24.04
         - Debian 12
         - MacOS
+        - other (please specify in the description)
       default: 0
     validations:
       required: true
+  - type: input
+    id: os-description
+    attributes:
+      label: OS Description
+      description: If you selected 'other' in the Operation System, please specify the OS you used
+      placeholder: e.g. Fedora 35
+  - type: dropdown
+    id: compiler
+    attributes:
+      label: Compiler
+      description: Which compiler did you use?
+      options:
+        - GCC
+        - Clang
+        - MSVC
+        - other (please specify in the description)
+      default: 0
+    validations:
+      required: true
+  - type: input
+    id: compiler-description
+    attributes:
+      label: Compiler Description
+      description: If you selected 'other' in the Compiler, please specify the compiler you used
+      placeholder: e.g. GCC 12.0.0
   - type: textarea
     id: pr-cause
     attributes:
