@@ -11,7 +11,7 @@ body:
         - label: This is a bug in the software that resides in this repository, 
             and not a support matter (use https://otland.net/forums/support.16/ for support)
           required: true
-        - label: This bug does not happen due to changes in c++ source code (vanilla version)
+        - label: This issue is reproducible without changes to the C++ code in this repository
           required: true
         - label: This bug has not been resolved in master branch
           required: true
