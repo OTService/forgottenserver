@@ -90,8 +90,8 @@ body:
     id: backtrace
     attributes:
       label: Backtrace
-      description: Please provide a backtrace of your debugger if this bug crashes tfs.
-      placeholder: This will be automatically formatted into code, no need for backticks.
+      description: This will be automatically formatted into code, no need for backticks.
+      placeholder: Please provide a backtrace of your debugger if this bug crashes tfs.
       render: cpp
   - type: markdown
     attributes:
