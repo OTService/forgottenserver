@@ -1,7 +1,7 @@
 name: Compilation Problem Report
 description: Reporting a compilation problem reproducible using unmodified engine
 title: "[Compilation]: "
-labels: ["compilation"]
+labels: ["compilation-error", "needs-confirmation]
 body:
   - type: checkboxes
     id: terms
